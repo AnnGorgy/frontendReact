@@ -19,12 +19,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function ControlledOpenSelect() {
   const classes = useStyles();
-  const [type, setType] = React.useState('NULL');
-  const [open, setOpen] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
   
 
-  }
+  
 
   const handleChange = event => {
     setType(event.target.value);
@@ -65,4 +64,4 @@ export default function ControlledOpenSelect() {
       </FormControl>
     </div>
   );
-}
+  }

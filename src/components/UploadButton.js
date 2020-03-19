@@ -8,6 +8,7 @@ import Icon from '@material-ui/core/Icon';
 import ControlledOpenSelect from './MaterialTypeDDL.js';
 
 
+
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
@@ -15,7 +16,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function IconLabelButtons() {
+   
   const classes = useStyles();
+
+  
+  constructor(props) {   
+    super(props);
+   
+  } 
 
   return (
     <div style={{marginTop:'250px' , marginLeft:'650px'}}>
@@ -29,6 +37,7 @@ export default function IconLabelButtons() {
        
         className={classes.button}
         startIcon={<CloudUploadIcon />}
+        disabled = {props.blobs.length === 0 || props.type !== 'NULL'}
        
       >
         Upload

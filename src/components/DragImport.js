@@ -9,7 +9,7 @@ import IconLabelButtons from './UploadButton.js';
 import AttachedFile from './AttachedFile.js';
 import ControlledOpenSelect from './MaterialTypeDDL.js';
 
-
+const [type, setType] = React.useState('NULL');
 
 const styles = () => ({
   uploadButton: {
@@ -89,7 +89,7 @@ const DragImportFile = ({
             </Grid>
           ))}
         </Grid>
-      </Grid><IconLabelButtons/><ControlledOpenSelect/>
+      </Grid><IconLabelButtons blobs={blobs} type={type}  /><ControlledOpenSelect type={type} setType={setType}/>
     </React.Fragment> 
       
       </div>
