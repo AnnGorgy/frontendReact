@@ -1,15 +1,11 @@
- import React from 'react';
-import { useDropzone } from 'react-dropzone';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import {
-  Typography, Button, withStyles, Grid, Box,
-} from '@material-ui/core';
-import IconLabelButtons from './UploadButton.js';
+import React from "react";
+import { useDropzone } from "react-dropzone";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
+import IconLabelButtons from "./UploadButton.js";
 
-import AttachedFile from './AttachedFile.js';
-import ControlledOpenSelect from './MaterialTypeDDL.js';
-
-const [type, setType] = React.useState('NULL');
+import AttachedFile from "./AttachedFile.js";
+import ControlledOpenSelect from "./MaterialTypeDDL.js";
 
 const styles = () => ({
   uploadButton: {
@@ -34,65 +30,69 @@ const DragImportFile = ({
   editable, // files editable?
   multiple, // can upload multiple files?
   onDrop, // function to fire when a new file(s) added.
-  classes,
+  classes
 }) => {
   const {
-    getRootProps, getInputProps, open: openFilesBrowser, isDragActive,
+    getRootProps,
+    getInputProps,
+    open: openFilesBrowser,
+    isDragActive
   } = useDropzone({
     onDrop,
     noKeyboard: true,
-    multiple,
+    multiple
   });
+  const [type, setType] = React.useState("NULL");
 
   return (
     <div>
-    <React.Fragment>
-      <Box mb={3}>
-        {editable && (
-          <Button
-            color="inherit"
-            className={classes.uploadButton}
-            variant="contained"
-            size="large"
-            onClick={openFilesBrowser}
-            {...getRootProps()}
-          >
-            <CloudUploadIcon className={classes.cloudIcon} />
-            <Typography className={classes.uploadButtonText} color="inherit">
-              {isDragActive ? 'Drag here' : 'Drag here or Browse to Upload'}
-            </Typography>
-            <input {...getInputProps()} />
-          </Button>
-        )}
-      </Box>
-      <Grid item>
-        <Grid container justify="flex-start" spacing={4}>
-          {attachments.map((attachment, index) => (
-            <Grid item key={index}>
-              <AttachedFile
-                editable={editable}
-                onDelete={() => onDeleteAttachment(index)}
-                label={attachment.name}
-                size={attachment.size}
-              />
-             
-            </Grid>
-          ))}
-          {blobs.map((attachment, index) => (
-            <Grid item key={index}>
-              <AttachedFile
-                editable={editable}
-                onDelete={() => onDeleteBlob(index)}
-                label={attachment.name}
-                size={attachment.size}
-              />
-            </Grid>
-          ))}
+      <React.Fragment>
+        <Box mb={3}>
+          {editable && (
+            <Button
+              color="inherit"
+              className={classes.uploadButton}
+              variant="contained"
+              size="large"
+              onClick={openFilesBrowser}
+              {...getRootProps()}
+            >
+              <CloudUploadIcon className={classes.cloudIcon} />
+              <Typography className={classes.uploadButtonText} color="inherit">
+                {isDragActive ? "Drag here" : "Drag here or Browse to Upload"}
+              </Typography>
+              <input {...getInputProps()} />
+            </Button>
+          )}
+        </Box>
+        <Grid item>
+          <Grid container justify="flex-start" spacing={4}>
+            {attachments.map((attachment, index) => (
+              <Grid item key={index}>
+                <AttachedFile
+                  editable={editable}
+                  onDelete={() => onDeleteAttachment(index)}
+                  label={attachment.name}
+                  size={attachment.size}
+                />
+              </Grid>
+            ))}
+            {blobs.map((attachment, index) => (
+              <Grid item key={index}>
+                <AttachedFile
+                  editable={editable}
+                  onDelete={() => onDeleteBlob(index)}
+                  label={attachment.name}
+                  size={attachment.size}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
-      </Grid><IconLabelButtons blobs={blobs} type={type}  /><ControlledOpenSelect type={type} setType={setType}/>
-    </React.Fragment> 
-      
-      </div>
+        <IconLabelButtons blobs={blobs} type={type} />
+        <ControlledOpenSelect type={type} setType={setType} />
+      </React.Fragment>
+    </div>
   );
 };
 
@@ -101,7 +101,7 @@ DragImportFile.defaultProps = {
   onDeleteAttachment: () => null,
   blobs: [],
   onDeleteBlob: () => null,
-  onDrop: () => null,
+  onDrop: () => null
 };
 
-export default withStyles(styles)(DragImportFile); 
+export default withStyles(styles)(DragImportFile);
