@@ -19,8 +19,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function ControlledOpenSelect() {
   const classes = useStyles();
-  const [type, setType] = React.useState("");
+  const [type, setType] = React.useState('NULL');
   const [open, setOpen] = React.useState(false);
+
+  
+
+  }
 
   const handleChange = event => {
     setType(event.target.value);
@@ -33,6 +37,8 @@ export default function ControlledOpenSelect() {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  
 
   return (
     <div style={{marginTop:'-115px' , marginLeft:'500px'}}>
@@ -50,7 +56,7 @@ export default function ControlledOpenSelect() {
           value={type}
           onChange={handleChange}
         >
-          <MenuItem value="">
+          <MenuItem value={'NULL'}>
             <em>None</em>
           </MenuItem>
           <MenuItem value={0}>Lecture</MenuItem>
