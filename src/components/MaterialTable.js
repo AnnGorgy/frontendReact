@@ -1,59 +1,78 @@
 import React from 'react';
-import MaterialTable from 'material-table';
 
-export default function MaterialTableDemo() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
-    ],
-    data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
-  });
+import { makeStyles } from '@material-ui/core/styles';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button
+} from "@material-ui/core";
+
+import DownloadIcon from '@material-ui/icons/GetAppSharp';
+import DeleteIcon from '@material-ui/icons/DeleteOutlineSharp';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
+
+function createData(File_Name,Size, Type_ID , Material_ID) {
+  return {File_Name,Size, Type_ID , Material_ID };
+}
+
+const rows = [
+  createData('txt', 159, 6.0),
+  createData('pdf', 237, 9.0),
+  createData('Eclair', 262, 16.0),
+  createData('Cupcake', 305, 3.7),
+  createData('Gingerbread', 356, 16.0),
+];
+
+export default function DenseTable() {
+  const classes = useStyles();
 
   return (
-    <MaterialTable
-      title="Editable Example"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-       /*  onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }), */
-        
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-    />
+    <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>File Name</TableCell>
+            <TableCell align="right">Size</TableCell>
+            <TableCell align="right">Type</TableCell>
+    
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, index) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.File_Name}
+              </TableCell>
+              <TableCell align="right">{row.Size}</TableCell>
+              <TableCell align="right">{row.Type_ID}</TableCell>
+              
+              <TableCell align="right">
+                <Button size="small">
+                  <DownloadIcon
+                    onClick={() => console.log(`Download ${row.id || index}`)}
+                  />
+                </Button>
+                <Button size="small">
+                  <DeleteIcon
+                    onClick={() => console.log(`Delete ${row.id || index}`)}
+                  />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

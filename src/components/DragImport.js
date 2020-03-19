@@ -7,6 +7,7 @@ import {
 import IconLabelButtons from './UploadButton.js';
 
 import AttachedFile from './AttachedFile.js';
+import ControlledOpenSelect from './MaterialTypeDDL.js';
 
 
 
@@ -88,7 +89,7 @@ const DragImportFile = ({
             </Grid>
           ))}
         </Grid>
-      </Grid><IconLabelButtons/>
+      </Grid><IconLabelButtons/><ControlledOpenSelect/>
     </React.Fragment> 
       
       </div>

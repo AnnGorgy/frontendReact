@@ -8,7 +8,7 @@ import Navigator from "./components/WebsiteLayout/Navigator.js";
 import Content from "./components/WebsiteLayout/Content.js";
 import Header from "./components/WebsiteLayout/Header.js";
 import Paperbase from "./components/WebsiteLayout/Theme.js";
-import {MaterialTable} from "./components/MaterialTable.js"
+import DenseTable from "./components/MaterialTable.js"
 import IconLabelButtons from './components/UploadButton.js';
 export default class App extends React.Component {
   state = {
@@ -32,13 +32,14 @@ export default class App extends React.Component {
   
 
     return ( 
+    //  <DenseTable/>
     // <MaterialTable/>
-  /*      <DragImportFile
+       <DragImportFile
         editable
         blobs={this.state.blobs}
         onDrop={onDropBlobs}
         onDeleteBlob={onDeleteBlob}
-      />   */
+      />   
     
     );
   }
