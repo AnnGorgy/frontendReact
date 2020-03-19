@@ -1,10 +1,14 @@
-import React from 'react';
+ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {
   Typography, Button, withStyles, Grid, Box,
 } from '@material-ui/core';
+import IconLabelButtons from './UploadButton.js';
+
 import AttachedFile from './AttachedFile.js';
+
+
 
 const styles = () => ({
   uploadButton: {
@@ -40,6 +44,7 @@ const DragImportFile = ({
   });
 
   return (
+    <div>
     <React.Fragment>
       <Box mb={3}>
         {editable && (
@@ -69,6 +74,7 @@ const DragImportFile = ({
                 label={attachment.name}
                 size={attachment.size}
               />
+             
             </Grid>
           ))}
           {blobs.map((attachment, index) => (
@@ -82,8 +88,10 @@ const DragImportFile = ({
             </Grid>
           ))}
         </Grid>
-      </Grid>
-    </React.Fragment>
+      </Grid><IconLabelButtons/>
+    </React.Fragment> 
+      
+      </div>
   );
 };
 
@@ -95,4 +103,4 @@ DragImportFile.defaultProps = {
   onDrop: () => null,
 };
 
-export default withStyles(styles)(DragImportFile);
+export default withStyles(styles)(DragImportFile); 
