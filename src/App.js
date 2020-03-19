@@ -19,7 +19,7 @@ export default class App extends React.Component {
     const onDropBlobs = blobs => {
       this.setState(state => ({
         ...state,
-        blobs: [...this.state.blobs, ...blobs]
+        blobs: [ ...blobs]
       }));
     };
 
@@ -36,6 +36,7 @@ export default class App extends React.Component {
     // <MaterialTable/>
        <DragImportFile
         editable
+        multiple={false}
         blobs={this.state.blobs}
         onDrop={onDropBlobs}
         onDeleteBlob={onDeleteBlob}
