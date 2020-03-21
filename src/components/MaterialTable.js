@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -12,6 +13,8 @@ import {
   Paper,
   Button
 } from "@material-ui/core";
+
+
 
 import DownloadIcon from '@material-ui/icons/GetAppSharp';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineSharp';
@@ -33,10 +36,25 @@ const rows = [
   createData('Cupcake', 305, 3.7),
   createData('Gingerbread', 356, 16.0),
 ];
+const classes = useStyles();
+export class MaterialTable extends React.component {
 
-export default function DenseTable() {
-  const classes = useStyles();
 
+  constructor() {
+    super()
+    this.state = {materials :[]}
+}
+ 
+  componentDidMount()
+  {
+    axios.get("http://localhost:32733/api/Materials/GetFiles")
+    .then(res =>{
+      this.setState ({
+        materials : res.data 
+      }) 
+    })
+  }
+  render() {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
@@ -75,4 +93,4 @@ export default function DenseTable() {
       </Table>
     </TableContainer>
   );
-}
+}}
