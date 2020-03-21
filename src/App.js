@@ -34,13 +34,13 @@ export default class App extends React.Component {
     return ( 
       <MaterialTable/>
     // <MaterialTable/>
-       <DragImportFile
-        editable
-        multiple={false}
-        blobs={this.state.blobs}
-        onDrop={onDropBlobs}
-        onDeleteBlob={onDeleteBlob}
-      />   
+      //  <DragImportFile
+      //   editable
+      //   multiple={false}
+      //   blobs={this.state.blobs}
+      //   onDrop={onDropBlobs}
+      //   onDeleteBlob={onDeleteBlob}
+      // />   
     
     );
   }
