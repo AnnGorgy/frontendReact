@@ -51,6 +51,7 @@ export default class MaterialTable extends React.Component {
           }}
           size="small"
           aria-label="a dense table"
+
         >
           <TableHead>
             <TableRow>
@@ -71,18 +72,41 @@ export default class MaterialTable extends React.Component {
                 <TableCell align="right">
                   <Button size="small">
                     <DownloadIcon
-                      onClick={() => console.log(`Download ${material.id}`)}
+                      onClick={() => {
+                        axios
+                          .get("/api/Materials/download", {
+                            params: { fileId: material.id },
+                            responseType: 'blob'
+
+                          })
+
+                        .then((response) => {
+                          var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                          var fileLink = document.createElement('a');
+
+                          fileLink.href = fileURL;
+                          fileLink.setAttribute('download', material.Name);
+                          document.body.appendChild(fileLink);
+
+                          fileLink.click();
+                        });
+
+
+
+                      }}
                     />
                   </Button>
                   <Button size="small">
                     <DeleteIcon
                       onClick={() => {
-                      
+
                         axios
                           .get("/api/Materials/delete", {
                             params: { fileId: material.id }
                           })
                           .then(res => console.log(res));
+
+                        window.location.reload();
                       }}
                     />
                   </Button>

@@ -9,16 +9,14 @@ export class FileUpload extends React.Component {
       file: '',
     };
   }
-  async submit(e) {
-
+  async uplooad(e) {
     e.preventDefault();
+    window.location.reload();
     const url = `http://localhost:32733/api/Materials/upload`;
 
     const formData = new FormData();
 
     formData.append('body', this.state.file);
-
- 
 
     return post(url, formData);
   }
@@ -28,14 +26,10 @@ export class FileUpload extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={e => this.submit(e)}>
-          <div>
-             File Upload
-          </div>
           <h1>File Upload</h1>
           <input type="file" onChange={e => this.setFile(e)} />
-          <button type="submit">Upload</button>
-        </form> 
+          <button onClick={e=>this.uplooad(e)} >Upload</button>
+          
       </div>
     )
   }

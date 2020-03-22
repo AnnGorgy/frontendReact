@@ -2,15 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import { TextField } from "@material-ui/core";
 import './App.css';
-import  PrimarySearchAppBar  from "./components/AppBar.js";
-import DragImportFile from  "./components/DragImport.js";
+import PrimarySearchAppBar from "./components/AppBar.js";
+import DragImportFile from "./components/DragImport.js";
 import Navigator from "./components/WebsiteLayout/Navigator.js";
 import Content from "./components/WebsiteLayout/Content.js";
 import Header from "./components/WebsiteLayout/Header.js";
 import Paperbase from "./components/WebsiteLayout/Theme.js";
 import MaterialTable from "./components/MaterialTable.js"
 import IconLabelButtons from './components/UploadButton.js';
-import {FileUpload} from './components/FileUpload.js';
+import { FileUpload } from './components/FileUpload.js';
 export default class App extends React.Component {
   state = {
     blobs: []
@@ -20,7 +20,7 @@ export default class App extends React.Component {
     const onDropBlobs = blobs => {
       this.setState(state => ({
         ...state,
-        blobs: [ ...blobs]
+        blobs: [...blobs]
       }));
     };
 
@@ -30,21 +30,13 @@ export default class App extends React.Component {
         blobs: this.state.blobs.filter((file, index) => index !== itemIndex)
       }));
     };
-  
+
 
     return (
-      <FileUpload/> 
-
-      // <MaterialTable/>
-    // <MaterialTable/>
-      //  <DragImportFile
-      //   editable
-      //   multiple={false}
-      //   blobs={this.state.blobs}
-      //   onDrop={onDropBlobs}
-      //   onDeleteBlob={onDeleteBlob}
-      // />   
-    
+      <div>
+        <FileUpload />
+        <MaterialTable />
+      </div>
     );
   }
 }
