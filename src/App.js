@@ -10,7 +10,7 @@ import Header from "./components/WebsiteLayout/Header.js";
 import Paperbase from "./components/WebsiteLayout/Theme.js";
 import MaterialTable from "./components/MaterialTable.js"
 import IconLabelButtons from './components/UploadButton.js';
-import FileUpload from './components/FileUpload.js';
+import {FileUpload} from './components/FileUpload.js';
 export default class App extends React.Component {
   state = {
     blobs: []
