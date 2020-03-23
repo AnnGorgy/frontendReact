@@ -1,6 +1,26 @@
 import React from "react";
 
-import { FileUpload, MaterialTable } from "../components";
+import HomeIcon from "@material-ui/icons/Home";
+
+import { FileUpload, MaterialTable, BreadCrumbs } from "../components";
+
+const crumbs = [
+  {
+    label: "Test",
+    Icon: HomeIcon,
+    onClick: () => console.log(1)
+  },
+  {
+    label: "El",
+    Icon: HomeIcon,
+    onClick: () => console.log(2)
+  },
+  {
+    label: "Rogola",
+    Icon: HomeIcon,
+    onClick: () => console.log(3)
+  }
+];
 // import logo from "./logo.svg";
 // import { TextField } from "@material-ui/core";
 // import PrimarySearchAppBar from "./components/AppBar.js";
@@ -31,10 +51,11 @@ export default class MaterialsPage extends React.Component {
     };
 
     return (
-      <div>
-        <FileUpload />
-        <MaterialTable />
-      </div>
+      <BreadCrumbs crumbs={crumbs} />
+      // <React.Fragment>
+      // <FileUpload />
+      // <MaterialTable />
+      // </React.Fragment>
     );
   }
 }
