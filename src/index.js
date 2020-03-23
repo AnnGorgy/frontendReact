@@ -1,12 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter
+} from "react-router-dom";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { App } from "./components";
+import { NotFoundPage } from "./pages";
+import theme from "./assets/theme";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+import * as serviceWorker from "./serviceWorker";
+
+let AppWrapper = props => {
+  return (
+    <React.Fragment>
+      <Switch>
+        <Route path="/not-found" component={NotFoundPage} />
+        <Route path="/" component={App} />
+      </Switch>
+    </React.Fragment>
+  );
+};
+
+AppWrapper = withRouter(AppWrapper);
+
+ReactDOM.render(
+  <MuiThemeProvider theme={theme}>
+    <Router>
+      <AppWrapper />
+    </Router>
+  </MuiThemeProvider>,
+  document.getElementById("root")
+);
 serviceWorker.unregister();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { post } from 'axios';
 
-export class FileUpload extends React.Component {
+export default class FileUpload extends React.Component {
   constructor(props) {
     super(props);
 
