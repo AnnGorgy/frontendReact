@@ -1,61 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { FileUpload, MaterialTableHeader, MaterialTable } from "../components";
 import HomeIcon from "@material-ui/icons/Home";
+import { Grid } from "@material-ui/core";
 
-import { FileUpload, MaterialTable, BreadCrumbs } from "../components";
+const MaterialsPage = () => {
+  const [crumbs, setCrumbs] = useState([]);
 
-const crumbs = [
-  {
-    label: "Test",
-    Icon: HomeIcon,
-    onClick: () => console.log(1)
-  },
-  {
-    label: "El",
-    Icon: HomeIcon,
-    onClick: () => console.log(2)
-  },
-  {
-    label: "Rogola",
-    Icon: HomeIcon,
-    onClick: () => console.log(3)
-  }
-];
-// import logo from "./logo.svg";
-// import { TextField } from "@material-ui/core";
-// import PrimarySearchAppBar from "./components/AppBar.js";
-// import DragImportFile from "./components/DragImport.js";
-// import Navigator from "./components/WebsiteLayout/Navigator.js";
-// import Content from "./components/WebsiteLayout/Content.js";
-// import Header from "./components/WebsiteLayout/Header.js";
-// import Paperbase from "./components/WebsiteLayout/Theme.js";
-// import IconLabelButtons from "./components/UploadButton.js";
-export default class MaterialsPage extends React.Component {
-  state = {
-    blobs: []
-  };
+  // const onDropBlobs = blobs => {
+  //   this.setState(state => ({
+  //     ...state,
+  //     blobs: [...blobs]
+  //   }));
+  // };
 
-  render() {
-    const onDropBlobs = blobs => {
-      this.setState(state => ({
-        ...state,
-        blobs: [...blobs]
-      }));
-    };
+  // const onDeleteBlob = itemIndex => {
+  //   this.setState(state => ({
+  //     ...state,
+  //     blobs: this.state.blobs.filter((file, index) => index !== itemIndex)
+  //   }));
+  // };
 
-    const onDeleteBlob = itemIndex => {
-      this.setState(state => ({
-        ...state,
-        blobs: this.state.blobs.filter((file, index) => index !== itemIndex)
-      }));
-    };
+  return (
+    <Grid
+      container
+      direction="column"
+      alignItems="stretch"
+      justify="center"
+      spacing={2}
+    >
+      <Grid item>
+        <MaterialTableHeader crumbs={crumbs} />
+      </Grid>
+      <Grid item>
+        <MaterialTable setCrumbs={setCrumbs} mainFolderId={'id1'} />
+      </Grid>
+    </Grid>
+  );
+};
 
-    return (
-      <BreadCrumbs crumbs={crumbs} />
-      // <React.Fragment>
-      // <FileUpload />
-      // <MaterialTable />
-      // </React.Fragment>
-    );
-  }
-}
+export default MaterialsPage;

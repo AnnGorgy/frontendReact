@@ -5,7 +5,8 @@ import { Breadcrumbs, Chip, withStyles, Box } from "@material-ui/core";
 const styles = theme => ({
   root: {
     backgroundColor: "#3a6364",
-    height: "24px",
+    height: "30px",
+    marginTop: "2px",
     color: "#ffffff",
     fontWeight: "600",
     "&:hover, &:focus": {
@@ -23,7 +24,8 @@ const Crumb = withStyles(styles)(Chip);
 const BreadCrumbs = ({ crumbs }) => (
   <Breadcrumbs>
     {crumbs.map(({ label, Icon, onClick }, index) => (
-      <Box key={index}
+      <Box
+        key={index}
         onClick={onClick}
         style={{
           userSelect: "none",
@@ -34,7 +36,12 @@ const BreadCrumbs = ({ crumbs }) => (
       >
         <Crumb
           label={label}
-          icon={<Icon fontSize="small" style={{ color: "#ffffff" }} />}
+          icon={
+            <Icon
+              fontSize="small"
+              style={{ color: "#ffffff", marginLeft: "6px" }}
+            />
+          }
         />
       </Box>
     ))}
