@@ -12,7 +12,7 @@ export default class FileUpload extends React.Component {
   async uplooad(e) {
     e.preventDefault();
     window.location.reload();
-    const url = `http://localhost:32733/api/Materials/upload`;
+    const url = `http://localhost:32733/Materials/upload`;
 
     const formData = new FormData();
 

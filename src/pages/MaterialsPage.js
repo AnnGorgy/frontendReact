@@ -27,7 +27,7 @@ const MaterialsPage = () => {
       direction="column"
       alignItems="stretch"
       justify="center"
-      spacing={2}
+      spacing={3}
     >
       <Grid item>
         <MaterialTableHeader crumbs={crumbs} />

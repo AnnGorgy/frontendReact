@@ -18,19 +18,25 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+
+
+import Theimage from './UniLogo.png';
 
 const categories = [
   {
-    id: 'Develop',
+    className: 'FCIS_LMS',
     children: [
-      { id: 'Authentication', icon: <PeopleIcon />, active: true },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
+      { id: 'Home', icon: <img src="https://img.icons8.com/metro/55/000000/home.png"/> },
+      { id: 'Profile', icon: <img src="https://img.icons8.com/ios/55/000000/gender-neutral-user.png"/> },
+      { id: 'Couses', icon: <img src="https://img.icons8.com/ios/55/000000/courses.png"/>},
+      { id: 'Grades', icon: <img src="https://img.icons8.com/dotty/55/000000/grades.png"/> },
+      { id: 'Help', icon:<img src="https://img.icons8.com/carbon-copy/55/000000/question-mark.png"/> },
+      { id: 'Sign Out', icon: <img src="https://img.icons8.com/ios/55/000000/exit.png"/> },
     ],
-  },
+  }/* ,
   {
     id: 'Quality',
     children: [
@@ -38,7 +44,7 @@ const categories = [
       { id: 'Performance', icon: <TimerIcon /> },
       { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
     ],
-  },
+  }, */
 ];
 
 const styles = theme => ({
@@ -60,8 +66,8 @@ const styles = theme => ({
   itemCategory: {
     backgroundColor: '#232f3e',
     boxShadow: '0 -1px 0 #404854 inset',
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
   },
   firebase: {
     fontSize: 24,
@@ -71,14 +77,17 @@ const styles = theme => ({
     color: '#4fc3f7',
   },
   itemPrimary: {
-    fontSize: 'inherit',
+    fontSize: 20,
   },
   itemIcon: {
-    minWidth: 'auto',
+    minWidth: 'auto', 
     marginRight: theme.spacing(2),
+    paddingBottom: theme.spacing(1.5),
+    paddingLeft  : theme.spacing(2),
   },
   divider: {
     marginTop: theme.spacing(2),
+   
   },
 });
 
@@ -89,20 +98,20 @@ function Navigator(props) {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          Paperbase
-        </ListItem>
-        <ListItem className={clsx(classes.item, classes.itemCategory)}>
+        <img src={Theimage} width="200" height="200"/>
+       </ListItem>
+     {/*      <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon className={classes.itemIcon}>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText
+           <ListItemText
             classes={{
               primary: classes.itemPrimary,
             }}
           >
             Project Overview
           </ListItemText>
-        </ListItem>
+         </ListItem>   */}
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
             <ListItem className={classes.categoryHeader}>
@@ -131,7 +140,7 @@ function Navigator(props) {
               </ListItem>
             ))}
 
-            <Divider className={classes.divider} />
+          {/* <Divider className={classes.divider} /> */}
           </React.Fragment>
         ))}
       </List>
