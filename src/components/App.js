@@ -1,15 +1,19 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, withRouter } from "react-router-dom";
 
-import { NotFoundPage, MaterialsPage } from "../pages";
+import { NotFoundPage, MaterialsPage , AssignmentPage} from "../pages";
 
-const App = () => {
+const App = ({match}) => {
+
+console.log(match);
+
   return (
     <Switch>
-      <Route exact path={"/"} component={MaterialsPage} />
+      <Route exact path={"/materials"} component={MaterialsPage} />
+      <Route exact path={"/assignments"} component={AssignmentPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );
 };
 
-export default App;
+export default withRouter(App);

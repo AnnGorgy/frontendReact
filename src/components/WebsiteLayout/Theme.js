@@ -138,6 +138,7 @@ const styles = {
   root: {
     display: 'flex',
     minHeight: '100vh',
+    background: '	#C0C0C0'
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -149,11 +150,13 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    
   },
   main: {
     flex: 1,
     padding: theme.spacing(6, 4),
-    background: '#eaeff1',
+  background: '#eaeff1',
+   
   },
   footer: {
     padding: theme.spacing(2),

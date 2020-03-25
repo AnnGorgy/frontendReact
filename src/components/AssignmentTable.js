@@ -21,25 +21,28 @@ import FileIcon from "@material-ui/icons/DescriptionOutlined";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
-const Assignment = ({ setCrumbs, mainFolderId }) => {
+const AssignmentTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const listAssignments = async () => {
-    const url = `Materials/GetFiles`;
+    const url = `assignment/GetFiles`;
     const { data } = await post(url, null);
     setAllAssignments(data);
   };
 
   const [allAssignments, setAllAssignments] = useState();
-  const [currentFolderId, setCurrentFolderId] = useState(0);
+  const [currentFolderId, setCurrentFolderId] = useState(undefined);
   const [displayedAssignments, setDisplayedAssignments] = useState();
 
   useEffect(() => {
-    listAssignments();
-  }, []);
+    if(reloadMaterials === true) {
+      listAssignments();
+      setReloadMaterials(false);
+    }
+  }, [reloadMaterials]);
 
   useEffect(() => {
-    if (allAssignments) {
+    if (allAssignments && currentFolderId === undefined) {
       const rootFolder = allAssignments.filter(
-        assignment => assignment.parent_ID === null
+        assignment => assignment.Parent_ID === null
       )[0];
       setCurrentFolderId(rootFolder.id);
       setCrumbs([
@@ -59,10 +62,10 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
   useEffect(() => {
     if (allAssignments) {
       setDisplayedAssignments(
-        allAssignments.filter(assignment => assignment.parent_ID === currentFolderId)
+        allAssignments.filter(assignment => assignment.Parent_ID === currentFolderId)
       );
     }
-  }, [currentFolderId]);
+  }, [currentFolderId, allAssignments]);
 
   return (
     <TableContainer component={Paper}>
@@ -78,6 +81,8 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
             <TableCell>File Name</TableCell>
             <TableCell align="right">Size</TableCell>
             <TableCell align="right">Type</TableCell>
+            <TableCell align="right">Start Date</TableCell>
+            <TableCell align="right">End Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -119,12 +124,14 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
                 {assignment.type === "folder"
                   ? `${
                       allAssignments.filter(
-                        current => current.parent_ID === assignment.id
+                        current => current.Parent_ID === assignment.id
                       ).length
                     } files`
                   : `${Math.ceil(assignment.Size / 1024)} KB`}
               </TableCell>
               <TableCell align="right">{assignment.type}</TableCell>
+              <TableCell align="right">monday</TableCell>
+              <TableCell align="right">Tuesday</TableCell>
               {assignment.type === "folder" ? (
                 <TableCell align="right">{}</TableCell>
               ) : (
@@ -134,7 +141,7 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
                     {assignment.type === "file" && (
                       <DownloadIcon
                         onClick={() => {
-                          get("/Materials/download", {
+                          get("/assignment/download", {
                             params: { fileId: assignment.id },
                             responseType: "blob"
                           }).then(response => {
@@ -156,7 +163,7 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
                   <Button size="small">
                     <DeleteIcon
                       onClick={() => {
-                        get("/Materials/delete_File_and_Folder", {
+                        get("/assignment/delete_File_and_Folder", {
                           params: { fileId: assignment.id }
                         })
                           .then(() => window.location.reload())
@@ -174,4 +181,4 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
   );
 };
 
-export default Assignment;
+export default AssignmentTable;

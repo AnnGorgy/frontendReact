@@ -21,7 +21,7 @@ import FileIcon from "@material-ui/icons/DescriptionOutlined";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
-const MaterialTable = ({ setCrumbs, mainFolderId }) => {
+const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const listMaterials = async () => {
     const url = `Materials/GetFiles`;
     const { data } = await post(url, null);
@@ -29,15 +29,18 @@ const MaterialTable = ({ setCrumbs, mainFolderId }) => {
   };
 
   const [allMaterials, setAllMaterials] = useState();
-  const [currentFolderId, setCurrentFolderId] = useState(0);
+  const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
 
   useEffect(() => {
-    listMaterials();
-  }, []);
+    if(reloadMaterials === true) {
+      listMaterials();
+      setReloadMaterials(false);
+    }
+  }, [reloadMaterials]);
 
   useEffect(() => {
-    if (allMaterials) {
+    if (allMaterials && currentFolderId === undefined) {
       const rootFolder = allMaterials.filter(
         material => material.parent_ID === null
       )[0];
@@ -62,7 +65,7 @@ const MaterialTable = ({ setCrumbs, mainFolderId }) => {
         allMaterials.filter(material => material.parent_ID === currentFolderId)
       );
     }
-  }, [currentFolderId]);
+  }, [currentFolderId, allMaterials]);
 
   return (
     <TableContainer component={Paper}>

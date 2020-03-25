@@ -15,7 +15,7 @@ const styles = theme => ({
     "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: "#3a6364"
-    }
+    } 
   }
 });
 

@@ -4,8 +4,9 @@ export default createMuiTheme({
   overrides: {
     MuiTypography: {
       root: {
-        color: "#071413",
-        textTransform: "none"
+       color: "#071413",
+        textTransform: "none",
+       
       }
     },
     MuiButton: {
@@ -16,6 +17,7 @@ export default createMuiTheme({
   },
 
   typography: {
+    
     fontFamily: "sans-serif",
     h1: {
       fontSize: "52px"

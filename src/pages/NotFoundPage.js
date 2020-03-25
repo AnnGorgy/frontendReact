@@ -16,7 +16,7 @@ const NotFoundPage = ({ history, classes }) => (
         Page not found
       </Typography>
     </Grid>
-    <Button onClick={() => history.push("/")} variant="outlined">
+    <Button onClick={() => history.push("/materials")} variant="outlined">
       Return to home page
     </Button>
   </Grid>

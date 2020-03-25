@@ -2,12 +2,13 @@ import React, { useState } from "react";
 
 import {
   TableHeader,
-  MaterialTable,
+  AssignmentTable,
   SideBar, 
 } from "../components";
+import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
 
-const MaterialsPage = () => {
+const AssignmentPage = () => {
   const [crumbs, setCrumbs] = useState([]);
   const [reloadMaterials, setReloadMaterials] = useState(true);
 
@@ -27,13 +28,13 @@ const MaterialsPage = () => {
           <Grid item>
             <TableHeader
               crumbs={crumbs}
-              uploadUrl="/Materials/UploadFiles"
-              createUrl="/Materials/CreateFolder"
+              uploadUrl="/assignment/UploadFiles"
+              createUrl="/assignment/CreateFolder"
               setReloadMaterials={setReloadMaterials}
             />
           </Grid>
           <Grid item>
-            <MaterialTable
+            <AssignmentTable
               setCrumbs={setCrumbs}
               reloadMaterials={reloadMaterials}
               setReloadMaterials={setReloadMaterials}
@@ -45,4 +46,4 @@ const MaterialsPage = () => {
   );
 };
 
-export default MaterialsPage;
+export default AssignmentPage;
