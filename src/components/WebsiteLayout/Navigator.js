@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from "react-router-dom";
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -27,51 +28,44 @@ import Theimage from './UniLogo.png';
 
 const categories = [
   {
-    className: 'FCIS_LMS',
+    className: 'FCIS LMS',
     children: [
-      { id: 'Home', icon: <img src="https://img.icons8.com/metro/55/000000/home.png"/> },
-      { id: 'Profile', icon: <img src="https://img.icons8.com/ios/55/000000/gender-neutral-user.png"/> },
-      { id: 'Couses', icon: <img src="https://img.icons8.com/ios/55/000000/courses.png"/>},
-      { id: 'Grades', icon: <img src="https://img.icons8.com/dotty/55/000000/grades.png"/> },
-      { id: 'Help', icon:<img src="https://img.icons8.com/carbon-copy/55/000000/question-mark.png"/> },
-      { id: 'Sign Out', icon: <img src="https://img.icons8.com/ios/55/000000/exit.png"/> },
+      { id: 'Home', icon: <img src="https://img.icons8.com/metro/50/000000/home.png"/> },
+      { id: 'Profile', icon: <img src="https://img.icons8.com/ios/50/000000/gender-neutral-user.png"/> },
+      { id: 'Materials', icon: <img src="https://img.icons8.com/ios/50/000000/courses.png"/>},
+      { id: 'Assignments', icon: <img src="https://img.icons8.com/dotty/50/000000/grades.png"/> },
+      { id: 'Help', icon:<img src="https://img.icons8.com/carbon-copy/50/000000/question-mark.png"/> },
+      { id: 'Sign Out', icon: <img src="https://img.icons8.com/ios/50/000000/exit.png"/> },
     ],
-  }/* ,
-  {
-    id: 'Quality',
-    children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-    ],
-  }, */
+  }
 ];
 
 const styles = theme => ({
   categoryHeader: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
+    backgroundColor:'#232f3e',
   },
   categoryHeaderPrimary: {
-    color: theme.palette.common.white,
+    //color: theme.palette.common.white,
+
   },
   item: {
-    paddingTop: 1,
-    paddingBottom: 1,
+     backgroundColor: '#232f3e',
+     paddingTop: 6,
+     paddingBottom: 5,
     color: 'rgba(255, 255, 255, 0.7)',
-    '&:hover,&:focus': {
-      backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    },
   },
   itemCategory: {
     backgroundColor: '#232f3e',
     boxShadow: '0 -1px 0 #404854 inset',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+
   },
   firebase: {
     fontSize: 24,
-    color: theme.palette.common.white,
+  //color: theme.palette.common.white,
   },
   itemActiveItem: {
     color: '#4fc3f7',
@@ -86,38 +80,36 @@ const styles = theme => ({
     paddingLeft  : theme.spacing(2),
   },
   divider: {
-    marginTop: theme.spacing(2),
+  //  marginTop: theme.spacing(2),
    
   },
 });
 
 function Navigator(props) {
-  const { classes, ...other } = props;
+  const { classes, history, ...other } = props;
+
+  const navigate = (url = "anoooooootheeeeeeeeeeeerrrrrr/page") => {
+    history.push(url);
+  };
 
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer
+      variant="permanent"
+      {...other}
+    >
       <List disablePadding>
-        <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-        <img src={Theimage} width="200" height="200"/>
-       </ListItem>
-     {/*      <ListItem className={clsx(classes.item, classes.itemCategory)}>
-          <ListItemIcon className={classes.itemIcon}>
-            <HomeIcon />
-          </ListItemIcon>
-           <ListItemText
-            classes={{
-              primary: classes.itemPrimary,
-            }}
-          >
-            Project Overview
-          </ListItemText>
-         </ListItem>   */}
+        <ListItem
+          className={clsx(classes.firebase, classes.item, classes.itemCategory)}
+        >
+          <img src={Theimage} width="210" />
+        </ListItem>
+       
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
             <ListItem className={classes.categoryHeader}>
               <ListItemText
                 classes={{
-                  primary: classes.categoryHeaderPrimary,
+                  primary: classes.categoryHeaderPrimary
                 }}
               >
                 {id}
@@ -127,12 +119,13 @@ function Navigator(props) {
               <ListItem
                 key={childId}
                 button
+                onClick={() => navigate('url/gded')}
                 className={clsx(classes.item, active && classes.itemActiveItem)}
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText
                   classes={{
-                    primary: classes.itemPrimary,
+                    primary: classes.itemPrimary
                   }}
                 >
                   {childId}
@@ -140,7 +133,7 @@ function Navigator(props) {
               </ListItem>
             ))}
 
-          {/* <Divider className={classes.divider} /> */}
+            {/* <Divider className={classes.divider} /> */}
           </React.Fragment>
         ))}
       </List>
@@ -152,4 +145,4 @@ Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Navigator);
+export default withStyles(styles)(withRouter(Navigator));
