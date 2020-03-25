@@ -148,9 +148,10 @@ const Assignment = ({ setCrumbs, mainFolderId }) => {
                             document.body.appendChild(fileLink);
 
                             fileLink.click();
-                          });gm
+                          });
+                        }}
                       />
-                    )} 
+                    )}
                   </Button>
                   <Button size="small">
                     <DeleteIcon
