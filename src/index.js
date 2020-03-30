@@ -10,6 +10,8 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import { App } from "./components";
 import { NotFoundPage } from "./pages";
+import{LoginPage} from "./pages";
+import{MaterialsPage} from "./pages";
 import theme from "./assets/theme";
 
 import * as serviceWorker from "./serviceWorker";
@@ -18,6 +20,8 @@ let AppWrapper = props => {
   return (
     <React.Fragment>
       <Switch>
+      <Route path="/materials" component={MaterialsPage} />
+      <Route path="/login" component={LoginPage} />
         <Route path="/not-found" component={NotFoundPage} />
         <Route path="/" component={App} />
       </Switch>

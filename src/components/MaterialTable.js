@@ -88,7 +88,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
             <TableRow
               key={material.id}
               onClick={() => {
-                if (material.type === "folder") {
+                if (material.type === "folder"){ 
                   setCurrentFolderId(material.id);
                   setCrumbs(prevCrumbs => [
                     ...prevCrumbs,

@@ -130,11 +130,24 @@ const AssignmentTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => 
                   : `${Math.ceil(assignment.Size / 1024)} KB`}
               </TableCell>
               <TableCell align="right">{assignment.type}</TableCell>
-              <TableCell align="right">monday</TableCell>
+
+              {assignment.type === "file" ? (
+              <TableCell align="right">Monday</TableCell>
+              ):(
+                <TableCell align="right">{}</TableCell>
+              )}
+
+              {assignment.type === "file" ? (
+
               <TableCell align="right">Tuesday</TableCell>
+              ):(
+              <TableCell align="right">{}</TableCell>
+              )}
+             
               {assignment.type === "folder" ? (
                 <TableCell align="right">{}</TableCell>
               ) : (
+               
                 <TableCell align="right">
                   <Button size="small">
                     {/* add folder kda fl database */}

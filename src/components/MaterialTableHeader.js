@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import { post, get } from "axios";
 
-import { Grid, withStyles, Typography, Button, TextField } from "@material-ui/core";
+import {
+  Grid,
+  withStyles,
+  Typography,
+  Button,
+  TextField
+} from "@material-ui/core";
 import BreadCrumbs from "./BreadCrumbs";
 
 import AddFolderIcon from "@material-ui/icons/CreateNewFolder";
 
-const MaterialTableHeader = ({ crumbs, classes, uploadUrl, createUrl, setReloadMaterials }) => {
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+
+
+
+const MaterialTableHeader = ({
+  crumbs,
+  classes,
+  uploadUrl,
+  createUrl,
+  setReloadMaterials
+}) => {
   const [file, setFile] = useState();
   const [folderName, setFolderName] = useState();
   const uploadFile = async e => {
@@ -20,19 +36,19 @@ const MaterialTableHeader = ({ crumbs, classes, uploadUrl, createUrl, setReloadM
       await post(url, formData, {
         params: { Parent_ID: crumbs[crumbs.length - 1].id }
       });
-      setReloadMaterials(true)
+      setReloadMaterials(true);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const createFolder = async (Name = "New Folder") => { 
+  const createFolder = async (Name = "New Folder") => {
     const url = createUrl;
     await get(url, {
       params: { Parent_ID: crumbs[crumbs.length - 1].id, Folder_Name: Name }
     });
     setFolderName("");
-    setReloadMaterials(true)
+    setReloadMaterials(true);
   };
 
   return (
@@ -50,7 +66,7 @@ const MaterialTableHeader = ({ crumbs, classes, uploadUrl, createUrl, setReloadM
             <Grid container>
               <Grid item>
                 <TextField
-                  placeholder="Choose folder name.." // hwaryk 7aga kdh kman bs m3rfna4 nzbtha
+                  placeholder="Choose folder name.."
                   value={folderName}
                   onChange={e => setFolderName(e.target.value)}
                 />
@@ -65,32 +81,57 @@ const MaterialTableHeader = ({ crumbs, classes, uploadUrl, createUrl, setReloadM
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="stretch" justify="center">
-          <Grid item style={{ alignSelf: "center" }}>
-            <Typography variant="body2">
-              Select A file to upload here
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Grid container alignItems="center">
-              <Grid item>
-                <input type="file" onChange={e => setFile(e.target.files[0])} />
-              </Grid>
-              <Grid item>
-                <Button
+
+      {
+        <Grid item>
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            justify="center"
+          >
+            <Grid item style={{ alignSelf: "center" }}>
+              
+             {/*  <Typography variant="body2">
+                Select A file to upload here
+              </Typography> */}
+            </Grid>
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item>
+                  {/* <input
+                    type="file"
+                    onChange={e => setFile(e.target.files[0])}
+                  /> */}
+                </Grid> <Grid item> {/* <Button
                   variant="outlined"
                   size="large"
                   disabled={!file}
                   onClick={uploadFile}
                 >
                   Upload
-                </Button>
+                </Button>  */}</Grid>
+                <Grid item>
+                {crumbs.length > '1' ? (
+                <Grid item>
+                <NoteAddIcon
+                  style={{ cursor: "pointer" }}
+                  onClick={uploadFile}
+                />
+                 
+             
+                  
+                </Grid>
+                ):(
+                  console.log("a4t8l")
+                  )}
+                </Grid>
+                
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+}
     </Grid>
   );
 };

@@ -39,11 +39,18 @@ const categories = [
           <img src="https://img.icons8.com/ios/50/000000/gender-neutral-user.png" />
         ),
         route: "/materials"
+        
       },
       {
         id: "Materials",
         icon: <img src="https://img.icons8.com/ios/50/000000/courses.png" />,
-        route: "/materials"
+        route: "/materials", children:[{ id: "oop",
+        icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
+        route: "/materials"}, {id: "sw",
+        icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
+        route: "/materials"}
+
+        ]
       },
       {
         id: "Assignments",
