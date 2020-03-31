@@ -30,8 +30,7 @@ class LoginPage extends React.Component {
             fontFamily: "Open Sans"
           }}
         >
-          {" "}
-          <img src={LMSImage} />{" "}
+          <img src={LMSImage} />
         </div>
         <div
           className="content"
@@ -109,8 +108,7 @@ class LoginPage extends React.Component {
               }}
             >
               <label for="password;" style={{ fontSize: "20px" }}>
-                {" "}
-                Password{" "}
+                Password
               </label>
 
               <input
@@ -138,9 +136,9 @@ class LoginPage extends React.Component {
               style={{
                 backgroundColor: "#3a6364",
                 marginLeft: "330px",
-                marginTop: '10px',
-                borderRadius : '4px',
-                borderWidth : '5px',
+                marginTop: "10px",
+                borderRadius: "4px",
+                borderWidth: "5px",
                 fontSize: "22px"
               }}
             >

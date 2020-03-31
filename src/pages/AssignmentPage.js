@@ -5,7 +5,6 @@ import {
   AssignmentTable,
   SideBar, 
 } from "../components";
-import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
 
 const AssignmentPage = () => {

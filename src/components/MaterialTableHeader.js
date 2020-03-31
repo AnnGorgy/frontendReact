@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import { post, get } from "axios";
 
-import {
-  Grid,
-  withStyles,
-  Typography,
-  Button,
-  TextField
-} from "@material-ui/core";
-import BreadCrumbs from "./BreadCrumbs";
+import { Grid, withStyles, Button, Typography } from "@material-ui/core";
+import { BreadCrumbs, AddMaterialPopOver, CreateFileForm } from "./";
 
-import AddFolderIcon from "@material-ui/icons/CreateNewFolder";
-
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-
-
+import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import FolderIcon from "@material-ui/icons/CreateNewFolder";
 
 const MaterialTableHeader = ({
   crumbs,
@@ -23,6 +14,33 @@ const MaterialTableHeader = ({
   createUrl,
   setReloadMaterials
 }) => {
+  const [fileIsOpen, setFileIsOpen] = useState(false);
+  const [videoIsOpen, setVideoIsOpen] = useState(false);
+  const [assignmentIsOpen, setAssignmentIsOpen] = useState(false);
+  const [FolderIsOpen, setFolderIsOpen] = useState(false);
+
+  const handlePopOverClick = eventName => {
+    switch (eventName) {
+      case "File":
+        setFileIsOpen(true);
+        setCreateButtonReference(null);
+        break;
+      case "Video":
+        setVideoIsOpen(true);
+        setCreateButtonReference(null);
+        break;
+      case "Assignment":
+        setAssignmentIsOpen(true);
+        setCreateButtonReference(null);
+        break;
+      default:
+        setFolderIsOpen(true);
+        setCreateButtonReference(null);
+    }
+  };
+
+  const [createButtonReference, setCreateButtonReference] = useState();
+
   const [file, setFile] = useState();
   const [folderName, setFolderName] = useState();
   const uploadFile = async e => {
@@ -52,93 +70,107 @@ const MaterialTableHeader = ({
   };
 
   return (
-    <Grid container justify="space-between">
-      <Grid item xs={5}>
-        <Grid container direction="column">
-          <Grid item className={classes.breadCrumpContainer}>
-            {crumbs?.length ? (
-              <BreadCrumbs crumbs={crumbs} />
-            ) : (
-              <React.Fragment />
-            )}
-          </Grid>
-          <Grid item>
-            <Grid container>
+    <React.Fragment>
+      <AddMaterialPopOver
+        createButtonReference={createButtonReference}
+        setCreateButtonReference={setCreateButtonReference}
+        onClick={handlePopOverClick}
+      />
+      <CreateFileForm
+        title="Create New File"
+        isOpened={fileIsOpen}
+        onClose={() => setFileIsOpen(false)}
+        onSubmit={null}
+      />
+      <CreateFileForm
+        title="Create New Video"
+        isOpened={videoIsOpen}
+        onClose={() => setVideoIsOpen(false)}
+        onSubmit={null}
+      />
+      <CreateFileForm
+        title="Create New Assignment"
+        hasDate
+        isOpened={assignmentIsOpen}
+        onClose={() => setAssignmentIsOpen(false)}
+        onSubmit={null}
+      />
+      <Grid
+        container
+        justify="space-between"
+        alignItems="center"
+        className={classes.tableHeader}
+      >
+        <Grid item xs={7}>
+          {crumbs?.length ? (
+            <BreadCrumbs crumbs={crumbs} />
+          ) : (
+            <React.Fragment />
+          )}
+        </Grid>
+        <Grid item>
+          <Button
+            ref={createButtonReference}
+            onClick={event => {
+              setCreateButtonReference(event.currentTarget);
+            }}
+            className={classes.addButton}
+            size="small"
+          >
+            <Grid
+              container
+              spacing={1}
+              alignItems="center"
+              className={classes.addButtonBody}
+            >
               <Grid item>
-                <TextField
-                  placeholder="Choose folder name.."
-                  value={folderName}
-                  onChange={e => setFolderName(e.target.value)}
-                />
+                <AddMaterialIcon className={classes.addIcon} />
               </Grid>
               <Grid item>
-                <AddFolderIcon
-                  style={{ cursor: "pointer" }}
-                  onClick={() => createFolder(folderName)}
-                />
+                <Typography className={classes.buttonText}>
+                  Add New Material
+                </Typography>
               </Grid>
             </Grid>
-          </Grid>
+          </Button>
         </Grid>
       </Grid>
-
-      {
-        <Grid item>
-          <Grid
-            container
-            direction="column"
-            alignItems="stretch"
-            justify="center"
-          >
-            <Grid item style={{ alignSelf: "center" }}>
-              
-             {/*  <Typography variant="body2">
-                Select A file to upload here
-              </Typography> */}
-            </Grid>
-            <Grid item>
-              <Grid container alignItems="center">
-                <Grid item>
-                  {/* <input
-                    type="file"
-                    onChange={e => setFile(e.target.files[0])}
-                  /> */}
-                </Grid> <Grid item> {/* <Button
-                  variant="outlined"
-                  size="large"
-                  disabled={!file}
-                  onClick={uploadFile}
-                >
-                  Upload
-                </Button>  */}</Grid>
-                <Grid item>
-                {crumbs.length > '1' ? (
-                <Grid item>
-                <NoteAddIcon
-                  style={{ cursor: "pointer" }}
-                  onClick={uploadFile}
-                />
-                 
-             
-                  
-                </Grid>
-                ):(
-                  console.log("a4t8l")
-                  )}
-                </Grid>
-                
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-}
-    </Grid>
+    </React.Fragment>
   );
 };
 
 const styles = () => ({
   breadCrumpContainer: {
     maxWidth: "100%"
+  },
+  addButton: {
+    borderRadius: "16px",
+    width: "210px",
+    color: "white",
+    backgroundColor: "#3a6364",
+    "&:hover, &:focus": {
+      backgroundColor: "#3a6364d1",
+      color: "white"
+    }
+  },
+  addIcon: {
+    marginTop: "4px"
+  },
+  buttonText: {
+    color: "white"
+  },
+  addButtonBody: {
+    marginLeft: "4px",
+    marginRight: "4px"
+  },
+  tableHeader: {
+    paddingRight: "20px",
+    paddingLeft: "20px",
+    marginTop: "8px",
+    flexWrap: "nowrap"
+  },
+  noWrap: {
+    flexWrap: "nowrap"
   }
 });
 

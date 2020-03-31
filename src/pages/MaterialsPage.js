@@ -22,7 +22,8 @@ const MaterialsPage = () => {
           direction="column"
           alignItems="stretch"
           justify="center"
-          spacing={3}
+          spacing={1}
+          style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
             <TableHeader

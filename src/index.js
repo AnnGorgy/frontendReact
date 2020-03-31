@@ -7,6 +7,9 @@ import {
   withRouter
 } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+
 
 import { App } from "./components";
 import { NotFoundPage } from "./pages";
@@ -33,9 +36,11 @@ AppWrapper = withRouter(AppWrapper);
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-    <Router>
-      <AppWrapper />
-    </Router>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Router>
+        <AppWrapper />
+      </Router>
+    </MuiPickersUtilsProvider>
   </MuiThemeProvider>,
   document.getElementById("root")
 );

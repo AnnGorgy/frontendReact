@@ -1,4 +1,5 @@
 import React from "react";
+import { truncate } from "lodash";
 
 import { Grid, Typography, withStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -17,7 +18,7 @@ const styles = theme => ({
     marginBottom: 8,
     marginRight: 8,
     marginLeft: 8,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: '#c0c0c0',
     zIndex: -1,
     display: "flex",
     justifyContent: "center",
@@ -39,14 +40,14 @@ const styles = theme => ({
     fontWeight: "bold",
     lineHeight: "1.38",
     textAlign: "left",
-    color: '#f4f4f4'
+    color: '#909090'
   },
   sizeLabel: {
     marginTop: 4,
     fontSize: "12px",
     lineHeight: "1.5",
     textAlign: "left",
-    color: '#f1f1f1'
+    color: '#909090'
   },
   link: {
     cursor: "pointer"
@@ -84,13 +85,12 @@ const AttachedFile = ({
         <Grid container direction="column">
           <Grid item>
             <Typography className={classes.label}>
-              {label}
+              {truncate(label, { length: 15 })}
             </Typography>
           </Grid>
           <Grid item>
             <Typography className={classes.sizeLabel}>
-              {size}
-              {/* size come as one integer mainly, so if you need to make operation on it make it here */}
+              {`${Math.ceil(size/1024)} KB`}
             </Typography>
           </Grid>
         </Grid>

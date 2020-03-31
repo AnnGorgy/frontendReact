@@ -15,14 +15,14 @@ const styles = theme => ({
     "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: "#3a6364"
-    } 
+    }
   }
 });
 
 const Crumb = withStyles(styles)(Chip);
 
 const BreadCrumbs = ({ crumbs }) => (
-  <Breadcrumbs>
+  <Breadcrumbs itemsAfterCollapse={1} itemsBeforeCollapse={1} maxItems={5}>
     {crumbs.map(({ label, Icon, onClick }, index) => (
       <Box
         key={index}
