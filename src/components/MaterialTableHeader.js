@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { post, get } from "axios";
 
 import { Grid, withStyles, Button, Typography } from "@material-ui/core";
-import { BreadCrumbs, AddMaterialPopOver, CreateFileForm } from "./";
+import { BreadCrumbs, AddMaterialPopOver, CreateFileForm,CreateFolderForm } from "./";
 
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import FolderIcon from "@material-ui/icons/CreateNewFolder";
@@ -16,6 +16,7 @@ const MaterialTableHeader = ({
 }) => {
   const [fileIsOpen, setFileIsOpen] = useState(false);
   const [videoIsOpen, setVideoIsOpen] = useState(false);
+  const [linkIsOpen, setLinkIsOpen] = useState(false);
   const [assignmentIsOpen, setAssignmentIsOpen] = useState(false);
   const [FolderIsOpen, setFolderIsOpen] = useState(false);
 
@@ -33,9 +34,18 @@ const MaterialTableHeader = ({
         setAssignmentIsOpen(true);
         setCreateButtonReference(null);
         break;
-      default:
+      case "Link":
+        setLinkIsOpen(true);
+        setCreateButtonReference(null);
+        break;
+        
+        case "Folder":
         setFolderIsOpen(true);
         setCreateButtonReference(null);
+        break;
+
+      default:
+      
     }
   };
 
@@ -95,6 +105,18 @@ const MaterialTableHeader = ({
         onClose={() => setAssignmentIsOpen(false)}
         onSubmit={null}
       />
+      <CreateFolderForm
+        title="Create New Folder"
+        isOpened={FolderIsOpen}
+        onClose={() => setFolderIsOpen(false)}
+        onSubmit={null}
+      />
+      <CreateFolderForm
+        title="Create New URL"
+        isOpened={linkIsOpen}
+        onClose={() => setLinkIsOpen(false)}
+        onSubmit={null}
+      />
       <Grid
         container
         justify="space-between"
@@ -128,7 +150,7 @@ const MaterialTableHeader = ({
               </Grid>
               <Grid item>
                 <Typography className={classes.buttonText}>
-                  Add New Material
+                  Add New Resourses
                 </Typography>
               </Grid>
             </Grid>
@@ -145,7 +167,7 @@ const styles = () => ({
   },
   addButton: {
     borderRadius: "16px",
-    width: "210px",
+    width: "240px",
     color: "white",
     backgroundColor: "#3a6364",
     "&:hover, &:focus": {

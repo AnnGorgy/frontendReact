@@ -9,3 +9,5 @@ export { default as SideBar } from "./WebsiteLayout/Navigator";
 export { default as AssignmentTable } from "./AssignmentTable";
 export { default as AddMaterialPopOver } from "./AddMaterialPopOver";
 export { default as CreateFileForm } from "./MaterialForms/FileForm";
+export {default as CreateFolderForm } from "./MaterialForms/FolderForm";
+
