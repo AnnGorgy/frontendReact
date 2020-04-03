@@ -28,8 +28,8 @@ const MaterialsPage = () => {
           <Grid item>
             <TableHeader
               crumbs={crumbs}
-              uploadUrl="/Materials/UploadFiles"
-              createUrl="/Materials/CreateFolder"
+              uploadUrl="/Doctor_Materials/uploadFiles"
+              createUrl="Doctor_Materials/CreateFolder"
               setReloadMaterials={setReloadMaterials}
             />
           </Grid>

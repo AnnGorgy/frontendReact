@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { post, get } from "axios";
 
 import { Grid, withStyles, Button, Typography } from "@material-ui/core";
-import { BreadCrumbs, AddMaterialPopOver, CreateFileForm,CreateFolderForm } from "./";
+import {
+  BreadCrumbs,
+  AddMaterialPopOver,
+  CreateFileForm,
+  CreateFolderForm
+} from "./";
 
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import FolderIcon from "@material-ui/icons/CreateNewFolder";
 
 const MaterialTableHeader = ({
   crumbs,
@@ -19,6 +23,7 @@ const MaterialTableHeader = ({
   const [linkIsOpen, setLinkIsOpen] = useState(false);
   const [assignmentIsOpen, setAssignmentIsOpen] = useState(false);
   const [FolderIsOpen, setFolderIsOpen] = useState(false);
+  const [createButtonReference, setCreateButtonReference] = useState();
 
   const handlePopOverClick = eventName => {
     switch (eventName) {
@@ -38,45 +43,111 @@ const MaterialTableHeader = ({
         setLinkIsOpen(true);
         setCreateButtonReference(null);
         break;
-        
-        case "Folder":
+      case "Folder":
         setFolderIsOpen(true);
         setCreateButtonReference(null);
         break;
-
       default:
-      
+        break;
     }
   };
 
-  const [createButtonReference, setCreateButtonReference] = useState();
-
-  const [file, setFile] = useState();
-  const [folderName, setFolderName] = useState();
-  const uploadFile = async e => {
-    e.preventDefault();
-
+  const uploadFile = async ({ file, name, description, callback }) => {
+    // TODO: make it constant on this service
+    const url = uploadUrl;
     const formData = new FormData();
     formData.append("Document", file);
-
-    const url = uploadUrl;
     try {
       await post(url, formData, {
-        params: { Parent_ID: crumbs[crumbs.length - 1].id }
+        params: {
+          Parent_ID: crumbs[crumbs.length - 1].id,
+          sub_Id: 1,
+          Description: description,
+          File_Name: name
+        }
       });
       setReloadMaterials(true);
+      if (callback) callback();
     } catch (err) {
       console.error(err);
     }
   };
 
-  const createFolder = async (Name = "New Folder") => {
+  const uploadFileAssignment = async ({
+    file,
+    name,
+    description,
+    date,
+    callback
+  }) => {
+    const url = "assignment/uploadFiles";
+    const formData = new FormData();
+    formData.append("Document", file);
+    try {
+      await post(url, formData, {
+        params: {
+          Parent_ID: crumbs[crumbs.length - 1].id,
+          sub_Id: 1,
+          Description: description,
+          File_Name: name,
+          start: date.start,
+          end: date.end
+        }
+      });
+      setReloadMaterials(true);
+      if (callback) callback();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const uploadVideo = async ({ file, name, description, callback }) => {
+    const url = "Doctor_Materials/uploadVideos";
+    const formData = new FormData();
+    formData.append("Document", file);
+    try {
+      await post(url, formData, {
+        params: {
+          Parent_ID: crumbs[crumbs.length - 1].id,
+          sub_Id: 1,
+          Video_Name: name,
+          description: description
+        }
+      });
+      setReloadMaterials(true);
+      if (callback) callback();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const createFolder = async ({ name, callback }) => {
+    // TODO: make it constant on this service
     const url = createUrl;
     await get(url, {
-      params: { Parent_ID: crumbs[crumbs.length - 1].id, Folder_Name: Name }
+      params: {
+        Parent_ID: crumbs[crumbs.length - 1].id,
+        Folder_Name: name,
+        sub_Id: 1
+      }
     });
-    setFolderName("");
     setReloadMaterials(true);
+    if (callback) callback();
+  };
+
+  const createLink = async ({ name, description, link, callback }) => {
+    const url = "Doctor_Materials/Add_URL";
+    await get(url, {
+      params: {
+        Parent_ID: crumbs[crumbs.length - 1].id,
+        Name: name,
+        sub_Id: 1,
+        description: description,
+        Url: link
+      }
+    });
+    setReloadMaterials(true);
+    if (callback) callback();
   };
 
   return (
@@ -90,32 +161,64 @@ const MaterialTableHeader = ({
         title="Create New File"
         isOpened={fileIsOpen}
         onClose={() => setFileIsOpen(false)}
-        onSubmit={null}
+        onSubmit={({ blobs, name, description }) =>
+          uploadFile({
+            file: blobs,
+            name,
+            description,
+            callback: () => setFileIsOpen(false)
+          })
+        }
       />
       <CreateFileForm
         title="Create New Video"
         isOpened={videoIsOpen}
         onClose={() => setVideoIsOpen(false)}
-        onSubmit={null}
+        onSubmit={({ blobs, name, description }) =>
+          uploadVideo({
+            file: blobs,
+            name,
+            description,
+            callback: () => setVideoIsOpen(false)
+          })
+        }
       />
       <CreateFileForm
         title="Create New Assignment"
         hasDate
         isOpened={assignmentIsOpen}
         onClose={() => setAssignmentIsOpen(false)}
-        onSubmit={null}
+        onSubmit={({ blobs, name, description, date }) =>
+          uploadFileAssignment({
+            file: blobs,
+            name,
+            description,
+            date,
+            callback: () => setAssignmentIsOpen(false)
+          })
+        }
       />
       <CreateFolderForm
         title="Create New Folder"
         isOpened={FolderIsOpen}
         onClose={() => setFolderIsOpen(false)}
-        onSubmit={null}
+        onSubmit={({ name }) =>
+          createFolder({ name, callback: () => setFolderIsOpen(false) })
+        }
       />
       <CreateFolderForm
         title="Create New URL"
+        isUrl
         isOpened={linkIsOpen}
         onClose={() => setLinkIsOpen(false)}
-        onSubmit={null}
+        onSubmit={({ name, description, link }) =>
+          createLink({
+            name,
+            description,
+            link,
+            callback: () => setLinkIsOpen(false)
+          })
+        }
       />
       <Grid
         container

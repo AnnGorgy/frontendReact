@@ -21,7 +21,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
+import Collapse from '@material-ui/core/Collapse';
 import Theimage from "./UniLogo.png";
 
 const categories = [
@@ -38,24 +38,29 @@ const categories = [
         icon: (
           <img src="https://img.icons8.com/ios/50/000000/gender-neutral-user.png" />
         ),
-        route: "/materials"
-        
+        route: "/profile"
       },
       {
         id: "Materials",
         icon: <img src="https://img.icons8.com/ios/50/000000/courses.png" />,
-        route: "/materials", children:[{ id: "oop",
-        icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
-        route: "/materials"}, {id: "sw",
-        icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
-        route: "/materials"}
-
+        route: "/materials",
+        children: [
+          {
+            id: "oop",
+            icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
+            route: "/materials"
+          },
+          {
+            id: "sw",
+            icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
+            route: "/materials"
+          }
         ]
       },
       {
-        id: "Assignments",
+        id: "Students",
         icon: <img src="https://img.icons8.com/dotty/50/000000/grades.png" />,
-        route: "/assignments"
+        route: "/students"
       },
       {
         id: "Help",
@@ -121,6 +126,10 @@ function Navigator(props) {
   const navigate = (url = "./pages/MaterialsPage") => {
     history.push(url);
   };
+
+  /* useEffect(() => {
+    // List courses to a state
+  }, []) */
 
   return (
     <Drawer variant="permanent" {...other}>

@@ -16,6 +16,7 @@
     "date-fns": "^2.11.1",
     "lodash": "^4.17.15",
     "mdbreact": "^4.25.5",
+    "mime-types": "^2.1.26",
     "mui-datatables": "^2.14.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
@@ -24,6 +25,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-table-6": "^6.11.0",
+    "react-tooltip": "^4.1.5",
     "reactjs-popup": "^1.5.0"
   },
   "scripts": {

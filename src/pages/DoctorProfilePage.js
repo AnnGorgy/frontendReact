@@ -8,47 +8,24 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
 
-import { DragImport } from "../";
-
-const CreateFileForm = ({
+const DoctorProfilePage = ({
   onClose,
   isOpened,
   title,
   onSubmit,
-  hasDate,
+  isUrl,
   classes
 }) => {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [blobs, setBlobs] = useState([]);
-  const [goodStartDate, setGoodStartDate] = useState(false);
-  const [goodEndDate, setGoodEndDate] = useState(false);
-  const [date, setDate] = useState({
-    start: new Date("04/03/1010"),
-    end: new Date("04/03/1010")
-  });
-
-  const onDropBlobs = blobs => {
-    setBlobs([...blobs]);
-  };
-
-  const onDeleteBlob = () => {
-    setBlobs([]);
-  };
+  const [OfficeHours, setOfficeHours] = useState("");
+  const [Email, setEmail] = useState("");
 
   const resetStates = () => {
     setName("");
-    setDescription("");
-    setBlobs([]);
-    setDate({ start: new Date("04/03/1010"), end: new Date("04/03/1010") });
-    setGoodStartDate(false);
-    setGoodEndDate(false);
+    setOfficeHours("");
+    setEmail("");
+    onClose();
   };
 
   return (
@@ -113,75 +90,61 @@ const CreateFileForm = ({
                       }}
                     />
                   </Grid>
-                  <Grid item>
-                    <TextField
-                      label={"Description"}
-                      fullWidth
-                      multiline
-                      rows={3}
-                      value={description}
-                      onChange={e => {
-                        setDescription(e.target.value);
-                      }}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline
-                        }
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label
-                        }
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <DragImport
-                      editable
-                      blobs={blobs}
-                      onDrop={onDropBlobs}
-                      onDeleteBlob={onDeleteBlob}
-                    />
-                  </Grid>
-                  {hasDate && (
+
+                  {isUrl && (
                     <Grid item>
-                      <Grid container justify="space-between">
-                        <Grid item xs={5}>
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                              clearable
-                              autoOk
-                              label="Start Date"
-                              inputVariant="standard"
-                              value={date.start}
-                              onChange={date =>
-                                setDate(prev => ({ ...prev, start: date }))
-                              }
-                              onError={bad => setGoodStartDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
-                          </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item xs={5}>
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                              clearable
-                              autoOk
-                              label="End Date"
-                              value={date.end}
-                              onChange={date =>
-                                setDate(prev => ({ ...prev, end: date }))
-                              }
-                              onError={bad => setGoodEndDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
-                          </MuiPickersUtilsProvider>
-                        </Grid>
-                      </Grid>
+                      {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                      <TextField
+                        label="E-mail"
+                        fullWidth
+                        value={Email}
+                        onChange={e => {
+                          setEmail(e.target.value);
+                        }}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline
+                          }
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label
+                          }
+                        }}
+                      />
+                    </Grid>
+                  )}
+                  {isUrl && (
+                    <Grid item>
+                      <TextField
+                        label="Office Hours"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        value={OfficeHours}
+                        onChange={e => {
+                          setOfficeHours(e.target.value);
+                        }}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline
+                          }
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label
+                          }
+                        }}
+                      />
                     </Grid>
                   )}
                   <Grid item>
@@ -205,27 +168,20 @@ const CreateFileForm = ({
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={
-                            blobs.length !== 1 ||
-                            name === "" ||
-                            (hasDate && (!goodStartDate || !goodEndDate))
-                          }
+                          disabled={name === "" || (isUrl && Email === "")}
                           onClick={() => {
                             resetStates();
                             onSubmit({
-                              blobs: blobs[0],
                               name,
-                              description,
-                              date
+                              Email,
+                              OfficeHours
                             });
                           }}
                         >
                           <Typography
                             variant="h6"
                             className={
-                              blobs.length !== 1 ||
-                              name === "" ||
-                              (hasDate && (!goodStartDate || !goodEndDate))
+                              name === "" || (isUrl && Email === "")
                                 ? classes.createText
                                 : classes.boldText
                             }
@@ -246,9 +202,8 @@ const CreateFileForm = ({
   );
 };
 
-CreateFileForm.defaultProps = {
-  hasDate: false,
-  isLink: false
+DoctorProfilePage.defaultProps = {
+  isUrl: false
 };
 
 const styles = () => ({
@@ -294,4 +249,5 @@ const styles = () => ({
   }
 });
 
-export default withStyles(styles)(CreateFileForm);
+export default withStyles(styles)(DoctorProfilePage);
+

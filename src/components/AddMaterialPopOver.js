@@ -10,7 +10,7 @@ import {
 
 import FolderIcon from "@material-ui/icons/CreateNewFolder";
 import VideoIcon from "@material-ui/icons/Videocam";
-import LinkIcon from "@material-ui/icons/Language";
+import LinkIcon from '@material-ui/icons/Link';
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import FileIcon from "@material-ui/icons/Description";
 

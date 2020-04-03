@@ -9,16 +9,32 @@ import {
   Button
 } from "@material-ui/core";
 
-
-const CreateFolderForm = ({  onClose, isOpened, title, onSubmit, hasDate, classes }) => {
+const CreateFolderForm = ({
+  onClose,
+  isOpened,
+  title,
+  onSubmit,
+  isUrl,
+  classes
+}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
- 
+  const [link, setLink] = useState("");
+
+  const resetStates = () => {
+    setName("");
+    setDescription("");
+    setLink("");
+    onClose();
+  };
 
   return (
     isOpened && (
       <Dialog
-        onClose={onClose}
+        onClose={() => {
+          resetStates();
+          onClose();
+        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth
@@ -74,47 +90,70 @@ const CreateFolderForm = ({  onClose, isOpened, title, onSubmit, hasDate, classe
                       }}
                     />
                   </Grid>
-                  <Grid item>
-                    <TextField
-                      label={"Description"}
-                      fullWidth
-                      multiline
-                      rows={3}
-                      value={description}
-                      onChange={e => {
-                        setDescription(e.target.value);
-                      }}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline
-                        }
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label
-                        }
-                      }}
-                    />
-                  </Grid>
-                 
-                  
-                
+
+                  {isUrl && (
+                    <Grid item>
+                      {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                      <TextField
+                        label="URL"
+                        fullWidth
+                        value={link}
+                        onChange={e => {
+                          setLink(e.target.value);
+                        }}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline
+                          }
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label
+                          }
+                        }}
+                      />
+                    </Grid>
+                  )}
+                  {isUrl && (
+                    <Grid item>
+                      <TextField
+                        label="Description"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        value={description}
+                        onChange={e => {
+                          setDescription(e.target.value);
+                        }}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline
+                          }
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label
+                          }
+                        }}
+                      />
+                    </Grid>
+                  )}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
-                          onClick={() => {
-                            setName("");
-                            setDescription("");
-                           
-                            onClose();
-                          }}
+                          onClick={resetStates}
                         >
                           <Typography
                             variant="h6"
@@ -129,24 +168,20 @@ const CreateFolderForm = ({  onClose, isOpened, title, onSubmit, hasDate, classe
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={
-                         
-                            name === "" 
-                          }
-                          onClick={() =>
+                          disabled={name === "" || (isUrl && link === "")}
+                          onClick={() => {
+                            resetStates();
                             onSubmit({
-                              
                               name,
-                              description
-                             
-                            })
-                          }
+                              description,
+                              link
+                            });
+                          }}
                         >
                           <Typography
                             variant="h6"
                             className={
-                          
-                              (name === "" )
+                              name === "" || (isUrl && link === "")
                                 ? classes.createText
                                 : classes.boldText
                             }
@@ -168,8 +203,7 @@ const CreateFolderForm = ({  onClose, isOpened, title, onSubmit, hasDate, classe
 };
 
 CreateFolderForm.defaultProps = {
-  
-  isLink:  false,
+  isUrl: false
 };
 
 const styles = () => ({
