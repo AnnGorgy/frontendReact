@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import mime from "mime-types";
-import Tooltip from '@material-ui/core/Tooltip';
-
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,14 +15,14 @@ import {
   Paper,
   Button,
   Grid,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import FolderIcon from "@material-ui/icons/Folder";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
 import VideoIcon from "@material-ui/icons/Videocam";
-import LinkIcon from '@material-ui/icons/Link';
+import LinkIcon from "@material-ui/icons/Link";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import ScheduleIcon from '@material-ui/icons/Schedule';
+import ScheduleIcon from "@material-ui/icons/Schedule";
 
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
@@ -32,7 +31,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const listMaterials = async () => {
     const materialsUrl = `Doctor_Materials/GetFiles`;
     const { data } = await post(materialsUrl, null, {
-      params: { sub_Id: 1 }
+      params: { sub_Id: 1 },
     });
     setAllMaterials(data);
   };
@@ -40,10 +39,10 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const listAssignments = async () => {
     const assignmentsUrl = `assignment/GetFiles`;
     const { data } = await post(assignmentsUrl, null, {
-      params: { sub_Id: 1 }
+      params: { sub_Id: 1 },
     });
     setAllAssignments(
-      data.map(assignment => ({ ...assignment, type: "assignment" }))
+      data.map((assignment) => ({ ...assignment, type: "assignment" }))
     );
   };
 
@@ -52,7 +51,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
 
-  const getIcon = material => {
+  const getIcon = (material) => {
     switch (material.type) {
       case "file":
         return <FileIcon />;
@@ -80,7 +79,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   useEffect(() => {
     if (allMaterials && currentFolderId === undefined) {
       const rootFolder = allMaterials.filter(
-        material => material.parent_ID === null
+        (material) => material.parent_ID === null
       )[0];
       setCurrentFolderId(rootFolder.id);
       setCrumbs([
@@ -89,10 +88,10 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
           id: rootFolder.id,
           onClick: () => {
             setCurrentFolderId(rootFolder.id);
-            setCrumbs(prevState => [...prevState.slice(0, 1)]);
+            setCrumbs((prevState) => [...prevState.slice(0, 1)]);
           },
-          Icon: FolderIcon
-        }
+          Icon: FolderIcon,
+        },
       ]);
     }
   }, [allMaterials]);
@@ -102,11 +101,11 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
       console.log(allAssignments);
       setDisplayedMaterials([
         ...allMaterials.filter(
-          material => material.parent_ID === currentFolderId
+          (material) => material.parent_ID === currentFolderId
         ),
         ...allAssignments.filter(
-          assignment => assignment.Parent_ID === currentFolderId
-        )
+          (assignment) => assignment.Parent_ID === currentFolderId
+        ),
       ]);
     }
   }, [currentFolderId, allMaterials, allAssignments]);
@@ -114,11 +113,16 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   return (
     <TableContainer
       component={Paper}
-      style={{ maxHeight: "90vh", overflowY: "auto", maxWidth: "170vh" , marginLeft: "28px"}}
+      style={{
+        maxHeight: "90vh",
+        overflowY: "auto",
+        maxWidth: "170vh",
+        marginLeft: "28px",
+      }}
     >
       <Table
         style={{
-          minWidth: 650
+          minWidth: 650,
         }}
         size="small"
         /*  aria-label="a dense table" */
@@ -141,7 +145,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
               onClick={() => {
                 if (material.type === "folder") {
                   setCurrentFolderId(material.id);
-                  setCrumbs(prevCrumbs => [
+                  setCrumbs((prevCrumbs) => [
                     ...prevCrumbs,
                     {
                       label: material.Name,
@@ -149,11 +153,11 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
                       Icon: FolderIcon,
                       onClick: () => {
                         setCurrentFolderId(material.id);
-                        setCrumbs(prevState => [
-                          ...prevState.slice(0, prevState.length - 1)
+                        setCrumbs((prevState) => [
+                          ...prevState.slice(0, prevState.length - 1),
                         ]);
-                      }
-                    }
+                      },
+                    },
                   ]);
                 }
               }}
@@ -175,7 +179,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
                 {material.type === "folder"
                   ? `${
                       allMaterials.filter(
-                        current => current.parent_ID === material.id
+                        (current) => current.parent_ID === material.id
                       ).length
                     } files`
                   : `${Math.ceil(material.Size / 1024)} KB`}
@@ -187,56 +191,109 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
               ) : (
                 <TableCell align="right">
                   {material.type === "assignment" && (
-                    <Tooltip title= {<div> Start Date :  {material.startdate}<br /> End Date : {material.enddate}</div>}  placement="bottom"  >
-                    <Button size="small">
-                      <ScheduleIcon onClick={console.log("ay 7aga")} />
-                    </Button>
+                    <Tooltip
+                      title={
+                        <div>
+                          Start Date : {material.startdate}
+                          <br /> End Date : {material.enddate}
+                        </div>
+                      }
+                      placement="bottom"
+                    >
+                      <Button size="small">
+                        <ScheduleIcon onClick={console.log("ay 7aga")} />
+                      </Button>
                     </Tooltip>
                   )}
-                  <Tooltip title="Download"  placement="bottom"  >
-                  <Button size="small">
-                    {material.type !== "folder" && material.type !== "URL" && (
-                      <DownloadIcon
-                        onClick={async () => {
-                          const response = await get(
-                            "/Doctor_Materials/download",
-                            {
-                              params: { fileId: material.id },
-                              responseType: "blob"
-                            }
-                          );
-                          var fileURL = window.URL.createObjectURL(
-                            new Blob([response.data])
-                          );
-                          var fileLink = document.createElement("a");
+                  <Tooltip title="Download" placement="bottom">
+                    <Button size="small">
+                      {material.type !== "folder" &&
+                        material.type !== "URL" &&
+                        material.type !==
+                          "assignment" &&(
+                            <DownloadIcon
+                              onClick={async () => {
+                                const response = await get(
+                                  "/Doctor_Materials/download",
+                                  {
+                                    params: { fileId: material.id },
+                                    responseType: "blob",
+                                  }
+                                );
+                                var fileURL = window.URL.createObjectURL(
+                                  new Blob([response.data])
+                                );
+                                var fileLink = document.createElement("a");
 
-                          fileLink.href = fileURL;
-                          fileLink.setAttribute(
-                            "download",
-                            material.Name +
-                              "." +
-                              mime.extension(response.data.type)
-                          );
-                          document.body.appendChild(fileLink);
+                                fileLink.href = fileURL;
+                                fileLink.setAttribute(
+                                  "download",
+                                  material.Name +
+                                    "." +
+                                    mime.extension(response.data.type)
+                                );
+                                document.body.appendChild(fileLink);
 
-                          fileLink.click();
-                        }}
-                      />
-                    )}
-                  </Button>
+                                fileLink.click();
+                              }}
+                            />
+                          )}
+                      {material.type ===
+                        "assignment" &&(
+                          <DownloadIcon
+                            onClick={async () => {
+                              const response = await get(
+                                "/assignment/download",
+                                {
+                                  params: { fileId: material.id },
+                                  responseType: "blob",
+                                }
+                              );
+                              var fileURL = window.URL.createObjectURL(
+                                new Blob([response.data])
+                              );
+                              var fileLink = document.createElement("a");
+
+                              fileLink.href = fileURL;
+                              fileLink.setAttribute(
+                                "download",
+                                material.Name +
+                                  "." +
+                                  mime.extension(response.data.type)
+                              );
+                              document.body.appendChild(fileLink);
+
+                              fileLink.click();
+                            }}
+                          />
+                        )}
+                    </Button>
                   </Tooltip>
-                  <Tooltip title="Delete"  placement="bottom"  >
-                  <Button size="small">
-                    <DeleteIcon
-                      onClick={() => {
-                        get("/Doctor_Materials/delete", {
-                          params: { fileId: material.id }
-                        })
-                          .then(() => window.location.reload())
-                          .catch(err => console.error(err));
-                      }}
-                    />
-                  </Button>
+
+                  <Tooltip title="Delete" placement="bottom">
+                    <Button size="small">
+                      {material.type === "assignment" ? (
+                        <DeleteIcon
+                          onClick={() => {
+                            get("/assignment/delete", {
+                              params: { fileId: material.id },
+                            })
+                              .then(() => window.location.reload())
+                              .catch((err) => console.error(err));
+                          }}
+                        />
+                      ) : (
+                        <DeleteIcon
+                          onClick={() => {
+                            get("/Doctor_Materials/delete", {
+                              params: { fileId: material.id },
+                            })
+                              .then(() => window.location.reload())
+                              .catch((err) => console.error(err));
+                          }}
+                        />
+                      )}
+                    </Button>
                   </Tooltip>
                 </TableCell>
               )}
@@ -247,8 +304,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
     </TableContainer>
   );
 };
-// assignment/download
-// assignment/delete
+
 export default MaterialTable;
 /* 
 import React from 'react';

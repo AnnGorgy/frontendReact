@@ -30,8 +30,8 @@ const CreateFileForm = ({
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [date, setDate] = useState({
-    start: new Date("04/03/1010"),
-    end: new Date("04/03/1010")
+    start: new Date("01/01/2020"),
+    end: new Date("01/01/2020")
   });
 
   const onDropBlobs = blobs => {
@@ -46,7 +46,7 @@ const CreateFileForm = ({
     setName("");
     setDescription("");
     setBlobs([]);
-    setDate({ start: new Date("04/03/1010"), end: new Date("04/03/1010") });
+    setDate({ start: new Date("01/01/2020"), end: new Date("01/01/2020") });
     setGoodStartDate(false);
     setGoodEndDate(false);
   };
