@@ -17,7 +17,7 @@ import { SideBar } from "../components";
 const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents }) => {
   const listStudents = async () => {
     const StudentsUrl = `http://localhost:4375/api/Subject/GetStudentsEnrolledInSubject`;
-    const { data } = post(StudentsUrl, null, {
+    const { data } = await post(StudentsUrl, null, {
       params: {
         subjectId: 538,
         semesterId: 1,

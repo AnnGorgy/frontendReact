@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -21,164 +21,218 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Collapse from '@material-ui/core/Collapse';
+import Collapse from "@material-ui/core/Collapse";
 import Theimage from "./UniLogo.png";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Typography } from "@material-ui/core";
+import { display } from '@material-ui/system';
 
-const categories = [
-  {
-    className: "FCIS LMS",
-    children: [
-      {
-        id: "Home",
-        icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
-        route: "/materials"
-      },
-      {
-        id: "Profile",
-        icon: (
-          <img src="https://img.icons8.com/ios/50/000000/gender-neutral-user.png" />
-        ),
-        route: "/profile"
-      },
-      {
-        id: "Materials",
-        icon: <img src="https://img.icons8.com/ios/50/000000/courses.png" />,
-        route: "/materials",
-        children: [
-          {
-            id: "oop",
-            icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
-            route: "/materials"
-          },
-          {
-            id: "sw",
-            icon: <img src="https://img.icons8.com/metro/50/000000/home.png" />,
-            route: "/materials"
-          }
-        ]
-      },
-      {
-        id: "Students",
-        icon: <img src="https://img.icons8.com/dotty/50/000000/grades.png" />,
-        route: "/students"
-      },
-      {
-        id: "Help",
-        icon: (
-          <img src="https://img.icons8.com/carbon-copy/50/000000/question-mark.png" />
-        ),
-        route: "/materials"
-      },
-      {
-        id: "Sign Out",
-        icon: <img src="https://img.icons8.com/ios/50/000000/exit.png" />,
-        route: "/materials"
-      }
-    ]
-  }
-];
-
-const styles = theme => ({
-  categoryHeader: {
-    paddingTop: theme.spacing(0),
-    paddingBottom: theme.spacing(0),
-    backgroundColor: "#232f3e"
-  },
-  categoryHeaderPrimary: {
-    //color: theme.palette.common.white,
-  },
+const styles = (theme) => ({
   item: {
     backgroundColor: "#232f3e",
-    paddingTop: 6,
-    paddingBottom: 5,
-    color: "rgba(255, 255, 255, 0.7)"
+    paddingTop: 8.2,
+    paddingBottom: 8.2,
+    color: "rgba(255, 255, 255, 0.7)",
+    width: "260px",
   },
   itemCategory: {
     backgroundColor: "#232f3e",
     boxShadow: "0 -1px 0 #404854 inset",
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(4),
+  },
+  courseImage: {
+    width: "45px",
+    paddingLeft: "15px",
   },
   firebase: {
-    fontSize: 24
-    //color: theme.palette.common.white,
+    fontSize: 24,
+    height: "220px",
   },
   itemActiveItem: {
-    color: "#4fc3f7"
+    color: "#4fc3f7",
   },
   itemPrimary: {
-    fontSize: 20
+    fontSize: 26,
   },
   itemIcon: {
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
   },
-  divider: {
-    //  marginTop: theme.spacing(2),
-  }
+  nested: {
+    paddingLeft: theme.spacing(4),
+    backgroundColor: "#232f3e",
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: 20,
+  },
 });
 
-function Navigator(props) {
-  const { classes, history, ...other } = props;
-
+function Navigator({ classes, history }) {
+  const [openCourses, setOpenCourse] = useState(false);
+  useEffect(() => {
+    // lma hnzbot al login isa htzbot (y)
+  }, []);
   const navigate = (url = "./pages/MaterialsPage") => {
     history.push(url);
   };
 
-  /* useEffect(() => {
-    // List courses to a state
-  }, []) */
+  const categories = [
+    {
+      title: "Home",
+      Icon: (
+        <img
+          src="https://img.icons8.com/metro/55/000000/home.png"
+          alt="Home_LOGO"
+        />
+      ),
+      route: "/materials",
+    },
+    {
+      title: "Profile",
+      Icon: (
+        <img
+          src="https://img.icons8.com/ios/55/000000/gender-neutral-user.png"
+          alt="profile_LOGO"
+        />
+      ),
+      route: "/profile",
+    },
+    {
+      title: "Students",
+      Icon: (
+        <img
+          src="https://img.icons8.com/dotty/55/000000/grades.png"
+          alt="Students_LOGO"
+        />
+      ),
+      route: "/students",
+    },
+
+    {
+      title: "Courses",
+      Icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/55/000000/courses.png"
+          alt="Courses_LOGO"
+        />
+      ),
+      route: null,
+      children: [
+        {
+          title: "object oriented design patterns",
+          Icon: (
+            <img
+              src="https://img.icons8.com/wired/30/000000/book.png"
+              className={classes.courseImage}
+              alt="img"
+            />
+          ),
+        },
+        {
+          title: "Course 1",
+          Icon: (
+            <img
+              src="https://img.icons8.com/wired/30/000000/book.png"
+              className={classes.courseImage}
+              alt="img"
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "Contact Us",
+      Icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/000000/add-contact-to-company.png"
+          alt="ContactUs_LOGO"
+        />
+      ),
+      route: "/materials",
+    },
+    {
+      title: "Sign Out",
+      Icon: (
+        <img
+          src="https://img.icons8.com/ios/55/000000/exit.png"
+          alt="SignOut_LOGO"
+        />
+      ),
+      route: "/materials",
+    },
+  ];
 
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant="permanent">
       <List disablePadding>
         <ListItem
           className={clsx(classes.firebase, classes.item, classes.itemCategory)}
         >
-          <img src={Theimage} width="210" />
+          <img src={Theimage} alt="FCIS_LOGO" width="210" />
         </ListItem>
 
-        {categories.map(({ id, children }) => (
-          <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary
-                }}
-              >
-                {id}
-              </ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, active, route }) => (
+        {categories.map(({ Icon, children, title, active, route }, index) =>
+          children ? (
+            <React.Fragment>
               <ListItem
-                key={childId}
+                key={index}
                 button
-                onClick={() => navigate(route)}
+                onClick={() => setOpenCourse((prev) => !prev)}
                 className={clsx(classes.item, active && classes.itemActiveItem)}
               >
-                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
+                <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
                 <ListItemText
                   classes={{
-                    primary: classes.itemPrimary
+                    primary: classes.itemPrimary,
                   }}
-                >
-                  {childId}
-                </ListItemText>
+                  primary={title}
+                />
+                {openCourses ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-            ))}
-
-            {/* <Divider className={classes.divider} /> */}
-          </React.Fragment>
-        ))}
+              <Collapse in={openCourses} timeout="auto" unmountOnExit >
+                <List component="div" disablePadding  >
+                  {children.map(({ Icon: SubIcon, title }, index) => (
+                    <ListItem key={index} button className={classes.nested}>
+                      <ListItemIcon>{SubIcon}</ListItemIcon>
+                      <ListItemText
+                        classes={{
+                          primary: classes.itemPrimary,
+                        }}
+                        primary={title}
+                       
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          ) : (
+            <ListItem
+              key={index}
+              button
+              onClick={() => navigate(route)}
+              className={clsx(classes.item, active && classes.itemActiveItem)}
+            >
+              <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
+              <ListItemText
+                classes={{
+                  primary: classes.itemPrimary,
+                }}
+                primary={title}
+              />
+            </ListItem>
+          )
+        )}
       </List>
     </Drawer>
   );
 }
 
 Navigator.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(withRouter(Navigator));

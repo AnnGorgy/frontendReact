@@ -114,7 +114,7 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   return (
     <TableContainer
       component={Paper}
-      style={{ maxHeight: "90vh", overflowY: "auto", maxWidth: "174vh" }}
+      style={{ maxHeight: "90vh", overflowY: "auto", maxWidth: "170vh" , marginLeft: "28px"}}
     >
       <Table
         style={{
@@ -247,7 +247,8 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
     </TableContainer>
   );
 };
-
+// assignment/download
+// assignment/delete
 export default MaterialTable;
 /* 
 import React from 'react';
