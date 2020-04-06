@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { truncate } from "lodash";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import HomeIcon from "@material-ui/icons/Home";
-import PeopleIcon from "@material-ui/icons/People";
-import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
-import PermMediaOutlinedIcon from "@material-ui/icons/PhotoSizeSelectActual";
-import PublicIcon from "@material-ui/icons/Public";
-import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
-import SettingsInputComponentIcon from "@material-ui/icons/SettingsInputComponent";
-import TimerIcon from "@material-ui/icons/Timer";
-import SettingsIcon from "@material-ui/icons/Settings";
-import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
-import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Collapse from "@material-ui/core/Collapse";
 import Theimage from "./UniLogo.png";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { Typography } from "@material-ui/core";
-import { display } from '@material-ui/system';
+
+import { UserProfile } from "../";
 
 const styles = (theme) => ({
   item: {
@@ -64,21 +52,35 @@ const styles = (theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
-    backgroundColor: "#232f3e",
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 20,
   },
 });
 
 function Navigator({ classes, history }) {
-  const [openCourses, setOpenCourse] = useState(false);
-  useEffect(() => {
-    // lma hnzbot al login isa htzbot (y)
-  }, []);
-  const navigate = (url = "./pages/MaterialsPage") => {
-    history.push(url);
-  };
+  const [openCourses, setOpenCourse] = useState(false); 
+  const [openProfile, setOpenProfile] = useState(false);
+  const [subjects, setSubjects] = useState([]);
 
+  const isUserLoggedIn = () => {
+    if (localStorage.getItem("subjects") === null) {
+      history.push("/login");
+      return false;
+    }
+    return true;
+  };
+  
+  useEffect(() => {
+    if(isUserLoggedIn()) {
+      setSubjects(JSON.parse(localStorage.getItem("subjects")));
+    }
+  }, []);
+
+  const CourseIcon = (
+    <img
+      src="https://img.icons8.com/wired/30/000000/book.png"
+      className={classes.courseImage}
+      alt="img"
+    />
+  );
   const categories = [
     {
       title: "Home",
@@ -88,7 +90,7 @@ function Navigator({ classes, history }) {
           alt="Home_LOGO"
         />
       ),
-      route: "/materials",
+      onClick: () => history.push("/home"),
     },
     {
       title: "Profile",
@@ -98,7 +100,7 @@ function Navigator({ classes, history }) {
           alt="profile_LOGO"
         />
       ),
-      route: "/profile",
+      onClick: () => setOpenProfile(true),
     },
     {
       title: "Students",
@@ -108,7 +110,7 @@ function Navigator({ classes, history }) {
           alt="Students_LOGO"
         />
       ),
-      route: "/students",
+      onClick: () => history.push("/students"),
     },
 
     {
@@ -119,29 +121,8 @@ function Navigator({ classes, history }) {
           alt="Courses_LOGO"
         />
       ),
-      route: null,
-      children: [
-        {
-          title: "object oriented design patterns",
-          Icon: (
-            <img
-              src="https://img.icons8.com/wired/30/000000/book.png"
-              className={classes.courseImage}
-              alt="img"
-            />
-          ),
-        },
-        {
-          title: "Course 1",
-          Icon: (
-            <img
-              src="https://img.icons8.com/wired/30/000000/book.png"
-              className={classes.courseImage}
-              alt="img"
-            />
-          ),
-        },
-      ],
+      onClick: null,
+      children: subjects,
     },
     {
       title: "Contact Us",
@@ -151,7 +132,7 @@ function Navigator({ classes, history }) {
           alt="ContactUs_LOGO"
         />
       ),
-      route: "/materials",
+      onClick: () => history.push("/materials"),
     },
     {
       title: "Sign Out",
@@ -161,26 +142,80 @@ function Navigator({ classes, history }) {
           alt="SignOut_LOGO"
         />
       ),
-      route: "/materials",
+      onClick: () => history.push("/materials"),
     },
   ];
 
   return (
-    <Drawer variant="permanent">
-      <List disablePadding>
-        <ListItem
-          className={clsx(classes.firebase, classes.item, classes.itemCategory)}
-        >
-          <img src={Theimage} alt="FCIS_LOGO" width="210" />
-        </ListItem>
+    <React.Fragment>
+      <UserProfile
+        isOpened={openProfile}
+        onClose={() => setOpenProfile(false)}
+      />
+      <Drawer variant="permanent">
+        <List disablePadding>
+          <ListItem
+            className={clsx(
+              classes.firebase,
+              classes.item,
+              classes.itemCategory
+            )}
+          >
+            <img src={Theimage} alt="FCIS_LOGO" width="210" />
+          </ListItem>
 
-        {categories.map(({ Icon, children, title, active, route }, index) =>
-          children ? (
-            <React.Fragment>
+          {categories.map(({ Icon, children, title, active, onClick }, index) =>
+            children ? (
+              <React.Fragment>
+                <ListItem
+                  key={index}
+                  button
+                  onClick={() => setOpenCourse((prev) => !prev)}
+                  className={clsx(
+                    classes.item,
+                    active && classes.itemActiveItem
+                  )}
+                >
+                  <ListItemIcon className={classes.itemIcon}>
+                    {Icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{
+                      primary: classes.itemPrimary,
+                    }}
+                    primary={truncate(title, { length: 20 })}
+                  />
+                  {openCourses ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={openCourses} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {children.map(({ Subjectname, $id }) => (
+                      <ListItem
+                        key={$id}
+                        button
+                        className={clsx(
+                          classes.item,
+                          classes.nested,
+                          active && classes.itemActiveItem
+                        )}
+                      >
+                        <ListItemIcon>{CourseIcon}</ListItemIcon>
+                        <ListItemText
+                          classes={{
+                            primary: classes.itemPrimary,
+                          }}
+                          primary={truncate(Subjectname, { length: 20 })}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            ) : (
               <ListItem
                 key={index}
                 button
-                onClick={() => setOpenCourse((prev) => !prev)}
+                onClick={onClick}
                 className={clsx(classes.item, active && classes.itemActiveItem)}
               >
                 <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
@@ -188,46 +223,14 @@ function Navigator({ classes, history }) {
                   classes={{
                     primary: classes.itemPrimary,
                   }}
-                  primary={title}
+                  primary={truncate(title, { length: 20 })}
                 />
-                {openCourses ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-              <Collapse in={openCourses} timeout="auto" unmountOnExit >
-                <List component="div" disablePadding  >
-                  {children.map(({ Icon: SubIcon, title }, index) => (
-                    <ListItem key={index} button className={classes.nested}>
-                      <ListItemIcon>{SubIcon}</ListItemIcon>
-                      <ListItemText
-                        classes={{
-                          primary: classes.itemPrimary,
-                        }}
-                        primary={title}
-                       
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </React.Fragment>
-          ) : (
-            <ListItem
-              key={index}
-              button
-              onClick={() => navigate(route)}
-              className={clsx(classes.item, active && classes.itemActiveItem)}
-            >
-              <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
-              <ListItemText
-                classes={{
-                  primary: classes.itemPrimary,
-                }}
-                primary={title}
-              />
-            </ListItem>
-          )
-        )}
-      </List>
-    </Drawer>
+            )
+          )}
+        </List>
+      </Drawer>
+    </React.Fragment>
   );
 }
 

@@ -24,7 +24,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents }) => {
         currentYear: "2019-2020",
       },
     });
-    console.log(data);
+    setAllStudents(data);
   };
 
   const [allStudents, setAllStudents] = useState();
@@ -38,6 +38,14 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents }) => {
     // }
   }, [reloadStudents]);
 
+  useEffect(() => {
+    if (allStudents) {
+      setDisplayedStudents([
+        ...allStudents
+      ]);
+    }
+  }, [ allStudents]);
+
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       <Grid item xs={2}>
@@ -45,12 +53,13 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents }) => {
       </Grid>
       <Grid item xs={10}>
         <TableContainer
-          component={Paper}
-          style={{
-            maxHeight: "90vh",
-            overflowY: "auto",
-            maxWidth: "174vh",
-            marginTop: "30px",
+           component={Paper}
+           style={{
+             maxHeight: "90vh",
+             overflowY: "auto",
+             maxWidth: "170vh",
+             marginLeft: "28px",
+             marginTop: "20px"
           }}
         >
           <Table

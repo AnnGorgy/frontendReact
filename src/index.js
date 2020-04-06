@@ -12,7 +12,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 
 import { App } from "./components";
-import { NotFoundPage } from "./pages";
+import { Home } from "./pages";
 import{LoginPage} from "./pages";
 import{MaterialsPage} from "./pages";
 import theme from "./assets/theme";
@@ -25,7 +25,7 @@ let AppWrapper = props => {
       <Switch>
       <Route path="/materials" component={MaterialsPage} />
       <Route path="/login" component={LoginPage} />
-        <Route path="/not-found" component={NotFoundPage} />
+        <Route path="/home" component={Home} />
         <Route path="/" component={App} />
       </Switch>
     </React.Fragment>

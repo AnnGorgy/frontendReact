@@ -2,12 +2,11 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 
 import {
-  NotFoundPage,
+  Home,
   MaterialsPage,
   AssignmentPage,
   LoginPage,
   StudentsInSubjectPage,
-  DoctorProfilePage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -16,9 +15,8 @@ const App = ({ match }) => {
       <Route exact path={"/materials"} component={MaterialsPage} />
       <Route exact path={"/assignments"} component={AssignmentPage} />
       <Route exact path={"/students"} component={StudentsInSubjectPage} />
-      <Route exact path={"/login"} component={LoginPage} />
-      <Route exact path={"/profile"} component={DoctorProfilePage} />
-      <Route component={NotFoundPage} />
+      <Route exact path={"/"} component={LoginPage} />
+      <Route exact path = {"home"}component={Home} />
     </Switch>
   );
 };
