@@ -19,8 +19,8 @@ import { UserProfile } from "../";
 const styles = (theme) => ({
   item: {
     backgroundColor: "#232f3e",
-    paddingTop: 8.2,
-    paddingBottom: 8.2,
+    paddingTop: 17.3,
+    paddingBottom: 17.3,
     color: "rgba(255, 255, 255, 0.7)",
     width: "260px",
   },
@@ -51,7 +51,7 @@ const styles = (theme) => ({
     paddingLeft: theme.spacing(2),
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(3),
   },
 });
 
@@ -110,7 +110,7 @@ function Navigator({ classes, history, match }) {
       needCourse: true,
       Icon: (
         <img
-          src="https://img.icons8.com/dotty/55/000000/grades.png"
+          src="https://img.icons8.com/wired/55/000000/students.png"
           alt="Students_LOGO"
         />
       ),
@@ -125,7 +125,7 @@ function Navigator({ classes, history, match }) {
       needCourse: true,
       Icon: (
         <img
-          src="https://img.icons8.com/dotty/55/000000/grades.png"
+          src="https://img.icons8.com/pastel-glyph/55/000000/saving-book.png"
           alt="MATERIALS_LOGO"
         />
       ),
@@ -150,7 +150,7 @@ function Navigator({ classes, history, match }) {
       title: "Contact Us",
       Icon: (
         <img
-          src="https://img.icons8.com/ios-filled/50/000000/add-contact-to-company.png"
+          src="https://img.icons8.com/ios-filled/55/000000/add-contact-to-company.png"
           alt="ContactUs_LOGO"
         />
       ),
