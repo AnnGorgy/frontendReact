@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { TableHeader, MaterialTable, SideBar } from "../components";
 import { Grid } from "@material-ui/core";
 
-const MaterialsPage = ({ match }) => {
+const MaterialsPage = () => {
   const [crumbs, setCrumbs] = useState([]);
   const [reloadMaterials, setReloadMaterials] = useState(true);
 
@@ -32,7 +32,6 @@ const MaterialsPage = ({ match }) => {
           </Grid>
           <Grid item>
             <MaterialTable
-              courseId={match.params.courseId}
               setCrumbs={setCrumbs}
               reloadMaterials={reloadMaterials}
               setReloadMaterials={setReloadMaterials}

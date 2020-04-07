@@ -7,7 +7,6 @@ import {
   AssignmentPage,
   LoginPage,
   StudentsInSubjectPage,
-  CoursePage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -21,7 +20,6 @@ const App = ({ match }) => {
       */}
       <Route exact path={"/courses/:courseId/materials"} component={MaterialsPage} />
       <Route exact path={"/courses/:courseId/students"} component={StudentsInSubjectPage} />
-      <Route exact path={"/courses/:courseId"} component={CoursePage} />
       <Route exact path={"/assignments"} component={AssignmentPage} />
       <Route exact path={"/"} component={LoginPage} />
       <Route exact path = {"home"}component={Home} />

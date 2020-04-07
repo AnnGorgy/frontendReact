@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Grid, Typography, Button, withStyles } from "@material-ui/core";
 import { SideBar } from "../components";
-import Header from "./Images/header.jpg";
+import Header from "./Images/HomeBackground.jpg";
 
 const Home = ({ history, classes }) => {
   return (
@@ -12,9 +12,12 @@ const Home = ({ history, classes }) => {
     <Grid >
       <SideBar/>
     </Grid>
-   {/*  <Grid>
-      <img src= {Header} alt={"Header"} classes={classes.headerr} />
-    </Grid> */}
+    
+    <div style={{   backgroundImage: `url(${Header})`, backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center left",
+    height:"750px"}}></div>
+   
     </Grid>
   );
 };
@@ -25,9 +28,6 @@ const styles = () => ({
   },
   container: {
     flexWrap: "nowrap",
-  },
-  headerr:{
-    marginleft:"100px"
   }
 });
 

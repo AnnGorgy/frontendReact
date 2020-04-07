@@ -170,7 +170,6 @@ function Navigator({ classes, history, match }) {
 
   return (
     <React.Fragment>
-      {console.log(match)}
       <UserProfile
         isOpened={openProfile}
         onClose={() => setOpenProfile(false)}
@@ -220,7 +219,7 @@ function Navigator({ classes, history, match }) {
                         <ListItem
                           key={$id}
                           button
-                          onClick={() => history.push(`/courses/${$id}`)}
+                          onClick={() => history.push(`/courses/${$id}/materials`)}
                           className={clsx(
                             classes.item,
                             classes.nested,
