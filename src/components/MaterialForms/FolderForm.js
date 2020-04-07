@@ -71,22 +71,22 @@ const CreateFolderForm = ({
                       label="Name"
                       fullWidth
                       value={name}
-                      onChange={e => {
+                      onChange={(e) => {
                         setName(e.target.value);
                       }}
                       variant="outlined"
                       classes={{
-                        root: classes.textFieldRoot
+                        root: classes.textFieldRoot,
                       }}
                       InputProps={{
                         classes: {
-                          notchedOutline: classes.notchedOutline
-                        }
+                          notchedOutline: classes.notchedOutline,
+                        },
                       }}
                       InputLabelProps={{
                         classes: {
-                          root: classes.label
-                        }
+                          root: classes.label,
+                        },
                       }}
                     />
                   </Grid>
@@ -99,22 +99,22 @@ const CreateFolderForm = ({
                         label="URL"
                         fullWidth
                         value={link}
-                        onChange={e => {
+                        onChange={(e) => {
                           setLink(e.target.value);
                         }}
                         variant="outlined"
                         classes={{
-                          root: classes.textFieldRoot
+                          root: classes.textFieldRoot,
                         }}
                         InputProps={{
                           classes: {
-                            notchedOutline: classes.notchedOutline
-                          }
+                            notchedOutline: classes.notchedOutline,
+                          },
                         }}
                         InputLabelProps={{
                           classes: {
-                            root: classes.label
-                          }
+                            root: classes.label,
+                          },
                         }}
                       />
                     </Grid>
@@ -127,22 +127,22 @@ const CreateFolderForm = ({
                         multiline
                         rows={3}
                         value={description}
-                        onChange={e => {
+                        onChange={(e) => {
                           setDescription(e.target.value);
                         }}
                         variant="outlined"
                         classes={{
-                          root: classes.textFieldRoot
+                          root: classes.textFieldRoot,
                         }}
                         InputProps={{
                           classes: {
-                            notchedOutline: classes.notchedOutline
-                          }
+                            notchedOutline: classes.notchedOutline,
+                          },
                         }}
                         InputLabelProps={{
                           classes: {
-                            root: classes.label
-                          }
+                            root: classes.label,
+                          },
                         }}
                       />
                     </Grid>
@@ -153,7 +153,10 @@ const CreateFolderForm = ({
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
-                          onClick={resetStates}
+                          onClick={() => {
+                            resetStates();
+                            onClose();
+                          }}
                         >
                           <Typography
                             variant="h6"
@@ -174,7 +177,7 @@ const CreateFolderForm = ({
                             onSubmit({
                               name,
                               description,
-                              link
+                              link,
                             });
                           }}
                         >

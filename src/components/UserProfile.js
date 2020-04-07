@@ -18,38 +18,48 @@ const DoctorProfilePage = ({
   onClose,
   isOpened,
   title,
+  match,
   onSubmit,
   classes,
 }) => {
-  const [name, setName] = useState("");
+
+  const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
+  const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
+
+
+
+  const [name, setName] = useState(ViewingName);
   const [ID, setID] = useState("");
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
+  const [LoginEmail,setLoginEmail]= useState(JSON.parse(localStorage.getItem("Information")).Email)
+
 
   const resetStates = () => {
     setEmail(Email);
     setOfficeHours(OfficeHours);
   };
   const ViewData = async ({ callback }) => {
-    const url = "Office_Hours/Get_Instructor_data";
+    const url = "/Office_Hours/Get_Instructor_data";
     try {
       // noh .. bosy el post el syntax bta3ha (url, body, options)
       // body da request body lma bnegy nb3t data fl body bnst5dmo zy el form data kda..
       // options momkn nb3t feha params: {}
       // fa lazm tb2a 3rd parameter fl post
       const { data } = await post(url, null, {
-        params: {
-          Doc_id: 1,
+        params: { 
+          Doc_id: JSON.parse(localStorage.getItem("Information")).AccoutID, 
         },
       });
       if (callback) callback();
       setEmail(data[0].email);
       setID(data[0].id);
       setOfficeHours(data[0].office);
+      setName(JSON.parse(localStorage.getItem("Information")).NameEN) 
+      setLoginEmail(JSON.parse(localStorage.getItem("Information")).Email)
     } catch (err) {
       console.error(err);
-      // bs kda tmam .. nzbt el design b2a w kda tb nt2kd ano 48al al 2wal ahm ? tmam
     }
   };
 
@@ -98,14 +108,21 @@ const DoctorProfilePage = ({
                   justify="center"
                   spacing={3}
                 >
-                  {/*  <Grid item>
+                  <Grid item>
+                    <typography>
+                     Name : {name}
+                    </typography>
+                  </Grid>
+
+                  <Grid item>
+                    <typography>
+                      Email : {LoginEmail}
+                    </typography>
+                  </Grid>
+                   {/*  <Grid item>
                     <TextField
                       label="Name"
-                      fullWidth
                       value={name}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -121,7 +138,7 @@ const DoctorProfilePage = ({
                         },
                       }}
                     />
-                  </Grid> */}
+                  </Grid>   */}
 
                   <Grid item>
                     {/* FIXME: Add validation for URL creation to add http at
@@ -152,12 +169,10 @@ const DoctorProfilePage = ({
                     />
                     {/*tyb hna add  */}
                     <Tooltip title="ADD" placement="bottom">
-                      <Button
-                       disabled={Email}
-                      >
+                      <Button>
                         <AddCircleIcon
                           onClick={() => { 
-                            post("Office_Hours/Add_email", {
+                            post("/Office_Hours/Add_email", {
                               params: { id: ID, email: Email },
                             })
                               .then(() => setReloadProfile(true))
@@ -175,7 +190,7 @@ const DoctorProfilePage = ({
                       >
                         <DeleteIcon
                           onClick={() => {
-                            get("Office_Hours/Delete_email", {
+                            get("/Office_Hours/Delete_email", {
                               params: { id: ID },
                             })
                          
@@ -192,7 +207,7 @@ const DoctorProfilePage = ({
                       <Button>
                         <EditIcon
                           onClick={() => {
-                            get("Office_Hours/Update_email", {
+                            get("/Office_Hours/Update_email", {
                               params: { id: ID, email: Email },
                             })
                               .then(() => setReloadProfile(true))
@@ -232,12 +247,10 @@ const DoctorProfilePage = ({
 
                     {/*tyb hna add  */}
                     <Tooltip title="ADD" placement="bottom">
-                      <Button
-                      disabled={OfficeHours}
-                      >
+                      <Button>
                         <AddCircleIcon
                           onClick={() => {
-                            post("Office_Hours/Add_OfficeHours", {
+                            post("/Office_Hours/Add_OfficeHours", {
                               params: { id: ID, OfficeHours: OfficeHours },
                             })
                               .then(() => setReloadProfile(true))
@@ -255,7 +268,7 @@ const DoctorProfilePage = ({
                       >
                         <DeleteIcon
                           onClick={() => {
-                            get("Office_Hours/Delete_OfficeHours", {
+                            get("/Office_Hours/Delete_OfficeHours", {
                               params: { id: ID },
                             })
                               .then(() => setOfficeHours(""),setReloadProfile(true))
@@ -271,7 +284,7 @@ const DoctorProfilePage = ({
                       <Button>
                         <EditIcon
                           onClick={() => {
-                            get("Office_Hours/Update_OfficeHours", {
+                            get("/Office_Hours/Update_OfficeHours", {
                               params: { id: ID, OfficeHours: OfficeHours },
                             })
                               .then(() => setReloadProfile(true))

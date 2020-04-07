@@ -6,24 +6,22 @@ import EmailIcon from "./Images/EmailIcon.png";
 import LMSImage from "./Images/LMS.png";
 import background from "./Images/background.jpg";
 import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
 
-
-
-import { post } from "axios";
+import { post, get } from "axios";
 import { Typography, OutlinedInput } from "@material-ui/core";
 
 const LoginPage = ({ history }) => {
-  const [email, setEmail] = useState("");
+  const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
 
   const login = async () => {
     try {
-      const url = "Login/validateUser";
+      const url = "/Login/validateUser";
       const body = {
-        Username: email,
+        Username: Email,
         Password: password,
       };
       const { data } = await post(url, body);
@@ -34,6 +32,22 @@ const LoginPage = ({ history }) => {
       console.error(err);
     }
   };
+
+  const UserInformation = async () => {
+    try {
+      const url = "/Login/getuserObject";
+      const { data } = await get(url, {
+        params: {
+          email: Email,
+        },
+      });
+
+      localStorage.setItem("Information", JSON.stringify(data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div
       style={{
@@ -130,7 +144,7 @@ const LoginPage = ({ history }) => {
                 E-mail="standard-basic"
                 label="E-mail"
                 type="email"
-                value={email}
+                value={Email}
                 onFocus={() => setError()}
                 onChange={(e) => setEmail(e.target.value)}
                 style={{
@@ -200,7 +214,10 @@ const LoginPage = ({ history }) => {
                 height: "45px",
                 fontSize: "20px",
               }}
-              onClick={() => login()}
+              onClick={() => {
+                login();
+                UserInformation();
+              }}
             >
               Login
             </Button>

@@ -23,7 +23,7 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
 const AssignmentTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
   const listAssignments = async () => {
-    const url = `assignment/GetFiles`;
+    const url = `/assignment/GetFiles`;
     const { data } = await post(url, null);
     setAllAssignments(data);
   };

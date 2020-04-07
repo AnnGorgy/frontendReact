@@ -1,13 +1,10 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
-import {
-  TableHeader,
-  MaterialTable,
-  SideBar, 
-} from "../components";
+import { TableHeader, MaterialTable, SideBar } from "../components";
 import { Grid } from "@material-ui/core";
 
-const MaterialsPage = () => {
+const MaterialsPage = ({ match }) => {
   const [crumbs, setCrumbs] = useState([]);
   const [reloadMaterials, setReloadMaterials] = useState(true);
 
@@ -29,12 +26,13 @@ const MaterialsPage = () => {
             <TableHeader
               crumbs={crumbs}
               uploadUrl="/Doctor_Materials/uploadFiles"
-              createUrl="Doctor_Materials/CreateFolder"
+              createUrl="/Doctor_Materials/CreateFolder"
               setReloadMaterials={setReloadMaterials}
             />
           </Grid>
           <Grid item>
             <MaterialTable
+              courseId={match.params.courseId}
               setCrumbs={setCrumbs}
               reloadMaterials={reloadMaterials}
               setReloadMaterials={setReloadMaterials}
@@ -45,5 +43,4 @@ const MaterialsPage = () => {
     </Grid>
   );
 };
-
-export default MaterialsPage;
+export default withRouter(MaterialsPage);

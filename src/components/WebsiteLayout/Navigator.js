@@ -55,8 +55,8 @@ const styles = (theme) => ({
   },
 });
 
-function Navigator({ classes, history }) {
-  const [openCourses, setOpenCourse] = useState(false); 
+function Navigator({ classes, history, match }) {
+  const [openCourses, setOpenCourse] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
 
@@ -67,9 +67,12 @@ function Navigator({ classes, history }) {
     }
     return true;
   };
-  
+
+  const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
+  const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
+
   useEffect(() => {
-    if(isUserLoggedIn()) {
+    if (isUserLoggedIn()) {
       setSubjects(JSON.parse(localStorage.getItem("subjects")));
     }
   }, []);
@@ -93,7 +96,7 @@ function Navigator({ classes, history }) {
       onClick: () => history.push("/home"),
     },
     {
-      title: "Profile",
+      title: ViewingName,
       Icon: (
         <img
           src="https://img.icons8.com/ios/55/000000/gender-neutral-user.png"
@@ -104,15 +107,34 @@ function Navigator({ classes, history }) {
     },
     {
       title: "Students",
+      needCourse: true,
       Icon: (
         <img
           src="https://img.icons8.com/dotty/55/000000/grades.png"
           alt="Students_LOGO"
         />
       ),
-      onClick: () => history.push("/students"),
+      onClick: () => {
+        const coursesUrl = match.url.split("/");
+        if (coursesUrl.length === 4) coursesUrl.pop();
+        history.push(`${coursesUrl.join("/")}/students`);
+      },
     },
-
+    {
+      title: "Materials",
+      needCourse: true,
+      Icon: (
+        <img
+          src="https://img.icons8.com/dotty/55/000000/grades.png"
+          alt="MATERIALS_LOGO"
+        />
+      ),
+      onClick: () => {
+        const coursesUrl = match.url.split("/");
+        if (coursesUrl.length === 4) coursesUrl.pop();
+        history.push(`${coursesUrl.join("/")}/materials`);
+      },
+    },
     {
       title: "Courses",
       Icon: (
@@ -148,6 +170,7 @@ function Navigator({ classes, history }) {
 
   return (
     <React.Fragment>
+      {console.log(match)}
       <UserProfile
         isOpened={openProfile}
         onClose={() => setOpenProfile(false)}
@@ -164,13 +187,63 @@ function Navigator({ classes, history }) {
             <img src={Theimage} alt="FCIS_LOGO" width="210" />
           </ListItem>
 
-          {categories.map(({ Icon, children, title, active, onClick }, index) =>
-            children ? (
-              <React.Fragment>
+          {categories
+            .filter((category) =>
+              category.needCourse ? Boolean(match.params.courseId) : true
+            )
+            .map(({ Icon, children, title, active, onClick }, index) =>
+              children ? (
+                <React.Fragment>
+                  <ListItem
+                    key={index}
+                    button
+                    onClick={() => setOpenCourse((prev) => !prev)}
+                    className={clsx(
+                      classes.item,
+                      active && classes.itemActiveItem
+                    )}
+                  >
+                    <ListItemIcon className={classes.itemIcon}>
+                      {Icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      classes={{
+                        primary: classes.itemPrimary,
+                      }}
+                      primary={truncate(title, { length: 20 })}
+                    />
+                    {openCourses ? <ExpandLess /> : <ExpandMore />}
+                  </ListItem>
+                  <Collapse in={openCourses} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      {children.map(({ Subjectname, $id }) => (
+                        <ListItem
+                          key={$id}
+                          button
+                          onClick={() => history.push(`/courses/${$id}`)}
+                          className={clsx(
+                            classes.item,
+                            classes.nested,
+                            active && classes.itemActiveItem
+                          )}
+                        >
+                          <ListItemIcon>{CourseIcon}</ListItemIcon>
+                          <ListItemText
+                            classes={{
+                              primary: classes.itemPrimary,
+                            }}
+                            primary={truncate(Subjectname, { length: 20 })}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                </React.Fragment>
+              ) : (
                 <ListItem
                   key={index}
                   button
-                  onClick={() => setOpenCourse((prev) => !prev)}
+                  onClick={onClick}
                   className={clsx(
                     classes.item,
                     active && classes.itemActiveItem
@@ -185,49 +258,9 @@ function Navigator({ classes, history }) {
                     }}
                     primary={truncate(title, { length: 20 })}
                   />
-                  {openCourses ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <Collapse in={openCourses} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    {children.map(({ Subjectname, $id }) => (
-                      <ListItem
-                        key={$id}
-                        button
-                        className={clsx(
-                          classes.item,
-                          classes.nested,
-                          active && classes.itemActiveItem
-                        )}
-                      >
-                        <ListItemIcon>{CourseIcon}</ListItemIcon>
-                        <ListItemText
-                          classes={{
-                            primary: classes.itemPrimary,
-                          }}
-                          primary={truncate(Subjectname, { length: 20 })}
-                        />
-                      </ListItem>
-                    ))}
-                  </List>
-                </Collapse>
-              </React.Fragment>
-            ) : (
-              <ListItem
-                key={index}
-                button
-                onClick={onClick}
-                className={clsx(classes.item, active && classes.itemActiveItem)}
-              >
-                <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary,
-                  }}
-                  primary={truncate(title, { length: 20 })}
-                />
-              </ListItem>
-            )
-          )}
+              )
+            )}
         </List>
       </Drawer>
     </React.Fragment>

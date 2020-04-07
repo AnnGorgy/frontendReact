@@ -14,12 +14,14 @@ import {
 } from "@material-ui/core";
 import { SideBar } from "../components";
 
-const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents }) => {
+const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => {
   const listStudents = async () => {
     const StudentsUrl = `http://localhost:4375/api/Subject/GetStudentsEnrolledInSubject`;
     const { data } = await post(StudentsUrl, null, {
       params: {
-        subjectId: 538,
+        subjectId: JSON.parse(localStorage.getItem("subjects")).find(
+          (subject) => subject.$id === match.params.courseId
+        ).ID,
         semesterId: 1,
         currentYear: "2019-2020",
       },

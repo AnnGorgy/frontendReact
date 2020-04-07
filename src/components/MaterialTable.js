@@ -27,19 +27,39 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
-const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
+const MaterialTable = ({
+  setCrumbs,
+  courseId,
+  reloadMaterials,
+  setReloadMaterials,
+}) => {
   const listMaterials = async () => {
-    const materialsUrl = `Doctor_Materials/GetFiles`;
+    const materialsUrl = `/Doctor_Materials/GetFiles`;
     const { data } = await post(materialsUrl, null, {
-      params: { sub_Id: 1 },
+      params: { sub_Id: courseId },
     });
+    if (data.length === 0) {
+      await createRootFolder();
+      window.location.reload();
+    }
     setAllMaterials(data);
   };
 
+  const createRootFolder = async () => {
+    //FIXME: This shouldn't be a function or endpoint, otherwise it should be handled in the backend
+    const url = "/Doctor_Materials/Create_First_Folder_Subject";
+    const folderName = JSON.parse(localStorage.getItem("subjects")).find(
+      (subject) => subject.$id === courseId
+    ).Subjectname;
+    await get(url, {
+      params: { sub_Id: courseId, Folder_Name: folderName },
+    });
+  };
+
   const listAssignments = async () => {
-    const assignmentsUrl = `assignment/GetFiles`;
+    const assignmentsUrl = `/assignment/GetFiles`;
     const { data } = await post(assignmentsUrl, null, {
-      params: { sub_Id: 1 },
+      params: { sub_Id: courseId },
     });
     setAllAssignments(
       data.map((assignment) => ({ ...assignment, type: "assignment" }))
@@ -75,6 +95,11 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
       setReloadMaterials(false);
     }
   }, [reloadMaterials]);
+
+  useEffect(() => {
+    listMaterials();
+    listAssignments();
+  }, [courseId]);
 
   useEffect(() => {
     if (allMaterials && currentFolderId === undefined) {
@@ -153,9 +178,13 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
                       Icon: FolderIcon,
                       onClick: () => {
                         setCurrentFolderId(material.id);
-                        setCrumbs((prevState) => [
-                          ...prevState.slice(0, prevState.length - 1),
-                        ]);
+                        setCrumbs((prevState) => {
+                          if (
+                            prevState[prevState.length - 1].id === material.id
+                          )
+                            return prevState;
+                          return [...prevState.slice(0, prevState.length - 1)];
+                        });
                       },
                     },
                   ]);
@@ -209,41 +238,11 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
                     <Button size="small">
                       {material.type !== "folder" &&
                         material.type !== "URL" &&
-                        material.type !==
-                          "assignment" &&(
-                            <DownloadIcon
-                              onClick={async () => {
-                                const response = await get(
-                                  "/Doctor_Materials/download",
-                                  {
-                                    params: { fileId: material.id },
-                                    responseType: "blob",
-                                  }
-                                );
-                                var fileURL = window.URL.createObjectURL(
-                                  new Blob([response.data])
-                                );
-                                var fileLink = document.createElement("a");
-
-                                fileLink.href = fileURL;
-                                fileLink.setAttribute(
-                                  "download",
-                                  material.Name +
-                                    "." +
-                                    mime.extension(response.data.type)
-                                );
-                                document.body.appendChild(fileLink);
-
-                                fileLink.click();
-                              }}
-                            />
-                          )}
-                      {material.type ===
-                        "assignment" &&(
+                        material.type !== "assignment" && (
                           <DownloadIcon
                             onClick={async () => {
                               const response = await get(
-                                "/assignment/download",
+                                "/Doctor_Materials/download",
                                 {
                                   params: { fileId: material.id },
                                   responseType: "blob",
@@ -267,6 +266,31 @@ const MaterialTable = ({ setCrumbs, reloadMaterials, setReloadMaterials }) => {
                             }}
                           />
                         )}
+                      {material.type === "assignment" && (
+                        <DownloadIcon
+                          onClick={async () => {
+                            const response = await get("/assignment/download", {
+                              params: { fileId: material.id },
+                              responseType: "blob",
+                            });
+                            var fileURL = window.URL.createObjectURL(
+                              new Blob([response.data])
+                            );
+                            var fileLink = document.createElement("a");
+
+                            fileLink.href = fileURL;
+                            fileLink.setAttribute(
+                              "download",
+                              material.Name +
+                                "." +
+                                mime.extension(response.data.type)
+                            );
+                            document.body.appendChild(fileLink);
+
+                            fileLink.click();
+                          }}
+                        />
+                      )}
                     </Button>
                   </Tooltip>
 

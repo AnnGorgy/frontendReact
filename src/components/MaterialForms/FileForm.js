@@ -94,22 +94,22 @@ const CreateFileForm = ({
                       label="Name"
                       fullWidth
                       value={name}
-                      onChange={e => {
+                      onChange={(e) => {
                         setName(e.target.value);
                       }}
                       variant="outlined"
                       classes={{
-                        root: classes.textFieldRoot
+                        root: classes.textFieldRoot,
                       }}
                       InputProps={{
                         classes: {
-                          notchedOutline: classes.notchedOutline
-                        }
+                          notchedOutline: classes.notchedOutline,
+                        },
                       }}
                       InputLabelProps={{
                         classes: {
-                          root: classes.label
-                        }
+                          root: classes.label,
+                        },
                       }}
                     />
                   </Grid>
@@ -120,22 +120,22 @@ const CreateFileForm = ({
                       multiline
                       rows={3}
                       value={description}
-                      onChange={e => {
+                      onChange={(e) => {
                         setDescription(e.target.value);
                       }}
                       variant="outlined"
                       classes={{
-                        root: classes.textFieldRoot
+                        root: classes.textFieldRoot,
                       }}
                       InputProps={{
                         classes: {
-                          notchedOutline: classes.notchedOutline
-                        }
+                          notchedOutline: classes.notchedOutline,
+                        },
                       }}
                       InputLabelProps={{
                         classes: {
-                          root: classes.label
-                        }
+                          root: classes.label,
+                        },
                       }}
                     />
                   </Grid>
@@ -158,10 +158,10 @@ const CreateFileForm = ({
                               label="Start Date"
                               inputVariant="standard"
                               value={date.start}
-                              onChange={date =>
-                                setDate(prev => ({ ...prev, start: date }))
+                              onChange={(date) =>
+                                setDate((prev) => ({ ...prev, start: date }))
                               }
-                              onError={bad => setGoodStartDate(!bad)}
+                              onError={(bad) => setGoodStartDate(!bad)}
                               format="MM/dd/yyyy"
                             />
                           </MuiPickersUtilsProvider>
@@ -173,10 +173,10 @@ const CreateFileForm = ({
                               autoOk
                               label="End Date"
                               value={date.end}
-                              onChange={date =>
-                                setDate(prev => ({ ...prev, end: date }))
+                              onChange={(date) =>
+                                setDate((prev) => ({ ...prev, end: date }))
                               }
-                              onError={bad => setGoodEndDate(!bad)}
+                              onError={(bad) => setGoodEndDate(!bad)}
                               format="MM/dd/yyyy"
                             />
                           </MuiPickersUtilsProvider>
@@ -190,7 +190,10 @@ const CreateFileForm = ({
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
-                          onClick={resetStates}
+                          onClick={() => {
+                            resetStates();
+                            onClose();
+                          }}
                         >
                           <Typography
                             variant="h6"
@@ -216,7 +219,7 @@ const CreateFileForm = ({
                               blobs: blobs[0],
                               name,
                               description,
-                              date
+                              date,
                             });
                           }}
                         >

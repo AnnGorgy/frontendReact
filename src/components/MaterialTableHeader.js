@@ -10,12 +10,14 @@ import {
 } from "./";
 
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import { withRouter } from "react-router-dom";
 
 const MaterialTableHeader = ({
   crumbs,
   classes,
   uploadUrl,
   createUrl,
+  match,
   setReloadMaterials
 }) => {
   const [fileIsOpen, setFileIsOpen] = useState(false);
@@ -61,10 +63,10 @@ const MaterialTableHeader = ({
       await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
-          sub_Id: 1,
+          sub_Id: match.params.courseId,
           Description: description,
-          File_Name: name
-        }
+          File_Name: name,
+        },
       });
       setReloadMaterials(true);
       if (callback) callback();
@@ -80,14 +82,14 @@ const MaterialTableHeader = ({
     date,
     callback
   }) => {
-    const url = "assignment/uploadFiles";
+    const url = "/assignment/uploadFiles";
     const formData = new FormData();
     formData.append("Document", file);
     try {
       await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
-          sub_Id: 1,
+          sub_Id: match.params.courseId,
           Description: description,
           File_Name: name,
           start: date.start,
@@ -102,14 +104,14 @@ const MaterialTableHeader = ({
   };
 
   const uploadVideo = async ({ file, name, description, callback }) => {
-    const url = "Doctor_Materials/uploadVideos";
+    const url = "/Doctor_Materials/uploadVideos";
     const formData = new FormData();
     formData.append("Document", file);
     try {
       await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
-          sub_Id: 1,
+          sub_Id: match.params.courseId,
           Video_Name: name,
           description: description
         }
@@ -128,7 +130,7 @@ const MaterialTableHeader = ({
       params: {
         Parent_ID: crumbs[crumbs.length - 1].id,
         Folder_Name: name,
-        sub_Id: 1
+        sub_Id: match.params.courseId
       }
     });
     setReloadMaterials(true);
@@ -136,12 +138,12 @@ const MaterialTableHeader = ({
   };
 
   const createLink = async ({ name, description, link, callback }) => {
-    const url = "Doctor_Materials/Add_URL";
+    const url = "/Doctor_Materials/Add_URL";
     await get(url, {
       params: {
         Parent_ID: crumbs[crumbs.length - 1].id,
         Name: name,
-        sub_Id: 1,
+        sub_Id: match.params.courseId,
         description: description,
         Url: link
       }
@@ -299,4 +301,4 @@ const styles = () => ({
   }
 });
 
-export default withStyles(styles)(MaterialTableHeader);
+export default withStyles(styles)(withRouter(MaterialTableHeader));
