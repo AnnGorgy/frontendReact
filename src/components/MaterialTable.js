@@ -3,6 +3,9 @@ import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
 import Tooltip from "@material-ui/core/Tooltip";
+import EditIcon from '@material-ui/icons/Edit';
+import TextField from '@material-ui/core/TextField';
+
 
 import {
   Table,
@@ -77,7 +80,7 @@ const MaterialTable = ({
     });
   };
   // ------------------------------------------------------------------------------------------------------
-  
+
   const listAssignments = async () => {
     setCurrentFolderId(undefined);
     const assignmentsUrl = `/assignment/GetFiles`;
@@ -102,6 +105,7 @@ const MaterialTable = ({
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
+  const [ChangedName, setChangedName] = useState();
   // -------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -188,19 +192,21 @@ const MaterialTable = ({
         aria-label="sticky table"
       >
         <TableHead>
-          <TableRow>
+          <TableRow >
             {/* he Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description */}
-            <TableCell>File Name</TableCell>
-            <TableCell align="right">Size</TableCell>
-            <TableCell align="right">Type</TableCell>
-            <TableCell align="right">Description</TableCell>
+            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }}>File Name</TableCell>
+            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Size</TableCell>
+            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Type</TableCell>
+            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Description</TableCell>
+            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">{}</TableCell>
 
           </TableRow>
         </TableHead>
 
-        <TableBody>
-          {displayedMaterials?.map((material, index, assignment) => (
+        <TableBody >
+          {displayedMaterials?.map((material, index) => (
             <TableRow
+            style ={ index % 2? { background : "#AFEEEE" }:{ background : "#87CEFA" }}
               // FIXME: any url not starting with http:// or https:// won't navigate
               key={index}
               onClick={() => {
@@ -241,10 +247,17 @@ const MaterialTable = ({
                 <Grid container spacing={1}>
                   <Grid item>{getIcon(material)}</Grid>
                   <Grid item>
-                    <Typography>{material.Name}</Typography>
+                    <Typography>
+                      {/* <TextField id="standard-bare" defaultValue={material.Name} margin="normal" onChange={(e) => {
+                        setChangedName(e.target.value)
+                      }} /> */}
+                      {material.Name}
+                    </Typography>
                   </Grid>
                 </Grid>
               </TableCell>
+
+
 
               {/* 
               [1] set the parent_Id folder to all the materials and assignmnets = the material ID
@@ -280,7 +293,21 @@ const MaterialTable = ({
 
               {material.type === "folder" ? (
                 /* We Don't Add Any Action To Folder Type */
-                <TableCell align="right">{}</TableCell>
+                <TableCell align="right">
+                  <Tooltip title="Edit" placement="bottom">
+                    <Button size="small">
+                      <EditIcon
+                        onClick={() => {
+                          get("/Doctor_Materials/Rename", {
+                            params: { fileId: material.id, name: ChangedName },
+                          })
+                            .then(() => window.location.reload())
+                            .catch((err) => console.error(err));
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                </TableCell>
               ) : (
                   /* Start & End Date Icon */
                   <TableCell align="right">
@@ -386,6 +413,32 @@ const MaterialTable = ({
                           )}
                       </Button>
                     </Tooltip>
+                    <Tooltip title="Edit" placement="bottom">
+                      <Button size="small">
+                        {material.type === "assignment" ? (
+                          <EditIcon
+                            onClick={() => {
+                              get("/assignment/Rename", {
+                                params: { fileId: material.id, name: ChangedName },
+                              })
+                                .then(() => window.location.reload())
+                                .catch((err) => console.error(err));
+                            }}
+                          />
+                        ) : (
+                            <EditIcon
+                              onClick={() => {
+                                get("/Doctor_Materials/Rename", {
+                                  params: { fileId: material.id, name: ChangedName },
+                                })
+                                  .then(() => window.location.reload())
+                                  .catch((err) => console.error(err));
+                              }}
+                            />
+                          )}
+                      </Button>
+                    </Tooltip>
+
                   </TableCell>
                 )}
             </TableRow>
