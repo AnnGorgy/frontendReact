@@ -10,12 +10,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import Theimage from "./UniLogo.png";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-
 import { UserProfile } from "../";
+// Images // 
+import Theimage from "./UniLogo.png";
 
+
+// Page Style // 
 const styles = (theme) => ({
   item: {
     backgroundColor: "#232f3e",
@@ -68,6 +70,7 @@ function Navigator({ classes, history, match }) {
     return true;
   };
 
+  // Set The First Letter Of The Users' Name To capial // 
   const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
   const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
 
@@ -77,6 +80,14 @@ function Navigator({ classes, history, match }) {
     }
   }, []);
 
+  
+  /* 
+  courseIcon: IT Contains the Image for the course and it's style .
+  Title : The name of the Buttom in the navigation bar "For The course".
+  img : 
+  1- src : the Image of the button in the navigation bar "For the Course".
+  2- alt : The name that will appear when the image does not exist .
+  */ 
   const CourseIcon = (
     <img
       src="https://img.icons8.com/wired/30/000000/book.png"
@@ -84,6 +95,14 @@ function Navigator({ classes, history, match }) {
       alt="img"
     />
   );
+
+  /* 
+  categories : IT Contains an array for the navigation bars' Name .
+  Title : The name of the Buttom in the navigation bar.
+  img : 
+  1- src : the Image of the button in the navigation bar.
+  2- alt : The name that will appear when the image does not exist .
+  */ 
   const categories = [
     {
       title: "Home",

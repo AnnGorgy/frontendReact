@@ -16,6 +16,8 @@ import {
 
 import { DragImport } from "../";
 
+
+/* The dialog that appear in materials Page for "Files-Assignemnets-videos" */
 const CreateFileForm = ({
   onClose,
   isOpened,
@@ -24,6 +26,8 @@ const CreateFileForm = ({
   hasDate,
   classes
 }) => {
+
+  // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [blobs, setBlobs] = useState([]);
@@ -33,7 +37,7 @@ const CreateFileForm = ({
     start: new Date("01/01/2020"),
     end: new Date("01/01/2020")
   });
-
+  // ---------------------------------------------------------------------------------------------------------
   const onDropBlobs = blobs => {
     setBlobs([...blobs]);
   };
@@ -42,6 +46,7 @@ const CreateFileForm = ({
     setBlobs([]);
   };
 
+  /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
   const resetStates = () => {
     setName("");
     setDescription("");
@@ -89,6 +94,7 @@ const CreateFileForm = ({
                   justify="center"
                   spacing={3}
                 >
+                  {/* Dialog Name */}
                   <Grid item>
                     <TextField
                       label="Name"
@@ -113,6 +119,8 @@ const CreateFileForm = ({
                       }}
                     />
                   </Grid>
+
+                  {/* Dialog Description */}
                   <Grid item>
                     <TextField
                       label={"Description"}
@@ -139,6 +147,8 @@ const CreateFileForm = ({
                       }}
                     />
                   </Grid>
+
+                  {/* Upload Button */}
                   <Grid item>
                     <DragImport
                       editable
@@ -147,6 +157,8 @@ const CreateFileForm = ({
                       onDeleteBlob={onDeleteBlob}
                     />
                   </Grid>
+
+                  {/*Start Date && End Date That will appear only when wew deal with Assignemnets Dialog */}
                   {hasDate && (
                     <Grid item>
                       <Grid container justify="space-between">
@@ -186,6 +198,8 @@ const CreateFileForm = ({
                   )}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
+
+                      {/* Dialog Cancel Button */}
                       <Grid item>
                         <Button
                           variant="outlined"
@@ -204,6 +218,8 @@ const CreateFileForm = ({
                           </Typography>
                         </Button>
                       </Grid>
+
+                      {/* Dialog Create Button */}
                       <Grid item>
                         <Button
                           variant="outlined"
@@ -227,8 +243,8 @@ const CreateFileForm = ({
                             variant="h6"
                             className={
                               blobs.length !== 1 ||
-                              name === "" ||
-                              (hasDate && (!goodStartDate || !goodEndDate))
+                                name === "" ||
+                                (hasDate && (!goodStartDate || !goodEndDate))
                                 ? classes.createText
                                 : classes.boldText
                             }
@@ -254,6 +270,7 @@ CreateFileForm.defaultProps = {
   isLink: false
 };
 
+/* Dialog styles */
 const styles = () => ({
   dialog: {
     padding: "10px 0px"

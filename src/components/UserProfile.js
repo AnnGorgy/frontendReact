@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
+
+//------------------------------------------------- Icons --------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
-
+//-----------------------------------------------------------------------------------------------------------
 import {
   Dialog,
   Typography,
@@ -23,18 +25,19 @@ const DoctorProfilePage = ({
   classes,
 }) => {
 
+    // Set The First Letter Of The Users' Name To capial // 
   const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
   const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
 
 
-
+// ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
   const [name, setName] = useState(ViewingName);
   const [ID, setID] = useState("");
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
   const [LoginEmail,setLoginEmail]= useState(JSON.parse(localStorage.getItem("Information")).Email)
-
+//----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
     setEmail(Email);
@@ -43,10 +46,7 @@ const DoctorProfilePage = ({
   const ViewData = async ({ callback }) => {
     const url = "/Office_Hours/Get_Instructor_data";
     try {
-      // noh .. bosy el post el syntax bta3ha (url, body, options)
-      // body da request body lma bnegy nb3t data fl body bnst5dmo zy el form data kda..
-      // options momkn nb3t feha params: {}
-      // fa lazm tb2a 3rd parameter fl post
+      // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: { 
           Doc_id: JSON.parse(localStorage.getItem("Information")).AccoutID, 
@@ -67,7 +67,7 @@ const DoctorProfilePage = ({
     if (reloadProfile) {
       ViewData({});
       setReloadProfile(false);
-    } //try now kda .. ok 
+    } 
   }, [reloadProfile]);
 
   return (
@@ -119,26 +119,6 @@ const DoctorProfilePage = ({
                       Email : {LoginEmail}
                     </typography>
                   </Grid>
-                   {/*  <Grid item>
-                    <TextField
-                      label="Name"
-                      value={name}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                    />
-                  </Grid>   */}
 
                   <Grid item>
                     {/* FIXME: Add validation for URL creation to add http at
@@ -167,7 +147,7 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-                    {/*tyb hna add  */}
+                    {/* Add E-mail  */}
                     <Tooltip title="ADD" placement="bottom">
                       <Button>
                         <AddCircleIcon
@@ -183,7 +163,7 @@ const DoctorProfilePage = ({
                       </Button>
                     </Tooltip>
 
-                    {/*tyb hna delete */}
+                    {/* Delete E-mail */}
                     <Tooltip title="Delete" placement="bottom">
                       <Button
                       disabled={!Email}
@@ -202,7 +182,7 @@ const DoctorProfilePage = ({
                       </Button>
                     </Tooltip>
 
-                    {/*tyb hna edit */}
+                    {/* Edit E-mail */}
                     <Tooltip title="Edit" placement="bottom">
                       <Button>
                         <EditIcon
@@ -245,7 +225,7 @@ const DoctorProfilePage = ({
                       style={{ width: "350px" }}
                     />
 
-                    {/*tyb hna add  */}
+                    {/* Add Office Hours */}
                     <Tooltip title="ADD" placement="bottom">
                       <Button>
                         <AddCircleIcon
@@ -261,7 +241,7 @@ const DoctorProfilePage = ({
                       </Button>
                     </Tooltip>
 
-                    {/*tyb hna delete */}
+                    {/* Delete Office Hours */}
                     <Tooltip title="Delete" placement="bottom">
                       <Button
                       disabled={!OfficeHours}
@@ -279,7 +259,7 @@ const DoctorProfilePage = ({
                       </Button>
                     </Tooltip>
 
-                    {/*tyb hna edit */}
+                    {/* Edit Office Hours */}
                     <Tooltip title="Edit" placement="bottom">
                       <Button>
                         <EditIcon
@@ -324,6 +304,7 @@ const DoctorProfilePage = ({
   );
 };
 
+// Dialog styles
 const styles = () => ({
   dialog: {
     padding: "10px 0px",

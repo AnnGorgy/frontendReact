@@ -16,15 +16,17 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+
+//------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
 import VideoIcon from "@material-ui/icons/Videocam";
 import LinkIcon from "@material-ui/icons/Link";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+//-----------------------------------------------------------------------------------------------------------
 
 const MaterialTable = ({
   setCrumbs,
@@ -34,6 +36,14 @@ const MaterialTable = ({
 }) => {
   const listMaterials = async () => {
     const materialsUrl = `/Doctor_Materials/GetFiles`;
+    /*  
+    post syntax (
+     url " materialsUrl (The local host that Get Materials In a specific subject) ",
+     body "no body cause this function use parametares", 
+     options "It takes (1) Parameter"
+     [1] sub_Id ... 
+     ) 
+    */
     const { data } = await post(materialsUrl, null, {
       params: { sub_Id: match.params.courseId },
     });
@@ -44,9 +54,21 @@ const MaterialTable = ({
     setAllMaterials(data);
   };
 
+  // -----------------------------------------------------------------------------------------------------
+  /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
+     So With IT To Add Root For This Subject So We Can Add On IT  */
   const createRootFolder = async () => {
     //FIXME: This shouldn't be a function or endpoint, otherwise it should be handled in the backend
     const url = "/Doctor_Materials/Create_First_Folder_Subject";
+    /*  
+    Get syntax (
+     url " url (The local host that We Use IT To Add Root To New Subject ) ",
+     body "no body cause this function use parametares", 
+     options "It takes (2) Parameter"
+     [1] sub_Id ... [2] Folder_Name ...
+     ) 
+     "folderName : We Add It From Subject LocalStorage To Set The Root To SubjectName"
+    */
     const folderName = JSON.parse(localStorage.getItem("subjects")).find(
       (subject) => subject.$id === match.params.courseId
     ).Subjectname;
@@ -54,10 +76,19 @@ const MaterialTable = ({
       params: { sub_Id: match.params.courseId, Folder_Name: folderName },
     });
   };
-
+  // ------------------------------------------------------------------------------------------------------
+  
   const listAssignments = async () => {
     setCurrentFolderId(undefined);
     const assignmentsUrl = `/assignment/GetFiles`;
+    /*  
+    post syntax (
+     url " assignmentsUrl (The local host that Get Assignments In a specific subject) ",
+     body "no body cause this function use parametares", 
+     options "It takes (1) Parameter"
+     [1] sub_Id ... 
+     ) 
+    */
     const { data } = await post(assignmentsUrl, null, {
       params: { sub_Id: match.params.courseId },
     });
@@ -66,11 +97,14 @@ const MaterialTable = ({
     );
   };
 
+  // ---------------------------- variables with it's states that we use it in this Page ------------------- 
   const [allMaterials, setAllMaterials] = useState();
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
+  // -------------------------------------------------------------------------------------------------------
 
+  // ------------------- Switch case to choose the icon that will put before every type --------------------
   const getIcon = (material) => {
     switch (material.type) {
       case "file":
@@ -87,6 +121,7 @@ const MaterialTable = ({
         break;
     }
   };
+  // -------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (reloadMaterials === true) {
@@ -149,18 +184,20 @@ const MaterialTable = ({
           minWidth: 650,
         }}
         size="small"
-        /*  aria-label="a dense table" */
         stickyHeader
         aria-label="sticky table"
       >
         <TableHead>
           <TableRow>
+            {/* he Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description */}
             <TableCell>File Name</TableCell>
             <TableCell align="right">Size</TableCell>
             <TableCell align="right">Type</TableCell>
             <TableCell align="right">Description</TableCell>
+
           </TableRow>
         </TableHead>
+
         <TableBody>
           {displayedMaterials?.map((material, index, assignment) => (
             <TableRow
@@ -190,6 +227,11 @@ const MaterialTable = ({
                 }
               }}
             >
+              {/* 
+              [1] Cell Name 
+              [2] Icons depend on the type of the material 
+              [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
+              */}
               <TableCell
                 component="a"
                 scope="row"
@@ -203,53 +245,101 @@ const MaterialTable = ({
                   </Grid>
                 </Grid>
               </TableCell>
+
+              {/* 
+              [1] set the parent_Id folder to all the materials and assignmnets = the material ID
+              [2] Size cell (by KB) 
+              */}
               <TableCell align="right">
                 {material.type === "folder"
                   ? `${
-                      allMaterials.filter(
-                        (current) => current.parent_ID === material.id
-                      ).length +
-                      allAssignments.filter(
-                        (current) => current.Parent_ID === material.id
-                      ).length
-                    } files`
+                  allMaterials.filter(
+                    (current) => current.parent_ID === material.id
+                  ).length +
+                  allAssignments.filter(
+                    (current) => current.Parent_ID === material.id
+                  ).length
+                  } files`
                   : `${Math.ceil(material.Size / 1024)} KB`}
               </TableCell>
+
+              {/* Material Type Cell */}
               <TableCell align="right">{material.type}</TableCell>
+
+              {/* Material Description Cell */}
               <TableCell align="right">{material.description}</TableCell>
+
+              {/*
+              [1] For the folder type we will not add any delete or download button
+              [2] For The Assignment Type We Add Shcedule Button To show The Start & End Date
+              [3] We Add Download Icon To All Types Expect URL ... But we add Condition For Assignment Type 
+                  Also Cause It's Have Another LocalHost To Downlaod The Assignments In It's Table 
+              [4] We Add Delete Icon To All Types ... But we add Condition For Assignment Type 
+                  Cause It's Have Another LocalHost To Delete The Assignments From It's Table  
+                  */}
+
               {material.type === "folder" ? (
+                /* We Don't Add Any Action To Folder Type */
                 <TableCell align="right">{}</TableCell>
               ) : (
-                <TableCell align="right">
-                  {material.type === "assignment" && (
-                    <Tooltip
-                      title={
-                        <div>
-                          Start Date : {material.startdate}
-                          <br /> End Date : {material.enddate}
-                        </div>
-                      }
-                      placement="bottom"
-                    >
+                  /* Start & End Date Icon */
+                  <TableCell align="right">
+                    {material.type === "assignment" && (
+                      <Tooltip
+                        title={
+                          <div>
+                            Start Date : {material.startdate}
+                            <br /> End Date : {material.enddate}
+                          </div>
+                        }
+                        placement="bottom"
+                      >
+                        <Button size="small">
+                          <ScheduleIcon />
+                        </Button>
+                      </Tooltip>
+                    )}
+                    {/* Download Icon Depends On It's Type */}
+                    <Tooltip title="Download" placement="bottom">
                       <Button size="small">
-                        <ScheduleIcon onClick={console.log("ay 7aga")} />
-                      </Button>
-                    </Tooltip>
-                  )}
-                  <Tooltip title="Download" placement="bottom">
-                    <Button size="small">
-                      {material.type !== "folder" &&
-                        material.type !== "URL" &&
-                        material.type !== "assignment" && (
+                        {material.type !== "folder" &&
+                          material.type !== "URL" &&
+                          material.type !== "assignment" && (
+                            <DownloadIcon
+                              onClick={async () => {
+                                const response = await get(
+                                  "/Doctor_Materials/download",
+                                  {
+                                    params: { fileId: material.id },
+                                    responseType: "blob",
+                                  }
+                                );
+                                var fileURL = window.URL.createObjectURL(
+                                  new Blob([response.data])
+                                );
+                                var fileLink = document.createElement("a");
+
+                                fileLink.href = fileURL;
+                                fileLink.setAttribute(
+                                  "download",
+                                  material.Name +
+                                  "." +
+                                  mime.extension(response.data.type)
+                                );
+                                document.body.appendChild(fileLink);
+
+                                fileLink.click();
+                              }}
+                            />
+                          )}
+                        {/* Download Icon  (Assignment Type -  Another Types) */}
+                        {material.type === "assignment" && (
                           <DownloadIcon
                             onClick={async () => {
-                              const response = await get(
-                                "/Doctor_Materials/download",
-                                {
-                                  params: { fileId: material.id },
-                                  responseType: "blob",
-                                }
-                              );
+                              const response = await get("/assignment/download", {
+                                params: { fileId: material.id },
+                                responseType: "blob",
+                              });
                               var fileURL = window.URL.createObjectURL(
                                 new Blob([response.data])
                               );
@@ -259,8 +349,8 @@ const MaterialTable = ({
                               fileLink.setAttribute(
                                 "download",
                                 material.Name +
-                                  "." +
-                                  mime.extension(response.data.type)
+                                "." +
+                                mime.extension(response.data.type)
                               );
                               document.body.appendChild(fileLink);
 
@@ -268,61 +358,36 @@ const MaterialTable = ({
                             }}
                           />
                         )}
-                      {material.type === "assignment" && (
-                        <DownloadIcon
-                          onClick={async () => {
-                            const response = await get("/assignment/download", {
-                              params: { fileId: material.id },
-                              responseType: "blob",
-                            });
-                            var fileURL = window.URL.createObjectURL(
-                              new Blob([response.data])
-                            );
-                            var fileLink = document.createElement("a");
+                      </Button>
+                    </Tooltip>
 
-                            fileLink.href = fileURL;
-                            fileLink.setAttribute(
-                              "download",
-                              material.Name +
-                                "." +
-                                mime.extension(response.data.type)
-                            );
-                            document.body.appendChild(fileLink);
-
-                            fileLink.click();
-                          }}
-                        />
-                      )}
-                    </Button>
-                  </Tooltip>
-
-                  <Tooltip title="Delete" placement="bottom">
-                    <Button size="small">
-                      {material.type === "assignment" ? (
-                        <DeleteIcon
-                          onClick={() => {
-                            get("/assignment/delete", {
-                              params: { fileId: material.id },
-                            })
-                              .then(() => window.location.reload())
-                              .catch((err) => console.error(err));
-                          }}
-                        />
-                      ) : (
-                        <DeleteIcon
-                          onClick={() => {
-                            get("/Doctor_Materials/delete", {
-                              params: { fileId: material.id },
-                            })
-                              .then(() => window.location.reload())
-                              .catch((err) => console.error(err));
-                          }}
-                        />
-                      )}
-                    </Button>
-                  </Tooltip>
-                </TableCell>
-              )}
+                    <Tooltip title="Delete" placement="bottom">
+                      <Button size="small">
+                        {material.type === "assignment" ? (
+                          <DeleteIcon
+                            onClick={() => {
+                              get("/assignment/delete", {
+                                params: { fileId: material.id },
+                              })
+                                .then(() => window.location.reload())
+                                .catch((err) => console.error(err));
+                            }}
+                          />
+                        ) : (
+                            <DeleteIcon
+                              onClick={() => {
+                                get("/Doctor_Materials/delete", {
+                                  params: { fileId: material.id },
+                                })
+                                  .then(() => window.location.reload())
+                                  .catch((err) => console.error(err));
+                              }}
+                            />
+                          )}
+                      </Button>
+                    </Tooltip>
+                  </TableCell>
+                )}
             </TableRow>
           ))}
         </TableBody>

@@ -5,14 +5,18 @@ import { TableHeader, MaterialTable, SideBar } from "../components";
 import { Grid } from "@material-ui/core";
 
 const MaterialsPage = () => {
+
+  // ---------------------------- variables with it's states that we use it in this Page ------------------- 
   const [crumbs, setCrumbs] = useState([]);
   const [reloadMaterials, setReloadMaterials] = useState(true);
-
+  //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
+      {/* Navigation bar */}
       <Grid item xs={2}>
         <SideBar />
       </Grid>
+      
       <Grid item xs={10}>
         <Grid
           container

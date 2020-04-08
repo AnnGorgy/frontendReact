@@ -4,7 +4,6 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import {
   Home,
   MaterialsPage,
-  AssignmentPage,
   LoginPage,
   StudentsInSubjectPage,
 } from "../pages";
@@ -20,7 +19,6 @@ const App = ({ match }) => {
       */}
       <Route exact path={"/courses/:courseId/materials"} component={MaterialsPage} />
       <Route exact path={"/courses/:courseId/students"} component={StudentsInSubjectPage} />
-      <Route exact path={"/assignments"} component={AssignmentPage} />
       <Route exact path={"/"} component={LoginPage} />
       <Route exact path = {"home"}component={Home} />
     </Switch>

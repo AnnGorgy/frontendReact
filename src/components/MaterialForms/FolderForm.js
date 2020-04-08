@@ -9,6 +9,7 @@ import {
   Button
 } from "@material-ui/core";
 
+/* The dialog that appear in materials Page for "Folders-URL" */
 const CreateFolderForm = ({
   onClose,
   isOpened,
@@ -17,10 +18,14 @@ const CreateFolderForm = ({
   isUrl,
   classes
 }) => {
+
+  // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-
+  // ---------------------------------------------------------------------------------------------------------
+  
+  /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
   const resetStates = () => {
     setName("");
     setDescription("");
@@ -66,6 +71,7 @@ const CreateFolderForm = ({
                   justify="center"
                   spacing={3}
                 >
+                  {/* Dialog Name */}
                   <Grid item>
                     <TextField
                       label="Name"
@@ -90,7 +96,8 @@ const CreateFolderForm = ({
                       }}
                     />
                   </Grid>
-
+                  
+                  {/* URL Field that we can add any URL but with a fixed start http:// */}
                   {isUrl && (
                     <Grid item>
                       {/* FIXME: Add validation for URL creation to add http at
@@ -119,6 +126,8 @@ const CreateFolderForm = ({
                       />
                     </Grid>
                   )}
+
+                  {/* Diaglog Description */}
                   {isUrl && (
                     <Grid item>
                       <TextField
@@ -147,6 +156,7 @@ const CreateFolderForm = ({
                       />
                     </Grid>
                   )}
+                  {/* Dialog Cancel Button */}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -167,6 +177,7 @@ const CreateFolderForm = ({
                           </Typography>
                         </Button>
                       </Grid>
+                      {/* Dialog Create Button */}
                       <Grid item>
                         <Button
                           variant="outlined"
