@@ -4,17 +4,17 @@ import { Breadcrumbs, Chip, withStyles, Box } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
-    backgroundColor: "#3a6364",
+    backgroundColor: "#315354",
     height: "30px",
     marginTop: "2px",
-    color: "#ffffff",
+    color: "black",
     fontWeight: "600",
     "&:hover, &:focus": {
-      backgroundColor: "#3a6364d1"
+      backgroundColor: "#ADFCFF"
     },
     "&:active": {
       boxShadow: theme.shadows[1],
-      backgroundColor: "#3a6364"
+      backgroundColor: "#315354"
     }
   }
 });
@@ -39,7 +39,7 @@ const BreadCrumbs = ({ crumbs }) => (
           icon={
             <Icon
               fontSize="small"
-              style={{ color: "#ffffff", marginLeft: "6px" }}
+              style={{ color: "black", marginLeft: "6px" }}
             />
           }
         />

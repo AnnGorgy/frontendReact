@@ -273,18 +273,18 @@ const styles = () => ({
   addButton: {
     borderRadius: "16px",
     width: "240px",
-    color: "white",
-    backgroundColor: "#3a6364",
+    color: "black",
+    backgroundColor: "#E0FFFF",
     "&:hover, &:focus": {
-      backgroundColor: "#3a6364d1",
-      color: "white"
+      backgroundColor: "#00CED1",
+      color: "black"
     }
   },
   addIcon: {
     marginTop: "4px"
   },
   buttonText: {
-    color: "white"
+    color: "black"
   },
   addButtonBody: {
     marginLeft: "4px",

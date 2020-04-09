@@ -13,28 +13,30 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { UserProfile } from "../";
-// Images // 
+// Images //
 import Theimage from "./UniLogo.png";
 
-
-// Page Style // 
+// Page Style //
 const styles = (theme) => ({
   item: {
-    backgroundColor: "#232f3e",
+    backgroundColor: "#4A7F80",
     paddingTop: 17.3,
     paddingBottom: 17.3,
+    paddingLeft: 0, 
     color: "rgba(255, 255, 255, 0.7)",
-    width: "260px",
+    width: "235px",
+    height: "101.5px",
   },
   itemCategory: {
-    backgroundColor: "#232f3e",
+    backgroundColor: "#4A7F80",
     boxShadow: "0 -1px 0 #404854 inset",
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
   courseImage: {
-    width: "45px",
-    paddingLeft: "15px",
+     width: "45px",
+     paddingLeft: "10px", 
+     paddingRight : "8px",
   },
   firebase: {
     fontSize: 24,
@@ -50,10 +52,12 @@ const styles = (theme) => ({
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
   },
   nested: {
-    paddingLeft: theme.spacing(3),
+    paddingLeft: theme.spacing(1.5), 
+    backgroundColor: "#4A7F80",
+    width: "235px",
   },
 });
 
@@ -70,9 +74,9 @@ function Navigator({ classes, history, match }) {
     return true;
   };
 
-  // Set The First Letter Of The Users' Name To capial // 
-  const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
-  const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
+  // Set The First Letter Of The Users' Name To capial //
+  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
+  const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
 
   useEffect(() => {
     if (isUserLoggedIn()) {
@@ -80,14 +84,14 @@ function Navigator({ classes, history, match }) {
     }
   }, []);
 
-  
   /* 
   courseIcon: IT Contains the Image for the course and it's style .
   Title : The name of the Buttom in the navigation bar "For The course".
   img : 
   1- src : the Image of the button in the navigation bar "For the Course".
   2- alt : The name that will appear when the image does not exist .
-  */ 
+  */
+
   const CourseIcon = (
     <img
       src="https://img.icons8.com/wired/30/000000/book.png"
@@ -102,7 +106,8 @@ function Navigator({ classes, history, match }) {
   img : 
   1- src : the Image of the button in the navigation bar.
   2- alt : The name that will appear when the image does not exist .
-  */ 
+  */
+
   const categories = [
     {
       title: "Home",
@@ -238,9 +243,10 @@ function Navigator({ classes, history, match }) {
                         <ListItem
                           key={$id}
                           button
-                          onClick={() => history.push(`/courses/${$id}/materials`)}
+                          onClick={() =>
+                            history.push(`/courses/${$id}/materials`)
+                          }
                           className={clsx(
-                            classes.item,
                             classes.nested,
                             active && classes.itemActiveItem
                           )}
@@ -250,7 +256,7 @@ function Navigator({ classes, history, match }) {
                             classes={{
                               primary: classes.itemPrimary,
                             }}
-                            primary={truncate(Subjectname, { length: 20 })}
+                            primary={truncate(Subjectname, { length: 25 })}
                           />
                         </ListItem>
                       ))}

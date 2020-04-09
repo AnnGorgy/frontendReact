@@ -206,7 +206,7 @@ const MaterialTable = ({
         <TableBody >
           {displayedMaterials?.map((material, index) => (
             <TableRow
-            style ={ index % 2? { background : "#AFEEEE" }:{ background : "#87CEFA" }}
+            style ={ index % 2? { background : "#ADFCFF"  }:{ background : "#FFBD94" }}
               // FIXME: any url not starting with http:// or https:// won't navigate
               key={index}
               onClick={() => {

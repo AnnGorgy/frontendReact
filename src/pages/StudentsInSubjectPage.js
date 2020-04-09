@@ -82,15 +82,15 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
             <TableHead>
               {/* he Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">ID</TableCell>
-                <TableCell align="right">E-Mail</TableCell>
+                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }}>Name</TableCell>
+                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="right">ID</TableCell>
+               <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="right">E-Mail</TableCell>
               </TableRow>
 
             </TableHead>
             <TableBody>
               {displayedStudents?.map((Student, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} style ={ index % 2? { background : "#ADFCFF" }:{ background : "#FFBD94" }}>
                   {/* Name cell */}
                   <TableCell>
                     <Grid container spacing={1}>
