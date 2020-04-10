@@ -26,6 +26,7 @@ const MaterialTableHeader = ({
   const [assignmentIsOpen, setAssignmentIsOpen] = useState(false);
   const [FolderIsOpen, setFolderIsOpen] = useState(false);
   const [createButtonReference, setCreateButtonReference] = useState();
+  const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
 
   const handlePopOverClick = eventName => {
     switch (eventName) {
@@ -232,35 +233,36 @@ const MaterialTableHeader = ({
           {crumbs?.length ? (
             <BreadCrumbs crumbs={crumbs} />
           ) : (
-            <React.Fragment />
-          )}
+              <React.Fragment />
+            )}
         </Grid>
-        <Grid item>
-          <Button
-            ref={createButtonReference}
-            onClick={event => {
-              setCreateButtonReference(event.currentTarget);
-            }}
-            className={classes.addButton}
-            size="small"
-          >
-            <Grid
-              container
-              spacing={1}
-              alignItems="center"
-              className={classes.addButtonBody}
+        {accountType == 2 && (
+          <Grid item>
+            <Button
+              ref={createButtonReference}
+              onClick={event => {
+                setCreateButtonReference(event.currentTarget);
+              }}
+              className={classes.addButton}
+              size="small"
             >
-              <Grid item>
-                <AddMaterialIcon className={classes.addIcon} />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.buttonText}>
-                  Add New Resourses
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                className={classes.addButtonBody}
+              >
+                <Grid item>
+                  <AddMaterialIcon className={classes.addIcon} />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.buttonText}>
+                    Add New Resourses
                 </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </Button>
-        </Grid>
+            </Button>
+          </Grid>)}
       </Grid>
     </React.Fragment>
   );
@@ -274,9 +276,9 @@ const styles = () => ({
     borderRadius: "16px",
     width: "240px",
     color: "black",
-    backgroundColor: "#E0FFFF",
+    backgroundColor:  "#7dbbb9",
     "&:hover, &:focus": {
-      backgroundColor: "#00CED1",
+      backgroundColor: "#CCE6E5",
       color: "black"
     }
   },

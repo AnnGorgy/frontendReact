@@ -15,28 +15,29 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { UserProfile } from "../";
 // Images //
 import Theimage from "./UniLogo.png";
-
+// mostafa20191701201@cis.asu.edu.eg // 
+// instructor@chpsis.cis.asu.edu.eg // 
 // Page Style //
 const styles = (theme) => ({
   item: {
-    backgroundColor: "#4A7F80",
+    backgroundColor: "#c5d7d9",
     paddingTop: 17.3,
     paddingBottom: 17.3,
-    paddingLeft: 0, 
+    paddingLeft: 0,
     color: "rgba(255, 255, 255, 0.7)",
     width: "235px",
     height: "101.5px",
   },
   itemCategory: {
-    backgroundColor: "#4A7F80",
+    backgroundColor: "#c5d7d9",
     boxShadow: "0 -1px 0 #404854 inset",
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
   courseImage: {
-     width: "45px",
-     paddingLeft: "10px", 
-     paddingRight : "8px",
+    width: "45px",
+    paddingLeft: "18px",
+    paddingRight: "8px",
   },
   firebase: {
     fontSize: 24,
@@ -55,8 +56,8 @@ const styles = (theme) => ({
     paddingLeft: theme.spacing(1),
   },
   nested: {
-    paddingLeft: theme.spacing(1.5), 
-    backgroundColor: "#4A7F80",
+    paddingLeft: theme.spacing(1.5),
+    backgroundColor: "#c5d7d9",
     width: "235px",
   },
 });
@@ -65,6 +66,7 @@ function Navigator({ classes, history, match }) {
   const [openCourses, setOpenCourse] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
+  const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
 
   const isUserLoggedIn = () => {
     if (localStorage.getItem("subjects") === null) {
@@ -155,7 +157,11 @@ function Navigator({ classes, history, match }) {
       ),
       onClick: () => {
         const coursesUrl = match.url.split("/");
-        if (coursesUrl.length === 4) coursesUrl.pop();
+
+        if (coursesUrl.length === 4 && accountType == 1) coursesUrl.pop();
+        history.push(`${coursesUrl.join("/")}/StudentMaterials`);
+
+        if (coursesUrl.length === 4 && accountType == 2) coursesUrl.pop();
         history.push(`${coursesUrl.join("/")}/materials`);
       },
     },
@@ -178,7 +184,7 @@ function Navigator({ classes, history, match }) {
           alt="ContactUs_LOGO"
         />
       ),
-      onClick: () => history.push("/materials"),
+      onClick: () => history.push("/ContactUs"),
     },
     {
       title: "Sign Out",
@@ -233,18 +239,24 @@ function Navigator({ classes, history, match }) {
                       classes={{
                         primary: classes.itemPrimary,
                       }}
+                  
                       primary={truncate(title, { length: 20 })}
                     />
                     {openCourses ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
                   <Collapse in={openCourses} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                      {children.map(({ Subjectname, $id }) => (
+                      {children.map(({ Subjectname, ID }) => (
                         <ListItem
-                          key={$id}
+                          key={ID}
                           button
-                          onClick={() =>
-                            history.push(`/courses/${$id}/materials`)
+                          onClick={() => {
+                            accountType == 2 ? (
+                              history.push(`/courses/${ID}/materials`)
+                            ) : (
+                              history.push(`/courses/${ID}/StudentMaterials`)
+                            )
+                          }
                           }
                           className={clsx(
                             classes.nested,
@@ -264,26 +276,26 @@ function Navigator({ classes, history, match }) {
                   </Collapse>
                 </React.Fragment>
               ) : (
-                <ListItem
-                  key={index}
-                  button
-                  onClick={onClick}
-                  className={clsx(
-                    classes.item,
-                    active && classes.itemActiveItem
-                  )}
-                >
-                  <ListItemIcon className={classes.itemIcon}>
-                    {Icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    classes={{
-                      primary: classes.itemPrimary,
-                    }}
-                    primary={truncate(title, { length: 20 })}
-                  />
-                </ListItem>
-              )
+                  <ListItem
+                    key={index}
+                    button
+                    onClick={onClick}
+                    className={clsx(
+                      classes.item,
+                      active && classes.itemActiveItem
+                    )}
+                  >
+                    <ListItemIcon className={classes.itemIcon}>
+                      {Icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      classes={{
+                        primary: classes.itemPrimary,
+                      }}
+                      primary={truncate(title, { length: 20 })}
+                    />
+                  </ListItem>
+                )
             )}
         </List>
       </Drawer>

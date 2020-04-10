@@ -29,7 +29,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
     const { data } = await post(StudentsUrl, null, {
       params: {
         subjectId: JSON.parse(localStorage.getItem("subjects")).find(
-          (subject) => subject.$id === match.params.courseId
+          (subject) => subject.ID == match.params.courseId
         ).ID,
         semesterId: 1,
         currentYear: "2019-2020",
@@ -90,7 +90,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
             </TableHead>
             <TableBody>
               {displayedStudents?.map((Student, index) => (
-                <TableRow key={index} style ={ index % 2? { background : "#ADFCFF" }:{ background : "#FFBD94" }}>
+                <TableRow key={index} style ={ index % 2? { background : "#E8FDFF" }:{ background : "#E8FDFF" }}>
                   {/* Name cell */}
                   <TableCell>
                     <Grid container spacing={1}>

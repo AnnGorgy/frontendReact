@@ -42,7 +42,6 @@ const LoginPage = ({ history }) => {
           email: Email,
         },
       });
-
       localStorage.setItem("Information", JSON.stringify(data));
     } catch (err) {
       console.error(err);

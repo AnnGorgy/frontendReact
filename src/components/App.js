@@ -6,6 +6,8 @@ import {
   MaterialsPage,
   LoginPage,
   StudentsInSubjectPage,
+  contactUs,
+  StudentMaterialPage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -19,7 +21,9 @@ const App = ({ match }) => {
       */}
       <Route exact path={"/courses/:courseId/materials"} component={MaterialsPage} />
       <Route exact path={"/courses/:courseId/students"} component={StudentsInSubjectPage} />
+      <Route exact path={"/courses/:courseId/StudentMaterials"} component={StudentMaterialPage} />
       <Route exact path={"/"} component={LoginPage} />
+      <Route exact path = {"/ContactUs"}component={contactUs} />
       <Route exact path = {"home"}component={Home} />
     </Switch>
   );

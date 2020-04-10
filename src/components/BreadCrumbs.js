@@ -2,19 +2,21 @@ import React from "react";
 
 import { Breadcrumbs, Chip, withStyles, Box } from "@material-ui/core";
 
+
+// Bread Crumbs styles
 const styles = theme => ({
   root: {
-    backgroundColor: "#315354",
+    backgroundColor: "#7dbbb9",
     height: "30px",
     marginTop: "2px",
     color: "black",
     fontWeight: "600",
     "&:hover, &:focus": {
-      backgroundColor: "#ADFCFF"
+      backgroundColor: "#CCE6E5"
     },
     "&:active": {
       boxShadow: theme.shadows[1],
-      backgroundColor: "#315354"
+      backgroundColor: "#CCE6E5"
     }
   }
 });

@@ -5,6 +5,7 @@ import mime from "mime-types";
 import Tooltip from "@material-ui/core/Tooltip";
 import EditIcon from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
+import RenameForm from "./RenameForm";
 
 
 import {
@@ -57,6 +58,17 @@ const MaterialTable = ({
     setAllMaterials(data);
   };
 
+
+  const RenameMaterial = async (material, ChangedName) => {
+    var url =
+      material.type === "assigment" ? "/assignment/Rename" : "/Doctor_Materials/Rename";
+    await get(url, null, {
+      params: { fileId: material.id, name: ChangedName },
+    });
+    setReloadMaterials(true);
+  };
+
+
   // -----------------------------------------------------------------------------------------------------
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
      So With IT To Add Root For This Subject So We Can Add On IT  */
@@ -73,7 +85,7 @@ const MaterialTable = ({
      "folderName : We Add It From Subject LocalStorage To Set The Root To SubjectName"
     */
     const folderName = JSON.parse(localStorage.getItem("subjects")).find(
-      (subject) => subject.$id === match.params.courseId
+      (subject) => subject.ID == match.params.courseId
     ).Subjectname;
     await get(url, {
       params: { sub_Id: match.params.courseId, Folder_Name: folderName },
@@ -106,6 +118,7 @@ const MaterialTable = ({
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
   const [ChangedName, setChangedName] = useState();
+  const [RenameIsOpen,setRenameIsOpen] = useState();
   // -------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -193,20 +206,19 @@ const MaterialTable = ({
       >
         <TableHead>
           <TableRow >
-            {/* he Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description */}
-            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }}>File Name</TableCell>
-            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Size</TableCell>
-            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Type</TableCell>
-            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">Description</TableCell>
-            <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"}} align="right">{}</TableCell>
-
+            {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
+            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }}>File Name</TableCell>
+            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Size</TableCell>
+            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Type</TableCell>
+            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Description</TableCell>
+            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">{}</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody >
           {displayedMaterials?.map((material, index) => (
             <TableRow
-            style ={ index % 2? { background : "#ADFCFF"  }:{ background : "#FFBD94" }}
+              style={index % 2 ? { background: "	#E8FDFF	" } : { background: "	#E8FDFF	" }}
               // FIXME: any url not starting with http:// or https:// won't navigate
               key={index}
               onClick={() => {
@@ -294,19 +306,27 @@ const MaterialTable = ({
               {material.type === "folder" ? (
                 /* We Don't Add Any Action To Folder Type */
                 <TableCell align="right">
-                  <Tooltip title="Edit" placement="bottom">
+                  {/* <Tooltip title="Edit" placement="bottom">
                     <Button size="small">
                       <EditIcon
                         onClick={() => {
-                          get("/Doctor_Materials/Rename", {
-                            params: { fileId: material.id, name: ChangedName },
-                          })
-                            .then(() => window.location.reload())
-                            .catch((err) => console.error(err));
+                          setRenameIsOpen = true ;
+                          <RenameForm
+                          isOpened={RenameIsOpen}
+                          onClose={() => setRenameIsOpen(false)}
+                          onSubmit={({ ChangedName, material }) =>
+                            RenameMaterial({
+                              ChangedName,
+                              material,
+                              callback: () => setRenameIsOpen(false)
+                            })
+                          }
+                        />
                         }}
                       />
                     </Button>
-                  </Tooltip>
+                  </Tooltip>  */}
+                  {}
                 </TableCell>
               ) : (
                   /* Start & End Date Icon */
