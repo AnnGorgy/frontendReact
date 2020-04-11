@@ -28,7 +28,7 @@ const StudentProfilePage = ({
 
   // Set The First Letter Of The Users' Name To capial // 
   const EnglishName = (JSON.parse(localStorage.getItem("Information")).NameEN);
-  const ViewingName = EnglishName.charAt(0).toUpperCase() + EnName.substring(1);
+  const ViewingName = EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1);
 
   // ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
   const EnName = (ViewingName);
@@ -163,7 +163,7 @@ const StudentProfilePage = ({
                       style={{ width: "350px" }}
                     /> </Grid>
                   <Grid item>
-                    {/* Dialog English Name */}
+                    {/*Dialog English Name */}
                     <TextField
                       label="Name in English"
                       multiline

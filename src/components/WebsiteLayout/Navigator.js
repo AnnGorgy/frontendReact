@@ -68,7 +68,6 @@ function Navigator({ classes, history, match }) {
   const [openStudentProfile, setopenStudentProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
-
   const isUserLoggedIn = () => {
     if (localStorage.getItem("subjects") === null) {
       history.push("/login");
@@ -238,6 +237,7 @@ function Navigator({ classes, history, match }) {
                       active && classes.itemActiveItem
                     )}
                   >
+                    
                     <ListItemIcon className={classes.itemIcon}>
                       {Icon}
                     </ListItemIcon>
