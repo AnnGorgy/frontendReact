@@ -25,31 +25,27 @@ const StudentProfilePage = ({
   classes,
 }) => {
 
-    // Set The First Letter Of The Users' Name To capial // 
-  const   EnName =(JSON.parse(localStorage.getItem("Information")).NameEN);
-  const ViewingName =EnName.charAt(0).toUpperCase()+EnName.substring(1);
-  const LoginEmail= (JSON.parse(localStorage.getItem("Information")).Email);
-  const Seatno= (JSON.parse(localStorage.getItem("Information")).SeatNo);
-  const ArName= (JSON.parse(localStorage.getItem("Information")).NameAR);
-  const semester= (JSON.parse(localStorage.getItem("Information")).Semester);
-  const AccountTypeName= "Student Account";
 
+  // Set The First Letter Of The Users' Name To capial // 
+  const EnglishName = (JSON.parse(localStorage.getItem("Information")).NameEN);
+  const ViewingName = EnglishName.charAt(0).toUpperCase() + EnName.substring(1);
 
-// ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
- 
-  
+  // ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
+  const EnName = (ViewingName);
+  const LoginEmail = (JSON.parse(localStorage.getItem("Information")).Email);
+  const Seatno = (JSON.parse(localStorage.getItem("Information")).SeatNo);
+  const ArName = (JSON.parse(localStorage.getItem("Information")).NameAR);
+  const semester = (JSON.parse(localStorage.getItem("Information")).Semester);
+  const AccountTypeName = "Student Account";
   const [reloadProfile, setReloadProfile] = useState(true);
-  
-//----------------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 
-
-  
 
   useEffect(() => {
     if (reloadProfile) {
-     
+
       setReloadProfile(false);
-    } 
+    }
   }, [reloadProfile]);
 
   return (
@@ -57,7 +53,7 @@ const StudentProfilePage = ({
       <Dialog
         onClose={() => {
           onClose();
-         
+
         }}
         open={isOpened}
         maxWidth="sm"
@@ -90,10 +86,9 @@ const StudentProfilePage = ({
                   justify="center"
                   spacing={3}
                 >
-                 
-                 <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+
+                  <Grid item>
+                    {/* Dialog Account Type */}
                     <TextField
                       label="Account Type"
                       multiline
@@ -116,11 +111,10 @@ const StudentProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-                
+
                   </Grid>
                   <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                    {/* Dialog Department */}
                     <TextField
                       label="Department"
                       multiline
@@ -142,11 +136,10 @@ const StudentProfilePage = ({
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" , color:"black" }}
+                      style={{ width: "350px", color: "black" }}
                     /> </Grid>
                   <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                    {/* Dialog Arabic Name */}
                     <TextField
                       label="Name in Arabic"
                       multiline
@@ -169,14 +162,13 @@ const StudentProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     /> </Grid>
-                    <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                  <Grid item>
+                    {/* Dialog English Name */}
                     <TextField
                       label="Name in English"
                       multiline
                       rows={1}
-                      value={ViewingName}
+                      value={EnName}
                       disabled="true"
                       variant="outlined"
                       classes={{
@@ -194,9 +186,8 @@ const StudentProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     /> </Grid>
-                    <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                  <Grid item>
+                    {/* Dialog E-mail */}
                     <TextField
                       label="Email"
                       multiline
@@ -218,11 +209,10 @@ const StudentProfilePage = ({
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" , color:"black" }}
+                      style={{ width: "350px", color: "black" }}
                     /> </Grid>
-                    <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                  <Grid item>
+                    {/* Dialog Seat Number */}
                     <TextField
                       label="Seat Number"
                       multiline
@@ -245,11 +235,10 @@ const StudentProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-                
+
                   </Grid>
                   <Grid item>
-                    {/* FIXME: Add validation for URL creation to add http at
-                      the begging of the link. */}
+                    {/* Dialog Semester */}
                     <TextField
                       label="Semester"
                       multiline
@@ -272,7 +261,7 @@ const StudentProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-                
+
                   </Grid>
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
@@ -308,9 +297,9 @@ const styles = theme => ({
   dialog: {
     padding: "10px 0px",
   },
-  multilineColor:{
-    color:'red'
-},
+  multilineColor: {
+    color: 'red'
+  },
   titleContainer: {
     marginBottom: "18px",
   },
