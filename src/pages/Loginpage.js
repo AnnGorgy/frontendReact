@@ -28,6 +28,7 @@ const LoginPage = ({ history }) => {
       const { data } = await post(url, body);
       localStorage.setItem("subjects", JSON.stringify(data));
       history.push("/home");
+      console.log(JSON.parse(localStorage.getItem("subjects")));
     } catch (err) {
       setError(`Your email and password don't match our records`);
       console.error(err);

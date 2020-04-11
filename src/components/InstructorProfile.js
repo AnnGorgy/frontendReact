@@ -37,6 +37,8 @@ const DoctorProfilePage = ({
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
   const [LoginEmail,setLoginEmail]= useState(JSON.parse(localStorage.getItem("Information")).Email)
+  const AccountTypeName= "Instructor Account";
+  const ArName= (JSON.parse(localStorage.getItem("Information")).NameAR);
 //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
@@ -108,25 +110,123 @@ const DoctorProfilePage = ({
                   justify="center"
                   spacing={3}
                 >
-                  <Grid item>
-                    <typography>
-                     Name : {name}
-                    </typography>
-                  </Grid>
 
                   <Grid item>
-                    <typography>
-                      Email : {LoginEmail}
-                    </typography>
+                    {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                    <TextField
+                      label="Account Type"
+                      multiline
+                      rows={1}
+                      value={AccountTypeName}
+                      disabled="true"
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{ width: "350px" }}
+                    />
+                
                   </Grid>
-
+                  <Grid item>
+                    {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                    <TextField
+                      label="Name"
+                      multiline
+                      rows={1}
+                      value={name}
+                      disabled="true"
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{ width: "350px" }}
+                    />
+                
+                  </Grid>
+                  <Grid item>
+                    {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                    <TextField
+                      label="Name in Arabic"
+                      multiline
+                      rows={1}
+                      value={ArName}
+                      disabled="true"
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{ width: "350px" }}
+                    />
+                
+                  </Grid>
                   <Grid item>
                     {/* FIXME: Add validation for URL creation to add http at
                       the begging of the link. */}
                     <TextField
                       label="E-mail"
                       multiline
-                      rows={2}
+                      rows={1}
+                      value={LoginEmail}
+                      disabled="true"
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{ width: "350px" }}
+                    />
+                
+                  </Grid>
+
+                  <Grid item>
+                    {/* FIXME: Add validation for URL creation to add http at
+                      the begging of the link. */}
+                    <TextField
+                      label="Additional E-mail"
+                      multiline
+                      rows={1}
                       value={Email}
                       onChange={(e) => {
                         setEmail(e.target.value);

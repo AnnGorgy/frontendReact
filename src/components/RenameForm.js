@@ -13,22 +13,27 @@ import {
 
 const RenameForm = ({
     onClose,
+    title,
+    CurrentName,
     isOpened,
-    match,
     onSubmit,
     classes,
 }) => {
 
     // ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
     const [ChangedName, setChangedName] = useState("");
-
-
+    const [RelodRename, setReloadRename] = useState(true);
     //----------------------------------------------------------------------------------------------------------
 
     const resetStates = () => {
         setChangedName("");
     };
 
+    useEffect(() => {
+        if (RelodRename) {
+            setReloadRename(false);
+        }
+    }, [RelodRename]);
 
     return (
         isOpened && (
@@ -55,8 +60,8 @@ const RenameForm = ({
                             className={classes.boldText}
                             align="center"
                         >
-                            Rename
-            </Typography>
+                            {title}
+                        </Typography>
                     </Grid>
                     <Grid item>
                         <Grid container justify="space-around">
@@ -70,10 +75,9 @@ const RenameForm = ({
                                 >
                                     <Grid item>
                                         <TextField
-                                            label="Another Name"
-                                            multiline
+                                            label="Another Name :"
                                             rows={2}
-                                            value={ChangedName}
+                                            defaultValue = {CurrentName}        
                                             onChange={(e) => {
                                                 setChangedName(e.target.value);
                                             }}
@@ -101,7 +105,10 @@ const RenameForm = ({
                                                 <Button
                                                     variant="outlined"
                                                     className={classes.cancelButton}
-                                                    onClick={onClose}
+                                                    onClick={() => {
+                                                        onClose();
+                                                        resetStates();
+                                                      }}
                                                 >
                                                     <Typography
                                                         variant="h6"
@@ -115,11 +122,13 @@ const RenameForm = ({
                                         </Grid>
                                     </Grid>
                                     <Grid item>
+
                                         <Button
                                             variant="outlined"
                                             className={classes.createButton}
+                                            disabled={ChangedName === "" }
+                                        
                                             onClick={() => {
-                                                resetStates();
                                                 onSubmit({
                                                     ChangedName,
                                                 });
@@ -128,7 +137,7 @@ const RenameForm = ({
                                         <Typography
                                             variant="h6"
                                             className={
-                                                classes.createText
+                                                classes.boldText
                                             }
                                         >
                                             Create

@@ -58,16 +58,14 @@ const MaterialTable = ({
     setAllMaterials(data);
   };
 
-
-  const RenameMaterial = async (material, ChangedName) => {
-    var url =
-      material.type === "assigment" ? "/assignment/Rename" : "/Doctor_Materials/Rename";
-    await get(url, null, {
+  const RenameMaterial = async (material, ChangedName, callback) => {
+    const url = material.type === "assignment" ? "/assignment/Rename" : "/Doctor_Materials/Rename";
+    await get(url, {
       params: { fileId: material.id, name: ChangedName },
     });
     setReloadMaterials(true);
+    if (callback) callback();
   };
-
 
   // -----------------------------------------------------------------------------------------------------
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
@@ -117,9 +115,10 @@ const MaterialTable = ({
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
-  const [ChangedName, setChangedName] = useState();
-  const [RenameIsOpen,setRenameIsOpen] = useState();
-  // -------------------------------------------------------------------------------------------------------
+  const [RenameIsOpen, setRenameIsOpen] = useState(false);
+  const [currentEditedMaterial,setCurrentEditedMaterial] = useState();
+  const [FileName , setFileName] = useState();
+  // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
   const getIcon = (material) => {
@@ -187,114 +186,126 @@ const MaterialTable = ({
   }, [currentFolderId, allMaterials, allAssignments]);
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        maxHeight: "90vh",
-        overflowY: "auto",
-        maxWidth: "170vh",
-        marginLeft: "28px",
-      }}
-    >
-      <Table
+    <React.Fragment>
+      <RenameForm
+        title= "Another Name"
+        CurrentName = {FileName}
+        isOpened={RenameIsOpen}
+        onClose={() => setRenameIsOpen(false)}
+        onSubmit={({ ChangedName }) =>
+          RenameMaterial(
+            currentEditedMaterial ,
+            ChangedName,
+            () => setRenameIsOpen(false)
+          )
+        }
+      />
+      <TableContainer
+        component={Paper}
         style={{
-          minWidth: 650,
+          maxHeight: "90vh",
+          overflowY: "auto",
+          maxWidth: "170vh",
+          marginLeft: "28px",
         }}
-        size="small"
-        stickyHeader
-        aria-label="sticky table"
       >
-        <TableHead>
-          <TableRow >
-            {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
-            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }}>File Name</TableCell>
-            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Size</TableCell>
-            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Type</TableCell>
-            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Description</TableCell>
-            <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">{}</TableCell>
-          </TableRow>
-        </TableHead>
+        <Table
+          style={{
+            minWidth: 650,
+          }}
+          size="small"
+          stickyHeader
+          aria-label="sticky table"
+        >
+          <TableHead>
+            <TableRow >
+              {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
+              <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }}>File Name</TableCell>
+              <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Size</TableCell>
+              <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Type</TableCell>
+              <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">Description</TableCell>
+              <TableCell style={{ backgroundColor: "black", color: "white", fontFamily: "Impact" }} align="right">{}</TableCell>
+            </TableRow>
+          </TableHead>
 
-        <TableBody >
-          {displayedMaterials?.map((material, index) => (
-            <TableRow
-              style={index % 2 ? { background: "	#E8FDFF	" } : { background: "	#E8FDFF	" }}
-              // FIXME: any url not starting with http:// or https:// won't navigate
-              key={index}
-              onClick={() => {
-                if (material.type === "folder") {
-                  setCurrentFolderId(material.id);
-                  setCrumbs((prevCrumbs) => [
-                    ...prevCrumbs,
-                    {
-                      label: material.Name,
-                      id: material.id,
-                      Icon: FolderIcon,
-                      onClick: () => {
-                        setCurrentFolderId(material.id);
-                        setCrumbs((prevState) => {
-                          if (
-                            prevState[prevState.length - 1].id === material.id
-                          )
-                            return prevState;
-                          return [...prevState.slice(0, prevState.length - 1)];
-                        });
+          <TableBody >
+            {displayedMaterials?.map((material, index) => (
+              
+              <TableRow
+                style={index % 2 ? { background: "	#E8FDFF	" } : { background: "	#E8FDFF	" }}
+                // FIXME: any url not starting with http:// or https:// won't navigate
+                key={index}
+                onClick={() => {
+                  if (material.type === "folder") {
+                    setCurrentFolderId(material.id);
+                    setCrumbs((prevCrumbs) => [
+                      ...prevCrumbs,
+                      {
+                        label: material.Name,
+                        id: material.id,
+                        Icon: FolderIcon,
+                        onClick: () => {
+                          setCurrentFolderId(material.id);
+                          setCrumbs((prevState) => {
+                            if (
+                              prevState[prevState.length - 1].id === material.id
+                            )
+                              return prevState;
+                            return [...prevState.slice(0, prevState.length - 1)];
+                          });
+                        },
                       },
-                    },
-                  ]);
-                }
-              }}
-            >
-              {/* 
+                    ]);
+                  }
+                }}
+              >
+                {/* 
               [1] Cell Name 
               [2] Icons depend on the type of the material 
               [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
               */}
-              <TableCell
-                component="a"
-                scope="row"
-                href={material.type === "URL" ? material.url : null}
-                target="_blank"
-              >
-                <Grid container spacing={1}>
-                  <Grid item>{getIcon(material)}</Grid>
-                  <Grid item>
-                    <Typography>
-                      {/* <TextField id="standard-bare" defaultValue={material.Name} margin="normal" onChange={(e) => {
-                        setChangedName(e.target.value)
-                      }} /> */}
-                      {material.Name}
-                    </Typography>
+                <TableCell
+                  component="a"
+                  scope="row"
+                  href={material.type === "URL" ? material.url : null}
+                  target="_blank"
+                >
+                  <Grid container spacing={1}>
+                    <Grid item>{getIcon(material)}</Grid>
+                    <Grid item>
+                      <Typography>
+                        {material.Name}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </TableCell>
+                </TableCell>
 
 
 
-              {/* 
+                {/* 
               [1] set the parent_Id folder to all the materials and assignmnets = the material ID
               [2] Size cell (by KB) 
               */}
-              <TableCell align="right">
-                {material.type === "folder"
-                  ? `${
-                  allMaterials.filter(
-                    (current) => current.parent_ID === material.id
-                  ).length +
-                  allAssignments.filter(
-                    (current) => current.Parent_ID === material.id
-                  ).length
-                  } files`
-                  : `${Math.ceil(material.Size / 1024)} KB`}
-              </TableCell>
+                <TableCell align="right">
+                  {material.type === "folder"
+                    ? `${
+                    allMaterials.filter(
+                      (current) => current.parent_ID === material.id
+                    ).length +
+                    allAssignments.filter(
+                      (current) => current.Parent_ID === material.id
+                    ).length
+                    } files`
+                    : `${Math.ceil(material.Size / 1024)} KB`}
+                </TableCell>
 
-              {/* Material Type Cell */}
-              <TableCell align="right">{material.type}</TableCell>
+                {/* Material Type Cell */}
+                <TableCell align="right">{material.type}</TableCell>
 
-              {/* Material Description Cell */}
-              <TableCell align="right">{material.description}</TableCell>
+                {/* Material Description Cell */}
+                <TableCell align="right">{material.description}</TableCell>
 
-              {/*
+                {/*
               [1] For the folder type we will not add any delete or download button
               [2] For The Assignment Type We Add Shcedule Button To show The Start & End Date
               [3] We Add Download Icon To All Types Expect URL ... But we add Condition For Assignment Type 
@@ -303,64 +314,79 @@ const MaterialTable = ({
                   Cause It's Have Another LocalHost To Delete The Assignments From It's Table  
                   */}
 
-              {material.type === "folder" ? (
-                /* We Don't Add Any Action To Folder Type */
-                <TableCell align="right">
-                  {/* <Tooltip title="Edit" placement="bottom">
-                    <Button size="small">
+                {material.type === "folder" ? (
+                  /* We Don't Add Any Action To Folder Type */
+                  <TableCell align="right">
+                    <Button size="small" >
                       <EditIcon
-                        onClick={() => {
-                          setRenameIsOpen = true ;
-                          <RenameForm
-                          isOpened={RenameIsOpen}
-                          onClose={() => setRenameIsOpen(false)}
-                          onSubmit={({ ChangedName, material }) =>
-                            RenameMaterial({
-                              ChangedName,
-                              material,
-                              callback: () => setRenameIsOpen(false)
-                            })
-                          }
-                        />
-                        }}
+                        onClick={() =>{
+                          setRenameIsOpen(true);
+                          setCurrentEditedMaterial(material);
+                          setFileName(material.Name);
+                        }
+                        }
                       />
                     </Button>
-                  </Tooltip>  */}
-                  {}
-                </TableCell>
-              ) : (
-                  /* Start & End Date Icon */
-                  <TableCell align="right">
-                    {material.type === "assignment" && (
-                      <Tooltip
-                        title={
-                          <div>
-                            Start Date : {material.startdate}
-                            <br /> End Date : {material.enddate}
-                          </div>
-                        }
-                        placement="bottom"
-                      >
+                  </TableCell>
+                ) : (
+                    /* Start & End Date Icon */
+                    <TableCell align="right">
+                      {material.type === "assignment" && (
+                        <Tooltip
+                          title={
+                            <div>
+                              Start Date : {material.startdate}
+                              <br /> End Date : {material.enddate}
+                            </div>
+                          }
+                          placement="bottom"
+                        >
+                          <Button size="small">
+                            <ScheduleIcon />
+                          </Button>
+                        </Tooltip>
+                      )}
+                      {/* Download Icon Depends On It's Type */}
+                      <Tooltip title="Download" placement="bottom">
                         <Button size="small">
-                          <ScheduleIcon />
-                        </Button>
-                      </Tooltip>
-                    )}
-                    {/* Download Icon Depends On It's Type */}
-                    <Tooltip title="Download" placement="bottom">
-                      <Button size="small">
-                        {material.type !== "folder" &&
-                          material.type !== "URL" &&
-                          material.type !== "assignment" && (
+                          {material.type !== "folder" &&
+                            material.type !== "URL" &&
+                            material.type !== "assignment" && (
+                              <DownloadIcon
+                                onClick={async () => {
+                                  const response = await get(
+                                    "/Doctor_Materials/download",
+                                    {
+                                      params: { fileId: material.id },
+                                      responseType: "blob",
+                                    }
+                                  );
+                                  var fileURL = window.URL.createObjectURL(
+                                    new Blob([response.data])
+                                  );
+                                  var fileLink = document.createElement("a");
+
+                                  fileLink.href = fileURL;
+                                  fileLink.setAttribute(
+                                    "download",
+                                    material.Name +
+                                    "." +
+                                    mime.extension(response.data.type)
+                                  );
+                                  document.body.appendChild(fileLink);
+
+                                  fileLink.click();
+                                }}
+                              />
+                            )}
+                          {/* Download Icon  (Assignment Type -  Another Types) */}
+                          {material.type === "assignment" && (
                             <DownloadIcon
                               onClick={async () => {
-                                const response = await get(
-                                  "/Doctor_Materials/download",
-                                  {
-                                    params: { fileId: material.id },
-                                    responseType: "blob",
-                                  }
-                                );
+                                const response = await get("/assignment/download", {
+                                  params: { fileId: material.id },
+                                  responseType: "blob",
+                                });
                                 var fileURL = window.URL.createObjectURL(
                                   new Blob([response.data])
                                 );
@@ -379,93 +405,67 @@ const MaterialTable = ({
                               }}
                             />
                           )}
-                        {/* Download Icon  (Assignment Type -  Another Types) */}
-                        {material.type === "assignment" && (
-                          <DownloadIcon
-                            onClick={async () => {
-                              const response = await get("/assignment/download", {
-                                params: { fileId: material.id },
-                                responseType: "blob",
-                              });
-                              var fileURL = window.URL.createObjectURL(
-                                new Blob([response.data])
-                              );
-                              var fileLink = document.createElement("a");
+                        </Button>
+                      </Tooltip>
 
-                              fileLink.href = fileURL;
-                              fileLink.setAttribute(
-                                "download",
-                                material.Name +
-                                "." +
-                                mime.extension(response.data.type)
-                              );
-                              document.body.appendChild(fileLink);
-
-                              fileLink.click();
-                            }}
-                          />
-                        )}
-                      </Button>
-                    </Tooltip>
-
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button size="small">
-                        {material.type === "assignment" ? (
-                          <DeleteIcon
-                            onClick={() => {
-                              get("/assignment/delete", {
-                                params: { fileId: material.id },
-                              })
-                                .then(() => window.location.reload())
-                                .catch((err) => console.error(err));
-                            }}
-                          />
-                        ) : (
+                      <Tooltip title="Delete" placement="bottom">
+                        <Button size="small">
+                          {material.type === "assignment" ? (
                             <DeleteIcon
                               onClick={() => {
-                                get("/Doctor_Materials/delete", {
+                                get("/assignment/delete", {
                                   params: { fileId: material.id },
                                 })
                                   .then(() => window.location.reload())
                                   .catch((err) => console.error(err));
                               }}
                             />
-                          )}
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Edit" placement="bottom">
-                      <Button size="small">
-                        {material.type === "assignment" ? (
-                          <EditIcon
-                            onClick={() => {
-                              get("/assignment/Rename", {
-                                params: { fileId: material.id, name: ChangedName },
-                              })
-                                .then(() => window.location.reload())
-                                .catch((err) => console.error(err));
-                            }}
-                          />
-                        ) : (
+                          ) : (
+                              <DeleteIcon
+                                onClick={() => {
+                                  get("/Doctor_Materials/delete", {
+                                    params: { fileId: material.id },
+                                  })
+                                    .then(() => window.location.reload())
+                                    .catch((err) => console.error(err));
+                                }}
+                              />
+                            )}
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Edit" placement="bottom">
+                        <Button size="small">
+                          {material.type === "assignment" ? (
                             <EditIcon
-                              onClick={() => {
-                                get("/Doctor_Materials/Rename", {
-                                  params: { fileId: material.id, name: ChangedName },
-                                })
-                                  .then(() => window.location.reload())
-                                  .catch((err) => console.error(err));
-                              }}
-                            />
-                          )}
-                      </Button>
-                    </Tooltip>
+                            onClick={() =>{
+                              setRenameIsOpen(true);
+                              setCurrentEditedMaterial(material);
+                              setFileName(material.Name);
+                            }
+                            }
+                          />
 
-                  </TableCell>
-                )}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                          ) : (
+                            <EditIcon
+                            onClick={() =>{
+                              setRenameIsOpen(true);
+                              setCurrentEditedMaterial(material);
+                              setFileName(material.Name);
+                            }
+                            }
+                          />
+                            )}
+                        </Button>
+                      </Tooltip>
+
+                    </TableCell>
+                  )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </React.Fragment>
   );
 };
 

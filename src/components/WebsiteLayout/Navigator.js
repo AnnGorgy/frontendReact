@@ -12,7 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { UserProfile } from "../";
+import { InstructorProfile,StudentProfile } from "../";
 // Images //
 import Theimage from "./UniLogo.png";
 // mostafa20191701201@cis.asu.edu.eg // 
@@ -64,7 +64,8 @@ const styles = (theme) => ({
 
 function Navigator({ classes, history, match }) {
   const [openCourses, setOpenCourse] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
+  const [openInstructorProfile, setopenInstructorProfile] = useState(false);
+  const [openStudentProfile, setopenStudentProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
 
@@ -129,7 +130,8 @@ function Navigator({ classes, history, match }) {
           alt="profile_LOGO"
         />
       ),
-      onClick: () => setOpenProfile(true),
+      
+      onClick: () =>  (accountType == 2)? (setopenInstructorProfile(true)):(setopenStudentProfile(true))
     },
     {
       title: "Students",
@@ -200,9 +202,13 @@ function Navigator({ classes, history, match }) {
 
   return (
     <React.Fragment>
-      <UserProfile
-        isOpened={openProfile}
-        onClose={() => setOpenProfile(false)}
+      <InstructorProfile
+        isOpened={openInstructorProfile}
+        onClose={() => setopenInstructorProfile(false)}
+      />
+         <StudentProfile
+        isOpened={openStudentProfile}
+        onClose={() => setopenStudentProfile(false)}
       />
       <Drawer variant="permanent">
         <List disablePadding>
