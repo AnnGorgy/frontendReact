@@ -5,10 +5,9 @@ import { SideBar } from "../components";
 import { Grid, Typography } from "@material-ui/core";
 
 import Profile from "./Images/Profile.png";
-import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons" 
+import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons"
 const CourseHome = ({ history }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>

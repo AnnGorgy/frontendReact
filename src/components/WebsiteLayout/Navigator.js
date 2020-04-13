@@ -12,7 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { InstructorProfile, StudentProfile, Quiz } from "../";
+import { InstructorProfile, StudentProfile } from "../";
 // Images //
 import Theimage from "./UniLogo.png";
 // mostafa20191701201@cis.asu.edu.eg //
@@ -66,7 +66,6 @@ function Navigator({ classes, history, match }) {
   const [openCourses, setOpenCourse] = useState(false);
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const [openStudentProfile, setopenStudentProfile] = useState(false);
-  const [OpenQuiz, setOpenQuiz] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
@@ -140,6 +139,7 @@ function Navigator({ classes, history, match }) {
     },
     {
       title: "Students",
+      
       needCourse: true,
       Icon: (
         <img
@@ -201,8 +201,6 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      /*       onClick: () =>  setOpenQuiz(true),
-       */
 
       onClick: () => history.push("/course"),
     },
@@ -218,7 +216,6 @@ function Navigator({ classes, history, match }) {
         isOpened={openStudentProfile}
         onClose={() => setopenStudentProfile(false)}
       />
-      <Quiz isOpened={OpenQuiz} onClose={() => setOpenQuiz(false)} />
       <Drawer variant="permanent">
         <List disablePadding>
           <ListItem

@@ -1,28 +1,14 @@
-import React from 'react';
+import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import { withRouter } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import Grades from './Grades.png';
 import materials from './Materials.jpg';
 import Quizs from './Quizs.jpg';
+import Quiz from '../Quiz';
 
-const images = [
-  {
-    url: materials,
-    title: 'Open Materials',
-    width: '35%',
-  },
-  {
-    url: Quizs,
-    title: 'Create Online Quiz',
-    width: '32%',
-  },
-  {
-    url: Grades,
-    title: 'Open Grades',
-    width: '33%',
-  },
-];
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,26 +83,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CoursesNavigationButtons() {
+const CoursesNavigationButtons = ({ history }) => {
   const classes = useStyles();
 
+
+  const [OpenQuiz, setOpenQuiz] = useState(false);
+
+  const images = [
+    {
+      url: materials,
+      title: 'Open Materials',
+      onClick: () => history.push("/home"),
+    },
+    {
+      url: Quizs,
+      title: 'Create Online Quiz',
+      onClick: () =>  setOpenQuiz(true),
+    },
+    {
+      url: Grades,
+      title: 'Open Grades',
+      onClick: () => history.push("/home"),
+    },
+  ];
+
   return (
+    <React.Fragment>
+    <Quiz isOpened={OpenQuiz} onClose={() => setOpenQuiz(false)} />
     <div className={classes.root}>
-      {images.map((image) => (
+      {images.map(({ title, url, onClick }) => (
         <ButtonBase
           focusRipple
-          key={image.title}
+          key={title}
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
+          onClick={onClick}
           style={{
-            width: image.width,
+            width: "33.33%",
             height: "455px"
           }}
         >
           <span
             className={classes.imageSrc}
             style={{
-              backgroundImage: `url(${image.url})`,
+              backgroundImage: `url(${url})`,
             }}
           />
           <span className={classes.imageBackdrop} />
@@ -127,12 +137,15 @@ export default function CoursesNavigationButtons() {
               color="inherit"
               className={classes.imageTitle}
             >
-              {image.title}
+              {title}
               <span className={classes.imageMarked} />
             </Typography>
           </span>
         </ButtonBase>
       ))}
     </div>
+    </React.Fragment>
   );
 }
+
+export default withRouter(CoursesNavigationButtons);
