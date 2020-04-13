@@ -10,4 +10,5 @@ export { default as InstructorProfile } from "./InstructorProfile";
 export { default as CreateFileForm } from "./MaterialForms/FileForm";
 export { default as CreateFolderForm } from "./MaterialForms/FolderForm";
 export { default as RenameForm} from "./RenameForm";
+export { default as Quiz } from "./Quiz";
 export {default as StudentProfile}from "./StudentProfile";

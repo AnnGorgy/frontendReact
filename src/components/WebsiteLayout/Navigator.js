@@ -12,11 +12,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { InstructorProfile,StudentProfile } from "../";
+import { InstructorProfile, StudentProfile, Quiz } from "../";
 // Images //
 import Theimage from "./UniLogo.png";
-// mostafa20191701201@cis.asu.edu.eg // 
-// instructor@chpsis.cis.asu.edu.eg // 
+// mostafa20191701201@cis.asu.edu.eg //
+// instructor@chpsis.cis.asu.edu.eg //
 // Page Style //
 const styles = (theme) => ({
   item: {
@@ -66,8 +66,11 @@ function Navigator({ classes, history, match }) {
   const [openCourses, setOpenCourse] = useState(false);
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const [openStudentProfile, setopenStudentProfile] = useState(false);
+  const [OpenQuiz, setOpenQuiz] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
+  const [accountType, setaccountType] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountType
+  );
 
   const isUserLoggedIn = () => {
     if (localStorage.getItem("subjects") === null) {
@@ -130,8 +133,11 @@ function Navigator({ classes, history, match }) {
           alt="profile_LOGO"
         />
       ),
-      
-      onClick: () =>  (accountType == 2)? (setopenInstructorProfile(true)):(setopenStudentProfile(true))
+
+      onClick: () =>
+        accountType == 2
+          ? setopenInstructorProfile(true)
+          : setopenStudentProfile(true),
     },
     {
       title: "Students",
@@ -196,7 +202,10 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      onClick: () => history.push("/materials"),
+      /*       onClick: () =>  setOpenQuiz(true),
+       */
+
+      onClick: () => history.push("/course"),
     },
   ];
 
@@ -206,10 +215,11 @@ function Navigator({ classes, history, match }) {
         isOpened={openInstructorProfile}
         onClose={() => setopenInstructorProfile(false)}
       />
-         <StudentProfile
+      <StudentProfile
         isOpened={openStudentProfile}
         onClose={() => setopenStudentProfile(false)}
       />
+      <Quiz isOpened={OpenQuiz} onClose={() => setOpenQuiz(false)} />
       <Drawer variant="permanent">
         <List disablePadding>
           <ListItem
@@ -245,7 +255,6 @@ function Navigator({ classes, history, match }) {
                       classes={{
                         primary: classes.itemPrimary,
                       }}
-                  
                       primary={truncate(title, { length: 20 })}
                     />
                     {openCourses ? <ExpandLess /> : <ExpandMore />}
@@ -257,13 +266,10 @@ function Navigator({ classes, history, match }) {
                           key={ID}
                           button
                           onClick={() => {
-                            accountType == 2 ? (
-                              history.push(`/courses/${ID}/materials`)
-                            ) : (
-                              history.push(`/courses/${ID}/StudentMaterials`)
-                            )
-                          }
-                          }
+                            accountType == 2
+                              ? history.push(`/courses/${ID}/materials`)
+                              : history.push(`/courses/${ID}/StudentMaterials`);
+                          }}
                           className={clsx(
                             classes.nested,
                             active && classes.itemActiveItem
@@ -282,26 +288,26 @@ function Navigator({ classes, history, match }) {
                   </Collapse>
                 </React.Fragment>
               ) : (
-                  <ListItem
-                    key={index}
-                    button
-                    onClick={onClick}
-                    className={clsx(
-                      classes.item,
-                      active && classes.itemActiveItem
-                    )}
-                  >
-                    <ListItemIcon className={classes.itemIcon}>
-                      {Icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      classes={{
-                        primary: classes.itemPrimary,
-                      }}
-                      primary={truncate(title, { length: 20 })}
-                    />
-                  </ListItem>
-                )
+                <ListItem
+                  key={index}
+                  button
+                  onClick={onClick}
+                  className={clsx(
+                    classes.item,
+                    active && classes.itemActiveItem
+                  )}
+                >
+                  <ListItemIcon className={classes.itemIcon}>
+                    {Icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{
+                      primary: classes.itemPrimary,
+                    }}
+                    primary={truncate(title, { length: 20 })}
+                  />
+                </ListItem>
+              )
             )}
         </List>
       </Drawer>
