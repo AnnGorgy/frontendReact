@@ -77,7 +77,7 @@ const RenameForm = ({
                                         <TextField
                                             label="Another Name :"
                                             rows={2}
-                                            defaultValue = {CurrentName}        
+                                            defaultValue={CurrentName}
                                             onChange={(e) => {
                                                 setChangedName(e.target.value);
                                             }}
@@ -108,7 +108,7 @@ const RenameForm = ({
                                                     onClick={() => {
                                                         onClose();
                                                         resetStates();
-                                                      }}
+                                                    }}
                                                 >
                                                     <Typography
                                                         variant="h6"
@@ -126,8 +126,8 @@ const RenameForm = ({
                                         <Button
                                             variant="outlined"
                                             className={classes.createButton}
-                                            disabled={ChangedName === "" }
-                                        
+                                            disabled={ChangedName === ""}
+
                                             onClick={() => {
                                                 onSubmit({
                                                     ChangedName,
