@@ -83,17 +83,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CoursesNavigationButtons = ({ history }) => {
+const CoursesNavigationButtons = ({ history , match }) => {
   const classes = useStyles();
 
 
   const [OpenQuiz, setOpenQuiz] = useState(false);
+  const [accountType, setaccountType] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountType
+  );
 
   const images = [
     {
       url: materials,
       title: 'Open Materials',
-      onClick: () => history.push("/home"),
+      onClick: () =>
+        accountType == 2
+          ? history.push(`/courses/${match.params.courseId}/materials`)
+          : history.push(`/courses/${match.params.courseId}/StudentMaterials`),
     },
     {
       url: Quizs,

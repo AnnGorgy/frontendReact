@@ -26,6 +26,7 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
 
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState();
+  const [Description,setDescription] = useState();
   const [TotalGrade, setTotalGrade] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
@@ -173,6 +174,32 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                         /> */}
                       </Grid>
                     </Grid>
+                  </Grid>
+                  <Grid item>
+                    {/* Dialog Description */}
+                    <TextField
+                      label="Descreiption"
+                      rows={2}
+                      multiline
+                      fullWidth
+                      value={Description}
+                      required
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                     /*  style={{ width: "280px", marginLeft: "130px" }} */
+                    />
                   </Grid>
                   <Grid item>
                     <Grid container justify="space-between">

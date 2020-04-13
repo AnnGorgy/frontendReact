@@ -139,7 +139,7 @@ function Navigator({ classes, history, match }) {
     },
     {
       title: "Students",
-      
+
       needCourse: true,
       Icon: (
         <img
@@ -263,9 +263,10 @@ function Navigator({ classes, history, match }) {
                           key={ID}
                           button
                           onClick={() => {
-                            accountType == 2
+                           /*  accountType == 2
                               ? history.push(`/courses/${ID}/materials`)
-                              : history.push(`/courses/${ID}/StudentMaterials`);
+                              : history.push(`/courses/${ID}/StudentMaterials`); */
+                              history.push("/course");
                           }}
                           className={clsx(
                             classes.nested,
