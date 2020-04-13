@@ -3,9 +3,9 @@ import { withRouter } from "react-router-dom";
 
 import { SideBar } from "../components";
 import { Grid, Typography } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import Profile from "./Images/Profile.png";
 
+import Profile from "./Images/Profile.png";
+import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons" 
 const CourseHome = ({ history }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
 
@@ -57,19 +57,19 @@ const CourseHome = ({ history }) => {
                 backgroundColor: "white",
                 marginRight: "9px",
                 paddingLeft: "55px",
-                paddingTop: "30px",
+                paddingTop: "45px",
               }}
             >
               <img
-                alt="Remy Sharp"
+                alt="ProfileImage"
                 src={Profile}
                 style={{
                   width: "138px",
                   height: "138px",
                   borderRadius: "256px",
                   border: "5px solid black",
-                  position:"absolute",
-                  zIndex:"1"
+                  position: "absolute",
+                  zIndex: "1",
                 }}
               />
             </Grid>
@@ -89,10 +89,11 @@ const CourseHome = ({ history }) => {
                 boxShadow: "5px 5px 5px #9E9E9E",
                 backgroundColor: "white",
                 marginRight: "9px",
-                marginTop:"10px"
-              
+                marginTop: "10px",
               }}
-            ></Grid>
+            >
+              <CoursesNavigationButtons />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
