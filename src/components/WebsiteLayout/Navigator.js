@@ -202,7 +202,7 @@ function Navigator({ classes, history, match }) {
         />
       ),
 
-      onClick: () => history.push("/course"),
+      onClick: () => history.push("/studentprof"),
     },
   ];
 

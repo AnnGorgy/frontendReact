@@ -59,13 +59,23 @@ const MaterialTable = ({
   };
 
   const RenameMaterial = async (material, ChangedName, callback) => {
-    const url = material.type === "assignment" ? "/assignment/Rename" : "/Doctor_Materials/Rename";
+    const url = "/Doctor_Materials/Rename";
     await get(url, {
       params: { fileId: material.id, name: ChangedName },
     });
     setReloadMaterials(true);
     if (callback) callback();
   };
+
+  const RenameAssignment = async (material, ChangedName, date , callback) => {
+    const url = "/assignment/RenameAssignment_AndUpdateTime";
+    await post(url, null , {
+      params: { fileId: material.id, name: ChangedName , start: date.start, end: date.end },
+    });
+    setReloadMaterials(true);
+    if (callback) callback();
+  };
+  
 
   // -----------------------------------------------------------------------------------------------------
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
@@ -115,8 +125,9 @@ const MaterialTable = ({
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
-  const [RenameIsOpen, setRenameIsOpen] = useState(false);
+  const [RenameIsOpenMaterial, setRenameIsOpenMaterial] = useState(false);
   const [currentEditedMaterial,setCurrentEditedMaterial] = useState();
+  const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -189,11 +200,25 @@ const MaterialTable = ({
       <RenameForm
         title="Another Name"
         CurrentName={currentEditedMaterial?.Name}
-        isOpened={RenameIsOpen}
-        onClose={() => setRenameIsOpen(false)}
+        isOpened={RenameIsOpenMaterial}
+        onClose={() => setRenameIsOpenMaterial(false)}
         onSubmit={({ ChangedName }) =>
           RenameMaterial(currentEditedMaterial, ChangedName, () =>
-            setRenameIsOpen(false)
+            setRenameIsOpenMaterial(false)
+          )
+        }
+      />
+      <RenameForm
+        title="Edit Assignment"
+        hasDate
+        eDate ={currentEditedMaterial?.enddate}
+        sDate = {currentEditedMaterial?.startdate}
+        CurrentName={currentEditedMaterial?.Name}
+        isOpened={RenameIsOpenAssignment}
+        onClose={() => setRenameIsOpenAssignment(false)}
+        onSubmit={({ ChangedName , date }) =>
+          RenameAssignment(currentEditedMaterial, ChangedName, date, () =>
+            setRenameIsOpenAssignment(false)
           )
         }
       />
@@ -362,7 +387,7 @@ const MaterialTable = ({
                     <Button size="small">
                       <EditIcon
                         onClick={() => {
-                          setRenameIsOpen(true);
+                          setRenameIsOpenMaterial(true);
                           setCurrentEditedMaterial(material);
                         }}
                       />
@@ -481,14 +506,14 @@ const MaterialTable = ({
                         {material.type === "assignment" ? (
                           <EditIcon
                             onClick={() => {
-                              setRenameIsOpen(true);
+                              setRenameIsOpenAssignment(true);
                               setCurrentEditedMaterial(material);
                             }}
                           />
                         ) : (
                           <EditIcon
                             onClick={() => {
-                              setRenameIsOpen(true);
+                              setRenameIsOpenMaterial(true);
                               setCurrentEditedMaterial(material);
                             }}
                           />

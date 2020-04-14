@@ -3,9 +3,6 @@ import { post, get } from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 
 //------------------------------------------------- Icons --------------------------------------------------
-import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import EditIcon from "@material-ui/icons/Edit";
 //-----------------------------------------------------------------------------------------------------------
 import {
   Dialog,

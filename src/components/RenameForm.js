@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 
 import {
   Dialog,
@@ -15,17 +20,29 @@ const RenameForm = ({
   onClose,
   title,
   CurrentName,
+  sDate,
+  eDate,
   isOpened,
   onSubmit,
+  hasDate,
   classes,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [ChangedName, setChangedName] = useState("");
   const [RelodRename, setReloadRename] = useState(true);
+  const [goodStartDate, setGoodStartDate] = useState(false);
+  const [goodEndDate, setGoodEndDate] = useState(false);
+  const [date, setDate] = useState({
+    start: new Date(),
+    end: new Date(),
+  });
   //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
     setChangedName("");
+    setDate({ start: new Date(), end: new Date() });
+    setGoodStartDate(false);
+    setGoodEndDate(false);
   };
 
   useEffect(() => {
@@ -37,6 +54,10 @@ const RenameForm = ({
   useEffect(() => {
     setChangedName(CurrentName);
   }, [CurrentName]);
+
+  useEffect(() => {
+    setDate({ start: sDate, end: eDate });
+  }, [sDate, eDate]);
 
   return (
     isOpened && (
@@ -102,6 +123,44 @@ const RenameForm = ({
                       style={{ width: "350px" }}
                     />
                   </Grid>
+                  {/*Start Date && End Date That will appear only when we deal with Assignemnet only */}
+                  {hasDate && (
+                    <Grid item>
+                      <Grid container justify="space-between">
+                        <Grid item xs={5}>
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                              clearable
+                              autoOk
+                              label="Start Date"
+                              inputVariant="standard"
+                              value={date.start}
+                              onChange={(date) =>
+                                setDate((prev) => ({ ...prev, start: date }))
+                              }
+                              onError={(bad) => setGoodStartDate(!bad)}
+                              format="MM/dd/yyyy"
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
+                        <Grid item xs={5}>
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                              clearable
+                              autoOk
+                              label="End Date"
+                              value={date.end}
+                              onChange={(date) =>
+                                setDate((prev) => ({ ...prev, end: date }))
+                              }
+                              onError={(bad) => setGoodEndDate(!bad)}
+                              format="MM/dd/yyyy"
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  )}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -129,17 +188,14 @@ const RenameForm = ({
                           disabled={ChangedName === ""}
                           onClick={() => {
                             onSubmit({
-                                ChangedName,
-                              });
+                              ChangedName,
+                              date,
+                            });
                           }}
                         >
-                          <Typography
-                            variant="h6"
-                            className={classes.boldText}
-                          
-                          >
-                           Create
-                          </Typography >
+                          <Typography variant="h6" className={classes.boldText}>
+                            Create
+                          </Typography>
                         </Button>
                       </Grid>
                     </Grid>
@@ -154,6 +210,9 @@ const RenameForm = ({
   );
 };
 
+RenameForm.defaultProps = {
+  hasDate: false,
+};
 // Dialog styles
 const styles = () => ({
   dialog: {

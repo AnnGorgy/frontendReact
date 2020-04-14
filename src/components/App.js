@@ -8,7 +8,8 @@ import {
   StudentsInSubjectPage,
   contactUs,
   StudentMaterialPage,
-  CourseHome
+  CourseHome,
+  StudentProfilePage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -27,6 +28,7 @@ const App = ({ match }) => {
       <Route exact path = {"/ContactUs"}component={contactUs} />
       <Route exact path = {"home"}component={Home} />
       <Route exact path = {"/course/:courseId"}component={CourseHome} />
+      <Route exact path = {"/studentprof"}component={StudentProfilePage} />
     </Switch>
   );
 };
