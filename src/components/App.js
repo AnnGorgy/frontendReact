@@ -26,7 +26,7 @@ const App = ({ match }) => {
       <Route exact path={"/"} component={LoginPage} />
       <Route exact path = {"/ContactUs"}component={contactUs} />
       <Route exact path = {"home"}component={Home} />
-      <Route exact path = {"/course"}component={CourseHome} />
+      <Route exact path = {"/course/:courseId"}component={CourseHome} />
     </Switch>
   );
 };

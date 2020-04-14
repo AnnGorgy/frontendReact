@@ -266,7 +266,7 @@ function Navigator({ classes, history, match }) {
                            /*  accountType == 2
                               ? history.push(`/courses/${ID}/materials`)
                               : history.push(`/courses/${ID}/StudentMaterials`); */
-                              history.push("/course");
+                              history.push(`/course/${ID}`);
                           }}
                           className={clsx(
                             classes.nested,

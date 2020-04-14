@@ -6,8 +6,11 @@ import { Grid, Typography } from "@material-ui/core";
 
 import Profile from "./Images/Profile.png";
 import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons"
-const CourseHome = ({ history }) => {
+const CourseHome = ({ history, match }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const CourseName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -42,7 +45,7 @@ const CourseHome = ({ history }) => {
                 fontFamily: "Monaco",
               }}
             >
-              Computer Information System
+              {CourseName}
             </Typography>
           </Grid>
           <Grid item>

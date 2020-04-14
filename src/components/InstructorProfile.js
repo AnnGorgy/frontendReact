@@ -5,7 +5,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 //------------------------------------------------- Icons --------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import EditIcon from "@material-ui/icons/Edit";
 //-----------------------------------------------------------------------------------------------------------
 import {
   Dialog,
@@ -24,21 +23,24 @@ const DoctorProfilePage = ({
   onSubmit,
   classes,
 }) => {
-
-  // Set The First Letter Of The Users' Name To capial // 
-  const EnName = (JSON.parse(localStorage.getItem("Information")).NameEN);
+  // Set The First Letter Of The Users' Name To capial //
+  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
 
-
-  // ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
+  // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState(ViewingName);
   const [ID, setID] = useState("");
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
-  const [LoginEmail, setLoginEmail] = useState(JSON.parse(localStorage.getItem("Information")).Email)
+  const [NewID, setNewID] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountID
+  );
+  const [LoginEmail, setLoginEmail] = useState(
+    JSON.parse(localStorage.getItem("Information")).Email
+  );
   const AccountTypeName = "Instructor Account";
-  const ArName = (JSON.parse(localStorage.getItem("Information")).NameAR);
+  const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
   //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
@@ -51,15 +53,15 @@ const DoctorProfilePage = ({
       // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: {
-          Doc_id: JSON.parse(localStorage.getItem("Information")).AccoutID,
+          Doc_id: JSON.parse(localStorage.getItem("Information")).AccountID,
         },
       });
       if (callback) callback();
       setEmail(data[0].email);
       setID(data[0].id);
       setOfficeHours(data[0].office);
-      setName(JSON.parse(localStorage.getItem("Information")).NameEN)
-      setLoginEmail(JSON.parse(localStorage.getItem("Information")).Email)
+      setName(JSON.parse(localStorage.getItem("Information")).NameEN);
+      setLoginEmail(JSON.parse(localStorage.getItem("Information")).Email);
     } catch (err) {
       console.error(err);
     }
@@ -67,6 +69,10 @@ const DoctorProfilePage = ({
 
   useEffect(() => {
     if (reloadProfile) {
+      console.log(
+        "wala",
+        JSON.parse(localStorage.getItem("Information")).AccountID
+      );
       ViewData({});
       setReloadProfile(false);
     }
@@ -110,7 +116,6 @@ const DoctorProfilePage = ({
                   justify="center"
                   spacing={3}
                 >
-
                   <Grid item>
                     {/* Dialog Account Type */}
                     <TextField
@@ -135,7 +140,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-
                   </Grid>
                   <Grid item>
                     {/* Dialog Name */}
@@ -161,7 +165,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-
                   </Grid>
                   <Grid item>
                     {/* Dialog Arabic Name */}
@@ -187,7 +190,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-
                   </Grid>
                   <Grid item>
                     {/* Dialog E-mail */}
@@ -213,7 +215,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-
                   </Grid>
 
                   <Grid item>
@@ -247,8 +248,8 @@ const DoctorProfilePage = ({
                       <Button>
                         <AddCircleIcon
                           onClick={() => {
-                            post("/Office_Hours/Add_email", {
-                              params: { id: ID, email: Email },
+                            get("/Office_Hours/Add_email", {
+                              params: { id: NewID, email: Email },
                             })
                               .then(() => setReloadProfile(true))
                               .catch((err) => console.error(err));
@@ -260,32 +261,13 @@ const DoctorProfilePage = ({
 
                     {/* Delete E-mail */}
                     <Tooltip title="Delete" placement="bottom">
-                      <Button
-                        disabled={!Email}
-                      >
+                      <Button disabled={!Email}>
                         <DeleteIcon
                           onClick={() => {
                             get("/Office_Hours/Delete_email", {
                               params: { id: ID },
                             })
-
                               .then(() => setEmail(" "), setReloadProfile(true))
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-
-                    {/* Edit E-mail */}
-                    <Tooltip title="Edit" placement="bottom">
-                      <Button>
-                        <EditIcon
-                          onClick={() => {
-                            get("/Office_Hours/Update_email", {
-                              params: { id: ID, email: Email },
-                            })
-                              .then(() => setReloadProfile(true))
                               .catch((err) => console.error(err));
                             resetStates();
                           }}
@@ -326,8 +308,8 @@ const DoctorProfilePage = ({
                       <Button>
                         <AddCircleIcon
                           onClick={() => {
-                            post("/Office_Hours/Add_OfficeHours", {
-                              params: { id: ID, OfficeHours: OfficeHours },
+                            post("/Office_Hours/Add_OfficeHours", null, {
+                              params: { id: NewID, OfficeHours: OfficeHours },
                             })
                               .then(() => setReloadProfile(true))
                               .catch((err) => console.error(err));
@@ -339,31 +321,16 @@ const DoctorProfilePage = ({
 
                     {/* Delete Office Hours */}
                     <Tooltip title="Delete" placement="bottom">
-                      <Button
-                        disabled={!OfficeHours}
-                      >
+                      <Button disabled={!OfficeHours}>
                         <DeleteIcon
                           onClick={() => {
                             get("/Office_Hours/Delete_OfficeHours", {
                               params: { id: ID },
                             })
-                              .then(() => setOfficeHours(""), setReloadProfile(true))
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-
-                    {/* Edit Office Hours */}
-                    <Tooltip title="Edit" placement="bottom">
-                      <Button>
-                        <EditIcon
-                          onClick={() => {
-                            get("/Office_Hours/Update_OfficeHours", {
-                              params: { id: ID, OfficeHours: OfficeHours },
-                            })
-                              .then(() => setReloadProfile(true))
+                              .then(
+                                () => setOfficeHours(""),
+                                setReloadProfile(true)
+                              )
                               .catch((err) => console.error(err));
                             resetStates();
                           }}

@@ -33,9 +33,10 @@ const StudentProfilePage = ({
   // ---------------------------- variables with it's states that we use it in this Dialog ------------------- 
   const EnName = (ViewingName);
   const LoginEmail = (JSON.parse(localStorage.getItem("Information")).Email);
-  const Seatno = (JSON.parse(localStorage.getItem("Information")).SeatNo);
+  const seatNo = (JSON.parse(localStorage.getItem("StuInformation")).SeatNo);
+  const level = (JSON.parse(localStorage.getItem("StuInformation")).LevelName);
+  const department = (JSON.parse(localStorage.getItem("StuInformation")).Department);
   const ArName = (JSON.parse(localStorage.getItem("Information")).NameAR);
-  const semester = (JSON.parse(localStorage.getItem("Information")).Semester);
   const AccountTypeName = "Student Account";
   const [reloadProfile, setReloadProfile] = useState(true);
   //----------------------------------------------------------------------------------------------------------
@@ -119,7 +120,7 @@ const StudentProfilePage = ({
                       label="Department"
                       multiline
                       rows={1}
-                      value={LoginEmail}
+                      value={department}
                       disabled="true"
                       variant="outlined"
                       classes={{
@@ -217,7 +218,7 @@ const StudentProfilePage = ({
                       label="Seat Number"
                       multiline
                       rows={1}
-                      value={Seatno}
+                      value={seatNo}
                       disabled="true"
                       variant="outlined"
                       classes={{
@@ -238,12 +239,12 @@ const StudentProfilePage = ({
 
                   </Grid>
                   <Grid item>
-                    {/* Dialog Semester */}
+                    {/* Dialog Level */}
                     <TextField
-                      label="Semester"
+                      label="Level"
                       multiline
                       rows={1}
-                      value={semester}
+                      value={level}
                       disabled="true"
                       variant="outlined"
                       classes={{

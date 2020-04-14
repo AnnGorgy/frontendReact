@@ -49,6 +49,20 @@ const LoginPage = ({ history }) => {
     }
   };
 
+  const StudentInformation = async () => {
+    try {
+      const url = "/Login/getStudent";
+      const { data } = await get(url, {
+        params: {
+          email: Email,
+        },
+      });
+      localStorage.setItem("StuInformation", JSON.stringify(data));
+    } catch (err) { 
+      console.error(err);
+    }
+  };
+
   return (
     <div
       style={{
@@ -218,6 +232,7 @@ const LoginPage = ({ history }) => {
               onClick={() => {
                 login();
                 UserInformation();
+                StudentInformation();
               }}
             >
               Login

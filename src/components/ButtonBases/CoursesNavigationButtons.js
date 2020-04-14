@@ -91,6 +91,7 @@ const CoursesNavigationButtons = ({ history , match }) => {
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+  
 
   const images = [
     {
@@ -103,7 +104,7 @@ const CoursesNavigationButtons = ({ history , match }) => {
     },
     {
       url: Quizs,
-      title: 'Create Online Quiz',
+      title : 'Online Quiz',
       onClick: () =>  setOpenQuiz(true),
     },
     {
