@@ -383,6 +383,7 @@ const MaterialTable = ({
 
                 {material.type === "folder" ? (
                   /* We Don't Add Any Action To Folder Type */
+                  <Tooltip title="Rename" placement="bottom" >
                   <TableCell align="right">
                     <Button size="small">
                       <EditIcon
@@ -393,6 +394,7 @@ const MaterialTable = ({
                       />
                     </Button>
                   </TableCell>
+                  </Tooltip>
                 ) : (
                   /* Start & End Date Icon */
                   <TableCell align="right">
@@ -501,7 +503,7 @@ const MaterialTable = ({
                         )}
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Edit" placement="bottom">
+                    <Tooltip title="Rename" placement="bottom">
                       <Button size="small">
                         {material.type === "assignment" ? (
                           <EditIcon

@@ -38,13 +38,7 @@ const RenameForm = ({
   });
   //----------------------------------------------------------------------------------------------------------
 
-  const resetStates = () => {
-    setChangedName("");
-    setDate({ start: new Date(), end: new Date() });
-    setGoodStartDate(false);
-    setGoodEndDate(false);
-  };
-
+  
   useEffect(() => {
     if (RelodRename) {
       setReloadRename(false);
@@ -64,7 +58,6 @@ const RenameForm = ({
       <Dialog
         onClose={() => {
           onClose();
-          resetStates();
         }}
         open={isOpened}
         maxWidth="sm"
@@ -169,7 +162,6 @@ const RenameForm = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
-                            resetStates();
                           }}
                         >
                           <Typography
