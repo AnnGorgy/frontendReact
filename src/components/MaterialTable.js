@@ -417,11 +417,12 @@ const MaterialTable = ({
                       </Tooltip>
                     )}
                     {/* Download Icon Depends On It's Type */}
-                    <Tooltip title="Download" placement="bottom">
-                      <Button size="small">
-                        {material.type !== "folder" &&
-                          material.type !== "URL" &&
-                          material.type !== "assignment" && (
+
+                    {material.type !== "folder" &&
+                      material.type !== "URL" &&
+                      material.type !== "assignment" && (
+                        <Tooltip title="Download" placement="bottom">
+                          <Button size="small">
                             <DownloadIcon
                               onClick={async () => {
                                 const response = await get(
@@ -448,9 +449,13 @@ const MaterialTable = ({
                                 fileLink.click();
                               }}
                             />
-                          )}
-                        {/* Download Icon  (Assignment Type -  Another Types) */}
-                        {material.type === "assignment" && (
+                          </Button>
+                        </Tooltip>
+                      )}
+                    {/* Download Icon  (Assignment Type -  Another Types) */}
+                    {material.type === "assignment" && (
+                      <Tooltip title="Download" placement="bottom">
+                        <Button size="small">
                           <DownloadIcon
                             onClick={async () => {
                               const response = await get(
@@ -477,9 +482,9 @@ const MaterialTable = ({
                               fileLink.click();
                             }}
                           />
-                        )}
-                      </Button>
-                    </Tooltip>
+                        </Button>
+                      </Tooltip>
+                    )}
 
                     <Tooltip title="Delete" placement="bottom">
                       <Button size="small">
