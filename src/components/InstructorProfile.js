@@ -99,7 +99,7 @@ const DoctorProfilePage = ({
               className={classes.boldText}
               align="center"
             >
-              Profile
+              Doctor's Profile
             </Typography>
           </Grid>
           <Grid item>
@@ -112,31 +112,6 @@ const DoctorProfilePage = ({
                   justify="center"
                   spacing={3}
                 >
-                  <Grid item>
-                    {/* Dialog Account Type */}
-                    <TextField
-                      label="Account Type"
-                      multiline
-                      rows={1}
-                      value={AccountTypeName}
-                      disabled="true"
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{ width: "350px" }}
-                    />
-                  </Grid>
                   <Grid item>
                     {/* Dialog Name */}
                     <TextField
@@ -220,6 +195,7 @@ const DoctorProfilePage = ({
                       multiline
                       rows={1}
                       value={Email}
+                      disabled="true"
                       onChange={(e) => {
                         setEmail(e.target.value);
                       }}
@@ -239,37 +215,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-                    {/* Add E-mail  */}
-                    <Tooltip title="ADD" placement="bottom">
-                      <Button>
-                        <AddCircleIcon
-                          onClick={() => {
-                            get("/Office_Hours/Add_email", {
-                              params: { id: NewID, email: Email },
-                            })
-                              .then(() => setReloadProfile(true))
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-
-                    {/* Delete E-mail */}
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button disabled={!Email}>
-                        <DeleteIcon
-                          onClick={() => {
-                            get("/Office_Hours/Delete_email", {
-                              params: { id: ID },
-                            })
-                              .then(() => setEmail(" "), setReloadProfile(true))
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
                   </Grid>
 
                   <Grid item>
@@ -279,6 +224,7 @@ const DoctorProfilePage = ({
                       multiline
                       rows={2}
                       value={OfficeHours}
+                      disabled="true"
                       onChange={(e) => {
                         setOfficeHours(e.target.value);
                       }}
@@ -298,41 +244,6 @@ const DoctorProfilePage = ({
                       }}
                       style={{ width: "350px" }}
                     />
-
-                    {/* Add Office Hours */}
-                    <Tooltip title="ADD" placement="bottom">
-                      <Button>
-                        <AddCircleIcon
-                          onClick={() => {
-                            post("/Office_Hours/Add_OfficeHours", null, {
-                              params: { id: NewID, OfficeHours: OfficeHours },
-                            })
-                              .then(() => setReloadProfile(true))
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-
-                    {/* Delete Office Hours */}
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button disabled={!OfficeHours}>
-                        <DeleteIcon
-                          onClick={() => {
-                            get("/Office_Hours/Delete_OfficeHours", {
-                              params: { id: ID },
-                            })
-                              .then(
-                                () => setOfficeHours(""),
-                                setReloadProfile(true)
-                              )
-                              .catch((err) => console.error(err));
-                            resetStates();
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
                   </Grid>
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>

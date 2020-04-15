@@ -3,10 +3,9 @@ import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
 import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from '@material-ui/icons/Edit';
-import TextField from '@material-ui/core/TextField';
+import EditIcon from "@material-ui/icons/Edit";
+import TextField from "@material-ui/core/TextField";
 import RenameForm from "./RenameForm";
-
 
 import {
   Table,
@@ -67,15 +66,19 @@ const MaterialTable = ({
     if (callback) callback();
   };
 
-  const RenameAssignment = async (material, ChangedName, date , callback) => {
+  const RenameAssignment = async (material, ChangedName, date, callback) => {
     const url = "/assignment/RenameAssignment_AndUpdateTime";
-    await post(url, null , {
-      params: { fileId: material.id, name: ChangedName , start: date.start, end: date.end },
+    await post(url, null, {
+      params: {
+        fileId: material.id,
+        name: ChangedName,
+        start: date.start,
+        end: date.end,
+      },
     });
     setReloadMaterials(true);
     if (callback) callback();
   };
-  
 
   // -----------------------------------------------------------------------------------------------------
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
@@ -120,13 +123,13 @@ const MaterialTable = ({
     );
   };
 
-  // ---------------------------- variables with it's states that we use it in this Page ------------------- 
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allMaterials, setAllMaterials] = useState();
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
   const [RenameIsOpenMaterial, setRenameIsOpenMaterial] = useState(false);
-  const [currentEditedMaterial,setCurrentEditedMaterial] = useState();
+  const [currentEditedMaterial, setCurrentEditedMaterial] = useState();
   const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
   // --------------------------------------------------------------------------------------------------------
 
@@ -211,12 +214,12 @@ const MaterialTable = ({
       <RenameForm
         title="Edit Assignment"
         hasDate
-        eDate ={currentEditedMaterial?.enddate}
-        sDate = {currentEditedMaterial?.startdate}
+        eDate={currentEditedMaterial?.enddate}
+        sDate={currentEditedMaterial?.startdate}
         CurrentName={currentEditedMaterial?.Name}
         isOpened={RenameIsOpenAssignment}
         onClose={() => setRenameIsOpenAssignment(false)}
-        onSubmit={({ ChangedName , date }) =>
+        onSubmit={({ ChangedName, date }) =>
           RenameAssignment(currentEditedMaterial, ChangedName, date, () =>
             setRenameIsOpenAssignment(false)
           )
@@ -383,18 +386,18 @@ const MaterialTable = ({
 
                 {material.type === "folder" ? (
                   /* We Don't Add Any Action To Folder Type */
-                  <Tooltip title="Rename" placement="bottom" >
                   <TableCell align="right">
-                    <Button size="small">
-                      <EditIcon
-                        onClick={() => {
-                          setRenameIsOpenMaterial(true);
-                          setCurrentEditedMaterial(material);
-                        }}
-                      />
-                    </Button>
+                    <Tooltip title="Rename" placement="bottom">
+                      <Button size="small">
+                        <EditIcon
+                          onClick={() => {
+                            setRenameIsOpenMaterial(true);
+                            setCurrentEditedMaterial(material);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
                   </TableCell>
-                  </Tooltip>
                 ) : (
                   /* Start & End Date Icon */
                   <TableCell align="right">

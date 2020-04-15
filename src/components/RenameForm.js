@@ -177,7 +177,7 @@ const RenameForm = ({
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={ChangedName === ""}
+                          disabled={ChangedName === "" || ChangedName == CurrentName}
                           onClick={() => {
                             onSubmit({
                               ChangedName,
