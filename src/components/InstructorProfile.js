@@ -69,10 +69,6 @@ const DoctorProfilePage = ({
 
   useEffect(() => {
     if (reloadProfile) {
-      console.log(
-        "wala",
-        JSON.parse(localStorage.getItem("Information")).AccountID
-      );
       ViewData({});
       setReloadProfile(false);
     }

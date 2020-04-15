@@ -9,7 +9,8 @@ import {
   contactUs,
   StudentMaterialPage,
   CourseHome,
-  StudentProfilePage
+  StudentProfilePage,
+  InstructorProfilePage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -29,6 +30,7 @@ const App = ({ match }) => {
       <Route exact path = {"home"}component={Home} />
       <Route exact path = {"/course/:courseId"}component={CourseHome} />
       <Route exact path = {"/studentprof"}component={StudentProfilePage} />
+      <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
     </Switch>
   );
 };

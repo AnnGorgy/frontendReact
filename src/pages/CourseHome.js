@@ -5,13 +5,15 @@ import { SideBar } from "../components";
 import { Grid, Typography } from "@material-ui/core";
 
 import Profile from "./Images/Profile.png";
-import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons"
+import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigationButtons" ; 
 const CourseHome = ({ history, match }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const CourseName = JSON.parse(localStorage.getItem("subjects")).find(
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
+  const DoctorName = JSON.parse(localStorage.getItem("DrInformation")).doctorName ; 
   //--------------------------------------------------------------------------------------------------------
+
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
@@ -76,7 +78,7 @@ const CourseHome = ({ history, match }) => {
               />
             </Grid>
             <Grid style={{ marginLeft: "245px", marginTop: "-80px" }}>
-              <Typography style={{ fontSize: "30px" }}>Islam Hegazy</Typography>
+              <Typography style={{ fontSize: "30px" }}>{DoctorName}</Typography>
 
               <Typography>Instructor</Typography>
             </Grid>

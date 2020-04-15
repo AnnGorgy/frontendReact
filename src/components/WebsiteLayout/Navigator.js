@@ -13,6 +13,8 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { InstructorProfile, StudentProfile } from "../";
+import { post, get } from "axios";
+
 // Images //
 import Theimage from "./UniLogo.png";
 // mostafa20191701201@cis.asu.edu.eg //
@@ -67,6 +69,7 @@ function Navigator({ classes, history, match }) {
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const [openStudentProfile, setopenStudentProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
+  const [emaill , setemaill] = useState("");
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
@@ -76,6 +79,35 @@ function Navigator({ classes, history, match }) {
       return false;
     }
     return true;
+  };
+
+  const DocInformation = async () => {
+    try {
+      const url = "/Login/getuserObject";
+      const { data } = await get(url, {
+        params: {
+          email: emaill,
+        },
+      });
+      localStorage.setItem("DocInformation", JSON.stringify(data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const DoctorInformation = async () => {
+    try {
+      const url = "/Login/getDoctor";
+      const { data } = await post(url, null ,  {
+        params: {
+          subjectId: "538",
+        },
+      });
+      localStorage.setItem("DrInformation", JSON.stringify(data));
+      setemaill(data[0].doctorEmail);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // Set The First Letter Of The Users' Name To capial //
@@ -134,8 +166,8 @@ function Navigator({ classes, history, match }) {
 
       onClick: () =>
         accountType == 2
-          ? setopenInstructorProfile(true)
-          : setopenStudentProfile(true),
+          ? history.push("/Instructorprof")
+          : history.push("/studentprof"),
     },
     {
       title: "Students",
@@ -202,7 +234,7 @@ function Navigator({ classes, history, match }) {
         />
       ),
 
-      onClick: () => history.push("/studentprof"),
+      onClick: () => setopenInstructorProfile(true),
     },
   ];
 
@@ -244,7 +276,6 @@ function Navigator({ classes, history, match }) {
                       active && classes.itemActiveItem
                     )}
                   >
-                    
                     <ListItemIcon className={classes.itemIcon}>
                       {Icon}
                     </ListItemIcon>
@@ -263,10 +294,9 @@ function Navigator({ classes, history, match }) {
                           key={ID}
                           button
                           onClick={() => {
-                           /*  accountType == 2
-                              ? history.push(`/courses/${ID}/materials`)
-                              : history.push(`/courses/${ID}/StudentMaterials`); */
-                              history.push(`/course/${ID}`);
+                            DoctorInformation();
+                            DocInformation();
+                            history.push(`/course/${ID}`);
                           }}
                           className={clsx(
                             classes.nested,
