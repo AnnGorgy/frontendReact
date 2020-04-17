@@ -3,8 +3,6 @@ import { post, get } from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 
 //------------------------------------------------- Icons --------------------------------------------------
-import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 //-----------------------------------------------------------------------------------------------------------
 import {
   Dialog,
@@ -18,13 +16,10 @@ import {
 const DoctorProfilePage = ({
   onClose,
   isOpened,
-  title,
-  match,
-  onSubmit,
   classes,
 }) => {
   // Set The First Letter Of The Users' Name To capial //
-  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
+  const EnName = JSON.parse(localStorage.getItem("DocInformation")).NameEN;
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
 
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
@@ -34,13 +29,13 @@ const DoctorProfilePage = ({
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
   const [NewID, setNewID] = useState(
-    JSON.parse(localStorage.getItem("Information")).AccountID
+    JSON.parse(localStorage.getItem("DocInformation")).AccountID
   );
   const [LoginEmail, setLoginEmail] = useState(
-    JSON.parse(localStorage.getItem("Information")).Email
+    JSON.parse(localStorage.getItem("DocInformation")).Email
   );
   const AccountTypeName = "Instructor Account";
-  const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
+  const ArName = JSON.parse(localStorage.getItem("DocInformation")).NameAR;
   //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
@@ -53,15 +48,15 @@ const DoctorProfilePage = ({
       // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: {
-          Doc_id: JSON.parse(localStorage.getItem("Information")).AccountID,
+          Doc_id: JSON.parse(localStorage.getItem("DocInformation")).AccountID,
         },
       });
       if (callback) callback();
       setEmail(data[0].email);
       setID(data[0].id);
       setOfficeHours(data[0].office);
-      setName(JSON.parse(localStorage.getItem("Information")).NameEN);
-      setLoginEmail(JSON.parse(localStorage.getItem("Information")).Email);
+      setName(JSON.parse(localStorage.getItem("DocInformation")).NameEN);
+      setLoginEmail(JSON.parse(localStorage.getItem("DocInformation")).Email);
     } catch (err) {
       console.error(err);
     }

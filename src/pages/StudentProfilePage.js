@@ -10,18 +10,17 @@ import { Grid, Typography, withStyles, TextField } from "@material-ui/core";
 import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";
 const StudentProfilePage = ({ classes }) => {
+
   // Set The First Letter Of The Users' Name To capial //
   const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
   const ViewingName =
     EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1);
-
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const EnName = ViewingName;
   const LoginEmail = JSON.parse(localStorage.getItem("Information")).Email;
-  const seatNo = JSON.parse(localStorage.getItem("StuInformation")).SeatNo;
-  const level = JSON.parse(localStorage.getItem("StuInformation")).LevelName;
-  const department = JSON.parse(localStorage.getItem("StuInformation"))
-    .Department;
+  const seatNo = JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo;
+  const level = JSON.parse(localStorage.getItem("StuInformation"))[0].LevelName;
+  const department = JSON.parse(localStorage.getItem("StuInformation"))[0].Department;
   const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
   const AccountTypeName = "Student Account";
   const [reloadProfile, setReloadProfile] = useState(true);
