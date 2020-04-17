@@ -96,7 +96,7 @@ const CoursesNavigationButtons = ({ history , match }) => {
   const images = [
     {
       url: materials,
-      title: 'Open Materials',
+      title: "Open Materials",
       onClick: () =>
         accountType == 2
           ? history.push(`/courses/${match.params.courseId}/materials`)
@@ -104,12 +104,12 @@ const CoursesNavigationButtons = ({ history , match }) => {
     },
     {
       url: Quizs,
-      title : 'Online Quiz',
-      onClick: () =>  setOpenQuiz(true),
+      title: accountType !== 2 ? "Online Quiz" : "Create Quiz",
+      onClick: () => setOpenQuiz(true),
     },
     {
       url: Grades,
-      title: 'Open Grades',
+      title: "Open Grades",
       onClick: () => history.push("/home"),
     },
   ];

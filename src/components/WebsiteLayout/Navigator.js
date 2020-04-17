@@ -12,8 +12,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { InstructorProfile, StudentProfile } from "../";
 import { post, get } from "axios";
+
+import {
+  Grid,
+} from "@material-ui/core";
 
 // Images //
 import Theimage from "./UniLogo.png";
@@ -69,7 +72,6 @@ function Navigator({ classes, history, match }) {
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const [openStudentProfile, setopenStudentProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const [emaill , setemaill] = useState("");
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
@@ -81,20 +83,7 @@ function Navigator({ classes, history, match }) {
     return true;
   };
 
-  const DocInformation = async () => {
-    try {
-      const url = "/Login/getuserObject";
-      const { data } = await get(url, {
-        params: {
-          email: emaill,
-        },
-      });
-      localStorage.setItem("DocInformation", JSON.stringify(data));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  // dyh btrg3 al email w al asm bta3 al dr. mn nfs al subject id lma ydos 3la al button
   const DoctorInformation = async () => {
     try {
       const url = "/Login/getDoctor";
@@ -104,7 +93,13 @@ function Navigator({ classes, history, match }) {
         },
       });
       localStorage.setItem("DrInformation", JSON.stringify(data));
-      setemaill(data[0].doctorEmail);
+      const url2 = "/Login/getuserObject";
+      const { data: data2 } = await get(url2, {
+        params: {
+          email: data[0].doctorEmail,
+        },
+      });
+      localStorage.setItem("DocInformation", JSON.stringify(data2));
     } catch (err) {
       console.error(err);
     }
@@ -240,14 +235,6 @@ function Navigator({ classes, history, match }) {
 
   return (
     <React.Fragment>
-      <InstructorProfile
-        isOpened={openInstructorProfile}
-        onClose={() => setopenInstructorProfile(false)}
-      />
-      <StudentProfile
-        isOpened={openStudentProfile}
-        onClose={() => setopenStudentProfile(false)}
-      />
       <Drawer variant="permanent">
         <List disablePadding>
           <ListItem
@@ -295,7 +282,6 @@ function Navigator({ classes, history, match }) {
                           button
                           onClick={() => {
                             DoctorInformation();
-                            DocInformation();
                             history.push(`/course/${ID}`);
                           }}
                           className={clsx(

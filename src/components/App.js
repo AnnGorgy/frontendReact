@@ -10,7 +10,8 @@ import {
   StudentMaterialPage,
   CourseHome,
   StudentProfilePage,
-  InstructorProfilePage
+  InstructorProfilePage,
+  NotFoundPage
 } from "../pages";
 
 const App = ({ match }) => {
@@ -31,6 +32,7 @@ const App = ({ match }) => {
       <Route exact path = {"/course/:courseId"}component={CourseHome} />
       <Route exact path = {"/studentprof"}component={StudentProfilePage} />
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 };

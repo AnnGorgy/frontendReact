@@ -159,6 +159,7 @@ const MaterialTableHeader = ({
         createButtonReference={createButtonReference}
         setCreateButtonReference={setCreateButtonReference}
         onClick={handlePopOverClick}
+        Crumbs={crumbs}
       />
       <CreateFileForm
         title="Create New File"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SideBar } from "../components";
@@ -14,9 +14,11 @@ const CourseHome = ({ history, match }) => {
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
+  const DoctorName = JSON.parse(localStorage.getItem("DrInformation"))[0].doctorName;
   //--------------------------------------------------------------------------------------------------------
-  /*   const DoctorName = JSON.parse(localStorage.getItem("DrInformation")).doctorName ;
-   */ return (
+  // hna aho w darb error lma 3mltha 34an by2oly undefined 34an al email aly bytb3t fo2 al fun aly kan fyha 
+  // log dyh kan bytl3 array fady
+  return (
     <React.Fragment>
       <InstructorProfile
         isOpened={openInstructorProfile}
@@ -98,7 +100,7 @@ const CourseHome = ({ history, match }) => {
                       setopenInstructorProfile(true);
                     }}
                   >
-                    Islam Hegazy <br />
+                    {DoctorName} <br />
                   </label>
                 </Tooltip>
 

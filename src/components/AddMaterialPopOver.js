@@ -16,6 +16,7 @@ import FileIcon from "@material-ui/icons/Description";
 
 const AddMaterialPopOver = ({
   createButtonReference,
+  Crumbs,
   setCreateButtonReference,
   onClick,
   classes
@@ -56,6 +57,7 @@ const AddMaterialPopOver = ({
           <Grid item>
             <Button
               className={classes.optionButton}
+              disabled={Crumbs.length ==1}
               onClick={() => onClick("Assignment")}
             >
               <Grid container spacing={1} alignItems="center">
@@ -73,6 +75,7 @@ const AddMaterialPopOver = ({
           <Grid item>
             <Button
               className={classes.optionButton}
+              disabled={Crumbs.length ==1}
               onClick={() => onClick("File")}
             >
               <Grid container spacing={1} alignItems="center">
@@ -90,6 +93,7 @@ const AddMaterialPopOver = ({
           <Grid item>
             <Button
               className={classes.optionButton}
+              disabled={Crumbs.length ==1 }
               onClick={() => onClick("Link")}
             >
               <Grid container spacing={1} alignItems="center">
@@ -97,7 +101,7 @@ const AddMaterialPopOver = ({
                   <LinkIcon className={classes.optionIcon} />
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.optionText} variant="h6">
+                  <Typography className={classes.optionText} variant="h6" >
                     Add New Link
                   </Typography>
                 </Grid>
@@ -107,6 +111,8 @@ const AddMaterialPopOver = ({
           <Grid item>
             <Button
               className={classes.optionButton}
+              disabled={Crumbs.length ==1}
+              
               onClick={() => onClick("Video")}
             >
               <Grid container spacing={1} alignItems="center">
