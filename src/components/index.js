@@ -13,3 +13,5 @@ export { default as RenameForm} from "./RenameForm";
 export { default as Quiz } from "./Quiz";
 export {default as StudentProfile}from "./StudentProfile";
 export {default as CoursesNavigationButtons} from "./ButtonBases/CoursesNavigationButtons"
+export {default as QuizTable } from "./QuizTable";
+export {default as QuizHeader} from "./QuizHeader";

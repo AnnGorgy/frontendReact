@@ -8,6 +8,9 @@ export { default as CourseHome } from "./CourseHome";
 export {default as StudentProfilePage} from "./StudentProfilePage"
 export {default as InstructorProfilePage} from "./InstructorProfilePage"
 export { default as NotFoundPage } from './NotFoundPage';
+export {default as MainPageForQuiz} from "../pages/Quiz/MainPageForQuiz"
+
+
 
 
 

@@ -6,16 +6,16 @@ import {
   Grid,
   withStyles,
   TextField,
-  Button
+  Button,
+  Snackbar,
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
 import { DragImport } from "../";
-
 
 /* The dialog that appear in materials Page for "Files-Assignemnets-videos" */
 const CreateFileForm = ({
@@ -24,9 +24,8 @@ const CreateFileForm = ({
   title,
   onSubmit,
   hasDate,
-  classes
+  classes,
 }) => {
-
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -35,10 +34,10 @@ const CreateFileForm = ({
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [date, setDate] = useState({
     start: new Date(),
-    end: new Date()
+    end: new Date(),
   });
   // ---------------------------------------------------------------------------------------------------------
-  const onDropBlobs = blobs => {
+  const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
   };
 
@@ -198,7 +197,6 @@ const CreateFileForm = ({
                   )}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
-
                       {/* Dialog Cancel Button */}
                       <Grid item>
                         <Button
@@ -243,8 +241,8 @@ const CreateFileForm = ({
                             variant="h6"
                             className={
                               blobs.length !== 1 ||
-                                name === "" ||
-                                (hasDate && (!goodStartDate || !goodEndDate))
+                              name === "" ||
+                              (hasDate && (!goodStartDate || !goodEndDate))
                                 ? classes.createText
                                 : classes.boldText
                             }
@@ -267,51 +265,51 @@ const CreateFileForm = ({
 
 CreateFileForm.defaultProps = {
   hasDate: false,
-  isLink: false
+  isLink: false,
 };
 
 /* Dialog styles */
 const styles = () => ({
   dialog: {
-    padding: "10px 0px"
+    padding: "10px 0px",
   },
   titleContainer: {
-    marginBottom: "18px"
+    marginBottom: "18px",
   },
   textFieldRoot: {
     backgroundColor: "white",
-    borderRadius: "7px"
+    borderRadius: "7px",
   },
   notchedOutline: {
     borderWidth: "1px",
-    borderColor: `black !important`
+    borderColor: `black !important`,
   },
   label: {
     color: "black !important",
-    fontWeight: "600"
+    fontWeight: "600",
   },
   dialogPaper: {
     minHeight: "50vh",
-    padding: "20px 0px"
+    padding: "20px 0px",
   },
   createButton: {
     height: "40px",
     width: "130px",
     borderRadius: "16px",
-    border: "2px black solid"
+    border: "2px black solid",
   },
   cancelButton: {
     height: "40px",
     width: "130px",
     borderRadius: "16px",
-    border: "2px red solid"
+    border: "2px red solid",
   },
   boldText: {
-    fontWeight: "600"
+    fontWeight: "600",
   },
   createText: {
-    color: "silver"
-  }
+    color: "silver",
+  },
 });
 
 export default withStyles(styles)(CreateFileForm);

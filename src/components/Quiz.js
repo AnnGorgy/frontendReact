@@ -26,7 +26,7 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
 
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState();
-  const [Description,setDescription] = useState();
+  const [Description, setDescription] = useState();
   const [TotalGrade, setTotalGrade] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
@@ -110,69 +110,31 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                     />
                   </Grid>
                   <Grid item>
-                    <Grid container justify="space-between">
-                      <Grid item xs={5}>
-                        {/* Dialog Total Grade */}
-                        <TextField
-                          label="Total Grade"
-                          rows={1}
-                          required
-                          value={TotalGrade}
-                          type="number"
-                          variant="outlined"
-                          classes={{
-                            root: classes.textFieldRoot,
-                          }}
-                          InputProps={{
-                            classes: {
-                              notchedOutline: classes.notchedOutline,
-                              className: classes.multilineColor,
-                            },
-                          }}
-                          InputLabelProps={{
-                            classes: {
-                              root: classes.label,
-                            },
-                          }}
-                          style={{ width: "230px", color: "black" }}
-                        />
-                      </Grid>
-                      <Grid item xs={5}>
-                        {/* Dialog Duration */}
-                        <TextField
-                          label="Duration"
-                          rows={1}
-                          required
-                          value={Duration}
-                          type="number"
-                          placeholder="Min"
-                          variant="outlined"
-                          classes={{
-                            root: classes.textFieldRoot,
-                          }}
-                          InputProps={{
-                            classes: {
-                              notchedOutline: classes.notchedOutline,
-                            },
-                          }}
-                          InputLabelProps={{
-                            classes: {
-                              root: classes.label,
-                            },
-                          }}
-                          style={{ width: "230px" }}
-                        />
-                        {/*  <NumberInput
-                          id="Duration"
-                          value={""}
-                          required
-                          defaultValue={10}
-                          min={0}
-                          max={1000}
-                          strategy="warn"
-                          errorText={"zfT 3la dma8k da5l al rakm s7"}
-                        /> */}
-                      </Grid>
+                    <Grid item>
+                      {/* Dialog Duration */}
+                      <TextField
+                        label="Duration"
+                        rows={1}
+                        required
+                        value={Duration}
+                        type="number"
+                        placeholder="Min"
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{ width: "230px" }}
+                      />
                     </Grid>
                   </Grid>
                   <Grid item>
@@ -198,7 +160,7 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                           root: classes.label,
                         },
                       }}
-                     /*  style={{ width: "280px", marginLeft: "130px" }} */
+                      /*  style={{ width: "280px", marginLeft: "130px" }} */
                     />
                   </Grid>
                   <Grid item>

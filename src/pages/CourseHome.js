@@ -11,8 +11,7 @@ import CoursesNavigationButtons from "../components/ButtonBases/CoursesNavigatio
 const CourseHome = ({ history, match }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const CourseName = JSON.parse(localStorage.getItem("subjects")).find(
-    (subject) => subject.ID == match.params.courseId
-  ).Subjectname;
+    (subject) => subject.ID == match.params.courseId).Subjectname;
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const DoctorName = JSON.parse(localStorage.getItem("DrInformation"))[0].doctorName;
   //--------------------------------------------------------------------------------------------------------
