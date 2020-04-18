@@ -29,7 +29,7 @@ const QuizHeaderCreation = () => {
         <Typography
           style={{
             fontSize: 30,
-            fontFamily: "Monaco",
+            fontFamily: "sans-serif",
           }}
         >
           Course Name :
@@ -39,6 +39,7 @@ const QuizHeaderCreation = () => {
             fontSize: 24,
             color: "silver",
             marginLeft:"177px",
+            fontFamily: "sans-serif",
           }}
         >
           {CourseName}
@@ -49,7 +50,7 @@ const QuizHeaderCreation = () => {
         <Typography
           style={{
             fontSize: 30,
-            fontFamily: "Monaco",
+            fontFamily: "sans-serif",
           }}
         >
           Quiz Name :
@@ -69,7 +70,7 @@ const QuizHeaderCreation = () => {
         <Typography
           style={{
             fontSize: 30,
-            fontFamily: "Monaco",
+            fontFamily: "sans-serif",
           }}
         >
           Total Time :

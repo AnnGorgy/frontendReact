@@ -16,5 +16,6 @@ export {default as CoursesNavigationButtons} from "./ButtonBases/CoursesNavigati
 export {default as QuizTableMain } from "./QuizTableMain";
 export {default as QuizHeaderMain} from "./QuizHeaderMain";
 export {default as QuizHeaderCreation} from "./QuizHeaderCreation";
+export {default as QuizStepper} from "./QuizStepper";
 
 

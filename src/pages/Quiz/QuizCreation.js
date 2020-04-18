@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, QuizHeaderCreation } from "../../components";
+import { SideBar, QuizHeaderCreation ,  QuizStepper, } from "../../components";
 import { Grid } from "@material-ui/core";
 
 const QuizCreation = () => {
@@ -26,6 +26,8 @@ const QuizCreation = () => {
           <Grid item>
             <QuizHeaderCreation />
           </Grid>
+          <Grid item>
+          <QuizStepper/></Grid>
         </Grid>
       </Grid>
     </Grid>

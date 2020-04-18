@@ -25,8 +25,7 @@ const MainPageForQuiz = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <QuizHeaderMain 
-            setReloadQuizzes = {setReloadQuiz}/>
+            <QuizHeaderMain setReloadQuizzes={setReloadQuiz} />
           </Grid>
           <Grid item>
             <QuizTableMain
