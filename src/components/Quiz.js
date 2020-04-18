@@ -42,6 +42,38 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
 
   //----------------------------------------------------------------------------------------------------------
 
+  const ViewData = async () => {
+    const url = "/DoctorMakeQuiz/AddQuiz";
+    try {
+      // post syntax (url, body, options)
+      const { data } = await post(url, null, {
+        params: {
+          name: Name,
+          description: Description,
+          startDate: date.start,
+          endDate: date.end,
+          startTime: TimePicker.start,
+          endTime: TimePicker.end,
+          duration: Duration,
+          totalGrade: "20",
+          subID: "538",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const resetStates = () => {
+    setName("");
+    setDescription("");
+    setDate({ start: new Date(), end: new Date() });
+    setTimePicker({ start: new Date(), end: new Date() });
+    setDuration("");
+    setGoodStartDate(false);
+    setGoodEndDate(false);
+  };
+
   useEffect(() => {
     if (reloadProfile) {
       setReloadProfile(false);
@@ -53,6 +85,7 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
       <Dialog
         onClose={() => {
           onClose();
+          resetStates();
         }}
         open={isOpened}
         maxWidth="sm"
@@ -91,6 +124,9 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                       label="Quiz Name"
                       rows={1}
                       value={Name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
                       required
                       variant="outlined"
                       classes={{
@@ -117,6 +153,9 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                         rows={1}
                         required
                         value={Duration}
+                        onChange={(e) => {
+                          setDuration(e.target.value);
+                        }}
                         type="number"
                         placeholder="Min"
                         variant="outlined"
@@ -145,6 +184,9 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                       multiline
                       fullWidth
                       value={Description}
+                      onChange={(e) => {
+                        setDescription(e.target.value);
+                      }}
                       required
                       variant="outlined"
                       classes={{
@@ -174,6 +216,9 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                             label="Start Date"
                             inputVariant="standard"
                             value={date.start}
+                            onChange={(e) => {
+                              setDate(e.target.value);
+                            }}
                             onChange={(date) =>
                               setDate((prev) => ({ ...prev, start: date }))
                             }
@@ -211,7 +256,7 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                             label="Start Time"
                             value={TimePicker.start}
                             onChange={(TimePicker) =>
-                              setDate((prev) => ({
+                              setTimePicker((prev) => ({
                                 ...prev,
                                 start: TimePicker,
                               }))
@@ -232,7 +277,10 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                             label="End Time"
                             value={TimePicker.end}
                             onChange={(TimePicker) =>
-                              setDate((prev) => ({ ...prev, end: TimePicker }))
+                              setTimePicker((prev) => ({
+                                ...prev,
+                                end: TimePicker,
+                              }))
                             }
                             KeyboardButtonProps={{
                               "aria-label": "change time",
@@ -251,7 +299,10 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
-                          onClick={onClose}
+                          onClick={() => {
+                            onClose();
+                            resetStates();
+                          }}
                         >
                           <Typography
                             variant="h6"
@@ -266,7 +317,14 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                   </Grid>
                   {/* Create Button */}
                   <Grid item>
-                    <Button variant="outlined" className={classes.createButton}>
+                    <Button
+                      variant="outlined"
+                      className={classes.createButton}
+                      onClick={() => {
+                        ViewData();
+                        resetStates();
+                      }}
+                    >
                       <Typography variant="h6" className={classes.boldText}>
                         Create
                       </Typography>

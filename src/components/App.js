@@ -13,6 +13,7 @@ import {
   InstructorProfilePage,
   NotFoundPage,
   MainPageForQuiz,
+  QuizCreation,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -33,7 +34,8 @@ const App = ({ match }) => {
       <Route exact path = {"/course/:courseId"}component={CourseHome} />
       <Route exact path = {"/studentprof"}component={StudentProfilePage} />
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
-      <Route exact path = {"/quiz"}component={MainPageForQuiz} />
+      <Route exact path = {"/quiz"} component={MainPageForQuiz} />
+      <Route exact path = {"/createquiz"} component={QuizCreation} />
       <Route component={NotFoundPage} />
     </Switch>
   );

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, QuizTableMain, QuizHeaderMain } from "../../components";
+import { SideBar, QuizHeaderCreation } from "../../components";
 import { Grid } from "@material-ui/core";
 
-const MainPageForQuiz = () => {
+const QuizCreation = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [reloadQuizzes, setReloadQuizzes] = useState(true);
   //--------------------------------------------------------------------------------------------------------
@@ -14,7 +14,6 @@ const MainPageForQuiz = () => {
       <Grid item xs={2}>
         <SideBar />
       </Grid>
-
       <Grid item xs={10}>
         <Grid
           container
@@ -25,17 +24,11 @@ const MainPageForQuiz = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <QuizHeaderMain />
-          </Grid>
-          <Grid item>
-            <QuizTableMain
-              reloadQuiz={reloadQuizzes}
-              setReloadQuiz={setReloadQuizzes}
-            />
+            <QuizHeaderCreation />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default withRouter(MainPageForQuiz);
+export default withRouter(QuizCreation);
