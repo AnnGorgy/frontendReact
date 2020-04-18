@@ -21,7 +21,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
+const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
 
   const [reloadProfile, setReloadProfile] = useState(true);
@@ -41,28 +41,6 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
   const [Duration, setDuration] = useState();
 
   //----------------------------------------------------------------------------------------------------------
-
-  const ViewData = async () => {
-    const url = "/DoctorMakeQuiz/AddQuiz";
-    try {
-      // post syntax (url, body, options)
-      const { data } = await post(url, null, {
-        params: {
-          name: Name,
-          description: Description,
-          startDate: date.start,
-          endDate: date.end,
-          startTime: TimePicker.start,
-          endTime: TimePicker.end,
-          duration: Duration,
-          totalGrade: "20",
-          subID: "538",
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const resetStates = () => {
     setName("");
@@ -321,8 +299,14 @@ const Quiz = ({ onClose, isOpened, title, match, onSubmit, classes }) => {
                       variant="outlined"
                       className={classes.createButton}
                       onClick={() => {
-                        ViewData();
                         resetStates();
+                        onSubmit({
+                          Name,
+                          Description,
+                          date,
+                          TimePicker,
+                          Duration,
+                        });
                       }}
                     >
                       <Typography variant="h6" className={classes.boldText}>

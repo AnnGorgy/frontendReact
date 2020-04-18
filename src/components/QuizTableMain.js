@@ -15,11 +15,11 @@ import {
 } from "@material-ui/core";
 import { SideBar } from "../components";
 
-const QuizTableMain = ({ reloadQuiz, setReloadQuiz }) => {
+const QuizTableMain = ({ reloadQuiz, setReloadQuiz , match }) => {
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: "538" },
+      params: { sub_Id: match.params.courseId },
     });
     setAllQuiz(data);
   };
@@ -30,7 +30,10 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz }) => {
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    listQuizzes();
+    if (reloadQuiz === true) {
+      listQuizzes();
+      setReloadQuiz(false);
+    }
   }, [reloadQuiz]);
 
   useEffect(() => {
@@ -38,6 +41,10 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz }) => {
       setDisplayedQuiz([...allQuiz]);
     }
   }, [allQuiz]);
+
+  useEffect(() => {
+    listQuizzes();
+  }, [538]);
 
   return (
     <TableContainer
