@@ -10,8 +10,9 @@ import { withRouter } from "react-router-dom";
 import { Grid, withStyles } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
-
 import FormGroup from "@material-ui/core/FormGroup";
+import MCQ from "./MCQ";
+import TrueFalse from "./TrueFalse";
 
 const tutorialSteps = [
   {
@@ -48,7 +49,7 @@ const tutorialSteps = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 1270,
+    maxWidth: 1257,
     flexGrow: 1,
     //marginTop:"100px",
   },
@@ -56,16 +57,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     height: 60,
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
     //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
-  },
-  img: {
-    height: 500,
-    maxWidth: 1270,
-    overflow: "hidden",
-    display: "block",
-    width: "100%",
   },
 }));
 const QuestionTypeSwitch = withStyles({
@@ -104,23 +101,32 @@ const QuizStepper = () => {
   return (
     <div className={classes.root}>
       <Paper square elevation={0} className={classes.header}>
-        <TextField
-          label="Question:  "
-          value={tutorialSteps[activeStep].number}
-          disabled="true"
-          style={{ width: "100px",marginLeft:"10px" }}
-          InputLabelProps={{ style: { color: "black" , fontSize:"30px" } }}
-          inputProps={{ style: { color: "black" ,marginLeft:"90px" , paddingTop:"17px"} }}
-        />
+        <Typography
+          style={{
+            marginLeft: "30px",
+            fontFamily: "Monaco",
+            fontSize: "25px",
+            width: "140px",
+            padding: "2px 2px 2px 20px",
+            borderRadius: "16px",
+            border: "3px solid black",
+          }}
+        >
+          Question: {tutorialSteps[activeStep].number}
+        </Typography>
 
         <TextField
           id="standard-basic"
           label="Enter Question Grade"
-          style={{ alignItems: "right", marginLeft: "480px" }}
+          style={{
+            alignItems: "right",
+            marginLeft: "360px",
+            marginBottom: "20px",
+          }}
           inputProps={{ style: { color: "black" } }}
           InputLabelProps={{ style: { color: "black" } }}
         />
-        <FormGroup style={{ marginLeft: "280px" }}>
+        <FormGroup style={{ marginLeft: "240px" }}>
           <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>True/False</Grid>
@@ -136,12 +142,16 @@ const QuizStepper = () => {
           </Typography>
         </FormGroup>
       </Paper>
-      <img
-        className={classes.img}
-        src={tutorialSteps[activeStep].imgPath}
-        alt={tutorialSteps[activeStep].label}
-      />
+      {state.checkedA ? <MCQ /> : <TrueFalse />}
       <MobileStepper
+        style={{
+          width: "1241px",
+          height: "20px",
+          webkitBoxShadow: "5px 5px 5px #9E9E9E",
+          mozBoxShadow: "5px 5px 5px #9E9E9E",
+          boxShadow: "5px 5px 5px #9E9E9E",
+          backgroundColor:"silver",
+        }}
         steps={maxSteps}
         position="static"
         variant="dots"

@@ -17,5 +17,10 @@ export {default as QuizTableMain } from "./QuizTableMain";
 export {default as QuizHeaderMain} from "./QuizHeaderMain";
 export {default as QuizHeaderCreation} from "./QuizHeaderCreation";
 export {default as QuizStepper} from "./QuizStepper";
+export {default as MCQ} from "./MCQ";
+export {default as TrueFalse} from "./TrueFalse";
+
+
+
 
 

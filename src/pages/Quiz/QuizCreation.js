@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, QuizHeaderCreation ,  QuizStepper, } from "../../components";
+import {
+  SideBar,
+  QuizHeaderCreation,
+  QuizStepper,
+  Quiz,
+  MCQ,
+  TrueFalse,
+} from "../../components";
 import { Grid } from "@material-ui/core";
 
 const QuizCreation = () => {
@@ -27,7 +34,10 @@ const QuizCreation = () => {
             <QuizHeaderCreation />
           </Grid>
           <Grid item>
-          <QuizStepper/></Grid>
+            <QuizStepper/> 
+            {/*<MCQ /> */}
+            {/* <TrueFalse />*/}
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
