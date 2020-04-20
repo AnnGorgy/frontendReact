@@ -15,16 +15,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
 const TrueFalse = ({ classes }) => {
-  const [inputList, setInputList] = useState([
-    { Choice1: "true", Choice2: "false" },
-  ]);
-
-  const [selectedValue, setSelectedValue] = React.useState("0");
-
-  const handleChangeRadio = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(selectedValue);
-  };
+  const [correctAnswers, setCorrectAnswers] = useState([0]);
+  const inputList = [
+    { content: "False", index: 0 },
+    { content: "True", index: 1 },
+  ];
 
   return (
     <React.Fragment>
@@ -40,15 +35,14 @@ const TrueFalse = ({ classes }) => {
             boxShadow: "5px 5px 5px #9E9E9E",
             marginRight: "9px",
             backgroundColor: "white",
-            width:"1257px"
+            width: "1257px",
           }}
         >
           <Grid>
             <TextField
-              label="Enter The Title Of The Question"
-              name="Title"
+              placeholder="Enter The Title Of The Question"
+              label="Title"
               variant="outlined"
-              defaultValue="Choose True Or False"
               classes={{
                 root: classes.textFieldRoot,
               }}
@@ -68,8 +62,8 @@ const TrueFalse = ({ classes }) => {
 
           <Grid>
             <TextField
-              label="Enter Your Question"
-              name="Question"
+              placeholder="Enter Your Question"
+              label="Question Statement"
               multiline
               rows={2}
               variant="outlined"
@@ -90,76 +84,51 @@ const TrueFalse = ({ classes }) => {
             />
           </Grid>
 
-          <Grid className="App">
-            {inputList.map((x, i) => {
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            justify="center"
+            spacing={1}
+            style={{
+              flexWrap: "nowrap",
+              borderRadius: "4px",
+              border: "1px solid black",
+              overflowY: "auto",
+              width: "650px",
+              height: "280px",
+              marginLeft: "220px",
+              flexGrow: 1,
+              display: "flex",
+            }}
+          >
+            {/* TODO: change x, i to something meaningful */}
+            {inputList.map((choice, index) => {
               return (
                 <React.Fragment>
-                  <div>
-                    <TextField
-                      label="Choice 1"
-                      name="Choice 1"
-                      value={x.Choice1}
-                      disabled="true"
-                      rows={1}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{ width: "350px", marginLeft: "285px" }}
-                    />
-
-                    <Radio
-                      style={{ marginTop: "20px" }}
-                      checked={selectedValue == i}
-                      onChange={handleChangeRadio}
-                      value={i}
-                      name="Single_Choice"
-                      inputProps={{ "aria-label": "A" }}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      label="Choice 2"
-                      name="Choice 2"
-                      value={x.Choice2}
-                      disabled="true"
-                      rows={1}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{ width: "350px", marginLeft: "285px" }}
-                    />
-
-                    <Radio
-                      style={{ marginTop: "20px" }}
-                      checked={selectedValue == i}
-                      onChange={handleChangeRadio}
-                      value={i}
-                      name="Single_Choice"
-                      inputProps={{ "aria-label": "A" }}
-                    />
-                  </div>
+                  {/* TODO: style this part */}
+                  <Grid item style={{ marginLeft: "180px", paddingBottom:"40px" }}>
+                    <Grid item>
+                      <Typography
+                        style={{
+                          fontSize: "35px",
+                          fontFamily: "Times New Roman",
+                        }}
+                      >
+                        {index + 1}) {choice.content}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      style={{ marginTop: "-43px", marginLeft: "200px" }}
+                    >
+                      <Radio
+                        checked={correctAnswers.includes(choice.index)}
+                        onChange={() => setCorrectAnswers([choice.index])}
+                        inputProps={{ "aria-label": "A" }}
+                      />
+                    </Grid>
+                  </Grid>
                 </React.Fragment>
               );
             })}

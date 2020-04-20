@@ -14,6 +14,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
 
+// dh kona wa5dyno mn material ui aly hwa al goz2yn aly t7t dol bs m3rfna4 azay nrbotha bl mcq w al true w al false tb2a dynamic 
+
 const tutorialSteps = [
   {
     number: "1",

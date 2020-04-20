@@ -15,28 +15,25 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
 const MCQ = ({ classes }) => {
-  const [inputList, setInputList] = useState([{ Choice: "" }]);
-  const [state, setState] = useState({
-    checkedA: true,
-  });
+  const [inputList, setInputList] = useState([{ content: "", index: 0 }]);
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  // false : single
+  // true  : multi
+  const [questionType, setQuestionType] = useState(0);
 
-  const [selectedValue, setSelectedValue] = React.useState("0");
-
-  const handleChangeRadio = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(selectedValue);
-  };
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const handleChange = () => {
+    setCorrectAnswers([]);
+    setQuestionType((prev) => !prev);
   };
 
   // handle input change
   const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...inputList];
-    list[index][name] = value;
-    setInputList(list);
+    setInputList((prev) =>
+      prev.map((choice) =>
+        choice.index === index ? { ...choice, content: e.target.value } : choice
+      )
+    );
   };
 
   const QuestionTypeSwitch = withStyles({
@@ -53,8 +50,10 @@ const MCQ = ({ classes }) => {
     track: {},
   })(Switch);
 
-  // handle click event of the Remove button
   const handleRemoveClick = (index) => {
+    if (correctAnswers.includes(index)) {
+      setCorrectAnswers((prev) => prev.filter((answer) => answer !== index));
+    }
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -62,7 +61,8 @@ const MCQ = ({ classes }) => {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { Choice: "" }]);
+    setInputList((prev) => [...prev, { content: "", index: currentIndex }]);
+    setCurrentIndex((prev) => prev + 1);
   };
 
   return (
@@ -84,10 +84,9 @@ const MCQ = ({ classes }) => {
         >
           <Grid>
             <TextField
-              label="Enter title of the Question"
-              name="Title"
+              placeholder="Enter title of the Question"
+              label="Title"
               variant="outlined"
-              defaultValue="Choose the correct answer from the following"
               classes={{
                 root: classes.textFieldRoot,
               }}
@@ -106,8 +105,8 @@ const MCQ = ({ classes }) => {
           </Grid>
           <Grid>
             <TextField
-              label="Enter Your Question"
-              name="Question"
+              placeholder="Enter Your Question Statement"
+              label="Question Body"
               multiline
               rows={2}
               variant="outlined"
@@ -137,9 +136,8 @@ const MCQ = ({ classes }) => {
                   <Grid item>Multiple Choice</Grid>
                   <Grid item>
                     <QuestionTypeSwitch
-                      checked={state.checkedA}
+                      checked={!questionType}
                       onChange={handleChange}
-                      name="checkedA"
                     />
                   </Grid>
                   <Grid item>Single Choice</Grid>
@@ -148,72 +146,114 @@ const MCQ = ({ classes }) => {
             </FormGroup>
           </Grid>
 
-          <Grid className="App">
-            {inputList.map((x, i) => {
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            justify="center"
+            spacing={1}
+            style={{
+              flexWrap: "nowrap",
+              borderRadius: "4px",
+              border: "1px solid black",
+              overflowY: "auto",
+              width: "760px",
+              height: "280px",
+              marginLeft: "220px",
+              flexGrow: 1,
+              display: "flex",
+            }}
+          >
+            {inputList.map((choice, index) => {
               return (
-                <div className="box">
-                  <TextField
-                    label="Enter Your Choice"
-                    name="Choice"
-                    value={x.Choice}
-                    onChange={(e) => {
-                      handleInputChange(e, i);
-                    }}
-                    rows={1}
-                    variant="outlined"
-                    classes={{
-                      root: classes.textFieldRoot,
-                    }}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline,
-                      },
-                    }}
-                    InputLabelProps={{
-                      classes: {
-                        root: classes.label,
-                      },
-                    }}
-                    style={{
-                      width: "350px",
-                      marginLeft: "285px",
-                      marginBottom: "2px",
-                    }}
-                  />
-                  {state.checkedA ? (
-                    <Checkbox
-                      style={{ marginTop: "20px" }}
-                      inputProps={{ "aria-label": "uncontrolled-checkbox" }}
+                <Grid item style={{ marginLeft: "-180px" }}>
+                  <Grid item>
+                    <TextField
+                      label="Enter Your Choice"
+                      name="Choice"
+                      value={choice.content}
+                      onChange={(e) => {
+                        handleInputChange(e, index);
+                      }}
+                      rows={1}
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{
+                        width: "350px",
+                        marginLeft: "285px",
+                        marginBottom: "2px",
+                      }}
                     />
-                  ) : (
-                    <Radio
-                      style={{ marginTop: "20px" }}
-                      checked={selectedValue == i}
-                      onChange={handleChangeRadio}
-                      value={i}
-                      name="Single_Choice"
-                      inputProps={{ "aria-label": "A" }}
-                    />
-                  )}
+                  </Grid>
+                  <Grid
+                    item
+                    style={{ marginTop: "-50px", marginLeft: "670px" }}
+                  >
+                    {questionType ? (
+                      <Checkbox
+                        inputProps={{ "aria-label": "uncontrolled-checkbox" }}
+                        checked={correctAnswers.includes(choice.index)}
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setCorrectAnswers((prev) => [
+                                ...prev,
+                                choice.index,
+                              ])
+                            : setCorrectAnswers((prev) =>
+                                prev.filter((answer) => answer !== choice.index)
+                              )
+                        }
+                      />
+                    ) : (
+                      <Radio
+                        checked={correctAnswers.includes(choice.index)}
+                        onChange={() => setCorrectAnswers([choice.index])}
+                        value={index}
+                        name="Single_Choice"
+                        inputProps={{ "aria-label": "A" }}
+                      />
+                    )}
+                  </Grid>
 
-                  {inputList.length - 1 === i && inputList.length - 1 !== 3 && (
-                    <Tooltip title="Add" placement="bottom">
-                      <Button style={{ marginTop: "20px", marginLeft: "3px" }}>
-                        <AddCircleIcon onClick={handleAddClick} />
-                      </Button>
-                    </Tooltip>
-                  )}
-                  {inputList.length !== 1 && (
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button style={{ marginTop: "20px" }}>
-                        <DeleteIcon onClick={() => handleRemoveClick(i)} />
-                      </Button>
-                    </Tooltip>
-                  )}
-                </div>
+                  <Grid
+                    item
+                    style={{ marginTop: "-58px", marginLeft: "700px" }}
+                  >
+                    {inputList.length - 1 === index && (
+                      <Tooltip title="Add" placement="bottom">
+                        <Button
+                          style={{ marginTop: "20px", marginLeft: "3px" }}
+                        >
+                          <AddCircleIcon onClick={handleAddClick} />
+                        </Button>
+                      </Tooltip>
+                    )}
+                    {inputList.length !== 1 && (
+                      <Tooltip title="Delete" placement="bottom">
+                        <Button style={{ marginTop: "20px" }}>
+                          <DeleteIcon
+                            onClick={() => handleRemoveClick(index)}
+                          />
+                        </Button>
+                      </Tooltip>
+                    )}
+                  </Grid>
+                </Grid>
               );
             })}
-            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>*/}
+            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
           </Grid>
         </Grid>
       </Grid>
