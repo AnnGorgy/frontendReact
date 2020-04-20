@@ -20,22 +20,24 @@ import {
 
 // Images //
 import Theimage from "./UniLogo.png";
+import LMS from "./LMSWhite.png"
 // mostafa20191701201@cis.asu.edu.eg //
 // instructor@chpsis.cis.asu.edu.eg //
 // Page Style //
 const styles = (theme) => ({
   item: {
-    backgroundColor: "#c5d7d9",
+    backgroundColor: "#1C1C1C",
     paddingTop: 17.3,
     paddingBottom: 17.3,
     paddingLeft: 0,
-    color: "rgba(255, 255, 255, 0.7)",
+    color: "rgba(255, 255, 255, 1.0)",
     width: "235px",
-    height: "101.5px",
+    height: "100px",
   },
   itemCategory: {
-    backgroundColor: "#c5d7d9",
+    backgroundColor: "#1C1C1C",
     boxShadow: "0 -1px 0 #404854 inset",
+    color: "rgba(255, 255, 255, 1.0)",
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
@@ -44,17 +46,25 @@ const styles = (theme) => ({
     paddingLeft: "18px",
     paddingRight: "8px",
   },
+  logo: {
+    fontSize: 24,
+    height: "80px",
+  },
   firebase: {
     fontSize: 24,
-    height: "220px",
+    
+    height: "150px",
   },
   itemActiveItem: {
-    color: "#4fc3f7",
+    color: "#4A4A4A",
+    backgroundColor: "#4A4A4A"
   },
   itemPrimary: {
     fontSize: 26,
+    color: "rgba(255, 255, 255, 1.0)",
   },
   itemIcon: {
+    color:"#4A4A4A",
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
@@ -62,7 +72,7 @@ const styles = (theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(1.5),
-    backgroundColor: "#c5d7d9",
+    backgroundColor: "#1C1C1C",
     width: "235px",
   },
 });
@@ -125,7 +135,7 @@ function Navigator({ classes, history, match }) {
 
   const CourseIcon = (
     <img
-      src="https://img.icons8.com/wired/30/000000/book.png"
+      src="https://img.icons8.com/wired/30/FFFFFF/book.png"
       className={classes.courseImage}
       alt="img"
     />
@@ -144,7 +154,7 @@ function Navigator({ classes, history, match }) {
       title: "Home",
       Icon: (
         <img
-          src="https://img.icons8.com/metro/55/000000/home.png"
+          src="https://img.icons8.com/metro/55/FFFFFF/home.png"
           alt="Home_LOGO"
         />
       ),
@@ -154,7 +164,7 @@ function Navigator({ classes, history, match }) {
       title: ViewingName,
       Icon: (
         <img
-          src="https://img.icons8.com/ios/55/000000/gender-neutral-user.png"
+          src="https://img.icons8.com/ios/55/FFFFFF/gender-neutral-user.png"
           alt="profile_LOGO"
         />
       ),
@@ -170,7 +180,7 @@ function Navigator({ classes, history, match }) {
       needCourse: true,
       Icon: (
         <img
-          src="https://img.icons8.com/wired/55/000000/students.png"
+          src="https://img.icons8.com/wired/55/FFFFFF/students.png"
           alt="Students_LOGO"
         />
       ),
@@ -185,7 +195,7 @@ function Navigator({ classes, history, match }) {
       needCourse: true,
       Icon: (
         <img
-          src="https://img.icons8.com/pastel-glyph/55/000000/saving-book.png"
+          src="https://img.icons8.com/pastel-glyph/55/FFFFFF/saving-book.png"
           alt="MATERIALS_LOGO"
         />
       ),
@@ -203,7 +213,7 @@ function Navigator({ classes, history, match }) {
       title: "Courses",
       Icon: (
         <img
-          src="https://img.icons8.com/ios-filled/55/000000/courses.png"
+          src="https://img.icons8.com/ios-filled/55/FFFFFF/courses.png"
           alt="Courses_LOGO"
         />
       ),
@@ -214,7 +224,7 @@ function Navigator({ classes, history, match }) {
       title: "Contact Us",
       Icon: (
         <img
-          src="https://img.icons8.com/ios-filled/55/000000/add-contact-to-company.png"
+          src="https://img.icons8.com/ios-filled/55/FFFFFF/add-contact-to-company.png"
           alt="ContactUs_LOGO"
         />
       ),
@@ -224,8 +234,9 @@ function Navigator({ classes, history, match }) {
       title: "Sign Out",
       Icon: (
         <img
-          src="https://img.icons8.com/ios/55/000000/exit.png"
+          src="https://img.icons8.com/ios/55/FFFFFF/exit.png"
           alt="SignOut_LOGO"
+          
         />
       ),
 
@@ -237,6 +248,7 @@ function Navigator({ classes, history, match }) {
     <React.Fragment>
       <Drawer variant="permanent">
         <List disablePadding>
+       
           <ListItem
             className={clsx(
               classes.firebase,
@@ -244,7 +256,7 @@ function Navigator({ classes, history, match }) {
               classes.itemCategory
             )}
           >
-            <img src={Theimage} alt="FCIS_LOGO" width="210" />
+            <img src={Theimage} alt="FCIS_LOGO" width="150" marginLeft="150px" />
           </ListItem>
 
           {categories
