@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
   Dialog,
   Typography,
@@ -17,19 +17,60 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-const QuestionTypeSwitch = withStyles({
+const QuestionShuffleSwitch = withStyles((theme) => ({
+  root: {
+    width: 42,
+    height: 26,
+    padding: 0,
+    margin: theme.spacing(1),
+  },
   switchBase: {
-    color: "#00867d",
-    "&$checked": {
-      color: "#00867d",
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(16px)',
+      color: theme.palette.common.white,
+      
+      '& + $track': {
+        backgroundColor: '#52d869',
+        opacity: 1,
+        border: 'none',
+      },
     },
-    "&$checked + $track": {
-      backgroundColor: "#005b4f",
+    '&$focusVisible $thumb': {
+      color: '#52d869',
+      border: '6px solid #fff',
     },
   },
+  thumb: {
+    width: 24,
+    height: 24,
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: theme.palette.grey[50],
+    opacity: 1,
+    transition: theme.transitions.create(['background-color', 'border']),
+  },
   checked: {},
-  track: {},
-})(Switch);
+  focusVisible: {},
+}))(({ classes, ...props }) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});
+
 
 const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
@@ -41,9 +82,9 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [shuffleQuestions, setShuffleQuestions] = useState({
-    shuffled: true,
+    shuffled: false,
   });
-  const [changedQuestions, setChangedQuestions] = useState(false);
+  const [changeQuestionsOrder, setchangeQuestionsOrder] = useState("false");
 
   const [date, setDate] = useState({
     start: new Date(),
@@ -59,7 +100,12 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
       [event.target.name]: event.target.checked,
     });
   };
-
+  const fillShuffle = (event) => {
+   
+   shuffleQuestions.shuffled ? setchangeQuestionsOrder("true"): setchangeQuestionsOrder("false");
+    
+     
+  };
   const [Duration, setDuration] = useState();
 
   //----------------------------------------------------------------------------------------------------------
@@ -72,6 +118,8 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
     setDuration("");
     setGoodStartDate(false);
     setGoodEndDate(false);
+    setShuffleQuestions(false);
+    setchangeQuestionsOrder(0);
   };
 
   useEffect(() => {
@@ -177,33 +225,22 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                     </Grid>
                     <Grid
                       item
-                      style={{ marginTop: "-50px", marginLeft: "300px" }}
+                      style={{ marginTop: "-60px", marginLeft: "300px" }}
                     >
                       <FormGroup>
-                        <Typography component="div">
-                          <Grid
-                            component="label"
-                            container
-                            alignItems="center"
-                            spacing={1}
-                          >
-                            <Grid item>Shuffle Questions</Grid>
-                            <Grid item>
-                              <QuestionTypeSwitch
-                                checked={shuffleQuestions.shuffled}
-                                onChange={handleChange}
-                                name="shuffled"
-                              />
-                            </Grid>
-                          </Grid>
-                        </Typography>
+                      <FormControlLabel  labelPlacement="start" label="Shuffle Questions"
+        control={<QuestionShuffleSwitch  checked={shuffleQuestions.shuffled} onChange={handleChange} name="shuffled" />}
+       
+      />
+      
+                       
                       </FormGroup>
                     </Grid>
                   </Grid>
                   <Grid item>
                     {/* Dialog Description */}
                     <TextField
-                      label="Descreiption"
+                      label="Description"
                       rows={2}
                       multiline
                       fullWidth
@@ -346,12 +383,14 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       className={classes.createButton}
                       onClick={() => {
                         resetStates();
+                        fillShuffle();
                         onSubmit({
                           Name,
                           Description,
                           date,
                           TimePicker,
                           Duration,
+                          changeQuestionsOrder
                         });
                       }}
                     >

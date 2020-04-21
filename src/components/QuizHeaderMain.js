@@ -11,7 +11,7 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
 
-  const ViewData = async (Name, Description, date, TimePicker, Duration, callback) => {
+  const ViewData = async (Name, Description, date, TimePicker, Duration,changeQuestionsOrder, callback) => {
     const url = "/DoctorMakeQuiz/AddQuiz";
     try {
       // post syntax (url, body, options)
@@ -24,7 +24,7 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
           startTime: TimePicker.start,
           endTime: TimePicker.end,
           duration: Duration,
-          shuffleQuestion :"true",
+          shuffleQuestion :changeQuestionsOrder,
           subID: match.params.courseId,
         },
       });
@@ -40,15 +40,16 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
       <Quiz
         isOpened={OpenQuiz}
         onClose={() => setOpenQuiz(false)}
-        onSubmit={({ Name, Description, date, TimePicker, Duration }) =>
+        onSubmit={({ Name, Description, date, TimePicker, Duration,changeQuestionsOrder }) =>
           ViewData(
             Name,
             Description,
             date,
             TimePicker,
-            Duration,() =>
+            Duration,  changeQuestionsOrder,() =>
             setOpenQuiz(false)
             )
+          
           }
       />
       <Grid
