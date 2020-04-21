@@ -84,7 +84,7 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [shuffleQuestions, setShuffleQuestions] = useState({
     shuffled: false,
   });
-  const [changeQuestionsOrder, setchangeQuestionsOrder] = useState("false");
+  const [changeQuestionsOrder, setchangeQuestionsOrder] = useState(false);
 
   const [date, setDate] = useState({
     start: new Date(),
@@ -102,7 +102,7 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   };
   const fillShuffle = (event) => {
    
-   shuffleQuestions.shuffled ? setchangeQuestionsOrder("true"): setchangeQuestionsOrder("false");
+   shuffleQuestions.shuffled===true ? setchangeQuestionsOrder(false): setchangeQuestionsOrder(true);
     
      
   };
@@ -119,7 +119,7 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
     setGoodStartDate(false);
     setGoodEndDate(false);
     setShuffleQuestions(false);
-    setchangeQuestionsOrder(0);
+    setchangeQuestionsOrder(false);
   };
 
   useEffect(() => {
