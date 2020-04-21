@@ -43,7 +43,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
     ChangedDescription,
     ChangedDuration,
     ChangedTimePicker,
-    UpdatedchangeQuestionsOrder,
+    questionType,
     callback
   ) => {
     const url = "/DoctorMakeQuiz/UpdateQuizInfo";
@@ -57,7 +57,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
         startTime: ChangedTimePicker.start,
         endTime: ChangedTimePicker.end,
         duration: ChangedDuration,
-        shuffleQuestion: UpdatedchangeQuestionsOrder,
+        shuffleQuestion: questionType,
         subID: match.params.courseId,
       },
     });
@@ -91,9 +91,8 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
         eDate={currentEditedQuiz?.endDate}
         sTime={currentEditedQuiz?.startTime}
         eTime={currentEditedQuiz?.endTime}
-        /* TODO: al duration dyh lazm trg3 mn get quizz 34an a3mlha set bl value aly kan al dr. md5lha */
-        durat="15"
-        CurrentchangeQuestionsOrder={currentEditedQuiz?.changeQuestionsOrder}
+        durat={currentEditedQuiz?.duration}
+        CurrentchangeQuestionsOrder={currentEditedQuiz?.shuffleQuestion}
         descr={currentEditedQuiz?.description}
         isOpened={UpdateQuizIsOpen}
         onClose={() => setUpdateQuizIsOpen(false)}
@@ -102,7 +101,8 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
           ChangedDate,
           ChangedDescription,
           ChangedDuration,
-          ChangedTimePicker,UpdatedchangeQuestionsOrder,
+          ChangedTimePicker,
+          questionType,
         }) =>
           Updatequiz(
             currentEditedQuiz,
@@ -110,7 +110,8 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
             ChangedDate,
             ChangedDescription,
             ChangedDuration,
-            ChangedTimePicker,UpdatedchangeQuestionsOrder,
+            ChangedTimePicker,
+            questionType,
             () => setUpdateQuizIsOpen(false)
           )
         }

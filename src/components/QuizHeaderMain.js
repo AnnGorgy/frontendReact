@@ -5,13 +5,21 @@ import { Grid, withStyles, Button, Typography } from "@material-ui/core";
 import Quiz from "./Quiz";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 
-const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
+const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
   const [OpenQuiz, setOpenQuiz] = useState(false);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
 
-  const ViewData = async (Name, Description, date, TimePicker, Duration,changeQuestionsOrder, callback) => {
+  const ViewData = async (
+    Name,
+    Description,
+    date,
+    TimePicker,
+    Duration,
+    questionType,
+    callback
+  ) => {
     const url = "/DoctorMakeQuiz/AddQuiz";
     try {
       // post syntax (url, body, options)
@@ -24,7 +32,7 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
           startTime: TimePicker.start,
           endTime: TimePicker.end,
           duration: Duration,
-          shuffleQuestion :changeQuestionsOrder,
+          shuffleQuestion: questionType,
           subID: match.params.courseId,
         },
       });
@@ -40,17 +48,24 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
       <Quiz
         isOpened={OpenQuiz}
         onClose={() => setOpenQuiz(false)}
-        onSubmit={({ Name, Description, date, TimePicker, Duration,changeQuestionsOrder }) =>
+        onSubmit={({
+          Name,
+          Description,
+          date,
+          TimePicker,
+          Duration,
+          questionType,
+        }) =>
           ViewData(
             Name,
             Description,
             date,
             TimePicker,
-            Duration,  changeQuestionsOrder,() =>
-            setOpenQuiz(false)
-            )
-          
-          }
+            Duration,
+            questionType,
+            () => setOpenQuiz(false)
+          )
+        }
       />
       <Grid
         container

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import {
   KeyboardDatePicker,
@@ -27,19 +27,19 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
   },
   switchBase: {
     padding: 1,
-    '&$checked': {
-      transform: 'translateX(16px)',
+    "&$checked": {
+      transform: "translateX(16px)",
       color: theme.palette.common.white,
-      
-      '& + $track': {
-        backgroundColor: '#52d869',
+
+      "& + $track": {
+        backgroundColor: "#52d869",
         opacity: 1,
-        border: 'none',
+        border: "none",
       },
     },
-    '&$focusVisible $thumb': {
-      color: '#52d869',
-      border: '6px solid #fff',
+    "&$focusVisible $thumb": {
+      color: "#52d869",
+      border: "6px solid #fff",
     },
   },
   thumb: {
@@ -51,7 +51,7 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
     border: `1px solid ${theme.palette.grey[400]}`,
     backgroundColor: theme.palette.grey[50],
     opacity: 1,
-    transition: theme.transitions.create(['background-color', 'border']),
+    transition: theme.transitions.create(["background-color", "border"]),
   },
   checked: {},
   focusVisible: {},
@@ -93,7 +93,7 @@ const UpdateQuiz = ({
   const [ChangedDescription, setChangedDescription] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
-  const [ShuffleValue, setShuffleValue] = useState(false);
+  const [questionType, setQuestionType] = useState(false);
   const [ChangedDate, setChangedDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -103,10 +103,7 @@ const UpdateQuiz = ({
     end: new Date(),
   });
   const [ChangedDuration, setChangedDuration] = useState();
-  const [
-    UpdatedchangeQuestionsOrder,
-    setUpdatedchangeQuestionsOrder,
-  ] = useState();
+
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -115,7 +112,7 @@ const UpdateQuiz = ({
     }
   }, [ReloadQuiz]);
   useEffect(() => {
-    setUpdatedchangeQuestionsOrder(CurrentchangeQuestionsOrder);
+    setQuestionType(CurrentchangeQuestionsOrder);
   }, [CurrentchangeQuestionsOrder]);
   useEffect(() => {
     setChangedName(CurrentName);
@@ -140,13 +137,10 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangedTimePicker({ start: sTime, end: eTime });
   }, [sTime, eTime]);
-  const fillShuffle = (event) => {
-   
-    UpdatedchangeQuestionsOrder==="true" ? setShuffleValue(true): setShuffleValue(false);
-     
-      
-   };
 
+  const handleChange = () => {
+    setQuestionType((prev) => !prev);
+  };
   return (
     isOpened && (
       <Dialog
@@ -246,16 +240,20 @@ const UpdateQuiz = ({
                       style={{ marginTop: "-60px", marginLeft: "300px" }}
                     >
                       <FormGroup>
-                      <FormControlLabel  labelPlacement="start" label="Shuffle Questions"
-        control={<QuestionShuffleSwitch  checked={ShuffleValue} onChange={fillShuffle} name="shuffled" />}
-       
-      />
-      
-                       
+                        <FormControlLabel
+                          labelPlacement="start"
+                          label="Shuffle Questions"
+                          control={
+                            <QuestionShuffleSwitch
+                              checked={questionType}
+                              onChange={handleChange}
+                            />
+                          }
+                        />
                       </FormGroup>
                     </Grid>
                   </Grid>
-                  <Grid item>
+                  <Grid item style={{marginTop:"20px"}}>
                     {/* Dialog Description */}
                     <TextField
                       label="Descreiption"
@@ -281,7 +279,6 @@ const UpdateQuiz = ({
                           root: classes.label,
                         },
                       }}
-                      /*  style={{ width: "280px", marginLeft: "130px" }} */
                     />
                   </Grid>
                   <Grid item>
@@ -405,7 +402,8 @@ const UpdateQuiz = ({
                               ChangedDate,
                               ChangedDescription,
                               ChangedDuration,
-                              ChangedTimePicker,UpdatedchangeQuestionsOrder,
+                              ChangedTimePicker,
+                              questionType,
                             });
                           }}
                         >
