@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import clsx from "clsx";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import Divider from '@material-ui/core/Divider';
 import { truncate } from "lodash";
 import { withRouter } from "react-router-dom";
-import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -12,6 +14,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import IconButton from "@material-ui/core/IconButton";
+import Toolbar from "@material-ui/core/Toolbar";
+import MenuIcon from "@material-ui/icons/Menu";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { InstructorProfile, StudentProfile, Quiz } from "../";
 import { post, get } from "axios";
 
 import {
@@ -20,11 +29,75 @@ import {
 
 // Images //
 import Theimage from "./UniLogo.png";
-import LMS from "./LMSWhite.png"
 // mostafa20191701201@cis.asu.edu.eg //
 // instructor@chpsis.cis.asu.edu.eg //
 // Page Style //
+const drawerWidth = 240;  
 const styles = (theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    color:"black",
+    backgroundColor: "#1C1C1C",
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    
+    width: drawerWidth,
+    backgroundColor: "#1C1C1C",
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: "#1C1C1C",
+    color:"white",
+  },
+  drawerHeader: {
+  
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#1C1C1C",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+  content: {
+    flexGrow: 1,color:"White",
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+
+  ///////////////////////////////////////////////////
   item: {
     backgroundColor: "#1C1C1C",
     paddingTop: 17.3,
@@ -46,13 +119,8 @@ const styles = (theme) => ({
     paddingLeft: "18px",
     paddingRight: "8px",
   },
-  logo: {
-    fontSize: 24,
-    height: "80px",
-  },
   firebase: {
     fontSize: 24,
-    
     height: "150px",
   },
   itemActiveItem: {
@@ -92,8 +160,6 @@ function Navigator({ classes, history, match }) {
     }
     return true;
   };
-
-  // dyh btrg3 al email w al asm bta3 al dr. mn nfs al subject id lma ydos 3la al button
   const DoctorInformation = async () => {
     try {
       const url = "/Login/getDoctor";
@@ -132,7 +198,15 @@ function Navigator({ classes, history, match }) {
   1- src : the Image of the button in the navigation bar "For the Course".
   2- alt : The name that will appear when the image does not exist .
   */
+  const [open, setOpen] = React.useState(false);const theme = useTheme();
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   const CourseIcon = (
     <img
       src="https://img.icons8.com/wired/30/FFFFFF/book.png"
@@ -171,12 +245,11 @@ function Navigator({ classes, history, match }) {
 
       onClick: () =>
         accountType == 2
-          ? history.push("/Instructorprof")
+        ? history.push("/Instructorprof")
           : history.push("/studentprof"),
     },
     {
       title: "Students",
-
       needCourse: true,
       Icon: (
         <img
@@ -236,29 +309,54 @@ function Navigator({ classes, history, match }) {
         <img
           src="https://img.icons8.com/ios/55/FFFFFF/exit.png"
           alt="SignOut_LOGO"
-          
         />
       ),
-
+      
       onClick: () => history.push("/createquiz"),
     },
   ];
 
   return (
     <React.Fragment>
-      <Drawer variant="permanent">
+  
+      <Toolbar style= {{backgroundColor: "#1C1C1C", width:"12px"}}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          edge="start"
+          className={clsx(classes.menuButton, open && classes.hide)}
+        >
+          <MenuIcon style ={{color: "white"}} />
+        </IconButton>
+      </Toolbar>
+      
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        
+        <div className={classes.drawerHeader} style= {{backgroundColor: "#1C1C1C", height:"4px"}}>
+          <IconButton onClick={handleDrawerClose} fontSize={'small'}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon style ={{color: "white"}} /> : <ChevronRightIcon style ={{color: "white"}}/>}
+          </IconButton>
+        </div>
+        <Divider />
         <List disablePadding>
-       
           <ListItem
             className={clsx(
               classes.firebase,
-              classes.item,
-              classes.itemCategory
+              classes.item
             )}
           >
-            <img src={Theimage} alt="FCIS_LOGO" width="150" marginLeft="150px" />
+            <img src={Theimage} alt="FCIS_LOGO"  style ={{ width:"150px" , marginLeft: theme.spacing(4),marginBottom: theme.spacing(3),marginTop:theme.spacing(2)}}/>
           </ListItem>
-
+<Divider/>
           {categories
             .filter((category) =>
               category.needCourse ? Boolean(match.params.courseId) : true
@@ -335,7 +433,7 @@ function Navigator({ classes, history, match }) {
                 </ListItem>
               )
             )}
-        </List>
+        </List>      
       </Drawer>
     </React.Fragment>
   );
