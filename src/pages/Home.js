@@ -5,8 +5,10 @@ import { withRouter } from "react-router-dom";
 import { Grid, Typography, Button, withStyles } from "@material-ui/core";
 import { SideBar } from "../components";
 
+
 // ------------------------------------------------- Images --------------------------------------------------
 import Header from "./Images/HomeBackground.jpg";
+import HomeStepper from "../components/HomeStepper"
 // -----------------------------------------------------------------------------------------------------------
 
 const Home = ({ history, classes }) => {
@@ -18,13 +20,7 @@ const Home = ({ history, classes }) => {
         <SideBar />
       </Grid>
 
-      {/* BackGround Image With it's Style */}
-      <div style={{
-        backgroundImage: `url(${Header})`, backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center left",
-        height: "750px"
-      }}></div>
+      <HomeStepper/>
 
     </Grid>
   );
