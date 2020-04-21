@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { post } from "axios";
+import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
+import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+import EditIcon from "@material-ui/icons/Edit";
 
 import {
   Table,
@@ -11,11 +14,11 @@ import {
   TableRow,
   Paper,
   Grid,
+  Button,
   Typography,
 } from "@material-ui/core";
-import { SideBar } from "../components";
 
-const QuizTableMain = ({ reloadQuiz, setReloadQuiz , match }) => {
+const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -126,6 +129,16 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz , match }) => {
             >
               End Time
             </TableCell>
+            <TableCell
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                fontFamily: "Impact",
+              }}
+              align="right"
+            >
+              {}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -154,6 +167,34 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz , match }) => {
               <TableCell align="right">{quiz.startTime}</TableCell>
               {/* End Time cell */}
               <TableCell align="right">{quiz.endTime}</TableCell>
+              <TableCell>
+                <Tooltip title="Delete" placement="bottom">
+                  <Button size="small">
+                    <DeleteIcon
+                       onClick={() => {
+                        post("/DoctorMakeQuiz/DeleteQuiz", null, {
+                          params: { QuizID: quiz.id },
+                        })
+                          .then(() => window.location.reload())
+                          .catch((err) => console.error(err));
+                      }} 
+                    />
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Update" placement="bottom">
+                  <Button size="small">
+                    <EditIcon
+                      /* onClick={() => {
+                        get("/assignment/delete", {
+                          params: { fileId: material.id },
+                        })
+                          .then(() => window.location.reload())
+                          .catch((err) => console.error(err));
+                      }} */
+                    />
+                  </Button>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

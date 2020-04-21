@@ -24,7 +24,7 @@ const QuizHeaderMain = ({ classes , setReloadQuizzes , match}) => {
           startTime: TimePicker.start,
           endTime: TimePicker.end,
           duration: Duration,
-          totalGrade: "20",
+          shuffleQuestion :"true",
           subID: match.params.courseId,
         },
       });
