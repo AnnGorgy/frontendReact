@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
-import Tooltip from "@material-ui/core/Tooltip";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
+  KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+
 
 import {
   Dialog,
@@ -16,42 +16,66 @@ import {
   Button,
 } from "@material-ui/core";
 
-const RenameForm = ({
+const UpdateQuiz = ({
   onClose,
   title,
   CurrentName,
   sDate,
   eDate,
+  sTime,
+  eTime,
   isOpened,
+  durat,
+  descr,
   onSubmit,
-  hasDate,
   classes,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [ChangedName, setChangedName] = useState("");
-  const [RelodRename, setReloadRename] = useState(true);
+  const [ReloadQuiz, setReloadQuiz] = useState(true);
+  const [ChangedName, setChangedName] = useState();
+  const [ChangedDescription, setChangedDescription] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
-  const [date, setDate] = useState({
+  const [ChangedDate, setChangedDate] = useState({
     start: new Date(),
     end: new Date(),
   });
+  const [ChangedTimePicker, setChangedTimePicker] = useState({
+    start: new Date(),
+    end: new Date(),
+  });
+  const [ChangedDuration, setChangedDuration] = useState();
   //----------------------------------------------------------------------------------------------------------
 
-  
   useEffect(() => {
-    if (RelodRename) {
-      setReloadRename(false);
+    if (ReloadQuiz) {
+      setReloadQuiz(false);
     }
-  }, [RelodRename]);
+  }, [ReloadQuiz]);
 
   useEffect(() => {
     setChangedName(CurrentName);
   }, [CurrentName]);
 
   useEffect(() => {
-    setDate({ start: sDate, end: eDate });
+    setChangedDescription(descr);
+  }, [descr]);
+
+  useEffect(() => {
+    setChangedDescription(descr);
+  }, [descr]);
+
+  useEffect(() => {
+    setChangedDuration(durat);
+  }, [durat]);
+
+  useEffect(() => {
+    setChangedDate({ start: sDate, end: eDate });
   }, [sDate, eDate]);
+
+  useEffect(() => {
+    setChangedTimePicker({ start: sTime, end: eTime });
+  }, [sTime, eTime]);
 
   return (
     isOpened && (
@@ -91,14 +115,15 @@ const RenameForm = ({
                   spacing={3}
                 >
                   <Grid item>
+                    {/* Dialog Quiz Name */}
                     <TextField
-                      label="Another Name"
-                      rows={2}
-                      defaultValue={CurrentName}
+                      label="Quiz Name"
+                      rows={1}
+                      value={ChangedName}
                       onChange={(e) => {
                         setChangedName(e.target.value);
                       }}
-                      value={ChangedName}
+                      required
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -113,47 +138,158 @@ const RenameForm = ({
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      style={{ width: "280px", marginLeft: "130px" }}
                     />
                   </Grid>
-                  {/*Start Date && End Date That will appear only when we deal with Assignemnet only */}
-                  {hasDate && (
+                  <Grid item>
                     <Grid item>
-                      <Grid container justify="space-between">
-                        <Grid item xs={5}>
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                              clearable
-                              autoOk
-                              label="Start Date"
-                              inputVariant="standard"
-                              value={date.start}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, start: date }))
-                              }
-                              onError={(bad) => setGoodStartDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
-                          </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item xs={5}>
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                              clearable
-                              autoOk
-                              label="End Date"
-                              value={date.end}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, end: date }))
-                              }
-                              onError={(bad) => setGoodEndDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
-                          </MuiPickersUtilsProvider>
-                        </Grid>
+                      {/* Dialog Duration */}
+                      <TextField
+                        label="Duration"
+                        rows={1}
+                        required
+                        value={ChangedDuration}
+                        onChange={(e) => {
+                          setChangedDuration(e.target.value);
+                        }}
+                        type="number"
+                        placeholder="Min"
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{ width: "230px" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    {/* Dialog Description */}
+                    <TextField
+                      label="Descreiption"
+                      rows={2}
+                      multiline
+                      fullWidth
+                      value={ChangedDescription}
+                      onChange={(e) => {
+                        setChangedDescription(e.target.value);
+                      }}
+                      required
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      /*  style={{ width: "280px", marginLeft: "130px" }} */
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Grid container justify="space-between">
+                      <Grid item xs={5}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            required
+                            clearable
+                            autoOk
+                            label="Start Date"
+                            inputVariant="standard"
+                            value={ChangedDate.start}
+                            onChange={(ChangedDate) =>
+                              setChangedDate((prev) => ({
+                                ...prev,
+                                start: ChangedDate,
+                              }))
+                            }
+                            onError={(bad) => setGoodStartDate(!bad)}
+                            format="MM/dd/yyyy"
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            required
+                            clearable
+                            autoOk
+                            label="End Date"
+                            value={ChangedDate.end}
+                            onChange={(ChangedDate) =>
+                              setChangedDate((prev) => ({
+                                ...prev,
+                                end: ChangedDate,
+                              }))
+                            }
+                            onError={(bad) => setGoodEndDate(!bad)}
+                            format="MM/dd/yyyy"
+                          />
+                        </MuiPickersUtilsProvider>
                       </Grid>
                     </Grid>
-                  )}
+                  </Grid>
+                  <Grid item>
+                    <Grid container justify="space-between">
+                      <Grid item xs={5}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardTimePicker
+                            required
+                            margin="normal"
+                            id="time-picker"
+                            label="Start Time"
+                            value={ChangedTimePicker.start}
+                            onChange={(ChangedTimePicker) =>
+                              setChangedTimePicker((prev) => ({
+                                ...prev,
+                                start: ChangedTimePicker,
+                              }))
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change time",
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardTimePicker
+                            required
+                            margin="normal"
+                            id="time-picker"
+                            label="End Time"
+                            value={ChangedTimePicker.end}
+                            onChange={(ChangedTimePicker) =>
+                              setChangedTimePicker((prev) => ({
+                                ...prev,
+                                end: ChangedTimePicker,
+                              }))
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change time",
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -177,11 +313,16 @@ const RenameForm = ({
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={ChangedName === "" || ChangedName == CurrentName}
+                          disabled={
+                            ChangedName === "" || ChangedName == CurrentName
+                          }
                           onClick={() => {
                             onSubmit({
                               ChangedName,
-                              date,
+                              ChangedDate,
+                              ChangedDescription,
+                              ChangedDuration,
+                              ChangedTimePicker,
                             });
                           }}
                         >
@@ -202,9 +343,6 @@ const RenameForm = ({
   );
 };
 
-RenameForm.defaultProps = {
-  hasDate: false,
-};
 // Dialog styles
 const styles = () => ({
   dialog: {
@@ -249,4 +387,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(RenameForm);
+export default withStyles(styles)(UpdateQuiz);

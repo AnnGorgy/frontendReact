@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
-import Tooltip from "@material-ui/core/Tooltip";
-//------------------------------------------------- Icons --------------------------------------------------
-import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import EditIcon from "@material-ui/icons/Edit";
-//-----------------------------------------------------------------------------------------------------------
+import Switch from "@material-ui/core/Switch";
+import FormGroup from "@material-ui/core/FormGroup";
+
 import {
   Dialog,
   Typography,
@@ -21,6 +17,20 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
+const QuestionTypeSwitch = withStyles({
+  switchBase: {
+    color: "#00867d",
+    "&$checked": {
+      color: "#00867d",
+    },
+    "&$checked + $track": {
+      backgroundColor: "#005b4f",
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
 
@@ -30,6 +40,11 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [TotalGrade, setTotalGrade] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
+  const [shuffleQuestions, setShuffleQuestions] = useState({
+    shuffled: true,
+  });
+  const [changedQuestions, setChangedQuestions] = useState(false);
+
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -38,6 +53,13 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
     start: new Date(),
     end: new Date(),
   });
+  const handleChange = (event) => {
+    setShuffleQuestions({
+      ...shuffleQuestions,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
   const [Duration, setDuration] = useState();
 
   //----------------------------------------------------------------------------------------------------------
@@ -152,6 +174,30 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                         }}
                         style={{ width: "230px" }}
                       />
+                    </Grid>
+                    <Grid
+                      item
+                      style={{ marginTop: "-50px", marginLeft: "300px" }}
+                    >
+                      <FormGroup>
+                        <Typography component="div">
+                          <Grid
+                            component="label"
+                            container
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <Grid item>Shuffle Questions</Grid>
+                            <Grid item>
+                              <QuestionTypeSwitch
+                                checked={shuffleQuestions.shuffled}
+                                onChange={handleChange}
+                                name="shuffled"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Typography>
+                      </FormGroup>
                     </Grid>
                   </Grid>
                   <Grid item>

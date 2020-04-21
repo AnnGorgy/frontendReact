@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
-import Tooltip from "@material-ui/core/Tooltip";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
@@ -94,7 +92,7 @@ const RenameForm = ({
                     <TextField
                       label="Another Name"
                       rows={2}
-                      defaultValue={CurrentName}
+                      defaultValue={ChangedName}
                       onChange={(e) => {
                         setChangedName(e.target.value);
                       }}
