@@ -93,6 +93,7 @@ const UpdateQuiz = ({
   const [ChangedDescription, setChangedDescription] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
+  const [ShuffleValue, setShuffleValue] = useState(false);
   const [ChangedDate, setChangedDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -139,6 +140,12 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangedTimePicker({ start: sTime, end: eTime });
   }, [sTime, eTime]);
+  const fillShuffle = (event) => {
+   
+    UpdatedchangeQuestionsOrder==="true" ? setShuffleValue(true): setShuffleValue(false);
+     
+      
+   };
 
   return (
     isOpened && (
@@ -240,7 +247,7 @@ const UpdateQuiz = ({
                     >
                       <FormGroup>
                       <FormControlLabel  labelPlacement="start" label="Shuffle Questions"
-        control={<QuestionShuffleSwitch  checked={shuffleQuestions.shuffled} onChange={handleChange} name="shuffled" />}
+        control={<QuestionShuffleSwitch  checked={ShuffleValue} onChange={fillShuffle} name="shuffled" />}
        
       />
       
@@ -398,7 +405,7 @@ const UpdateQuiz = ({
                               ChangedDate,
                               ChangedDescription,
                               ChangedDuration,
-                              ChangedTimePicker,
+                              ChangedTimePicker,UpdatedchangeQuestionsOrder,
                             });
                           }}
                         >
