@@ -14,7 +14,10 @@ import Switch from "@material-ui/core/Switch";
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
-const MCQ = ({ classes }) => {
+const MCQ = ({ classes, setQuestions, index }) => {
+  const setInputList = () => {
+    setQuestions(prev => prev.map((question, currIndex) => currIndex !== index? question: {...question, choices: [...question.choices, ]}))
+  }
   const [inputList, setInputList] = useState([{ content: "", index: 0 }]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [correctAnswers, setCorrectAnswers] = useState([]);

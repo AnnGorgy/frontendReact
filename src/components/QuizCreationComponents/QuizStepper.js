@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Paper from "@material-ui/core/Paper";
@@ -82,6 +82,7 @@ const QuestionTypeSwitch = withStyles({
 })(Switch);
 
 const QuizStepper = () => {
+  const [questions, setQuestions] = useState([]);
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -144,7 +145,11 @@ const QuizStepper = () => {
           </Typography>
         </FormGroup>
       </Paper>
-      {state.checkedA ? <MCQ /> : <TrueFalse />}
+      {state.checkedA ? (
+        <MCQ index={questions.length + 1} setQuestions={setQuestions} />
+      ) : (
+        <TrueFalse />
+      )}
       <MobileStepper
         style={{
           width: "1241px",
@@ -152,7 +157,7 @@ const QuizStepper = () => {
           webkitBoxShadow: "5px 5px 5px #9E9E9E",
           mozBoxShadow: "5px 5px 5px #9E9E9E",
           boxShadow: "5px 5px 5px #9E9E9E",
-          backgroundColor:"silver",
+          backgroundColor: "silver",
         }}
         steps={maxSteps}
         position="static"
