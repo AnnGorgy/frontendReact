@@ -13,61 +13,112 @@ import TextField from "@material-ui/core/TextField";
 
 import FormGroup from "@material-ui/core/FormGroup";
 
+
 const tutorialSteps = [
   {
     number: "1",
-    label: "San Francisco – Oakland Bay Bridge, United States",
+    label: "Faculty of Computer And Informaton systems Ain Shams University upclose",
     imgPath:
-    "https://chpsis.cis.asu.edu.eg/assets/img/slider/4.jpg",
+    "https://i.imgur.com/JA0VyoS.jpg",
   },
   {
     number: "2",
     label: "Faculty of Computer And Informaton systems Ain Shams University",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/2.jpg",
+      "https://i.imgur.com/vN3Pqfw.jpg",
   },
   {
     number: "3",
-    label: "Bali, Indonesia",
+    label: " some of FCIS staff members",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/16.jpg",
+      "https://i.imgur.com/HFvTQ7l.jpg",
   },
   {
     number: "4",
-    label: "Bali, Indonesia",
+    label: "some of FCIS staff members",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/3.jpg",
+      "https://i.imgur.com/IOAN7EU.jpg",
   },
+ 
   {
     number: "5",
-    label: "Bali, Indonesia",
+    label: "one of FCIS's knowledge sessions",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/5.jpg",
+      "https://i.imgur.com/Rv0JGpt.jpg",
   },
   {
     number: "6",
-    label: "Bali, Indonesia",
+    label: "FCIS Students receiving certificates",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/6.jpg",
+      "https://i.imgur.com/l3NPbjY.jpg",
   },
   {
     number: "7",
-    label: "Bali, Indonesia",
+    label: "FCIS Students receiving certificates",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/7.jpg",
+      "https://i.imgur.com/Ap3apRR.jpg",
   },
   {
     number: "8",
-    label: "Bali, Indonesia",
+    label: "FCIS Instructors with students",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/8.jpg",
+      "https://i.imgur.com/yuR8cuI.jpg",
   },
   {
     number: "9",
-    label: "Bali, Indonesia",
+    label: "FCIS Instructors with students",
     imgPath:
-      "https://chpsis.cis.asu.edu.eg/assets/img/slider/9.jpg",
+      "https://i.imgur.com/gO7envx.jpg",
   },
+  {
+    number: "10",
+    label: "FCIS students attending lecture",
+    imgPath:
+      "https://i.imgur.com/vWY1w0U.jpg",
+  },
+  {
+    number: "11",
+    label: "FCIS students attending knowledge session",
+    imgPath:
+      "https://i.imgur.com/ZINgYps.jpg",
+  },
+  {
+    number: "12",
+    label: "FCIS students celebration",
+    imgPath:
+      "https://i.imgur.com/FoFMZX7.jpg",
+  },
+  {
+    number: "13",
+    label: "FCIS ACM students in ACPC ",
+    imgPath:
+      "https://i.imgur.com/qDV9x0Y.jpg",
+  },
+  {
+    number: "14",
+    label: "FCIS students in various student activities ",
+    imgPath:
+      "https://i.imgur.com/qDV9x0Y.jpg",
+  },
+  {
+    number: "15",
+    label: "FCIS students in various student activities ",
+    imgPath:
+      "https://i.imgur.com/pRiy7nb.jpg",
+  },
+  {
+    number: "16",
+    label: "FCIS students in various student activities ",
+    imgPath:
+      "https://i.imgur.com/uOIArJT.jpg",
+  },
+  {
+    number: "17",
+    label: "FCIS students in various student activities ",
+    imgPath:
+      "https://i.imgur.com/s3hLql3.jpg",
+  },
+  
  
 ];
 
