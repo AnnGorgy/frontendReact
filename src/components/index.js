@@ -10,16 +10,16 @@ export { default as InstructorProfile } from "./InstructorProfile";
 export { default as CreateFileForm } from "./MaterialForms/FileForm";
 export { default as CreateFolderForm } from "./MaterialForms/FolderForm";
 export { default as RenameForm} from "./RenameForm";
-export { default as Quiz } from "./Quiz";
+export { default as Quiz } from "./QuizMainPageComponents/Quiz";
 export {default as StudentProfile}from "./StudentProfile";
 export {default as CoursesNavigationButtons} from "./ButtonBases/CoursesNavigationButtons"
-export {default as QuizTableMain } from "./QuizTableMain";
-export {default as QuizHeaderMain} from "./QuizHeaderMain";
-export {default as QuizHeaderCreation} from "./QuizHeaderCreation";
-export {default as QuizStepper} from "./QuizStepper";
-export {default as MCQ} from "./MCQ";
-export {default as TrueFalse} from "./TrueFalse";
-export {defailt as TimeQuizDialog} from "./TimeQuizDialog"
+export {default as QuizTableMain } from "./QuizMainPageComponents/QuizTableMain";
+export {default as QuizHeaderMain} from "./QuizMainPageComponents/QuizHeaderMain";
+export {default as QuizHeaderCreation} from "./QuizCreationComponents/QuizHeaderCreation";
+export {default as QuizStepper} from "./QuizCreationComponents/QuizStepper";
+export {default as MCQ} from "./QuizCreationComponents/MCQ";
+export {default as TrueFalse} from "./QuizCreationComponents/TrueFalse";
+export {default as TimeQuizDialog} from "./QuizMainPageComponents/TimeQuizDialog"
 
 
 
