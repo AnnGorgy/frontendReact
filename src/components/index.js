@@ -19,7 +19,7 @@ export {default as QuizHeaderCreation} from "./QuizHeaderCreation";
 export {default as QuizStepper} from "./QuizStepper";
 export {default as MCQ} from "./MCQ";
 export {default as TrueFalse} from "./TrueFalse";
-
+export {defailt as TimeQuizDialog} from "./TimeQuizDialog"
 
 
 

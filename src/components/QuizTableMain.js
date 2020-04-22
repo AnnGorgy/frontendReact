@@ -5,7 +5,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateQuiz from "./UpdateQuiz";
-
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import TimeQuizDialog from "./TimeQuizDialog";
 import {
   Table,
   TableBody,
@@ -33,6 +34,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   const [UpdateQuizIsOpen, setUpdateQuizIsOpen] = useState(false);
+  const [TimeIsOpen, setTimeIsOpen] = useState(false);
 
   //----------------------------------------------------------------------------------------------------------
 
@@ -80,10 +82,17 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
 
   useEffect(() => {
     listQuizzes();
-  }, [538]);
+  }, [match.params.courseId]);
 
   return (
     <React.Fragment>
+      <TimeQuizDialog
+        title="Time"
+        isOpened={TimeIsOpen}
+        onClose={() => setTimeIsOpen(false)}
+        sTime={currentEditedQuiz?.startTime}
+        eTime={currentEditedQuiz?.endTime}
+      />
       <UpdateQuiz
         title="Update Quiz"
         CurrentName={currentEditedQuiz?.Name}
@@ -183,26 +192,6 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
                 }}
                 align="right"
               >
-                Start Time
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
-                End Time
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
                 {}
               </TableCell>
             </TableRow>
@@ -229,11 +218,17 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
                 <TableCell align="right">{quiz.startDate}</TableCell>
                 {/* End Date cell */}
                 <TableCell align="right">{quiz.endDate}</TableCell>
-                {/* Start Time cell */}
-                <TableCell align="right">{quiz.startTime}</TableCell>
-                {/* End Time cell */}
-                <TableCell align="right">{quiz.endTime}</TableCell>
-                <TableCell>
+                <TableCell align="right">
+                  <Tooltip title="Time" placement="bottom">
+                    <Button size="small">
+                      <ScheduleIcon
+                        onClick={() => {
+                          setTimeIsOpen(true);
+                          setCurrentEditedQuiz(quiz);
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
                   <Tooltip title="Delete" placement="bottom">
                     <Button size="small">
                       <DeleteIcon
