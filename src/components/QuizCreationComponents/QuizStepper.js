@@ -119,7 +119,7 @@ const QuizStepper = () => {
   };
 
   /*  const SendingObject = async () => {
-    const Url = `/DoctorMakeQuiz/createQuestions`;
+    const Url = "/DoctorMakeQuiz/createQuestions";
     await post(Url, null, {
       params: { questions: questions, quizID: localStorage.getItem("QuizID") },
     });
@@ -216,13 +216,16 @@ const QuizStepper = () => {
         {questionIndex == maxSteps && (
           <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
             <Button
-              onClick={() =>
-                post(`/DoctorMakeQuiz/createQuestions`, null, {
-                  params: {
-                    questions: questions,
-                    quizID: localStorage.getItem("QuizID"),
-                  },
-                })
+              onClick={ async () =>
+               await post(
+                  "/DoctorMakeQuiz/createQuestions",
+                  (questions: questions),
+                  {
+                    params: {
+                      quizID: localStorage.getItem("QuizID"),
+                    },
+                  }
+                )
               }
               className={classes.addButton}
               size="small"
