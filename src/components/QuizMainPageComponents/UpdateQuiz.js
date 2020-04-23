@@ -80,6 +80,7 @@ const UpdateQuiz = ({
   eDate,
   sTime,
   eTime,
+  numQuestions,
   isOpened,
   durat,
   descr,
@@ -103,6 +104,7 @@ const UpdateQuiz = ({
     end: new Date(),
   });
   const [ChangedDuration, setChangedDuration] = useState();
+  const [ChangednumberOfQues , setChangednumberOfQuestions ] = useState();
 
   //----------------------------------------------------------------------------------------------------------
 
@@ -117,6 +119,10 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangedName(CurrentName);
   }, [CurrentName]);
+
+  useEffect(() => {
+    setChangednumberOfQuestions(numQuestions);
+  }, [numQuestions]);
 
   useEffect(() => {
     setChangedDescription(descr);
@@ -179,31 +185,66 @@ const UpdateQuiz = ({
                   spacing={3}
                 >
                   <Grid item>
-                    {/* Dialog Quiz Name */}
-                    <TextField
-                      label="Quiz Name"
-                      rows={1}
-                      value={ChangedName}
-                      onChange={(e) => {
-                        setChangedName(e.target.value);
-                      }}
-                      required
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{ width: "280px", marginLeft: "130px" }}
-                    />
+                    <Grid item>
+                      {/* Dialog Quiz Name */}
+                      <TextField
+                        label="Quiz Name"
+                        rows={1}
+                        value={ChangedName}
+                        onChange={(e) => {
+                          setChangedName(e.target.value);
+                        }}
+                        required
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{ width: "280px" }}
+                      />
+                    </Grid>
+                    <Grid item>
+                      {/* Dialog Number Of Questions */}
+                      <TextField
+                        label="Number Of Questions"
+                        rows={1}
+                        required
+                        value={ChangednumberOfQues}
+                        onChange={(e) => {
+                          setChangednumberOfQuestions(e.target.value);
+                        }}
+                        type="number"
+                        placeholder="Min"
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{
+                          width: "230px",
+                          marginTop: "-59px",
+                          marginLeft: "320px",
+                        }}
+                      />
+                    </Grid>
                   </Grid>
                   <Grid item>
                     <Grid item>
@@ -253,7 +294,7 @@ const UpdateQuiz = ({
                       </FormGroup>
                     </Grid>
                   </Grid>
-                  <Grid item style={{marginTop:"20px"}}>
+                  <Grid item style={{ marginTop: "20px" }}>
                     {/* Dialog Description */}
                     <TextField
                       label="Descreiption"
@@ -404,6 +445,7 @@ const UpdateQuiz = ({
                               ChangedDuration,
                               ChangedTimePicker,
                               questionType,
+                              ChangednumberOfQues,
                             });
                           }}
                         >

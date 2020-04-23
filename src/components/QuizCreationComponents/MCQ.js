@@ -37,6 +37,19 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
     );
   };
 
+  const handleChangeShuffleChoices = (value) => {
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              options: { ...question.options, shuffleChoices: value },
+            }
+      )
+    );
+  };
+
   // handle input change
   const handleChoiceTextChange = (e, index) => {
     const newInput = e.target.value;
@@ -57,7 +70,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
   };
 
   const handleChooseChoiceAsCorrectAnswer = (value, index) => {
-    if(!questionData.options.multipleCorrectAnswers) {
+    if (!questionData.options.multipleCorrectAnswers) {
       // single correct answer
       setQuestions((prev) =>
         prev.map((question) =>
@@ -73,9 +86,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
               }
         )
       );
-
-    }
-    else {
+    } else {
       // multiple correct answers
       setQuestions((prev) =>
         prev.map((question) =>
@@ -92,7 +103,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
         )
       );
     }
-  }
+  };
 
   // handle click event of the Add button
   const handleAddNewChoice = () => {
@@ -160,39 +171,62 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
             width: "1257px",
           }}
         >
-          <Grid>
-            <TextField
-              placeholder="Enter title of the Question"
-              label="Title"
-              value={questionData.title}
-              onChange={(e) =>
-                setQuestions((prev) =>
-                  prev.map((question) =>
-                    question.index !== questionIndex
-                      ? question
-                      : {
-                          ...question,
-                          title: e.target.value,
-                        }
+          <Grid item>
+            <Grid item>
+              <TextField
+                placeholder="Enter title of the Question"
+                label="Title"
+                value={questionData.title}
+                onChange={(e) =>
+                  setQuestions((prev) =>
+                    prev.map((question) =>
+                      question.index !== questionIndex
+                        ? question
+                        : {
+                            ...question,
+                            title: e.target.value,
+                          }
+                    )
                   )
-                )
-              }
-              variant="outlined"
-              classes={{
-                root: classes.textFieldRoot,
-              }}
-              InputProps={{
-                classes: {
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.label,
-                },
-              }}
-              style={{ width: "500px", marginLeft: "160px" }}
-            />
+                }
+                variant="outlined"
+                classes={{
+                  root: classes.textFieldRoot,
+                }}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                  },
+                }}
+                style={{ width: "500px", marginLeft: "160px" }}
+              />
+            </Grid>
+            <FormGroup style={{ marginLeft: "800px", marginTop: "-60px" }}>
+              <Typography component="div">
+                <Grid
+                  component="label"
+                  container
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid item>Multiple Choice</Grid>
+                  <Grid item>
+                    <QuestionTypeSwitch
+                      checked={!questionData.options.multipleCorrectAnswers}
+                      onChange={(e) =>
+                        handleChangeChoicesAnswerType(!e.target.checked)
+                      }
+                    />
+                  </Grid>
+                  <Grid item>Single Choice</Grid>
+                </Grid>
+              </Typography>
+            </FormGroup>
           </Grid>
           <Grid>
             <TextField
@@ -227,9 +261,9 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
                   root: classes.label,
                 },
               }}
-              style={{ width: "900px", marginLeft: "160px" }}
+              style={{ width: "900px", marginLeft: "160px", marginTop: "30px" }}
             />
-            <FormGroup style={{ marginLeft: "900px" }}>
+            <FormGroup style={{ marginLeft: "1000px" }}>
               <Typography component="div">
                 <Grid
                   component="label"
@@ -237,16 +271,15 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
                   alignItems="center"
                   spacing={1}
                 >
-                  <Grid item>Multiple Choice</Grid>
                   <Grid item>
                     <QuestionTypeSwitch
-                      checked={!questionData.options.multipleCorrectAnswers}
+                      checked={questionData.options.shuffleChoices}
                       onChange={(e) =>
-                        handleChangeChoicesAnswerType(!e.target.checked)
+                        handleChangeShuffleChoices(e.target.checked)
                       }
                     />
                   </Grid>
-                  <Grid item>Single Choice</Grid>
+                  <Grid item>Shuffle Choices</Grid>
                 </Grid>
               </Typography>
             </FormGroup>

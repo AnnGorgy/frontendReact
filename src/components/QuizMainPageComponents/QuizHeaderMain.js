@@ -17,6 +17,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
     date,
     TimePicker,
     Duration,
+    numberOfQues,
     questionType,
     callback
   ) => {
@@ -34,6 +35,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
           duration: Duration,
           shuffleQuestion: questionType,
           subID: match.params.courseId,
+          numberOfQuestions: numberOfQues , 
         },
       });
       setReloadQuizzes(true);
@@ -54,6 +56,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
           date,
           TimePicker,
           Duration,
+          numberOfQues,
           questionType,
         }) =>
           ViewData(
@@ -62,6 +65,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
             date,
             TimePicker,
             Duration,
+            numberOfQues,
             questionType,
             () => setOpenQuiz(false)
           )

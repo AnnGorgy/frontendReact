@@ -6,6 +6,7 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateQuiz from "./UpdateQuiz";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TimeQuizDialog from "./TimeQuizDialog";
 import {
   Table,
@@ -20,7 +21,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
+const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match, history }) => {
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -46,6 +47,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
     ChangedDuration,
     ChangedTimePicker,
     questionType,
+    ChangednumberOfQues,
     callback
   ) => {
     const url = "/DoctorMakeQuiz/UpdateQuizInfo";
@@ -61,6 +63,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
         duration: ChangedDuration,
         shuffleQuestion: questionType,
         subID: match.params.courseId,
+        numberOfQuestions: ChangednumberOfQues,
       },
     });
     setReloadQuiz(true);
@@ -103,6 +106,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
         durat={currentEditedQuiz?.duration}
         CurrentchangeQuestionsOrder={currentEditedQuiz?.shuffleQuestion}
         descr={currentEditedQuiz?.description}
+        numQuestions={currentEditedQuiz?.numberOfQuestions}
         isOpened={UpdateQuizIsOpen}
         onClose={() => setUpdateQuizIsOpen(false)}
         onSubmit={({
@@ -112,6 +116,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
           ChangedDuration,
           ChangedTimePicker,
           questionType,
+          ChangednumberOfQues,
         }) =>
           Updatequiz(
             currentEditedQuiz,
@@ -121,6 +126,7 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
             ChangedDuration,
             ChangedTimePicker,
             questionType,
+            ChangednumberOfQues,
             () => setUpdateQuizIsOpen(false)
           )
         }
@@ -219,6 +225,19 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match }) => {
                 {/* End Date cell */}
                 <TableCell align="right">{quiz.endDate}</TableCell>
                 <TableCell align="right">
+                  <Tooltip title="Add Questions" placement="bottom">
+                    <Button size="small">
+                      <AddCircleOutlineIcon
+                        onClick={() => {
+                          history.push("/createquiz");
+                          localStorage.setItem("QuizName", quiz.Name);
+                          localStorage.setItem("TotalTime", quiz.duration);
+                          localStorage.setItem("numberOfQuestions", quiz.numberOfQuestions);
+                          localStorage.setItem("QuizID", quiz.id);
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
                   <Tooltip title="Time" placement="bottom">
                     <Button size="small">
                       <ScheduleIcon

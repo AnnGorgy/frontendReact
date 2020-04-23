@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Paper from "@material-ui/core/Paper";
+import { post, get } from "axios";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -13,7 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import FormGroup from "@material-ui/core/FormGroup";
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
-
+import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,34 @@ const useStyles = makeStyles((theme) => ({
     //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
+  },
+  addButton: {
+    borderRadius: "16px",
+    width: "130px",
+    color: "black",
+    backgroundColor: "#7dbbb9",
+    "&:hover, &:focus": {
+      backgroundColor: "#CCE6E5",
+      color: "black",
+    },
+  },
+  addIcon: {
+    marginTop: "4px",
+  },
+  buttonText: {
+    color: "black",
+    paddingLeft: "5px",
+  },
+  addButtonBody: {
+    marginLeft: "4px",
+    marginRight: "4px",
+  },
+  tableHeader: {
+    paddingRight: "20px",
+    paddingLeft: "1000px",
+    marginTop: "20px",
+    marginLeft: "30px",
+    flexWrap: "nowrap",
   },
 }));
 const QuestionTypeSwitch = withStyles({
@@ -67,16 +96,19 @@ const QuizStepper = () => {
     grade: 0,
     title: "",
   });
-  
+
   const [questions, setQuestions] = useState([getDefaultQuestionBody(0)]);
   const [questionIndex, setQuestionIndex] = useState(1);
+  const [maxSteps, setmaxSteps] = useState();
   const classes = useStyles();
   const theme = useTheme();
-  // hna h7ot 3dd al question number
-  const maxSteps = 5;
+  useEffect(() => {
+    setmaxSteps(localStorage.getItem("numberOfQuestions"));
+  }, []);
+
   console.log(questions);
   const handleNext = () => {
-    if(questionIndex === questions.length) {
+    if (questionIndex === questions.length) {
       setQuestions((prev) => {
         setQuestionIndex(prev.length + 1);
         return [...prev, getDefaultQuestionBody(prev.length)];
@@ -86,8 +118,15 @@ const QuizStepper = () => {
     }
   };
 
+  /*  const SendingObject = async () => {
+    const Url = `/DoctorMakeQuiz/createQuestions`;
+    await post(Url, null, {
+      params: { questions: questions, quizID: localStorage.getItem("QuizID") },
+    });
+  }; */
+
   const handleBack = () => {
-      setQuestionIndex((prev) => prev - 1);
+    setQuestionIndex((prev) => prev - 1);
   };
   const changeQuestionType = (e) => {
     const currentIndex = questions.length;
@@ -106,7 +145,7 @@ const QuizStepper = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <Grid item>
       <Paper square elevation={0} className={classes.header}>
         <Typography
           style={{
@@ -142,7 +181,7 @@ const QuizStepper = () => {
             marginLeft: "360px",
             marginBottom: "20px",
           }}
-          inputProps={{ style: { color: "black"  } }}
+          inputProps={{ style: { color: "black" } }}
           InputLabelProps={{ style: { color: "black" } }}
         />
         <FormGroup style={{ marginLeft: "240px" }}>
@@ -160,62 +199,97 @@ const QuizStepper = () => {
           </Typography>
         </FormGroup>
       </Paper>
-      {questions[questionIndex - 1].type === "mcq" ? (
-        <MCQ
-          questionIndex={questionIndex}
-          questionData={questions[questionIndex - 1]}
-          setQuestions={setQuestions}
-        />
-      ) : (
-        <TrueFalse
-          questionIndex={questionIndex}
-          questionData={questions[questionIndex - 1]}
-          setQuestions={setQuestions}
-        />
-      )}
-      <MobileStepper
-        style={{
-          width: "1241px",
-          height: "20px",
-          webkitBoxShadow: "5px 5px 5px #9E9E9E",
-          mozBoxShadow: "5px 5px 5px #9E9E9E",
-          boxShadow: "5px 5px 5px #9E9E9E",
-          backgroundColor: "silver",
-        }}
-        steps={maxSteps}
-        position="static"
-        variant="text"
-        activeStep={questionIndex-1}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={questionIndex === maxSteps}
-          >
-            Next
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button
-            size="small"
-            onClick={handleBack}
-            disabled={questionIndex === 1}
-          >
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </div>
+      <Grid item>
+        {questions[questionIndex - 1].type === "mcq" ? (
+          <MCQ
+            questionIndex={questionIndex}
+            questionData={questions[questionIndex - 1]}
+            setQuestions={setQuestions}
+          />
+        ) : (
+          <TrueFalse
+            questionIndex={questionIndex}
+            questionData={questions[questionIndex - 1]}
+            setQuestions={setQuestions}
+          />
+        )}
+        {questionIndex == maxSteps && (
+          <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
+            <Button
+              onClick={() =>
+                post(`/DoctorMakeQuiz/createQuestions`, null, {
+                  params: {
+                    questions: questions,
+                    quizID: localStorage.getItem("QuizID"),
+                  },
+                })
+              }
+              className={classes.addButton}
+              size="small"
+            >
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                className={classes.addButtonBody}
+              >
+                <Grid item>
+                  <AddMaterialIcon className={classes.addIcon} />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.buttonText}>Submit</Typography>
+                </Grid>
+              </Grid>
+            </Button>
+          </Grid>
+        )}
+
+        <Grid item style={{ marginTop: "25px" }}>
+          <MobileStepper
+            style={{
+              width: "1241px",
+              height: "20px",
+              webkitBoxShadow: "5px 5px 5px #9E9E9E",
+              mozBoxShadow: "5px 5px 5px #9E9E9E",
+              boxShadow: "5px 5px 5px #9E9E9E",
+              backgroundColor: "silver",
+            }}
+            steps={maxSteps}
+            position="static"
+            variant="text"
+            activeStep={questionIndex - 1}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={questionIndex == maxSteps}
+              >
+                Next
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowLeft />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={questionIndex === 1}
+              >
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
+                Back
+              </Button>
+            }
+          />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 export default withStyles(useStyles)(withRouter(QuizStepper));
