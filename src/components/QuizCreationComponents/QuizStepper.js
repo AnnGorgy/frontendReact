@@ -14,40 +14,6 @@ import FormGroup from "@material-ui/core/FormGroup";
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
 
-// dh kona wa5dyno mn material ui aly hwa al goz2yn aly t7t dol bs m3rfna4 azay nrbotha bl mcq w al true w al false tb2a dynamic 
-
-const tutorialSteps = [
-  {
-    number: "1",
-    label: "San Francisco – Oakland Bay Bridge, United States",
-    imgPath:
-      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    number: "2",
-    label: "Bird",
-    imgPath:
-      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    number: "3",
-    label: "Bali, Indonesia",
-    imgPath:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80",
-  },
-  {
-    number: "4",
-    label: "NeONBRAND Digital Marketing, Las Vegas, United States",
-    imgPath:
-      "https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    number: "5",
-    label: "Goč, Serbia",
-    imgPath:
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,23 +48,61 @@ const QuestionTypeSwitch = withStyles({
 })(Switch);
 
 const QuizStepper = () => {
-  const [questions, setQuestions] = useState([]);
+  const getDefaultQuestionBody = (length) => ({
+    index: length + 1,
+    type: "mcq",
+    questionAsString: "",
+    options: {
+      multipleCorrectAnswers: false,
+      shuffleChoices: false,
+    },
+    choices: [
+      {
+        index: 0,
+        choiceValueAsString: "",
+        correctChoice: false,
+      },
+    ],
+    trueOrFalse: 0,
+    grade: 0,
+    title: "",
+  });
+  
+  const [questions, setQuestions] = useState([getDefaultQuestionBody(0)]);
+  const [questionIndex, setQuestionIndex] = useState(1);
   const classes = useStyles();
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = tutorialSteps.length;
-  const [state, setState] = React.useState({
-    checkedA: true,
-  });
+  // hna h7ot 3dd al question number
+  const maxSteps = 5;
+  console.log(questions);
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if(questionIndex === questions.length) {
+      setQuestions((prev) => {
+        setQuestionIndex(prev.length + 1);
+        return [...prev, getDefaultQuestionBody(prev.length)];
+      });
+    } else {
+      setQuestionIndex((prev) => prev + 1);
+    }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      setQuestionIndex((prev) => prev - 1);
   };
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const changeQuestionType = (e) => {
+    const currentIndex = questions.length;
+    const questionType = !e.target.checked ? "tf" : "mcq";
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== currentIndex
+          ? question
+          : {
+              ...getDefaultQuestionBody(question.index - 1),
+              type: questionType,
+              trueOrFalse: questionType === "tf",
+            }
+      )
+    );
   };
 
   return (
@@ -115,18 +119,30 @@ const QuizStepper = () => {
             border: "3px solid black",
           }}
         >
-          Question: {tutorialSteps[activeStep].number}
+          {`Question: ${questionIndex}`}
         </Typography>
 
         <TextField
           id="standard-basic"
           label="Enter Question Grade"
+          type="number"
+          value={questions[questionIndex - 1].grade}
+          onChange={(e) => {
+            const newGrade = Number(e.target.value);
+            setQuestions((prev) =>
+              prev.map((question, currIndex) =>
+                currIndex !== questionIndex - 1
+                  ? question
+                  : { ...question, grade: newGrade }
+              )
+            );
+          }}
           style={{
             alignItems: "right",
             marginLeft: "360px",
             marginBottom: "20px",
           }}
-          inputProps={{ style: { color: "black" } }}
+          inputProps={{ style: { color: "black"  } }}
           InputLabelProps={{ style: { color: "black" } }}
         />
         <FormGroup style={{ marginLeft: "240px" }}>
@@ -135,9 +151,8 @@ const QuizStepper = () => {
               <Grid item>True/False</Grid>
               <Grid item>
                 <QuestionTypeSwitch
-                  checked={state.checkedA}
-                  onChange={handleChange}
-                  name="checkedA"
+                  checked={questions[questionIndex - 1].type === "mcq"}
+                  onChange={changeQuestionType}
                 />
               </Grid>
               <Grid item>MCQ</Grid>
@@ -145,10 +160,18 @@ const QuizStepper = () => {
           </Typography>
         </FormGroup>
       </Paper>
-      {state.checkedA ? (
-        <MCQ index={questions.length + 1} setQuestions={setQuestions} />
+      {questions[questionIndex - 1].type === "mcq" ? (
+        <MCQ
+          questionIndex={questionIndex}
+          questionData={questions[questionIndex - 1]}
+          setQuestions={setQuestions}
+        />
       ) : (
-        <TrueFalse />
+        <TrueFalse
+          questionIndex={questionIndex}
+          questionData={questions[questionIndex - 1]}
+          setQuestions={setQuestions}
+        />
       )}
       <MobileStepper
         style={{
@@ -161,13 +184,13 @@ const QuizStepper = () => {
         }}
         steps={maxSteps}
         position="static"
-        variant="dots"
-        activeStep={activeStep}
+        variant="text"
+        activeStep={questionIndex-1}
         nextButton={
           <Button
             size="small"
             onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
+            disabled={questionIndex === maxSteps}
           >
             Next
             {theme.direction === "rtl" ? (
@@ -178,7 +201,11 @@ const QuizStepper = () => {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button
+            size="small"
+            onClick={handleBack}
+            disabled={questionIndex === 1}
+          >
             {theme.direction === "rtl" ? (
               <KeyboardArrowRight />
             ) : (

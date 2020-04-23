@@ -14,13 +14,19 @@ import Switch from "@material-ui/core/Switch";
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
-const TrueFalse = ({ classes }) => {
-  const [correctAnswers, setCorrectAnswers] = useState([0]);
-  const inputList = [
-    { content: "False", index: 0 },
-    { content: "True", index: 1 },
-  ];
-
+const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
+  const setQuestionAnswer = (answer) => {
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              trueOrFalse: answer,
+            }
+      )
+    );
+  }
   return (
     <React.Fragment>
       <Grid item>
@@ -56,6 +62,20 @@ const TrueFalse = ({ classes }) => {
                   root: classes.label,
                 },
               }}
+              value={questionData.title}
+              onChange={(e) => {
+                const newInput = e.target.value;
+                setQuestions((prev) =>
+                  prev.map((question) =>
+                    question.index !== questionIndex
+                      ? question
+                      : {
+                          ...question,
+                          title: newInput,
+                        }
+                  )
+                );
+              }}
               style={{ width: "500px", marginLeft: "160px" }}
             />
           </Grid>
@@ -64,6 +84,20 @@ const TrueFalse = ({ classes }) => {
             <TextField
               placeholder="Enter Your Question"
               label="Question Statement"
+              value={questionData.questionAsString}
+              onChange={(e) => {
+                const newInput = e.target.value;
+                setQuestions((prev) =>
+                  prev.map((question) =>
+                    question.index !== questionIndex
+                      ? question
+                      : {
+                          ...question,
+                          questionAsString: newInput,
+                        }
+                  )
+                );
+              }}
               multiline
               rows={2}
               variant="outlined"
@@ -102,37 +136,44 @@ const TrueFalse = ({ classes }) => {
               display: "flex",
             }}
           >
-            {/* TODO: change x, i to something meaningful */}
-            {inputList.map((choice, index) => {
-              return (
-                <React.Fragment>
-                  {/* TODO: style this part */}
-                  <Grid item style={{ marginLeft: "180px", paddingBottom:"40px" }}>
-                    <Grid item>
-                      <Typography
-                        style={{
-                          fontSize: "35px",
-                          fontFamily: "Times New Roman",
-                        }}
-                      >
-                        {index + 1}) {choice.content}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      style={{ marginTop: "-43px", marginLeft: "200px" }}
-                    >
-                      <Radio
-                        checked={correctAnswers.includes(choice.index)}
-                        onChange={() => setCorrectAnswers([choice.index])}
-                        inputProps={{ "aria-label": "A" }}
-                      />
-                    </Grid>
-                  </Grid>
-                </React.Fragment>
-              );
-            })}
-            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>*/}
+            <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
+              <Grid item>
+                <Typography
+                  style={{
+                    fontSize: "35px",
+                    fontFamily: "Times New Roman",
+                  }}
+                >
+                  True
+                </Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
+                <Radio
+                  checked={questionData.trueOrFalse}
+                  onChange={() => setQuestionAnswer(true)}
+                  inputProps={{ "aria-label": "A" }}
+                />
+              </Grid>
+            </Grid>
+            <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
+              <Grid item>
+                <Typography
+                  style={{
+                    fontSize: "35px",
+                    fontFamily: "Times New Roman",
+                  }}
+                >
+                  False
+                </Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
+                <Radio
+                  checked={!questionData.trueOrFalse}
+                  onChange={() => setQuestionAnswer(false)}
+                  inputProps={{ "aria-label": "A" }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

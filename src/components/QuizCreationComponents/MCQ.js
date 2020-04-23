@@ -14,27 +14,117 @@ import Switch from "@material-ui/core/Switch";
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
-const MCQ = ({ classes, setQuestions, index }) => {
-  const setInputList = () => {
-    setQuestions(prev => prev.map((question, currIndex) => currIndex !== index? question: {...question, choices: [...question.choices, ]}))
-  }
-  const [inputList, setInputList] = useState([{ content: "", index: 0 }]);
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [correctAnswers, setCorrectAnswers] = useState([]);
+const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
+  const [currentChoiceIndex, setCurrentChoiceIndex] = useState(1);
   // false : single
   // true  : multi
-  const [questionType, setQuestionType] = useState(0);
+  // const [questionData.questionType, setquestionData.QuestionType] = useState(false);
 
-  const handleChange = () => {
-    setCorrectAnswers([]);
-    setQuestionType((prev) => !prev);
+  const handleChangeChoicesAnswerType = (value) => {
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              options: { ...question.options, multipleCorrectAnswers: value },
+              choices: question.choices.map((choice) => ({
+                ...choice,
+                correctChoice: 0,
+              })),
+            }
+      )
+    );
   };
 
   // handle input change
-  const handleInputChange = (e, index) => {
-    setInputList((prev) =>
-      prev.map((choice) =>
-        choice.index === index ? { ...choice, content: e.target.value } : choice
+  const handleChoiceTextChange = (e, index) => {
+    const newInput = e.target.value;
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              choices: question.choices.map((choice) =>
+                choice.index !== index
+                  ? choice
+                  : { ...choice, choiceValueAsString: newInput }
+              ),
+            }
+      )
+    );
+  };
+
+  const handleChooseChoiceAsCorrectAnswer = (value, index) => {
+    if(!questionData.options.multipleCorrectAnswers) {
+      // single correct answer
+      setQuestions((prev) =>
+        prev.map((question) =>
+          question.index !== questionIndex
+            ? question
+            : {
+                ...question,
+                choices: question.choices.map((choice) =>
+                  choice.index !== index
+                    ? { ...choice, correctChoice: 0 }
+                    : { ...choice, correctChoice: value }
+                ),
+              }
+        )
+      );
+
+    }
+    else {
+      // multiple correct answers
+      setQuestions((prev) =>
+        prev.map((question) =>
+          question.index !== questionIndex
+            ? question
+            : {
+                ...question,
+                choices: question.choices.map((choice) =>
+                  choice.index !== index
+                    ? choice
+                    : { ...choice, correctChoice: value }
+                ),
+              }
+        )
+      );
+    }
+  }
+
+  // handle click event of the Add button
+  const handleAddNewChoice = () => {
+    const defaultChoiceValue = {
+      index: currentChoiceIndex,
+      choiceValueAsString: "",
+      correctChoice: 0,
+    };
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              choices: [...question.choices, defaultChoiceValue],
+            }
+      )
+    );
+    setCurrentChoiceIndex((prev) => prev + 1);
+  };
+
+  const handleRemoveChoice = (index) => {
+    setQuestions((prev) =>
+      prev.map((question) =>
+        question.index !== questionIndex
+          ? question
+          : {
+              ...question,
+              choices: question.choices.filter(
+                (choice) => choice.index !== index
+              ),
+            }
       )
     );
   };
@@ -52,21 +142,6 @@ const MCQ = ({ classes, setQuestions, index }) => {
     checked: {},
     track: {},
   })(Switch);
-
-  const handleRemoveClick = (index) => {
-    if (correctAnswers.includes(index)) {
-      setCorrectAnswers((prev) => prev.filter((answer) => answer !== index));
-    }
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-  };
-
-  // handle click event of the Add button
-  const handleAddClick = () => {
-    setInputList((prev) => [...prev, { content: "", index: currentIndex }]);
-    setCurrentIndex((prev) => prev + 1);
-  };
 
   return (
     <React.Fragment>
@@ -89,6 +164,19 @@ const MCQ = ({ classes, setQuestions, index }) => {
             <TextField
               placeholder="Enter title of the Question"
               label="Title"
+              value={questionData.title}
+              onChange={(e) =>
+                setQuestions((prev) =>
+                  prev.map((question) =>
+                    question.index !== questionIndex
+                      ? question
+                      : {
+                          ...question,
+                          title: e.target.value,
+                        }
+                  )
+                )
+              }
               variant="outlined"
               classes={{
                 root: classes.textFieldRoot,
@@ -109,6 +197,19 @@ const MCQ = ({ classes, setQuestions, index }) => {
           <Grid>
             <TextField
               placeholder="Enter Your Question Statement"
+              value={questionData.questionAsString}
+              onChange={(e) =>
+                setQuestions((prev) =>
+                  prev.map((question) =>
+                    question.index !== questionIndex
+                      ? question
+                      : {
+                          ...question,
+                          questionAsString: e.target.value,
+                        }
+                  )
+                )
+              }
               label="Question Body"
               multiline
               rows={2}
@@ -139,8 +240,10 @@ const MCQ = ({ classes, setQuestions, index }) => {
                   <Grid item>Multiple Choice</Grid>
                   <Grid item>
                     <QuestionTypeSwitch
-                      checked={!questionType}
-                      onChange={handleChange}
+                      checked={!questionData.options.multipleCorrectAnswers}
+                      onChange={(e) =>
+                        handleChangeChoicesAnswerType(!e.target.checked)
+                      }
                     />
                   </Grid>
                   <Grid item>Single Choice</Grid>
@@ -167,16 +270,16 @@ const MCQ = ({ classes, setQuestions, index }) => {
               display: "flex",
             }}
           >
-            {inputList.map((choice, index) => {
+            {questionData.choices.map((choice, arrayIndex) => {
               return (
                 <Grid item style={{ marginLeft: "-180px" }}>
                   <Grid item>
                     <TextField
                       label="Enter Your Choice"
                       name="Choice"
-                      value={choice.content}
+                      value={choice.choiceValueAsString}
                       onChange={(e) => {
-                        handleInputChange(e, index);
+                        handleChoiceTextChange(e, choice.index);
                       }}
                       rows={1}
                       variant="outlined"
@@ -204,27 +307,28 @@ const MCQ = ({ classes, setQuestions, index }) => {
                     item
                     style={{ marginTop: "-50px", marginLeft: "670px" }}
                   >
-                    {questionType ? (
+                    {questionData.options.multipleCorrectAnswers ? (
+                      // multiple correct answers
                       <Checkbox
                         inputProps={{ "aria-label": "uncontrolled-checkbox" }}
-                        checked={correctAnswers.includes(choice.index)}
+                        checked={Boolean(choice.correctChoice)}
                         onChange={(e) =>
-                          e.target.checked
-                            ? setCorrectAnswers((prev) => [
-                                ...prev,
-                                choice.index,
-                              ])
-                            : setCorrectAnswers((prev) =>
-                                prev.filter((answer) => answer !== choice.index)
-                              )
+                          handleChooseChoiceAsCorrectAnswer(
+                            e.target.checked,
+                            choice.index
+                          )
                         }
                       />
                     ) : (
                       <Radio
-                        checked={correctAnswers.includes(choice.index)}
-                        onChange={() => setCorrectAnswers([choice.index])}
-                        value={index}
-                        name="Single_Choice"
+                        // single correct answer
+                        checked={Boolean(choice.correctChoice)}
+                        onChange={(e) =>
+                          handleChooseChoiceAsCorrectAnswer(
+                            e.target.checked,
+                            choice.index
+                          )
+                        }
                         inputProps={{ "aria-label": "A" }}
                       />
                     )}
@@ -234,20 +338,20 @@ const MCQ = ({ classes, setQuestions, index }) => {
                     item
                     style={{ marginTop: "-58px", marginLeft: "700px" }}
                   >
-                    {inputList.length - 1 === index && (
+                    {questionData.choices.length - 1 === arrayIndex && (
                       <Tooltip title="Add" placement="bottom">
                         <Button
                           style={{ marginTop: "20px", marginLeft: "3px" }}
                         >
-                          <AddCircleIcon onClick={handleAddClick} />
+                          <AddCircleIcon onClick={handleAddNewChoice} />
                         </Button>
                       </Tooltip>
                     )}
-                    {inputList.length !== 1 && (
+                    {questionData.choices.length !== 1 && (
                       <Tooltip title="Delete" placement="bottom">
                         <Button style={{ marginTop: "20px" }}>
                           <DeleteIcon
-                            onClick={() => handleRemoveClick(index)}
+                            onClick={() => handleRemoveChoice(choice.index)}
                           />
                         </Button>
                       </Tooltip>
