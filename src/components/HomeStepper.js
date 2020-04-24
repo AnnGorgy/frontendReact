@@ -12,6 +12,7 @@ import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 
 import FormGroup from "@material-ui/core/FormGroup";
+//import MuiImageSlider from 'mui-image-slider';
 
 
 const tutorialSteps = [
@@ -121,6 +122,34 @@ const tutorialSteps = [
   
  
 ];
+/* const images = [
+  'https://i.imgur.com/JA0VyoS.jpg',
+  'https://i.imgur.com/vN3Pqfw.jpg',
+  'https://i.imgur.com/HFvTQ7l.jpg',
+  'https://i.imgur.com/IOAN7EU.jpg',
+  'https://i.imgur.com/Rv0JGpt.jpg',
+
+  'https://i.imgur.com/l3NPbjY.jpg',
+
+  'https://i.imgur.com/Ap3apRR.jpg',
+  'https://i.imgur.com/yuR8cuI.jpg',
+  'https://i.imgur.com/gO7envx.jpg',
+  'https://i.imgur.com/vWY1w0U.jpg',
+
+
+  'https://i.imgur.com/ZINgYps.jpg',
+  'https://i.imgur.com/FoFMZX7.jpg',
+  'https://i.imgur.com/qDV9x0Y.jpg',
+
+  'https://i.imgur.com/qDV9x0Y.jpg',
+
+  'https://i.imgur.com/pRiy7nb.jpg',
+
+'https://i.imgur.com/uOIArJT.jpg',
+'https://i.imgur.com/s3hLql3.jpg',
+  
+];
+ */
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -167,7 +196,8 @@ const HomeStepper = () => {
 
   return (
     <div className={classes.root} style={{marginLeft:"250px",marginTop:"50px"}}>
-    
+         {/* <MuiImageSlider className={classes.root}  images={images} autoPlay width= "2500px" style={{marginLeft:"250px",marginTop:"50px"}}/> */}
+
       <img
         className={classes.img}
         src={tutorialSteps[activeStep].imgPath}
