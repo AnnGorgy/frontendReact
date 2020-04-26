@@ -19,130 +19,79 @@ const ViewTrueFalse = ({
   classes,
 }) => {
   const [TFData, setTFData] = useState([]);
+  const [tfTrue, setTfTrue] = useState(false);
+  const [tfFalse, setTfFalse] = useState(false);
   useEffect(() => {
     setTFData(questionData);
   }, [questionData]);
-  /*  const setQuestionAnswer = (answer) => {
-    setQuestions((prev) =>
-      prev.map((question) =>
-        question.index !== questionIndex
-          ? question
-          : {
-              ...question,
-              trueOrFalse: answer,
-            }
-      )
-    );
-  } */
+
+  useEffect(() => {
+    setTfTrue(TFData.TrueOrFalse);
+    setTfFalse(!TFData.TrueOrFalse);
+  }, [TFData]);
+
   return (
     <React.Fragment>
-        <Grid item>
-          <Grid
-            style={{
-              align: "left",
-              height: "500px",
-              marginTop: "10px",
-              borderRadius: "2px",
-              webkitBoxShadow: "5px 5px 5px #9E9E9E",
-              mozBoxShadow: "5px 5px 5px #9E9E9E",
-              boxShadow: "5px 5px 5px #9E9E9E",
-              marginRight: "9px",
-              backgroundColor: "white",
-              width: "1257px",
-            }}
-          >
-            <Grid>
-              <TextField
-                placeholder="Enter The Title Of The Question"
-                label="Title"
-                variant="outlined"
-                classes={{
-                  root: classes.textFieldRoot,
-                }}
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-                InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                  },
-                }}
-                value={TFData.title}
-                /* onChange={(e) => {
-                const newInput = e.target.value;
-                setQuestions((prev) =>
-                  prev.map((question) =>
-                    question.index !== questionIndex
-                      ? question
-                      : {
-                          ...question,
-                          title: newInput,
-                        }
-                  )
-                );
-              }} */
-                style={{ width: "500px", marginLeft: "160px" }}
-              />
-            </Grid>
+      <Grid item>
+        <Grid
+          style={{
+            align: "left",
+            height: "100px",
+            marginTop: "10px",
+            marginRight: "9px",
+            width: "1257px",
+          }}
+        >
+          <Grid>
+            <TextField
+              placeholder="Enter The Title Of The Question"
+              label="Title"
+              variant="outlined"
+              classes={{
+                root: classes.textFieldRoot,
+              }}
+              InputProps={{
+                classes: {
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                },
+              }}
+              defaultValue={TFData.title}
+              value={TFData.title}
+              style={{ width: "500px", marginLeft: "160px" }}
+            />
+          </Grid>
 
-            <Grid>
-              <TextField
-                placeholder="Enter Your Question"
-                label="Question Statement"
-                value={TFData.QuestionAsString}
-                /* onChange={(e) => {
-                const newInput = e.target.value;
-                setQuestions((prev) =>
-                  prev.map((question) =>
-                    question.index !== questionIndex
-                      ? question
-                      : {
-                          ...question,
-                          questionAsString: newInput,
-                        }
-                  )
-                );
-              }} */
-                multiline
-                rows={2}
-                variant="outlined"
-                classes={{
-                  root: classes.textFieldRoot,
-                }}
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-                InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                  },
-                }}
-                style={{ width: "900px", marginLeft: "160px" }}
-              />
-            </Grid>
-
-            {/* <Grid
-            container
-            direction="column"
-            alignItems="stretch"
-            justify="center"
-            spacing={1}
-            style={{
-              flexWrap: "nowrap",
-              borderRadius: "4px",
-              border: "1px solid black",
-              overflowY: "auto",
-              width: "650px",
-              height: "280px",
-              marginLeft: "220px",
-              flexGrow: 1,
-              display: "flex",
-            }}
-          >
+          <Grid>
+            <TextField
+              placeholder="Enter Your Question"
+              label="Question Statement"
+              value={TFData.QuestionAsString}
+              defaultValue={TFData.QuestionAsString}
+              multiline
+              rows={2}
+              variant="outlined"
+              classes={{
+                root: classes.textFieldRoot,
+              }}
+              InputProps={{
+                classes: {
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                },
+              }}
+              style={{ width: "900px", marginLeft: "160px" }}
+            />
+          </Grid>
+          <Grid item style={{marginLeft:"140px"}}>
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
               <Grid item>
                 <Typography
@@ -155,11 +104,7 @@ const ViewTrueFalse = ({
                 </Typography>
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
-                <Radio
-                  checked={questionData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(true)}
-                  inputProps={{ "aria-label": "A" }}
-                />
+                <Radio checked={tfTrue} inputProps={{ "aria-label": "A" }} />
               </Grid>
             </Grid>
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
@@ -174,16 +119,12 @@ const ViewTrueFalse = ({
                 </Typography>
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
-                <Radio
-                  checked={!questionData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(false)}
-                  inputProps={{ "aria-label": "A" }}
-                />
+                <Radio checked={tfFalse} inputProps={{ "aria-label": "A" }} />
               </Grid>
             </Grid>
-          </Grid> */}
           </Grid>
         </Grid>
+      </Grid>
     </React.Fragment>
   );
 };

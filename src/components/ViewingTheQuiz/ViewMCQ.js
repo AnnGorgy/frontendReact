@@ -22,77 +22,119 @@ const ViewMCQ = ({ classes, questionData }) => {
 
   return (
     <React.Fragment>
-      <Grid item>
-        {questionData.map((question) => (
-          <Grid
-            style={{
-              align: "left",
-              height: "500px",
-              marginTop: "10px",
-              borderRadius: "2px",
-              webkitBoxShadow: "5px 5px 5px #9E9E9E",
-              mozBoxShadow: "5px 5px 5px #9E9E9E",
-              boxShadow: "5px 5px 5px #9E9E9E",
-              marginRight: "9px",
-              backgroundColor: "white",
-              width: "1257px",
+      <Grid
+        style={{
+          align: "left",
+          height: "500px",
+          marginTop: "10px",
+          marginRight: "9px",
+          width: "1257px",
+        }}
+      >
+        <Grid item>
+          <TextField
+            placeholder="Enter title of the Question"
+            label="Title"
+            defaultValue={MCQData.title}
+            value={MCQData.title}
+            variant="outlined"
+            classes={{
+              root: classes.textFieldRoot,
             }}
-          >
-            <Grid item>
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.label,
+              },
+            }}
+            style={{ width: "500px", marginLeft: "160px" }}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            placeholder="Enter Your Question Statement"
+            defaultValue={MCQData.QuestionAsString}
+            value={MCQData.QuestionAsString}
+            label="Question Body"
+            multiline
+            rows={2}
+            variant="outlined"
+            classes={{
+              root: classes.textFieldRoot,
+            }}
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.label,
+              },
+            }}
+            style={{
+              width: "900px",
+              marginLeft: "160px",
+              marginTop: "30px",
+            }}
+          />
+        </Grid>
+
+        <Grid item>
+          {questionData.choices.map((question, index) => {
+            return (
               <Grid item>
-                <TextField
-                  placeholder="Enter title of the Question"
-                  label="Title"
-                  value={MCQData.title}
-                  variant="outlined"
-                  classes={{
-                    root: classes.textFieldRoot,
-                  }}
-                  InputProps={{
-                    classes: {
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.label,
-                    },
-                  }}
-                  style={{ width: "500px", marginLeft: "160px" }}
-                />
+                <Grid item>
+                  <TextField
+                    value={question.choiceValueAsString}
+                    label={index+1}
+                    name="Choice"
+                    rows={1}
+                    variant="outlined"
+                    classes={{
+                      root: classes.textFieldRoot,
+                    }}
+                    InputProps={{
+                      classes: {
+                        notchedOutline: classes.notchedOutline,
+                      },
+                    }}
+                    InputLabelProps={{
+                      classes: {
+                        root: classes.label,
+                      },
+                    }}
+                    style={{
+                      width: "350px",
+                      marginLeft: "285px",
+                      marginBottom: "2px",
+                      paddingBottom: "7px",
+                    }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-50px", marginLeft: "670px" }}>
+                  {questionData.options.multipleCorrectAnswers ? (
+                    // multiple correct answers
+                    <Checkbox
+                      inputProps={{ "aria-label": "uncontrolled-checkbox" }}
+                      checked={question.correctChoice}
+                    />
+                  ) : (
+                    <Radio
+                      // single correct answer
+                      checked={question.correctChoice}
+                      inputProps={{ "aria-label": "A" }}
+                    />
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid>
-              <TextField
-                placeholder="Enter Your Question Statement"
-                value={MCQData.QuestionAsString}
-                label="Question Body"
-                multiline
-                rows={2}
-                variant="outlined"
-                classes={{
-                  root: classes.textFieldRoot,
-                }}
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-                InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                  },
-                }}
-                style={{
-                  width: "900px",
-                  marginLeft: "160px",
-                  marginTop: "30px",
-                }}
-              />
-              <div>{question.multipleCorrectAnswers}</div>
-            </Grid>
-          </Grid>
-        ))}
+            );
+          })}
+        </Grid>
       </Grid>
     </React.Fragment>
   );

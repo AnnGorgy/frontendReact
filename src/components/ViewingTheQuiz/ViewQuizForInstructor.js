@@ -43,7 +43,6 @@ const ViewQuizForInstructor = () => {
     setAllQuizzes(data);
   };
   const [allQuizzes, setAllQuizzes] = useState();
-  const [Title, setTitle] = useState();
 
   useEffect(() => {
     listQuizzes();
@@ -51,59 +50,65 @@ const ViewQuizForInstructor = () => {
 
   return (
     <React.Fragment>
-      <Grid item>
-        <Grid item>
-          <button
-            onClick={() => {
-              console.log(allQuizzes);
+      <Grid item style={{ marginTop: "20px" }}>
+        {allQuizzes?.map((quiz, index) => (
+          <Grid
+            item
+            style={{
+              align: "left",
+              height: "600px",
+              marginTop: "10px",
+              borderRadius: "2px",
+              webkitBoxShadow: "5px 5px 5px #9E9E9E",
+              mozBoxShadow: "5px 5px 5px #9E9E9E",
+              boxShadow: "5px 5px 5px #9E9E9E",
+              padding: "5px 5px 5px 5px",
+              marginRight: "9px",
+              backgroundColor: "white",
+              width: "1240px",
             }}
           >
-            ana
-          </button>
-        </Grid>
-        {allQuizzes?.map((quiz) => (
-          <Grid item>
             <Grid item>
-              <TextField
-                id="standard-basic"
-                label="Enter Question Grade"
-                type="number"
-                value={quiz.grade}
-                /* onChange={(e) => {
-            const newGrade = Number(e.target.value);
-            setQuestions((prev) =>
-              prev.map((question, currIndex) =>
-                currIndex !== questionIndex - 1
-                  ? question
-                  : { ...question, grade: newGrade }
-              )
-            );
-          }} */
-                style={{
-                  alignItems: "right",
-                  marginLeft: "360px",
-                  marginBottom: "20px",
-                }}
-                inputProps={{ style: { color: "black" } }}
-                InputLabelProps={{ style: { color: "black" } }}
-              />
+              <Grid item>
+                <Typography
+                  style={{
+                    marginLeft: "200px",
+                    fontFamily: "Monaco",
+                    fontSize: "25px",
+                    marginTop: "20px",
+                    width: "140px",
+                    padding: "2px 2px 2px 20px",
+                    borderRadius: "16px",
+                    border: "3px solid black",
+                  }}
+                >
+                  {`Question: ${index + 1}`}
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                <Typography
+                  style={{
+                    marginLeft: "500px",
+                    fontFamily: "Monaco",
+                    fontSize: "25px",
+                    marginTop: "-45px",
+                    width: "200px",
+                    padding: "2px 2px 2px 20px",
+                    borderRadius: "16px",
+                    border: "3px solid black",
+                  }}
+                >
+                  {`Question Grade: ${quiz.grade}`}
+                </Typography>
+              </Grid>
             </Grid>
             <Grid item>
               {quiz.Type == "mcq" ? (
-                <ViewMCQ
-                  questionData={quiz}
-                />
+                <ViewMCQ questionData={quiz} />
               ) : (
-                <ViewTrueFalse
-                  questionData={quiz}
-                />
+                <ViewTrueFalse questionData={quiz} />
               )}
-              <button
-                onClick={() => {
-                  console.log(quiz.options.multipleCorrectAnswers);
-                  console.log(quiz.choices[0].choiceValueAsString);
-                }}
-              ></button>
             </Grid>
           </Grid>
         ))}
