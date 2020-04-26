@@ -10,6 +10,7 @@ export {default as InstructorProfilePage} from "./InstructorProfilePage"
 export { default as NotFoundPage } from './NotFoundPage';
 export {default as MainPageForQuiz} from "../pages/Quiz/MainPageForQuiz";
 export {default as QuizCreation} from "../pages/Quiz/QuizCreation";
+export {default as ViewQuizDetails} from "../pages/Quiz/ViewQuizDetails";
 
 
 

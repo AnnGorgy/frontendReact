@@ -118,13 +118,6 @@ const QuizStepper = () => {
     }
   };
 
-  /*  const SendingObject = async () => {
-    const Url = "/DoctorMakeQuiz/createQuestions";
-    await post(Url, null, {
-      params: { questions: questions, quizID: localStorage.getItem("QuizID") },
-    });
-  }; */
-
   const handleBack = () => {
     setQuestionIndex((prev) => prev - 1);
   };

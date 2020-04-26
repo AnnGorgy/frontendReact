@@ -312,7 +312,7 @@ function Navigator({ classes, history, match }) {
         />
       ),
       
-      onClick: () => history.push("/createquiz"),
+      onClick: () => history.push("/viewquiz"),
     },
   ];
 

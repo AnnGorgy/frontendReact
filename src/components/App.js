@@ -14,6 +14,7 @@ import {
   NotFoundPage,
   MainPageForQuiz,
   QuizCreation,
+  ViewQuizDetails,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -36,6 +37,7 @@ const App = ({ match }) => {
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
       <Route exact path = {"/quiz/:courseId"} component={MainPageForQuiz} />
       <Route exact path = {"/createquiz"} component={QuizCreation} />
+      <Route exact path = {"/viewquiz"} component={ViewQuizDetails} />      
       <Route component={NotFoundPage} />
     </Switch>
   );
