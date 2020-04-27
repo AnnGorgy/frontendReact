@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, ViewQuizForInstructor } from "../../components";
+import { SideBar, ViewQuizForStudent } from "../../components";
 import { Grid } from "@material-ui/core";
 
-const ViewQuizDetails = () => {
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  //--------------------------------------------------------------------------------------------------------
+const StudentAnswerPage = () => {
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
@@ -23,11 +21,11 @@ const ViewQuizDetails = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <ViewQuizForInstructor />
+            <ViewQuizForStudent />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default withRouter(ViewQuizDetails);
+export default withRouter(StudentAnswerPage);

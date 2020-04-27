@@ -13,7 +13,8 @@ export { default as RenameForm} from "./RenameForm";
 export { default as Quiz } from "./QuizMainPageComponents/Quiz";
 export {default as StudentProfile}from "./StudentProfile";
 export {default as CoursesNavigationButtons} from "./ButtonBases/CoursesNavigationButtons"
-export {default as QuizTableMain } from "./QuizMainPageComponents/QuizTableMain";
+export {default as QuizTableMainInstructor } from "./QuizMainPageComponents/QuizTableMainInstructor";
+export {default as QuizTableMainStudent } from "./QuizMainPageComponents/QuizTableMainStudent";
 export {default as QuizHeaderMain} from "./QuizMainPageComponents/QuizHeaderMain";
 export {default as QuizHeaderCreation} from "./QuizCreationComponents/QuizHeaderCreation";
 export {default as QuizStepper} from "./QuizCreationComponents/QuizStepper";
@@ -23,9 +24,8 @@ export {default as TimeQuizDialog} from "./QuizMainPageComponents/TimeQuizDialog
 export {default as ViewQuizForInstructor} from "./ViewingTheQuiz/ViewQuizForInstructor";
 export {default as ViewMCQ} from "./ViewingTheQuiz/ViewMCQ";
 export {default as ViewTrueFalse} from "./ViewingTheQuiz/ViewTrueFalse";
-
-
-
-
+export {default as ViewQuizForStudent} from "./StudentQuizAnswers/ViewQuizForStudent";
+export {default as AnswersMCQ} from "./StudentQuizAnswers/AnswersMCQ";
+export {default as AnswersTrueFalse} from "./StudentQuizAnswers/AnswersTrueFalse";
 
 

@@ -101,7 +101,10 @@ const CoursesNavigationButtons = ({ history, match }) => {
     {
       url: Quizs,
       title: accountType !== 2 ? "Online Quiz" : "Create Quiz",
-      onClick: () =>   history.push(`/quiz/${match.params.courseId}`), 
+      onClick: () =>  
+      accountType == 2
+      ? history.push(`/quiz/${match.params.courseId}`)
+      : history.push(`/quizstudent/${match.params.courseId}`),
     },
     {
       url: Grades,

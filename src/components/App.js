@@ -15,6 +15,8 @@ import {
   MainPageForQuiz,
   QuizCreation,
   ViewQuizDetails,
+  MainPageForQuizStudent,
+  StudentAnswerPage,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -36,8 +38,10 @@ const App = ({ match }) => {
       <Route exact path = {"/studentprof"}component={StudentProfilePage} />
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
       <Route exact path = {"/quiz/:courseId"} component={MainPageForQuiz} />
+      <Route exact path = {"/quizstudent/:courseId"} component={MainPageForQuizStudent} />
       <Route exact path = {"/createquiz"} component={QuizCreation} />
-      <Route exact path = {"/viewquiz"} component={ViewQuizDetails} />      
+      <Route exact path = {"/viewquiz"} component={ViewQuizDetails} />
+      <Route exact path = {"/studentanswers"} component={StudentAnswerPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );

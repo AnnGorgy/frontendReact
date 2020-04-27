@@ -11,10 +11,5 @@ export { default as NotFoundPage } from './NotFoundPage';
 export {default as MainPageForQuiz} from "../pages/Quiz/MainPageForQuiz";
 export {default as QuizCreation} from "../pages/Quiz/QuizCreation";
 export {default as ViewQuizDetails} from "../pages/Quiz/ViewQuizDetails";
-
-
-
-
-
-
-
+export {default as MainPageForQuizStudent} from "../pages/Quiz/MainPageForQuizStudent";
+export {default as StudentAnswerPage} from "../pages/Quiz/StudentAnswerPage";

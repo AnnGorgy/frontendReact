@@ -8,6 +8,7 @@ import UpdateQuiz from "./UpdateQuiz";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TimeQuizDialog from "./TimeQuizDialog";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import {
   Table,
   TableBody,
@@ -21,7 +22,12 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match, history }) => {
+const QuizTableMainInstructor = ({
+  reloadQuiz,
+  setReloadQuiz,
+  match,
+  history,
+}) => {
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -232,8 +238,20 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match, history }) => {
                           history.push("/createquiz");
                           localStorage.setItem("QuizName", quiz.Name);
                           localStorage.setItem("TotalTime", quiz.duration);
-                          localStorage.setItem("numberOfQuestions", quiz.numberOfQuestions);
+                          localStorage.setItem(
+                            "numberOfQuestions",
+                            quiz.numberOfQuestions
+                          );
                           localStorage.setItem("QuizID", quiz.id);
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Model Answer" placement="bottom">
+                    <Button size="small">
+                      <QuestionAnswerIcon
+                        onClick={() => {
+                          history.push("/viewquiz");
                         }}
                       />
                     </Button>
@@ -281,4 +299,4 @@ const QuizTableMain = ({ reloadQuiz, setReloadQuiz, match, history }) => {
   );
 };
 
-export default withRouter(QuizTableMain);
+export default withRouter(QuizTableMainInstructor);

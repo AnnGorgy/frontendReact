@@ -230,6 +230,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
           </Grid>
           <Grid>
             <TextField
+            
               placeholder="Enter Your Question Statement"
               value={questionData.questionAsString}
               onChange={(e) =>
