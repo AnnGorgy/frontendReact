@@ -108,8 +108,13 @@ const CoursesNavigationButtons = ({ history, match }) => {
     },
     {
       url: Grades,
-      title: "Open Grades",
-      onClick: () => history.push(`/courses/${match.params.courseId}/students`),
+      title: accountType !== 2 ? "Upload assignment answers" : "Student Assignment Answers",
+      onClick: () => history.push(`/assignmentstudent/${match.params.courseId}`),
+    },
+    {
+      url: Grades,
+      title: accountType !== 2 ? "Upload Grades From Excel sheet" : "Grades",
+      onClick: () => history.push(`/courses/${match.params.courseId}/students`), 
     },
   ];
 
@@ -124,7 +129,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "33.33%",
+              width: "25%",
               height: "455px",
             }}
           >

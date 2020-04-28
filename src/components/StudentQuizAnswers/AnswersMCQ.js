@@ -10,12 +10,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
 const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
-  const handleChooseChoiceAsStudentAnswer = (value, index) => {
+  const handleChooseChoiceAsStudentAnswer = (value, idQuestion) => {
     if (!questionData.options.multipleCorrectAnswers) {
       // single correct answer
       setQuestions((prev) =>
         prev.map((question) =>
-          question.index !== questionIndex
+          question.questionId !== idQuestion
             ? question
             : {
                 ...question,
@@ -23,35 +23,16 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
               }
         )
       );
-      setQuestions((prev) =>
-        prev.map((question) =>
-          question.index !== questionIndex
-            ? question
-            : {
-                ...question,
-                questionId: MCQData.questionId,
-              }
-        )
-      );
+      console.log(idQuestion)
     } else {
       // multiple correct answers
       setQuestions((prev) =>
         prev.map((question) =>
-          question.index !== questionIndex
+          question.questionId !== idQuestion
             ? question
             : {
                 ...question,
                 answers: value,
-              }
-        )
-      );
-      setQuestions((prev) =>
-        prev.map((question) =>
-          question.index !== questionIndex
-            ? question
-            : {
-                ...question,
-                questionId: MCQData.questionId,
               }
         )
       );
@@ -162,22 +143,28 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
                     <Checkbox
                       inputProps={{ "aria-label": "uncontrolled-checkbox" }}
                       checked={Boolean(question.correctChoice)}
-                      onChange={(e) =>
+                      onChange={() =>
                         handleChooseChoiceAsStudentAnswer(
-                          e.target.checked,
-                          question.index
+                          question.choiceValueAsString,
+                          MCQData.questionId
                         )
+                      }
+                      onClick = {()=>
+                        console.log(question.choiceValueAsString,MCQData.questionId)
                       }
                     />
                   ) : (
                     <Radio
                       // single correct answer
                       checked={Boolean(question.correctChoice)}
-                      onChange={(e) =>
+                      onChange={() =>
                         handleChooseChoiceAsStudentAnswer(
-                          e.target.checked,
-                          question.index
+                          question.choiceValueAsString,
+                          MCQData.questionId
                         )
+                      }
+                      onClick = {()=>
+                        console.log(question.choiceValueAsString,MCQData.questionId)
                       }
                       inputProps={{ "aria-label": "A" }}
                     />

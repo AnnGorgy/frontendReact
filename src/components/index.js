@@ -27,5 +27,4 @@ export {default as ViewTrueFalse} from "./ViewingTheQuiz/ViewTrueFalse";
 export {default as ViewQuizForStudent} from "./StudentQuizAnswers/ViewQuizForStudent";
 export {default as AnswersMCQ} from "./StudentQuizAnswers/AnswersMCQ";
 export {default as AnswersTrueFalse} from "./StudentQuizAnswers/AnswersTrueFalse";
-
-
+export {default as AssignmentStudentAnswers} from "./AssignmentStudentAnswers";

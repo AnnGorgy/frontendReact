@@ -14,24 +14,14 @@ const AnswersTrueFalse = ({
   questionData,
   classes,
 }) => {
-  const setQuestionAnswer = (answer) => {
+  const setQuestionAnswer = (answer, idQuestion) => {
     setQuestions((prev) =>
       prev.map((question) =>
-        question.index !== questionIndex
+      question.questionId !== idQuestion
           ? question
           : {
               ...question,
               trueOrFalse: answer,
-            }
-      )
-    );
-    setQuestions((prev) =>
-      prev.map((question) =>
-        question.index !== questionIndex
-          ? question
-          : {
-              ...question,
-              questionId: TFData.questionId,
             }
       )
     );
@@ -115,7 +105,7 @@ const AnswersTrueFalse = ({
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
                   checked={TFData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(true)}
+                  onChange={() => setQuestionAnswer(1,TFData.questionId)}
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>
@@ -134,7 +124,10 @@ const AnswersTrueFalse = ({
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
                   checked={TFData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(false)}
+                  onChange={() => setQuestionAnswer(0 , TFData.questionId)}
+                  onClick = {()=>
+                    console.log(TFData.questionId)
+                  }
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>

@@ -37,8 +37,8 @@ const ViewQuizForStudent = () => {
   const getDefaultAnswerBody = () => ({
     quizId: localStorage.getItem("QuizID"),
     studentId: JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo,
-    questionId: "",
-    answers: [" "],
+    questionId: 3,
+    answers: [],
     trueOrFalse: 0,
   });
 
