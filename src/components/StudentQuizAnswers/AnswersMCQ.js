@@ -9,8 +9,13 @@ import {
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
-const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
-  const handleChooseChoiceAsStudentAnswer = (value, idQuestion) => {
+const AnswersMCQ = ({
+  classes,
+  questionData,
+  setQuestions,
+  allQuestionAnswers,
+}) => {
+  const handleChooseChoiceAsStudentAnswer = (value, idQuestion, checked) => {
     if (!questionData.options.multipleCorrectAnswers) {
       // single correct answer
       setQuestions((prev) =>
@@ -19,11 +24,10 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
             ? question
             : {
                 ...question,
-                answers: value,
+                answers: [value],
               }
         )
       );
-      console.log(idQuestion)
     } else {
       // multiple correct answers
       setQuestions((prev) =>
@@ -32,16 +36,16 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
             ? question
             : {
                 ...question,
-                answers: value,
+                answers: checked
+                  ? [...question.answers, value]
+                  : question.answers.filter(
+                      (answerValue) => answerValue !== value
+                    ),
               }
         )
       );
     }
   };
-  const [MCQData, setMCQData] = useState([]);
-  useEffect(() => {
-    setMCQData(questionData);
-  }, [questionData]);
 
   return (
     <React.Fragment>
@@ -57,8 +61,8 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
         <Grid item>
           <TextField
             label="Title"
-            defaultValue={MCQData.title}
-            value={MCQData.title}
+            defaultValue={questionData.title}
+            value={questionData.title}
             variant="outlined"
             classes={{
               root: classes.textFieldRoot,
@@ -78,8 +82,8 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
         </Grid>
         <Grid item>
           <TextField
-            defaultValue={MCQData.QuestionAsString}
-            value={MCQData.QuestionAsString}
+            defaultValue={questionData.QuestionAsString}
+            value={questionData.QuestionAsString}
             label="Question Body"
             multiline
             rows={2}
@@ -142,29 +146,39 @@ const AnswersMCQ = ({ classes, questionData, questionIndex, setQuestions }) => {
                     // multiple correct answers
                     <Checkbox
                       inputProps={{ "aria-label": "uncontrolled-checkbox" }}
-                      checked={Boolean(question.correctChoice)}
-                      onChange={() =>
+                      checked={Boolean(
+                        allQuestionAnswers
+                          ?.filter(
+                            (answer) =>
+                              answer.questionId === questionData.questionId
+                          )[0]
+                          ?.answers.includes(question.choiceValueAsString)
+                      )}
+                      onChange={(event) =>
                         handleChooseChoiceAsStudentAnswer(
                           question.choiceValueAsString,
-                          MCQData.questionId
+                          questionData.questionId,
+                          event.target.checked
                         )
-                      }
-                      onClick = {()=>
-                        console.log(question.choiceValueAsString,MCQData.questionId)
                       }
                     />
                   ) : (
                     <Radio
                       // single correct answer
-                      checked={Boolean(question.correctChoice)}
-                      onChange={() =>
+                      checked={Boolean(
+                        allQuestionAnswers
+                          ?.filter(
+                            (answer) =>
+                              answer.questionId === questionData.questionId
+                          )[0]
+                          ?.answers.includes(question.choiceValueAsString)
+                      )}
+                      onChange={(event) =>
                         handleChooseChoiceAsStudentAnswer(
                           question.choiceValueAsString,
-                          MCQData.questionId
+                          questionData.questionId,
+                          event.target.checked
                         )
-                      }
-                      onClick = {()=>
-                        console.log(question.choiceValueAsString,MCQData.questionId)
                       }
                       inputProps={{ "aria-label": "A" }}
                     />

@@ -5,7 +5,6 @@ import mime from "mime-types";
 import Tooltip from "@material-ui/core/Tooltip";
 import EditIcon from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
-import RenameForm from "./RenameForm";
 
 import {
   Table,
@@ -23,28 +22,47 @@ import {
 //------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
-import VideoIcon from "@material-ui/icons/Videocam";
-import LinkIcon from "@material-ui/icons/Link";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import DownloadIcon from "@material-ui/icons/GetAppSharp";
-import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 //-----------------------------------------------------------------------------------------------------------
 
 const AssignmentStudentAnswers = ({
   match,
-  /* reloadAssignment,
-  setReloadAssignment, */
+  reloadAssignments,
+  setReloadAssignments,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allMaterials, setAllMaterials] = useState();
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
-  const [displayedMaterials, setDisplayedMaterials] = useState();
-  const [RenameIsOpenMaterial, setRenameIsOpenMaterial] = useState(false);
-  const [currentEditedMaterial, setCurrentEditedMaterial] = useState();
-  const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
+  const [displayedAssignments, setDisplayedAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
+
+  const listAssignments = async () => {
+    const Url = `/Student_Answers/Get_Assignment_answer`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: match.params.courseId, studentId: 1 },
+    });
+    setAllAssignments(data);
+  };
+
+  useEffect(() => {
+    if (reloadAssignments === true) {
+      listAssignments();
+      setReloadAssignments(false);
+    }
+  }, [reloadAssignments]);
+
+  useEffect(() => {
+    listAssignments();
+  }, [match.params.courseId]);
+
+  /* useEffect(() => {
+      if (allAssignments) {
+        setDisplayedAssignments([
+          ...allAssignments.filter(
+            (assignment) => assignment.Parent_ID === currentFolderId
+          ),
+        ]);
+      }
+    }, [currentFolderId, allAssignments]); */
 
   return (
     <React.Fragment>
@@ -55,7 +73,7 @@ const AssignmentStudentAnswers = ({
           overflowY: "auto",
           maxWidth: "165vh",
           marginLeft: "28px",
-          marginTop:"10px"
+          marginTop: "10px",
         }}
       >
         <Table
@@ -77,40 +95,11 @@ const AssignmentStudentAnswers = ({
               >
                 File Name
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
-                Student Name
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
-                Student ID
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
-                {}
-              </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {displayedMaterials?.map((material, index) => (
+            {displayedAssignments?.map((material, index) => (
               <TableRow
                 style={
                   index % 2
@@ -120,11 +109,7 @@ const AssignmentStudentAnswers = ({
                 key={index}
               >
                 {/* File Name Cell */}
-                <TableCell align="right">{material.type}</TableCell>
-                {/* Student NAme Cell */}
-                <TableCell align="right">{material.type}</TableCell>
-                {/* Student ID Cell */}
-                <TableCell align="right">{material.description}</TableCell>
+                <TableCell align="right">{material.files}</TableCell>
               </TableRow>
             ))}
           </TableBody>

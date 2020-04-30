@@ -4,6 +4,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
 import {withStyles } from "@material-ui/core";
+import createSvgIcon from '@material-ui/icons/utils/createSvgIcon';
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

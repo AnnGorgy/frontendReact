@@ -235,14 +235,13 @@ const QuizTableMainInstructor = ({
                     <Button size="small">
                       <AddCircleOutlineIcon
                         onClick={() => {
-                          history.push("/createquiz");
+                          history.push(`/createquiz/${quiz.id}`);
                           localStorage.setItem("QuizName", quiz.Name);
                           localStorage.setItem("TotalTime", quiz.duration);
                           localStorage.setItem(
                             "numberOfQuestions",
                             quiz.numberOfQuestions
                           );
-                          localStorage.setItem("QuizID", quiz.id);
                         }}
                       />
                     </Button>

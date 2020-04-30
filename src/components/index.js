@@ -27,4 +27,9 @@ export {default as ViewTrueFalse} from "./ViewingTheQuiz/ViewTrueFalse";
 export {default as ViewQuizForStudent} from "./StudentQuizAnswers/ViewQuizForStudent";
 export {default as AnswersMCQ} from "./StudentQuizAnswers/AnswersMCQ";
 export {default as AnswersTrueFalse} from "./StudentQuizAnswers/AnswersTrueFalse";
-export {default as AssignmentStudentAnswers} from "./AssignmentStudentAnswers";
+export {default as AssignmentStudentAnswersTable} from "./StudentAssignments/AssignmentStudentAnswersTable";
+export { default as UploadExcelSheet} from "./UploadExcelSheet";
+export {default as AssignmentStudentAnswersHeader} from "./StudentAssignments/AssignmentStudentAnswersHeader";
+export {default as UploadAssignmentAnswers} from "./StudentAssignments/UploadAssignmentAnswers";
+export { default as StudentGradesTable} from "./StudentGradesTable";
+/* export {default as FillError} from "./Messages/FillError"; */

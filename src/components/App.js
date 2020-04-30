@@ -18,6 +18,8 @@ import {
   MainPageForQuizStudent,
   StudentAnswerPage,
   StudentAnswerForAssignmentPage,
+  AssignmentStudentAnswers,
+  StudentGrades,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -40,10 +42,12 @@ const App = ({ match }) => {
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
       <Route exact path = {"/quiz/:courseId"} component={MainPageForQuiz} />
       <Route exact path = {"/quizstudent/:courseId"} component={MainPageForQuizStudent} />
-      <Route exact path = {"/createquiz"} component={QuizCreation} />
+      <Route exact path = {"/createquiz/:quizId"} component={QuizCreation} />
       <Route exact path = {"/viewquiz"} component={ViewQuizDetails} />
-      <Route exact path = {"/studentanswers"} component={StudentAnswerPage} />
-      <Route exact path = {"/assignmentstudent/:courseId"} component={StudentAnswerForAssignmentPage} />      
+      <Route exact path = {"/studentanswers/:quizId"} component={StudentAnswerPage} />
+      <Route exact path = {"/assignmentInstructor/:courseId"} component={StudentAnswerForAssignmentPage} />
+      <Route exact path = {"/assignmentstudent/:courseId"} component={AssignmentStudentAnswers} />
+      <Route exact path = {"/studentgrades/:courseId"} component={StudentGrades} />
       <Route component={NotFoundPage} />
     </Switch>
   );

@@ -76,7 +76,7 @@ const QuestionTypeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const QuizStepper = () => {
+const QuizStepper = ({match}) => {
   const getDefaultQuestionBody = (length) => ({
     index: length + 1,
     type: "mcq",
@@ -215,7 +215,7 @@ const QuizStepper = () => {
                   (questions: questions),
                   {
                     params: {
-                      quizID: localStorage.getItem("QuizID"),
+                      quizID: match.params.quizId,
                     },
                   }
                 )

@@ -9,19 +9,20 @@ import {
 import Radio from "@material-ui/core/Radio";
 
 const AnswersTrueFalse = ({
-  questionIndex,
   setQuestions,
   questionData,
+  allQuestionAnswers,
   classes,
 }) => {
   const setQuestionAnswer = (answer, idQuestion) => {
     setQuestions((prev) =>
       prev.map((question) =>
-      question.questionId !== idQuestion
+        question.questionId !== idQuestion
           ? question
           : {
               ...question,
               trueOrFalse: answer,
+              /* answers: null, */
             }
       )
     );
@@ -104,8 +105,15 @@ const AnswersTrueFalse = ({
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
-                  checked={TFData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(1,TFData.questionId)}
+                  checked={Boolean(
+                    allQuestionAnswers
+                      ?.filter(
+                        (answer) =>
+                          answer.questionId === questionData.questionId
+                      )[0]
+                      ?.answers.includes(0)
+                  )}
+                  onChange={() => setQuestionAnswer(1, TFData.questionId)}
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>
@@ -123,11 +131,15 @@ const AnswersTrueFalse = ({
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
-                  checked={TFData.trueOrFalse}
-                  onChange={() => setQuestionAnswer(0 , TFData.questionId)}
-                  onClick = {()=>
-                    console.log(TFData.questionId)
-                  }
+                  checked={Boolean(
+                    allQuestionAnswers
+                      ?.filter(
+                        (answer) =>
+                          answer.questionId === questionData.questionId
+                      )[0]
+                      ?.answers.includes(0)
+                  )}
+                  onChange={() => setQuestionAnswer(0, TFData.questionId)}
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>

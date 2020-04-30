@@ -5,7 +5,9 @@ import { withRouter } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Grades from "./Grades.png";
 import materials from "./Materials.jpg";
+import { post, get } from "axios";
 import Quizs from "./Quizs.jpg";
+import UploadExcelSheet from "../UploadExcelSheet";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,6 +90,24 @@ const CoursesNavigationButtons = ({ history, match }) => {
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+  const [ExcelSheetIsOpen, setExcelSheetIsOpen] = useState(false);
+
+  const ExcelSheet = async ({ file, callback }) => {
+    const url = "/Doctor_Manage_student/importExcelSheet";
+    const formData = new FormData();
+    formData.append("Document", file);
+    try {
+      await post(url,formData, {
+        params: {
+          subjectId: match.params.courseId,
+        },
+      });
+      /* setReloadAssignments(true);*/
+      if (callback) callback();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const images = [
     {
@@ -101,25 +121,45 @@ const CoursesNavigationButtons = ({ history, match }) => {
     {
       url: Quizs,
       title: accountType !== 2 ? "Online Quiz" : "Create Quiz",
-      onClick: () =>  
-      accountType == 2
-      ? history.push(`/quiz/${match.params.courseId}`)
-      : history.push(`/quizstudent/${match.params.courseId}`),
+      onClick: () =>
+        accountType == 2
+          ? history.push(`/quiz/${match.params.courseId}`)
+          : history.push(`/quizstudent/${match.params.courseId}`),
     },
     {
       url: Grades,
-      title: accountType !== 2 ? "Upload assignment answers" : "Student Assignment Answers",
-      onClick: () => history.push(`/assignmentstudent/${match.params.courseId}`),
+      title:
+        accountType !== 2
+          ? "Upload assignment answers"
+          : "Student Assignment Answers",
+      onClick: () =>
+        accountType == 2
+          ? history.push(`/assignmentInstructor/${match.params.courseId}`)
+          : history.push(`/assignmentstudent/${match.params.courseId}`),
     },
     {
       url: Grades,
-      title: accountType !== 2 ? "Upload Grades From Excel sheet" : "Grades",
-      onClick: () => history.push(`/courses/${match.params.courseId}/students`), 
+      title: accountType == 2 ? "Upload Grades From Excel sheet" : "Grades",
+      onClick: () =>
+        accountType == 2
+          ? setExcelSheetIsOpen(true)
+          : history.push(`/studentgrades/${match.params.courseId}`),
     },
   ];
 
   return (
     <React.Fragment>
+      <UploadExcelSheet
+        title="Upload Excel Sheet"
+        isOpened={ExcelSheetIsOpen}
+        onClose={() => setExcelSheetIsOpen(false)}
+        onSubmit={({ blobs }) =>
+          ExcelSheet({
+            file: blobs,
+            callback: () => setExcelSheetIsOpen(false),
+          })
+        }
+      />
       <div className={classes.root}>
         {images.map(({ title, url, onClick }) => (
           <ButtonBase
@@ -130,7 +170,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
             onClick={onClick}
             style={{
               width: "25%",
-              height: "455px",
+              height: "470px",
             }}
           >
             <span

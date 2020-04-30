@@ -14,3 +14,8 @@ export { default as ViewQuizDetails } from "../pages/Quiz/ViewQuizDetails";
 export { default as MainPageForQuizStudent } from "../pages/Quiz/MainPageForQuizStudent";
 export { default as StudentAnswerPage } from "../pages/Quiz/StudentAnswerPage";
 export { default as StudentAnswerForAssignmentPage } from "./StudentAnswerForAssignmentPage";
+export { default as AssignmentStudentAnswers } from "./AssignmentStudentAnswers";
+export { default as StudentGrades } from "./StudentGrades";
+
+
+

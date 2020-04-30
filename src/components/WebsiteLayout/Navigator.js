@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 import { truncate } from "lodash";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,22 +17,19 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from "@material-ui/core/CssBaseline";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { InstructorProfile, StudentProfile, Quiz } from "../";
 import { post, get } from "axios";
 
-import {
-  Grid,
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 // Images //
 import Theimage from "./UniLogo.png";
 // mostafa20191701201@cis.asu.edu.eg //
 // instructor@chpsis.cis.asu.edu.eg //
 // Page Style //
-const drawerWidth = 240;  
+const drawerWidth = 240;
 const styles = (theme) => ({
   root: {
     display: "flex",
@@ -53,14 +50,13 @@ const styles = (theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    color:"black",
+    color: "black",
     backgroundColor: "#1C1C1C",
   },
   hide: {
     display: "none",
   },
   drawer: {
-    
     width: drawerWidth,
     backgroundColor: "#1C1C1C",
     flexShrink: 0,
@@ -68,10 +64,9 @@ const styles = (theme) => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: "#1C1C1C",
-    color:"white",
+    color: "white",
   },
   drawerHeader: {
-  
     display: "flex",
     alignItems: "center",
     backgroundColor: "#1C1C1C",
@@ -81,7 +76,8 @@ const styles = (theme) => ({
     justifyContent: "flex-end",
   },
   content: {
-    flexGrow: 1,color:"White",
+    flexGrow: 1,
+    color: "White",
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
@@ -125,14 +121,14 @@ const styles = (theme) => ({
   },
   itemActiveItem: {
     color: "#4A4A4A",
-    backgroundColor: "#4A4A4A"
+    backgroundColor: "#4A4A4A",
   },
   itemPrimary: {
     fontSize: 26,
     color: "rgba(255, 255, 255, 1.0)",
   },
   itemIcon: {
-    color:"#4A4A4A",
+    color: "#4A4A4A",
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
@@ -147,8 +143,6 @@ const styles = (theme) => ({
 
 function Navigator({ classes, history, match }) {
   const [openCourses, setOpenCourse] = useState(false);
-  const [openInstructorProfile, setopenInstructorProfile] = useState(false);
-  const [openStudentProfile, setopenStudentProfile] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
@@ -163,7 +157,7 @@ function Navigator({ classes, history, match }) {
   const DoctorInformation = async () => {
     try {
       const url = "/Login/getDoctor";
-      const { data } = await post(url, null ,  {
+      const { data } = await post(url, null, {
         params: {
           subjectId: "538",
         },
@@ -198,7 +192,8 @@ function Navigator({ classes, history, match }) {
   1- src : the Image of the button in the navigation bar "For the Course".
   2- alt : The name that will appear when the image does not exist .
   */
-  const [open, setOpen] = React.useState(false);const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -245,42 +240,8 @@ function Navigator({ classes, history, match }) {
 
       onClick: () =>
         accountType == 2
-        ? history.push("/Instructorprof")
+          ? history.push("/Instructorprof")
           : history.push("/studentprof"),
-    },
-    {
-      title: "Students",
-      needCourse: true,
-      Icon: (
-        <img
-          src="https://img.icons8.com/wired/55/FFFFFF/students.png"
-          alt="Students_LOGO"
-        />
-      ),
-      onClick: () => {
-        const coursesUrl = match.url.split("/");
-        if (coursesUrl.length === 4) coursesUrl.pop();
-        history.push(`${coursesUrl.join("/")}/students`);
-      },
-    },
-    {
-      title: "Materials",
-      needCourse: true,
-      Icon: (
-        <img
-          src="https://img.icons8.com/pastel-glyph/55/FFFFFF/saving-book.png"
-          alt="MATERIALS_LOGO"
-        />
-      ),
-      onClick: () => {
-        const coursesUrl = match.url.split("/");
-
-        if (coursesUrl.length === 4 && accountType == 1) coursesUrl.pop();
-        history.push(`${coursesUrl.join("/")}/StudentMaterials`);
-
-        if (coursesUrl.length === 4 && accountType == 2) coursesUrl.pop();
-        history.push(`${coursesUrl.join("/")}/materials`);
-      },
     },
     {
       title: "Courses",
@@ -311,16 +272,13 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      
-       onClick: () => history.push("/studentanswers"), 
-      
+      onClick: () => history.push("/studentanswers"),
     },
   ];
 
   return (
     <React.Fragment>
-  
-      <Toolbar style= {{backgroundColor: "#1C1C1C", width:"12px"}}>
+      <Toolbar style={{ backgroundColor: "#1C1C1C", width: "12px" }}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -328,10 +286,10 @@ function Navigator({ classes, history, match }) {
           edge="start"
           className={clsx(classes.menuButton, open && classes.hide)}
         >
-          <MenuIcon style ={{color: "white"}} />
+          <MenuIcon style={{ color: "white" }} />
         </IconButton>
       </Toolbar>
-      
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -341,28 +299,34 @@ function Navigator({ classes, history, match }) {
           paper: classes.drawerPaper,
         }}
       >
-        
-        <div className={classes.drawerHeader} style= {{backgroundColor: "#1C1C1C", height:"4px"}}>
-          <IconButton onClick={handleDrawerClose} fontSize={'small'}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon style ={{color: "white"}} /> : <ChevronRightIcon style ={{color: "white"}}/>}
+        <div
+          className={classes.drawerHeader}
+          style={{ backgroundColor: "#1C1C1C", height: "4px" }}
+        >
+          <IconButton onClick={handleDrawerClose} fontSize={"small"}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon style={{ color: "white" }} />
+            ) : (
+              <ChevronRightIcon style={{ color: "white" }} />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List disablePadding>
-          <ListItem
-            className={clsx(
-              classes.firebase,
-              classes.item
-            )}
-          >
-            <img src={Theimage} alt="FCIS_LOGO"  style ={{ width:"150px" , marginLeft: theme.spacing(4),marginBottom: theme.spacing(3),marginTop:theme.spacing(2)}}/>
+          <ListItem className={clsx(classes.firebase, classes.item)}>
+            <img
+              src={Theimage}
+              alt="FCIS_LOGO"
+              style={{
+                width: "150px",
+                marginLeft: theme.spacing(4),
+                marginBottom: theme.spacing(3),
+                marginTop: theme.spacing(2),
+              }}
+            />
           </ListItem>
-<Divider/>
-          {categories
-            .filter((category) =>
-              category.needCourse ? Boolean(match.params.courseId) : true
-            )
-            .map(({ Icon, children, title, active, onClick }, index) =>
+          <Divider />
+          {categories.map(({ Icon, children, title, active, onClick }, index) =>
               children ? (
                 <React.Fragment>
                   <ListItem
@@ -434,7 +398,7 @@ function Navigator({ classes, history, match }) {
                 </ListItem>
               )
             )}
-        </List>      
+        </List>
       </Drawer>
     </React.Fragment>
   );

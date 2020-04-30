@@ -20,7 +20,12 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const QuizTableMainStudent = ({ reloadQuiz, setReloadQuiz, match, history }) => {
+const QuizTableMainStudent = ({
+  reloadQuiz,
+  setReloadQuiz,
+  match,
+  history,
+}) => {
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -156,15 +161,19 @@ const QuizTableMainStudent = ({ reloadQuiz, setReloadQuiz, match, history }) => 
                 {/* End Date cell */}
                 <TableCell align="right">{quiz.endDate}</TableCell>
                 <TableCell align="right">
-                  <Tooltip title="Add Questions" placement="bottom">
+                  <Tooltip title="Enter The Quiz" placement="bottom">
                     <Button size="small">
-                      <AddCircleOutlineIcon
+                      <img
+                        src="https://img.icons8.com/ios/30/000000/quiz.png"
                         onClick={() => {
-                          /* history.push("/createquiz"); */
-                          localStorage.setItem("QuizName", quiz.Name);
+                          history.push(`/studentanswers/${quiz.id}`);
+                          /* localStorage.setItem("QuizName", quiz.Name);
                           localStorage.setItem("TotalTime", quiz.duration);
-                          localStorage.setItem("numberOfQuestions", quiz.numberOfQuestions);
-                          localStorage.setItem("QuizID", quiz.id);
+                          localStorage.setItem(
+                            "numberOfQuestions",
+                            quiz.numberOfQuestions
+                          );
+                          localStorage.setItem("QuizID", quiz.id); */
                         }}
                       />
                     </Button>
