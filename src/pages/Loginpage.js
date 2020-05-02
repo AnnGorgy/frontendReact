@@ -8,15 +8,43 @@ import background from "./Images/background.jpg";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-
-
 import { post, get } from "axios";
 import { Typography, OutlinedInput } from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 const LoginPage = ({ history }) => {
   const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const login = async () => {
     try {
@@ -30,7 +58,8 @@ const LoginPage = ({ history }) => {
       history.push("/home");
       console.log(JSON.parse(localStorage.getItem("subjects")));
     } catch (err) {
-      setError(`Your email and password don't match our records`);
+      setError(`Your email and password don't match our records`); 
+      handleClick();
       console.error(err);
     }
   };
@@ -58,192 +87,202 @@ const LoginPage = ({ history }) => {
         },
       });
       localStorage.setItem("StuInformation", JSON.stringify(data));
-    } catch (err) { 
+    } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        height: "720px",
-      }}
-    >
-      <Paper
-        className="base-container"
+    <React.Fragment>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        autoHideDuration={2000}
+      >
+        <Alert onClose={handleClose} severity="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
+      <div
         style={{
-          width: "30%",
-          height: "90%",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          border: "6px solid black",
-          borderRadius: "64px",
-          marginLeft: "950px",
-          webkitBoxShadow: "12px 12px 12px #9E9E9E",
-          mozBoxShadow: "12px 12px 12px #9E9E9E",
-          boxShadow: "12px 12px 12px #9E9E9E",
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          height: "720px",
         }}
       >
-        <div
-          className="header"
+        <Paper
+          className="base-container"
           style={{
-            marginTop: "-50px",
-            fontSize: "22px",
-            fontFamily: "Open Sans",
-          }}
-        >
-          <img src={LMSImage} alt={"LMSImage"} />
-        </div>
-        <div
-          className="content"
-          style={{
+            width: "30%",
+            height: "90%",
             display: "flex",
+            alignItems: "center",
             flexDirection: "column",
+            border: "6px solid black",
+            borderRadius: "64px",
+            marginLeft: "950px",
+            webkitBoxShadow: "12px 12px 12px #9E9E9E",
+            mozBoxShadow: "12px 12px 12px #9E9E9E",
+            boxShadow: "12px 12px 12px #9E9E9E",
           }}
         >
-          {/* image */}
           <div
-            className="image"
+            className="header"
             style={{
-              marginTop: "-70px",
-              width: "85%",
-              height: "85%",
+              marginTop: "-50px",
+              fontSize: "22px",
+              fontFamily: "Open Sans",
             }}
           >
-            <img
-              src={loginImg}
-              style={{
-                width: "230px",
-                height: "230px",
-                marginLeft: "94px",
-              }}
-              alt={"Logo"}
-            />
+            <img src={LMSImage} alt={"LMSImage"} />
           </div>
           <div
-            className="form"
+            className="content"
             style={{
-              marginTop: "2em",
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
             }}
           >
+            {/* image */}
             <div
+              className="image"
               style={{
-                position: "fixed",
-                bottom: "40%",
-                left: "63%",
+                marginTop: "-70px",
+                width: "85%",
+                height: "85%",
               }}
             >
-              <img src={EmailIcon} alt={"EmailIcon"} />
-            </div>
-
-            {/* username */}
-            <div
-              className="form-group"
-              style={{
-                marginLeft: "30px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                width: "fit-content",
-              }}
-            >
-              <TextField
-                E-mail="standard-basic"
-                label="E-mail"
-                type="email"
-                value={Email}
-                onFocus={() => setError()}
-                onChange={(e) => setEmail(e.target.value)}
+              <img
+                src={loginImg}
                 style={{
-                  transition: "all 250ms ease-in-out",
-                  marginTop: "6px",
-                  fontSize: "16px",
-                  height: "37px",
-                  padding: "0px 10px",
-                  marginBottom: "31px",
-                  width: "340px",
-                  marginLeft: " 20px",
+                  width: "230px",
+                  height: "230px",
+                  marginLeft: "94px",
                 }}
+                alt={"Logo"}
               />
             </div>
-
             <div
+              className="form"
               style={{
-                position: "fixed",
-                bottom: "30%",
-                left: "63%",
-              }}
-            >
-              <img src={PasswordIcon} alt={"PasswordICon"} />
-            </div>
-            {/* password */}
-
-            <div
-              className="form-group"
-              style={{
-                marginLeft: "30px",
+                marginTop: "2em",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start",
-                width: "fit-content",
+                alignItems: "center",
               }}
             >
-              <TextField
-                Password="standard-basic"
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onFocus={() => setError()}
+              <div
                 style={{
-                  transition: "all 250ms ease-in-out",
-                  marginTop: "6px",
-                  fontSize: "16px",
-                  height: "37px",
-                  padding: "0px 10px",
-                  marginBottom: "31px",
-                  width: "340px",
-                  marginLeft: " 20px",
+                  position: "fixed",
+                  bottom: "40%",
+                  left: "63%",
                 }}
-              />
+              >
+                <img src={EmailIcon} alt={"EmailIcon"} />
+              </div>
+
+              {/* username */}
+              <div
+                className="form-group"
+                style={{
+                  marginLeft: "30px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "fit-content",
+                }}
+              >
+                <TextField
+                  E-mail="standard-basic"
+                  label="E-mail"
+                  type="email"
+                  value={Email}
+                  onFocus={() => setError()}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    transition: "all 250ms ease-in-out",
+                    marginTop: "6px",
+                    fontSize: "16px",
+                    height: "37px",
+                    padding: "0px 10px",
+                    marginBottom: "31px",
+                    width: "340px",
+                    marginLeft: " 20px",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: "30%",
+                  left: "63%",
+                }}
+              >
+                <img src={PasswordIcon} alt={"PasswordICon"} />
+              </div>
+              {/* password */}
+
+              <div
+                className="form-group"
+                style={{
+                  marginLeft: "30px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "fit-content",
+                }}
+              >
+                <TextField
+                  Password="standard-basic"
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setError()}
+                  style={{
+                    transition: "all 250ms ease-in-out",
+                    marginTop: "6px",
+                    fontSize: "16px",
+                    height: "37px",
+                    padding: "0px 10px",
+                    marginBottom: "31px",
+                    width: "340px",
+                    marginLeft: " 20px",
+                  }}
+                />
+              </div>
+              <div>
+                {error && <Typography color="error"> {error} </Typography>}
+              </div>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="primary"
+                style={{
+                  marginLeft: "330px",
+                  marginTop: "25px",
+                  width: "90px",
+                  height: "45px",
+                  fontSize: "20px",
+                }}
+                onClick={() => {
+                  login();
+                  UserInformation();
+                  StudentInformation();
+                }}
+              >
+                Login
+              </Button>
             </div>
-            <div>
-              {error && <Typography color="error"> {error} </Typography>}
-            </div>
-            <Button
-              variant="outlined"
-              size="medium"
-              color="primary"
-              style={{
-                marginLeft: "330px",
-                marginTop: "25px",
-                width: "90px",
-                height: "45px",
-                fontSize: "20px",
-              }}
-              onClick={() => {
-                login();
-                UserInformation();
-                StudentInformation();
-              }}
-            >
-              Login
-            </Button>
           </div>
-        </div>
-      </Paper>
-    </div>
+        </Paper>
+      </div>
+    </React.Fragment>
   );
 };
-
-
 
 export default withRouter(LoginPage);

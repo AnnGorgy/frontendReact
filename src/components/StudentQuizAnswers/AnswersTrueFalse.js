@@ -22,7 +22,7 @@ const AnswersTrueFalse = ({
           : {
               ...question,
               trueOrFalse: answer,
-              /* answers: null, */
+              answers: null,
             }
       )
     );
@@ -106,18 +106,18 @@ const AnswersTrueFalse = ({
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
                   checked={Boolean(
-                    allQuestionAnswers
-                      ?.filter(
-                        (answer) =>
-                          answer.questionId === questionData.questionId
-                      )[0]
-                      ?.answers.includes(0)
+                    allQuestionAnswers?.filter(
+                      (answer) => answer.questionId === questionData.questionId
+                    )[0]?.trueOrFalse == 1
                   )}
                   onChange={() => setQuestionAnswer(1, TFData.questionId)}
+                  
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>
+              
             </Grid>
+            
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
               <Grid item>
                 <Typography
@@ -132,12 +132,9 @@ const AnswersTrueFalse = ({
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
                 <Radio
                   checked={Boolean(
-                    allQuestionAnswers
-                      ?.filter(
-                        (answer) =>
-                          answer.questionId === questionData.questionId
-                      )[0]
-                      ?.answers.includes(0)
+                    allQuestionAnswers?.filter(
+                      (answer) => answer.questionId === questionData.questionId
+                    )[0]?.trueOrFalse == 0
                   )}
                   onChange={() => setQuestionAnswer(0, TFData.questionId)}
                   inputProps={{ "aria-label": "A" }}

@@ -296,7 +296,6 @@ const MaterialTable = ({
               </TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {displayedMaterials?.map((material, index) => (
               <TableRow

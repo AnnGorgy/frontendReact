@@ -73,15 +73,6 @@ const ViewQuizForStudent = ({match}) => {
     trueOrFalse: null,
   });
 
-  const AnswersStudentObject = async () => {
-    try {
-      const url = "/Student_Answers/addQuizAnswer";
-      const { data } = await post(url, (questionAnswers));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const [questionAnswers, setAnswers] = useState();
   console.log(questionAnswers);
   const classes = useStyles();
@@ -182,9 +173,18 @@ const ViewQuizForStudent = ({match}) => {
 
       <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
         <Button
-          onClick={() => {
-            AnswersStudentObject();
-          }}
+          onClick={ async () =>
+            await post(
+              "/Student_Answers/addQuizAnswer",
+               (questionAnswers),
+               {
+                 params: {
+                  quiizID: match.params.quizId,
+                   studID : 1 , 
+                 },
+               }
+             )
+           }
           className={classes.addButton}
           size="small"
         >

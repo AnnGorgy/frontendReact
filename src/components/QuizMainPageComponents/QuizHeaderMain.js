@@ -4,12 +4,42 @@ import { withRouter } from "react-router-dom";
 import { Grid, withStyles, Button, Typography } from "@material-ui/core";
 import Quiz from "./Quiz";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
   const [OpenQuiz, setOpenQuiz] = useState(false);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+  const [open, setOpen] = React.useState(false);
+  const [MessageTitle , setMessageTitle] = useState("");
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const ViewData = async (
     Name,
@@ -35,10 +65,12 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
           duration: Duration,
           shuffleQuestion: questionType,
           subID: match.params.courseId,
-          numberOfQuestions: numberOfQues , 
+          numberOfQuestions: numberOfQues,
         },
       });
       setReloadQuizzes(true);
+      handleClick();
+      setMessageTitle(Name);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -47,6 +79,21 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        style={{
+          Width: "150px",
+          height: "150px",
+          position: "absolute",
+          zIndex: 9999,
+        }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {MessageTitle} has been uploaded
+        </Alert>
+      </Snackbar>
       <Quiz
         isOpened={OpenQuiz}
         onClose={() => setOpenQuiz(false)}

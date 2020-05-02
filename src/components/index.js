@@ -32,4 +32,6 @@ export { default as UploadExcelSheet} from "./UploadExcelSheet";
 export {default as AssignmentStudentAnswersHeader} from "./StudentAssignments/AssignmentStudentAnswersHeader";
 export {default as UploadAssignmentAnswers} from "./StudentAssignments/UploadAssignmentAnswers";
 export { default as StudentGradesTable} from "./StudentGradesTable";
-/* export {default as FillError} from "./Messages/FillError"; */
+export { default as StudentQuizGrades} from "./StudentQuizGrades";
+export {default as FillError} from "./Messages/FillError";
+export {default as DoctorgetAssignmentsStudentsTable} from "./DoctorgetAssignmentsStudentsTable";

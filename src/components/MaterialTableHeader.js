@@ -6,11 +6,27 @@ import {
   BreadCrumbs,
   AddMaterialPopOver,
   CreateFileForm,
-  CreateFolderForm
+  CreateFolderForm,
 } from "./";
 
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import { withRouter } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 const MaterialTableHeader = ({
   crumbs,
@@ -18,7 +34,7 @@ const MaterialTableHeader = ({
   uploadUrl,
   createUrl,
   match,
-  setReloadMaterials
+  setReloadMaterials,
 }) => {
   const [fileIsOpen, setFileIsOpen] = useState(false);
   const [videoIsOpen, setVideoIsOpen] = useState(false);
@@ -26,9 +42,25 @@ const MaterialTableHeader = ({
   const [assignmentIsOpen, setAssignmentIsOpen] = useState(false);
   const [FolderIsOpen, setFolderIsOpen] = useState(false);
   const [createButtonReference, setCreateButtonReference] = useState();
-  const [accountType, setaccountType] = useState(JSON.parse(localStorage.getItem("Information")).AccountType);
+  const [accountType, setaccountType] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountType
+  );
+  const [open, setOpen] = React.useState(false);
+  const [MessageTitle, setMessageTitle] = useState("");
 
-  const handlePopOverClick = eventName => {
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handlePopOverClick = (eventName) => {
     switch (eventName) {
       case "File":
         setFileIsOpen(true);
@@ -70,6 +102,8 @@ const MaterialTableHeader = ({
         },
       });
       setReloadMaterials(true);
+      handleClick();
+      setMessageTitle(name);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -81,7 +115,7 @@ const MaterialTableHeader = ({
     name,
     description,
     date,
-    callback
+    callback,
   }) => {
     const url = "/assignment/uploadFiles";
     const formData = new FormData();
@@ -94,10 +128,12 @@ const MaterialTableHeader = ({
           Description: description,
           File_Name: name,
           start: date.start,
-          end: date.end
-        }
+          end: date.end,
+        },
       });
       setReloadMaterials(true);
+      setMessageTitle(name);
+      handleClick();
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -114,10 +150,12 @@ const MaterialTableHeader = ({
           Parent_ID: crumbs[crumbs.length - 1].id,
           sub_Id: match.params.courseId,
           Video_Name: name,
-          description: description
-        }
+          description: description,
+        },
       });
       setReloadMaterials(true);
+      handleClick();
+      setMessageTitle(name);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -131,10 +169,12 @@ const MaterialTableHeader = ({
       params: {
         Parent_ID: crumbs[crumbs.length - 1].id,
         Folder_Name: name,
-        sub_Id: match.params.courseId
-      }
+        sub_Id: match.params.courseId,
+      },
     });
     setReloadMaterials(true);
+    setMessageTitle(name);
+    handleClick();
     if (callback) callback();
   };
 
@@ -146,15 +186,32 @@ const MaterialTableHeader = ({
         Name: name,
         sub_Id: match.params.courseId,
         description: description,
-        Url: link
-      }
+        Url: link,
+      },
     });
     setReloadMaterials(true);
+    setMessageTitle(name);
+    handleClick();
     if (callback) callback();
   };
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        style={{
+          Width: "150px",
+          height: "150px",
+          position: "absolute",
+          zIndex: 9999,
+        }}
+      >
+        <Alert onClose={handleClose} severity="success">
+       {MessageTitle} has been uploaded
+        </Alert>
+      </Snackbar>
       <AddMaterialPopOver
         createButtonReference={createButtonReference}
         setCreateButtonReference={setCreateButtonReference}
@@ -170,7 +227,7 @@ const MaterialTableHeader = ({
             file: blobs,
             name,
             description,
-            callback: () => setFileIsOpen(false)
+            callback: () => setFileIsOpen(false),
           })
         }
       />
@@ -183,7 +240,7 @@ const MaterialTableHeader = ({
             file: blobs,
             name,
             description,
-            callback: () => setVideoIsOpen(false)
+            callback: () => setVideoIsOpen(false),
           })
         }
       />
@@ -198,7 +255,7 @@ const MaterialTableHeader = ({
             name,
             description,
             date,
-            callback: () => setAssignmentIsOpen(false)
+            callback: () => setAssignmentIsOpen(false),
           })
         }
       />
@@ -220,7 +277,7 @@ const MaterialTableHeader = ({
             name,
             description,
             link,
-            callback: () => setLinkIsOpen(false)
+            callback: () => setLinkIsOpen(false),
           })
         }
       />
@@ -234,14 +291,14 @@ const MaterialTableHeader = ({
           {crumbs?.length ? (
             <BreadCrumbs crumbs={crumbs} />
           ) : (
-              <React.Fragment />
-            )}
+            <React.Fragment />
+          )}
         </Grid>
         {accountType == 2 && (
           <Grid item>
             <Button
               ref={createButtonReference}
-              onClick={event => {
+              onClick={(event) => {
                 setCreateButtonReference(event.currentTarget);
               }}
               className={classes.addButton}
@@ -259,11 +316,12 @@ const MaterialTableHeader = ({
                 <Grid item>
                   <Typography className={classes.buttonText}>
                     Add New Resourses
-                </Typography>
+                  </Typography>
                 </Grid>
               </Grid>
             </Button>
-          </Grid>)}
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );
@@ -271,37 +329,37 @@ const MaterialTableHeader = ({
 
 const styles = () => ({
   breadCrumpContainer: {
-    maxWidth: "100%"
+    maxWidth: "100%",
   },
   addButton: {
     borderRadius: "16px",
     width: "240px",
     color: "black",
-    backgroundColor:  "#7dbbb9",
+    backgroundColor: "#7dbbb9",
     "&:hover, &:focus": {
       backgroundColor: "#CCE6E5",
-      color: "black"
-    }
+      color: "black",
+    },
   },
   addIcon: {
-    marginTop: "4px"
+    marginTop: "4px",
   },
   buttonText: {
-    color: "black"
+    color: "black",
   },
   addButtonBody: {
     marginLeft: "4px",
-    marginRight: "4px"
+    marginRight: "4px",
   },
   tableHeader: {
     paddingRight: "20px",
     paddingLeft: "20px",
     marginTop: "8px",
-    flexWrap: "nowrap"
+    flexWrap: "nowrap",
   },
   noWrap: {
-    flexWrap: "nowrap"
-  }
+    flexWrap: "nowrap",
+  },
 });
 
 export default withStyles(styles)(withRouter(MaterialTableHeader));

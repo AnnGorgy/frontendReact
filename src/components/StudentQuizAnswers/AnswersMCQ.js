@@ -25,6 +25,7 @@ const AnswersMCQ = ({
             : {
                 ...question,
                 answers: [value],
+                trueOrFalse: 0
               }
         )
       );
@@ -36,8 +37,10 @@ const AnswersMCQ = ({
             ? question
             : {
                 ...question,
+                trueOrFalse : 0 ,
                 answers: checked
-                  ? [...question.answers, value]
+                  ? [...question.answers, value ] 
+                    
                   : question.answers.filter(
                       (answerValue) => answerValue !== value
                     ),

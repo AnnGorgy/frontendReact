@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { StudentGradesTable, SideBar } from "../components";
+import { StudentGradesTable, SideBar , StudentQuizGrades } from "../components";
 import { Grid } from "@material-ui/core";
 
 const StudentGrades = ({match,history}) => {
@@ -22,8 +22,11 @@ const StudentGrades = ({match,history}) => {
           spacing={1}
           style={{ flexWrap: "nowrap" }}
         >
-          <Grid item>
+          <Grid item >
             <StudentGradesTable/>
+          </Grid>
+          <Grid item >
+            <StudentQuizGrades/>
           </Grid>
         </Grid>
       </Grid>

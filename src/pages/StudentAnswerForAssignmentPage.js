@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar , AssignmentStudentAnswersTable } from "../components";
+import { SideBar, DoctorgetAssignmentsStudentsTable } from "../components";
 import { Grid } from "@material-ui/core";
 
 const StudentAnswerForAssignmentPage = () => {
@@ -25,10 +25,7 @@ const StudentAnswerForAssignmentPage = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <AssignmentStudentAnswersTable
-              /* reloadAssignment={reloadAssignment}
-              setReloadAssignment={setReloadAssignment} */
-            />
+            <DoctorgetAssignmentsStudentsTable />
           </Grid>
         </Grid>
       </Grid>

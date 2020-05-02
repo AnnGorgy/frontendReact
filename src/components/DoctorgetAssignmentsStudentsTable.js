@@ -19,40 +19,56 @@ import {
   Typography,
 } from "@material-ui/core";
 
-//------------------------------------------------- Icons ---------------------------------------------------
-import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
-//-----------------------------------------------------------------------------------------------------------
-
-const AssignmentStudentAnswers = ({
-  match,
-  reloadAssignments,
-  setReloadAssignments,
-}) => {
+const DoctorgetAssignmentsStudentsTable = ({ match }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allAssignments, setAllAssignments] = useState();
+  const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
+  const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedAssignments, setDisplayedAssignments] = useState();
+  const [assignmets, setAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
 
-  const listAssignments = async () => {
-    const Url = `/Student_Answers/Get_Assignment_answer`;
+  const listAssignmentsFolders = async () => {
+    const Url = `/Doctor_Manage_student/getAssignmentsFolders`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId, studentId: 1 },
+      params: { subjectId: match.params.courseId },
     });
-    setAllAssignments(data);
+    setAllAssignmentsFolders(data);
+  };
+
+  const listAssignmentsFiles = async () => {
+    const Url = `/Doctor_Manage_student/getAssignmentsFiles`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: match.params.courseId },
+    });
+    setAllAssignmentsFiles(data);
   };
 
   useEffect(() => {
-    if (reloadAssignments === true) {
-      listAssignments();
-      setReloadAssignments(false);
-    }
-  }, [reloadAssignments]);
+    listAssignmentsFiles();
+    listAssignmentsFolders();
+  }, [match.params.courseId]);
 
   useEffect(() => {
-    listAssignments();
-  }, [match.params.courseId]);
+    if (allAssignmentsFolders && allAssignmentsFiles) {
+      setDisplayedAssignments([
+        ...allAssignmentsFolders,
+        ...allAssignmentsFiles,
+      ]);
+    }
+    if (displayedAssignments) {
+      setAssignments([
+        ...displayedAssignments.filter(
+          (assignment) => assignment.parent_ID === currentFolderId
+        ),
+      ]);
+    }
+  }, [
+    allAssignmentsFolders,
+    currentFolderId,
+    allAssignmentsFiles,
+    displayedAssignments,
+  ]);
 
   return (
     <React.Fragment>
@@ -89,7 +105,7 @@ const AssignmentStudentAnswers = ({
           </TableHead>
 
           <TableBody>
-            {displayedAssignments?.map((material, index) => (
+            {displayedAssignments?.map((assignment, index) => (
               <TableRow
                 style={
                   index % 2
@@ -97,9 +113,16 @@ const AssignmentStudentAnswers = ({
                     : { background: "	#E8FDFF	" }
                 }
                 key={index}
+                onClick={() => {
+                  if (assignment.type === "folder") {
+                    setCurrentFolderId(assignment.id);
+                    console.log("ahmed",displayedAssignments);
+                    console.log("mohamed",assignmets);
+                  }
+                }}
               >
                 {/* File Name Cell */}
-                <TableCell align="right">{material.files}</TableCell>
+                <TableCell>{assignment.name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -109,4 +132,4 @@ const AssignmentStudentAnswers = ({
   );
 };
 
-export default withRouter(AssignmentStudentAnswers);
+export default withRouter(DoctorgetAssignmentsStudentsTable);

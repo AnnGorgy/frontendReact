@@ -7,7 +7,10 @@ import Grades from "./Grades.png";
 import materials from "./Materials.jpg";
 import { post, get } from "axios";
 import Quizs from "./Quizs.jpg";
+import Assignments from "./Assignments.jpg";
 import UploadExcelSheet from "../UploadExcelSheet";
+import Excel from "./ExcelSheet.jpg";
+import AssignmentDoctor from "./AssignmentDoctor.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,7 +100,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
     const formData = new FormData();
     formData.append("Document", file);
     try {
-      await post(url,formData, {
+      await post(url, formData, {
         params: {
           subjectId: match.params.courseId,
         },
@@ -127,7 +130,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
           : history.push(`/quizstudent/${match.params.courseId}`),
     },
     {
-      url: Grades,
+      url: accountType == 2 ? AssignmentDoctor : Assignments,
       title:
         accountType !== 2
           ? "Upload assignment answers"
@@ -138,7 +141,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
           : history.push(`/assignmentstudent/${match.params.courseId}`),
     },
     {
-      url: Grades,
+      url: accountType == 2 ? Excel : Grades,
       title: accountType == 2 ? "Upload Grades From Excel sheet" : "Grades",
       onClick: () =>
         accountType == 2
