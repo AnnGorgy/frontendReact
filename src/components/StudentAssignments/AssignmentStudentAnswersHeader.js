@@ -4,16 +4,16 @@ import { withRouter } from "react-router-dom";
 import { Grid, withStyles, Button, Typography } from "@material-ui/core";
 import UploadAssignmentAnswers from "./UploadAssignmentAnswers";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import { BreadCrumbs } from "../";
+
 
 const AssignmentStudentAnswersHeader = ({
+  crumbs,
   classes,
   setReloadAssignments,
   match,
 }) => {
   const [OpenAssignment, setOpenAssignment] = useState(false);
-  const [accountType, setaccountType] = useState(
-    JSON.parse(localStorage.getItem("Information")).AccountType
-  );
 
   const UploadAssignment = async ({ AssName, file, callback }) => {
     const url = "/Student_Answers/upload_Assignment_Answer";
@@ -23,7 +23,7 @@ const AssignmentStudentAnswersHeader = ({
       // post syntax (url, body, options)
       await post(url, formData, {
         params: {
-          Parent_ID: 1,
+          Parent_ID: crumbs[crumbs.length - 1].id,
           Assignment_Id: 4,
           Name: AssName,
           Student_ID: 1,
@@ -55,6 +55,13 @@ const AssignmentStudentAnswersHeader = ({
         alignItems="center"
         className={classes.tableHeader}
       >
+        <Grid item xs={7}>
+          {crumbs?.length ? (
+            <BreadCrumbs crumbs={crumbs} />
+          ) : (
+            <React.Fragment />
+          )}
+        </Grid>
         <Grid item>
           <Button
             onClick={() => setOpenAssignment(true)}
@@ -83,9 +90,12 @@ const AssignmentStudentAnswersHeader = ({
   );
 };
 const styles = () => ({
+  breadCrumpContainer: {
+    maxWidth: "100%",
+  },
   addButton: {
     borderRadius: "16px",
-    width: "220px",
+    width: "200px",
     color: "black",
     backgroundColor: "#7dbbb9",
     "&:hover, &:focus": {
@@ -98,7 +108,6 @@ const styles = () => ({
   },
   buttonText: {
     color: "black",
-    paddingLeft: "5px",
   },
   addButtonBody: {
     marginLeft: "4px",
@@ -106,9 +115,11 @@ const styles = () => ({
   },
   tableHeader: {
     paddingRight: "20px",
-    paddingLeft: "1000px",
-    marginTop: "20px",
-    marginLeft: "30px",
+    paddingLeft: "20px",
+    marginTop: "8px",
+    flexWrap: "nowrap",
+  },
+  noWrap: {
     flexWrap: "nowrap",
   },
 });

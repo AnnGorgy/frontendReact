@@ -272,7 +272,7 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      onClick: () => history.push("/studentanswers"),
+      onClick: () => history.push("/answers"),
     },
   ];
 

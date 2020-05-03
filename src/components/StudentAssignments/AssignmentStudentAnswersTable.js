@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import mime from "mime-types";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
+import FolderIcon from "@material-ui/icons/Folder";
+import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+
 
 import {
   Table,
@@ -15,44 +14,83 @@ import {
   TableRow,
   Paper,
   Button,
-  Grid,
-  Typography,
+  Tooltip,
 } from "@material-ui/core";
 
-//------------------------------------------------- Icons ---------------------------------------------------
-import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
-//-----------------------------------------------------------------------------------------------------------
-
-const AssignmentStudentAnswers = ({
+const AssignmentStudentAnswersTable = ({
   match,
+  setCrumbs,
   reloadAssignments,
   setReloadAssignments,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allAssignments, setAllAssignments] = useState();
-  const [currentFolderId, setCurrentFolderId] = useState();
+  const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
+  const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
+  const [currentFolderId, setCurrentFolderId] = useState(null);
   const [displayedAssignments, setDisplayedAssignments] = useState();
+  const [assignmets, setAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
 
-  const listAssignments = async () => {
-    const Url = `/Student_Answers/Get_Assignment_answer`;
+  const listAssignmentsFolders = async () => {
+    const Url = `/Student_Answers/GetAssignmentanswerFolders`;
     const { data } = await post(Url, null, {
       params: { subjectId: match.params.courseId, studentId: 1 },
     });
-    setAllAssignments(data);
+    setAllAssignmentsFolders(data);
+  };
+
+  const listAssignmentsFiles = async () => {
+    const Url = `/Student_Answers/GetAssignmentAnswerFiles`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: match.params.courseId, studentId: 1 },
+    });
+    setAllAssignmentsFiles(data);
   };
 
   useEffect(() => {
+    listAssignmentsFiles();
+    listAssignmentsFolders();
+  }, [match.params.courseId]);
+
+  useEffect(() => {
+    if (allAssignmentsFolders && allAssignmentsFiles) {
+      setDisplayedAssignments([
+        ...allAssignmentsFolders,
+        ...allAssignmentsFiles,
+      ]);
+    }
+  }, [allAssignmentsFolders, allAssignmentsFiles]);
+
+  useEffect(() => {
+    if (displayedAssignments) {
+      setAssignments([
+        ...displayedAssignments.filter(
+          (assignment) => assignment.parentID === currentFolderId
+        ),
+      ]);
+    }
+  }, [displayedAssignments, currentFolderId]);
+
+  useEffect(() => {
     if (reloadAssignments === true) {
-      listAssignments();
+      listAssignmentsFolders();
+      listAssignmentsFiles();
       setReloadAssignments(false);
     }
   }, [reloadAssignments]);
 
   useEffect(() => {
-    listAssignments();
-  }, [match.params.courseId]);
+    setCrumbs([
+      {
+        label: "Home",
+        onClick: () => {
+          setCurrentFolderId(null);
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+    ]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -85,11 +123,21 @@ const AssignmentStudentAnswers = ({
               >
                 File Name
               </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontFamily: "Impact",
+                }}
+                align="right"
+              >
+                {}
+              </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {displayedAssignments?.map((material, index) => (
+            {assignmets?.map((assignment, index) => (
               <TableRow
                 style={
                   index % 2
@@ -97,9 +145,52 @@ const AssignmentStudentAnswers = ({
                     : { background: "	#E8FDFF	" }
                 }
                 key={index}
+                onClick={() => {
+                  if (assignment.type === "folder") {
+                    setCurrentFolderId(assignment.id);
+                    setCrumbs((prevCrumbs) => [
+                      ...prevCrumbs,
+                      {
+                        label: assignment.name,
+                        id: assignment.id,
+                        Icon: FolderIcon,
+                        onClick: () => {
+                          setCurrentFolderId(assignment.id);
+                          setCrumbs((prevState) => {
+                            if (
+                              prevState[prevState.length - 1].id ===
+                              assignment.id
+                            )
+                              return prevState;
+                            return [
+                              ...prevState.slice(0, prevState.length - 1),
+                            ];
+                          });
+                        },
+                      },
+                    ]);
+                  }
+                }}
               >
                 {/* File Name Cell */}
-                <TableCell align="right">{material.files}</TableCell>
+                <TableCell>{assignment.name}</TableCell>
+                <TableCell align="right">
+                  <Tooltip title="Delete" placement="bottom">
+                    <Button size="small">
+                      {assignment.type === "file" && (
+                        <DeleteIcon
+                          onClick={() => {
+                            get("/Student_Answers/deleteAssignmentAnswer", {
+                              params: { fileId: assignment.id },
+                            })
+                              .then(() => window.location.reload())
+                              .catch((err) => console.error(err));
+                          }}
+                        />
+                      )}
+                    </Button>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -109,4 +200,4 @@ const AssignmentStudentAnswers = ({
   );
 };
 
-export default withRouter(AssignmentStudentAnswers);
+export default withRouter(AssignmentStudentAnswersTable);

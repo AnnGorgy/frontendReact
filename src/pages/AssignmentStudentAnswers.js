@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, AssignmentStudentAnswersHeader,AssignmentStudentAnswersTable  } from "../components";
+import {
+  SideBar,
+  AssignmentStudentAnswersHeader,
+  AssignmentStudentAnswersTable,
+} from "../components";
 import { Grid } from "@material-ui/core";
 
 const AssignmentStudentAnswers = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [reloadAssignment, setReloadAssignment] = useState(true);
+  const [crumbs, setCrumbs] = useState([]);
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -25,12 +30,16 @@ const AssignmentStudentAnswers = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <AssignmentStudentAnswersHeader setReloadAssignments={setReloadAssignment} />
+            <AssignmentStudentAnswersHeader
+              setReloadAssignments={setReloadAssignment}
+              crumbs={crumbs}
+            />
           </Grid>
           <Grid item>
             <AssignmentStudentAnswersTable
               reloadAssignments={reloadAssignment}
               setReloadAssignments={setReloadAssignment}
+              setCrumbs={setCrumbs}
             />
           </Grid>
         </Grid>

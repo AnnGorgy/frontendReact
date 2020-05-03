@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { SideBar, DoctorgetAssignmentsStudentsTable } from "../components";
+import {
+  SideBar,
+  DoctorgetAssignmentsStudentsTable,
+  DoctorAssignmentsStudensHeader,
+} from "../components";
 import { Grid } from "@material-ui/core";
 
 const StudentAnswerForAssignmentPage = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  /* const [reloadAssignment, setReloadAssignment] = useState(true); */
+  const [crumbs, setCrumbs] = useState([]);
+
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -25,7 +30,10 @@ const StudentAnswerForAssignmentPage = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <DoctorgetAssignmentsStudentsTable />
+            <DoctorAssignmentsStudensHeader crumbs={crumbs} />
+          </Grid>
+          <Grid item>
+            <DoctorgetAssignmentsStudentsTable setCrumbs={setCrumbs} />
           </Grid>
         </Grid>
       </Grid>

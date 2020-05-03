@@ -20,6 +20,7 @@ import {
   StudentAnswerForAssignmentPage,
   AssignmentStudentAnswers,
   StudentGrades,
+  ViewStudentAnswers,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -48,6 +49,7 @@ const App = ({ match }) => {
       <Route exact path = {"/assignmentInstructor/:courseId"} component={StudentAnswerForAssignmentPage} />
       <Route exact path = {"/assignmentstudent/:courseId"} component={AssignmentStudentAnswers} />
       <Route exact path = {"/studentgrades/:courseId"} component={StudentGrades} />
+      <Route exact path = {"/answers"} component={ViewStudentAnswers} />
       <Route component={NotFoundPage} />
     </Switch>
   );

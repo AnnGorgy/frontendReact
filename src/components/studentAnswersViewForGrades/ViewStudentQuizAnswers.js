@@ -12,9 +12,8 @@ import { Grid, withStyles } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import FormGroup from "@material-ui/core/FormGroup";
-import AnswersMCQ from "./AnswersMCQ";
-import AnswersTrueFalse from "./AnswersTrueFalse";
-import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import ViewMCQStudentAnswers from "./ViewMCQStudentAnswers";
+import ViewTrueFalseStudentAnswers from "./ViewTrueFalseStudentAnswers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,75 +32,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     font: 50,
   },
-  addButton: {
-    borderRadius: "16px",
-    width: "130px",
-    color: "black",
-    backgroundColor: "#7dbbb9",
-    "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
-      color: "black",
-    },
-  },
-  addIcon: {
-    marginTop: "4px",
-  },
-  buttonText: {
-    color: "black",
-    paddingLeft: "5px",
-  },
-  addButtonBody: {
-    marginLeft: "4px",
-    marginRight: "4px",
-  },
-  tableHeader: {
-    paddingRight: "20px",
-    paddingLeft: "1000px",
-    marginTop: "20px",
-    marginLeft: "30px",
-    flexWrap: "nowrap",
-  },
 }));
-const ViewQuizForStudent = ({match}) => {
-  // TODO: get the quiz id from the match.params
-  // FIXME: make the path quiz/{id}
-  const getDefaultAnswerBody = (questionId , NumberofCorrectAnswers) => ({
-    quizId: match.params.quizId,
-    studentId: 1,
-    questionId,
-    answers: [],
-    trueOrFalse: null,
-    NumberofCorrectAnswers,
-  });
 
-  const [questionAnswers, setAnswers] = useState();
-  console.log(questionAnswers);
-  const classes = useStyles();
-  const body = { questionAnswers };
+const ViewStudentQuizAnswers = () => {
   const listQuizzes = async () => {
-    const QuizUrl = `/Student_Answers/GetSpecificQuizforStudent`;
+    const QuizUrl = `/Student_Answers/GetQuizAnswerforStudent`;
     const { data } = await post(QuizUrl, null, {
-      params: { QuizID: match.params.quizId },
+      params: { QuizID: 1 ,studentId:1 },
     });
-    setQuizData(data);
+    setAllQuizzes(data);
   };
-  const [quizData, setQuizData] = useState();
+  const [allQuizzes, setAllQuizzes] = useState();
 
   useEffect(() => {
     listQuizzes();
   }, [localStorage.getItem("QuizID")]);
 
-  useEffect(() => {
-    const questionAnswerss = quizData?.map((question) =>
-      getDefaultAnswerBody(question.questionId , question.NumberofCorrectAnswers)
-    );
-    setAnswers(questionAnswerss);
-  }, [quizData]);
-
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
-        {quizData?.map((question, index) => (
+        {allQuizzes?.map((quiz, index) => (
           <Grid
             item
             style={{
@@ -149,62 +99,21 @@ const ViewQuizForStudent = ({match}) => {
                     border: "3px solid black",
                   }}
                 >
-                  {`Question Grade: ${question.grade}`}
+                  {`Question Grade: ${quiz.grade}`}
                 </Typography>
               </Grid>
             </Grid>
             <Grid item>
-              {question.Type == "mcq" ? (
-                <AnswersMCQ
-                  questionData={question}
-                  setQuestions={setAnswers}
-                  allQuestionAnswers={questionAnswers}
-                />
+              {quiz.Type == "mcq" ? (
+                <ViewMCQStudentAnswers questionData={quiz} />
               ) : (
-                <AnswersTrueFalse
-                  questionData={question}
-                  setQuestions={setAnswers}
-                  allQuestionAnswers={questionAnswers}
-                />
+                <ViewTrueFalseStudentAnswers questionData={quiz} />
               )}
             </Grid>
           </Grid>
         ))}
       </Grid>
-
-      <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
-        <Button
-          onClick={ async () =>
-            await post(
-              "/Student_Answers/addQuizAnswer",
-               (questionAnswers),
-               {
-                 params: {
-                  quiizID: match.params.quizId,
-                   studID : 1 , 
-                 },
-               }
-             )
-           }
-          className={classes.addButton}
-          size="small"
-        >
-          <Grid
-            container
-            spacing={1}
-            alignItems="center"
-            className={classes.addButtonBody}
-          >
-            <Grid item>
-              <AddMaterialIcon className={classes.addIcon} />
-            </Grid>
-            <Grid item>
-              <Typography className={classes.buttonText}>Submit</Typography>
-            </Grid>
-          </Grid>
-        </Button>
-      </Grid>
     </React.Fragment>
   );
 };
-export default withStyles(useStyles)(withRouter(ViewQuizForStudent));
+export default withStyles(useStyles)(withRouter(ViewStudentQuizAnswers));

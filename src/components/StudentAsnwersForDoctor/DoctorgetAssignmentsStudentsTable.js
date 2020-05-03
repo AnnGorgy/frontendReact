@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import mime from "mime-types";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
+import FolderIcon from "@material-ui/icons/Folder";
+
 
 import {
   Table,
@@ -14,16 +12,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
-  Grid,
-  Typography,
 } from "@material-ui/core";
 
-const DoctorgetAssignmentsStudentsTable = ({ match }) => {
+const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
   const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
-  const [currentFolderId, setCurrentFolderId] = useState();
+  const [currentFolderId, setCurrentFolderId] = useState(null);
   const [displayedAssignments, setDisplayedAssignments] = useState();
   const [assignmets, setAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
@@ -49,6 +44,8 @@ const DoctorgetAssignmentsStudentsTable = ({ match }) => {
     listAssignmentsFolders();
   }, [match.params.courseId]);
 
+  
+
   useEffect(() => {
     if (allAssignmentsFolders && allAssignmentsFiles) {
       setDisplayedAssignments([
@@ -56,19 +53,25 @@ const DoctorgetAssignmentsStudentsTable = ({ match }) => {
         ...allAssignmentsFiles,
       ]);
     }
+  }, [allAssignmentsFolders, allAssignmentsFiles]);
+
+  useEffect(() => {
     if (displayedAssignments) {
       setAssignments([
         ...displayedAssignments.filter(
-          (assignment) => assignment.parent_ID === currentFolderId
+          (assignment) => assignment.parentID === currentFolderId
         ),
       ]);
     }
-  }, [
-    allAssignmentsFolders,
-    currentFolderId,
-    allAssignmentsFiles,
-    displayedAssignments,
-  ]);
+  }, [displayedAssignments, currentFolderId]);
+
+  useEffect(() => {
+    setCrumbs([
+      { label: "Home", onClick: () => {setCurrentFolderId(null);
+        setCrumbs(prevState => [...prevState.slice(0, 1)]);
+      }, Icon: FolderIcon }
+    ]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -91,6 +94,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match }) => {
           aria-label="sticky table"
         >
           <TableHead>
+         
             <TableRow>
               <TableCell
                 style={{
@@ -101,11 +105,33 @@ const DoctorgetAssignmentsStudentsTable = ({ match }) => {
               >
                 File Name
               </TableCell>
+              
+              <TableCell
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontFamily: "Impact",
+                }}
+              >
+                Student Name
+              </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontFamily: "Impact",
+                }}
+              >
+                SeatNo
+              </TableCell>
+              
+              
             </TableRow>
+            
           </TableHead>
 
           <TableBody>
-            {displayedAssignments?.map((assignment, index) => (
+            {assignmets?.map((assignment, index) => (
               <TableRow
                 style={
                   index % 2
@@ -116,13 +142,35 @@ const DoctorgetAssignmentsStudentsTable = ({ match }) => {
                 onClick={() => {
                   if (assignment.type === "folder") {
                     setCurrentFolderId(assignment.id);
-                    console.log("ahmed",displayedAssignments);
-                    console.log("mohamed",assignmets);
+                    setCrumbs((prevCrumbs) => [
+                      ...prevCrumbs,
+                      {
+                        label: assignment.name,
+                        id: assignment.id,
+                        Icon: FolderIcon,
+                        onClick: () => {
+                          setCurrentFolderId(assignment.id);
+                          setCrumbs((prevState) => {
+                            if (
+                              prevState[prevState.length - 1].id === assignment.id
+                            )
+                              return prevState;
+                            return [
+                              ...prevState.slice(0, prevState.length - 1),
+                            ];
+                          });
+                        },
+                      },
+                    ]);
                   }
                 }}
               >
                 {/* File Name Cell */}
                 <TableCell>{assignment.name}</TableCell>
+                {/* Student Name Cell */}
+                <TableCell>{assignment.studentName}</TableCell>
+                {/* SeatNo Cell */}
+                <TableCell>{assignment.SeatNo}</TableCell>
               </TableRow>
             ))}
           </TableBody>
