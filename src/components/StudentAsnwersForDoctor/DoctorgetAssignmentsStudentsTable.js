@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import FolderIcon from "@material-ui/icons/Folder";
-
+import DownloadIcon from "@material-ui/icons/GetAppSharp";
+import mime from "mime-types";
 
 import {
   Table,
@@ -12,9 +13,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Tooltip,
+  Button,
 } from "@material-ui/core";
 
-const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
+const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
   const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
@@ -44,8 +47,6 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
     listAssignmentsFolders();
   }, [match.params.courseId]);
 
-  
-
   useEffect(() => {
     if (allAssignmentsFolders && allAssignmentsFiles) {
       setDisplayedAssignments([
@@ -67,9 +68,14 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
 
   useEffect(() => {
     setCrumbs([
-      { label: "Home", onClick: () => {setCurrentFolderId(null);
-        setCrumbs(prevState => [...prevState.slice(0, 1)]);
-      }, Icon: FolderIcon }
+      {
+        label: "Home",
+        onClick: () => {
+          setCurrentFolderId(null);
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
     ]);
   }, []);
 
@@ -94,7 +100,6 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
           aria-label="sticky table"
         >
           <TableHead>
-         
             <TableRow>
               <TableCell
                 style={{
@@ -105,7 +110,6 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
               >
                 File Name
               </TableCell>
-              
               <TableCell
                 style={{
                   backgroundColor: "black",
@@ -124,10 +128,17 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
               >
                 SeatNo
               </TableCell>
-              
-              
+              <TableCell
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontFamily: "Impact",
+                }}
+                align="right"
+              >
+                {}
+              </TableCell>
             </TableRow>
-            
           </TableHead>
 
           <TableBody>
@@ -152,7 +163,8 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
                           setCurrentFolderId(assignment.id);
                           setCrumbs((prevState) => {
                             if (
-                              prevState[prevState.length - 1].id === assignment.id
+                              prevState[prevState.length - 1].id ===
+                              assignment.id
                             )
                               return prevState;
                             return [
@@ -171,6 +183,44 @@ const DoctorgetAssignmentsStudentsTable = ({ match ,setCrumbs  }) => {
                 <TableCell>{assignment.studentName}</TableCell>
                 {/* SeatNo Cell */}
                 <TableCell>{assignment.SeatNo}</TableCell>
+                {assignment.type === "file" ? (
+                  <TableCell align="right">
+                    <Tooltip title="Download" placement="bottom">
+                      <Button size="small">
+                        <DownloadIcon
+                          onClick={async () => {
+                            const response = await get(
+                              "/Doctor_Manage_student/download_Assignment_answers",
+                              {
+                                params: { fileId: assignment.id },
+                                responseType: "blob",
+                              }
+                            );
+                            var fileURL = window.URL.createObjectURL(
+                              new Blob([response.data])
+                            );
+                            var fileLink = document.createElement("a");
+
+                            fileLink.href = fileURL;
+                            fileLink.setAttribute(
+                              "download",
+                              assignment.name +
+                                "." +
+                                mime.extension(response.data.type)
+                            );
+                            document.body.appendChild(fileLink);
+
+                            fileLink.click();
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  </TableCell>
+                ):(
+                  <TableCell>
+                    {}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

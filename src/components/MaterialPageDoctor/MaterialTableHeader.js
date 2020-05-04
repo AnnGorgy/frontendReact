@@ -1,20 +1,33 @@
 import React, { useState } from "react";
 import { post, get } from "axios";
+import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
 
-import { Grid, withStyles, Button, Typography } from "@material-ui/core";
+//--------------------------------- What was used from material ui core -------------------------------------
+import {
+  Grid,
+  withStyles,
+  Button,
+  Typography,
+  makeStyles,
+  Snackbar,
+} from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component ----------------------------------
 import {
   BreadCrumbs,
   AddMaterialPopOver,
   CreateFileForm,
   CreateFolderForm,
-} from "./";
+} from "..";
+//-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Icons ---------------------------------------------------
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import { withRouter } from "react-router-dom";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/core/styles";
+//-----------------------------------------------------------------------------------------------------------
 
+//--------------------------------------  Message Function and It's style -----------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -27,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+//-----------------------------------------------------------------------------------------------------------
 
 const MaterialTableHeader = ({
   crumbs,
@@ -36,6 +50,7 @@ const MaterialTableHeader = ({
   match,
   setReloadMaterials,
 }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [fileIsOpen, setFileIsOpen] = useState(false);
   const [videoIsOpen, setVideoIsOpen] = useState(false);
   const [linkIsOpen, setLinkIsOpen] = useState(false);
@@ -47,19 +62,9 @@ const MaterialTableHeader = ({
   );
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  //-----------------------------------------------------------------------------------------------------------
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
+  // ---- Switch case to Open The Dialog (file/video/link/assignment/folder) Based On the Click Of user ----
   const handlePopOverClick = (eventName) => {
     switch (eventName) {
       case "File":
@@ -86,10 +91,33 @@ const MaterialTableHeader = ({
         break;
     }
   };
+  // -------------------------------------------------------------------------------------------------------
+
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  // -------------------------------------------------------------------------------------------------------
 
   const uploadFile = async ({ file, name, description, callback }) => {
-    // TODO: make it constant on this service
     const url = uploadUrl;
+    /*  
+    post syntax (
+     url " url (The local host that we can use it to add new file in material table) ",
+     body " we use formDate to add it in body (The File That the Doctor Will upload it) ", 
+     options "It takes (4) Parameter"
+     [1] Parent_ID ...  [2] sub_Id ... [3] Description ... [4] File_Name ...
+     ) 
+    */
     const formData = new FormData();
     formData.append("Document", file);
     try {
@@ -103,6 +131,7 @@ const MaterialTableHeader = ({
       });
       setReloadMaterials(true);
       handleClick();
+      /* Set the Message that will appear after the doctor upload the file with the name Of file itself */
       setMessageTitle(name);
       if (callback) callback();
     } catch (err) {
@@ -118,6 +147,14 @@ const MaterialTableHeader = ({
     callback,
   }) => {
     const url = "/assignment/uploadFiles";
+    /*  
+    post syntax (
+     url " url (The local host that we can use it to add new assignment in material table) ",
+     body " we use formDate to add it in body (The assignment That the Doctor Will upload it) ", 
+     options "It takes (6) Parameter"
+     [1] Parent_ID ...  [2] sub_Id ... [3] Description ... [4] File_Name ... [5] start ... [6] end ...
+     ) 
+    */
     const formData = new FormData();
     formData.append("Document", file);
     try {
@@ -132,6 +169,7 @@ const MaterialTableHeader = ({
         },
       });
       setReloadMaterials(true);
+      /* Set the Message that will appear after the doctor upload the assignment with the name Of assignment itself */
       setMessageTitle(name);
       handleClick();
       if (callback) callback();
@@ -142,6 +180,14 @@ const MaterialTableHeader = ({
 
   const uploadVideo = async ({ file, name, description, callback }) => {
     const url = "/Doctor_Materials/uploadVideos";
+    /*  
+    post syntax (
+     url " url (The local host that we can use it to add new video in material table) ",
+     body " we use formDate to add it in body (The video That the Doctor Will upload it) ", 
+     options "It takes (4) Parameter"
+     [1] Parent_ID ...  [2] sub_Id ... [3] Video_Name ... [4] description ... 
+     ) 
+    */
     const formData = new FormData();
     formData.append("Document", file);
     try {
@@ -155,6 +201,7 @@ const MaterialTableHeader = ({
       });
       setReloadMaterials(true);
       handleClick();
+      /* Set the Message that will appear after the doctor upload the video with the name Of video itself */
       setMessageTitle(name);
       if (callback) callback();
     } catch (err) {
@@ -163,8 +210,14 @@ const MaterialTableHeader = ({
   };
 
   const createFolder = async ({ name, callback }) => {
-    // TODO: make it constant on this service
     const url = createUrl;
+    /*  
+    get syntax (
+     url " url (The local host that we can use it to add new folder in material table) ",
+     options "It takes (3) Parameter"
+     [1] Parent_ID ...  [2] Folder_Name ... [3] sub_Id ... 
+     ) 
+    */
     await get(url, {
       params: {
         Parent_ID: crumbs[crumbs.length - 1].id,
@@ -173,6 +226,7 @@ const MaterialTableHeader = ({
       },
     });
     setReloadMaterials(true);
+    /* Set the Message that will appear after the doctor upload the Folder with the name Of Folder itself */
     setMessageTitle(name);
     handleClick();
     if (callback) callback();
@@ -180,6 +234,13 @@ const MaterialTableHeader = ({
 
   const createLink = async ({ name, description, link, callback }) => {
     const url = "/Doctor_Materials/Add_URL";
+    /*  
+    get syntax (
+     url " url (The local host that we can use it to add new URL in material table) ",
+     options "It takes (3) Parameter"
+     [1] Parent_ID ...  [2] Name ... [3] sub_Id ... [4] description ... [5] Url ...
+     ) 
+    */
     await get(url, {
       params: {
         Parent_ID: crumbs[crumbs.length - 1].id,
@@ -190,6 +251,7 @@ const MaterialTableHeader = ({
       },
     });
     setReloadMaterials(true);
+    /* Set the Message that will appear after the doctor upload the URL with the name Of URL itself */
     setMessageTitle(name);
     handleClick();
     if (callback) callback();
@@ -209,7 +271,7 @@ const MaterialTableHeader = ({
         }}
       >
         <Alert onClose={handleClose} severity="success">
-       {MessageTitle} has been uploaded
+          {MessageTitle} has been uploaded
         </Alert>
       </Snackbar>
       <AddMaterialPopOver

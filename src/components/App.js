@@ -26,12 +26,6 @@ import {
 const App = ({ match }) => {
   return (
     <Switch>
-      {/* hn add link that can take params .. e7na 3awzeno y match m3
-      localhost:xxxx://courses/yy/materials
-      ely hyegy f yy da mo3tmd 3la anhi course galna
-      fa in order to declare variable fl link bn3mlo by adding : before it
-      da hy match m3 courses/1/materials and courses/2/materials and courses/3/materials w ay 7aga bl shkl da
-      */}
       <Route exact path={"/courses/:courseId/materials"} component={MaterialsPage} />
       <Route exact path={"/courses/:courseId/students"} component={StudentsInSubjectPage} />
       <Route exact path={"/courses/:courseId/StudentMaterials"} component={StudentMaterialPage} />
@@ -49,7 +43,7 @@ const App = ({ match }) => {
       <Route exact path = {"/assignmentInstructor/:courseId"} component={StudentAnswerForAssignmentPage} />
       <Route exact path = {"/assignmentstudent/:courseId"} component={AssignmentStudentAnswers} />
       <Route exact path = {"/studentgrades/:courseId"} component={StudentGrades} />
-      <Route exact path = {"/answers"} component={ViewStudentAnswers} />
+      <Route exact path = {"/answers/:quizId"} component={ViewStudentAnswers} />
       <Route component={NotFoundPage} />
     </Switch>
   );

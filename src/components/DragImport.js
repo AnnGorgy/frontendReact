@@ -1,24 +1,22 @@
-import React from 'react';
-import { useDropzone } from 'react-dropzone';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import {
-  Typography, Button, withStyles, Grid, Box,
-} from '@material-ui/core';
-import AttachedFile from './AttachedFile.js';
+import React from "react";
+import { useDropzone } from "react-dropzone";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
+import AttachedFile from "./AttachedFile.js";
 
 const styles = () => ({
   uploadButton: {
     width: "100%",
     height: "80px",
-    backgroundColor: "#b7b7b7"
+    backgroundColor: "#b7b7b7",
   },
   cloudIcon: {
     marginRight: "5px",
-    fill: "#777777"
+    fill: "#777777",
   },
   uploadButtonText: {
-    colorInherit: "#777777"
-  }
+    colorInherit: "#777777",
+  },
 });
 
 const DragImportFile = ({
@@ -30,9 +28,13 @@ const DragImportFile = ({
   multiple, // can upload multiple files?
   onDrop, // function to fire when a new file(s) added.
   classes,
+  Excel,
 }) => {
   const {
-    getRootProps, getInputProps, open: openFilesBrowser, isDragActive,
+    getRootProps,
+    getInputProps,
+    open: openFilesBrowser,
+    isDragActive,
   } = useDropzone({
     onDrop,
     noKeyboard: true,
@@ -53,9 +55,13 @@ const DragImportFile = ({
           >
             <CloudUploadIcon className={classes.cloudIcon} />
             <Typography className={classes.uploadButtonText} color="inherit">
-              {isDragActive ? 'Drag here' : 'Drag here or Browse to Upload'}
+              {isDragActive ? "Drag here" : "Drag here or Browse to Upload"}
             </Typography>
-            <input {...getInputProps()} />
+            {Excel ? (
+              <input {...getInputProps()} accept=".xls , .xlsx" />
+            ) : (
+              <input {...getInputProps()} />
+            )}
           </Button>
         )}
       </Box>

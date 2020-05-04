@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
-import RenameForm from "./RenameForm";
 
+//------------------------------ Another Components Used In This Component ----------------------------------
+import RenameForm from "./RenameForm";
+//-----------------------------------------------------------------------------------------------------------
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -18,7 +19,9 @@ import {
   Button,
   Grid,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
@@ -29,6 +32,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+import EditIcon from "@material-ui/icons/Edit";
 //-----------------------------------------------------------------------------------------------------------
 
 const MaterialTable = ({
@@ -38,11 +42,13 @@ const MaterialTable = ({
   setReloadMaterials,
 }) => {
   const listMaterials = async () => {
+    // ------------------------------------- API Calls ------------------------------------------
+
     const materialsUrl = `/Doctor_Materials/GetFiles`;
     /*  
     post syntax (
      url " materialsUrl (The local host that Get Materials In a specific subject) ",
-     body "no body cause this function use parametares", 
+     body "no body cause this function use parametares only", 
      options "It takes (1) Parameter"
      [1] sub_Id ... 
      ) 
@@ -56,8 +62,16 @@ const MaterialTable = ({
     }
     setAllMaterials(data);
   };
+  // --------------------------------------------------------------------------------------------------------
 
   const RenameMaterial = async (material, ChangedName, callback) => {
+    /*  
+    get syntax (
+     url " 7rl (The local host that We Use It to Rename Material Name) ",
+     options "It takes (2) Parameter"
+     [1] fileId ... [2] name ...
+     ) 
+    */
     const url = "/Doctor_Materials/Rename";
     await get(url, {
       params: { fileId: material.id, name: ChangedName },
@@ -65,8 +79,17 @@ const MaterialTable = ({
     setReloadMaterials(true);
     if (callback) callback();
   };
+  // --------------------------------------------------------------------------------------------------------
 
   const RenameAssignment = async (material, ChangedName, date, callback) => {
+    /*  
+    post syntax (
+     url " url (TThe local host that We Use It to Rename Assignment Name) ",
+     body "no body cause this function use parametares only", 
+     options "It takes (4) Parameter"
+     [1] fileId ... [2] name ... [3] start ... [4] end ...
+     ) 
+    */
     const url = "/assignment/RenameAssignment_AndUpdateTime";
     await post(url, null, {
       params: {
@@ -89,7 +112,7 @@ const MaterialTable = ({
     /*  
     Get syntax (
      url " url (The local host that We Use IT To Add Root To New Subject ) ",
-     body "no body cause this function use parametares", 
+     body "no body cause this function use parametares only ", 
      options "It takes (2) Parameter"
      [1] sub_Id ... [2] Folder_Name ...
      ) 
@@ -110,7 +133,7 @@ const MaterialTable = ({
     /*  
     post syntax (
      url " assignmentsUrl (The local host that Get Assignments In a specific subject) ",
-     body "no body cause this function use parametares", 
+     body "no body cause this function use parametares only ", 
      options "It takes (1) Parameter"
      [1] sub_Id ... 
      ) 
@@ -122,6 +145,7 @@ const MaterialTable = ({
       data.map((assignment) => ({ ...assignment, type: "assignment" }))
     );
   };
+  // --------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allMaterials, setAllMaterials] = useState();
@@ -510,25 +534,31 @@ const MaterialTable = ({
                         )}
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Rename" placement="bottom">
-                      <Button size="small">
-                        {material.type === "assignment" ? (
+                    {material.type === "assignment" && (
+                      <Tooltip title="Edit" placement="bottom">
+                        <Button size="small">
                           <EditIcon
                             onClick={() => {
                               setRenameIsOpenAssignment(true);
                               setCurrentEditedMaterial(material);
                             }}
                           />
-                        ) : (
-                          <EditIcon
-                            onClick={() => {
-                              setRenameIsOpenMaterial(true);
-                              setCurrentEditedMaterial(material);
-                            }}
-                          />
-                        )}
-                      </Button>
-                    </Tooltip>
+                        </Button>
+                      </Tooltip>
+                    )}
+                    {material.type !== "assignment" &&
+                      material.type !== "folder" && (
+                        <Tooltip title="Rename" placement="bottom">
+                          <Button size="small">
+                            <EditIcon
+                              onClick={() => {
+                                setRenameIsOpenMaterial(true);
+                                setCurrentEditedMaterial(material);
+                              }}
+                            />
+                          </Button>
+                        </Tooltip>
+                      )}
                   </TableCell>
                 )}
               </TableRow>

@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
-
 import {
   Table,
   TableBody,
@@ -15,7 +14,25 @@ import {
   Paper,
   Button,
   Tooltip,
+  makeStyles,
+  Snackbar,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+
+//--------------------------------------  Message Function and It's style -----------------------------------
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+//-----------------------------------------------------------------------------------------------------------
 
 const AssignmentStudentAnswersTable = ({
   match,
@@ -29,7 +46,24 @@ const AssignmentStudentAnswersTable = ({
   const [currentFolderId, setCurrentFolderId] = useState(null);
   const [displayedAssignments, setDisplayedAssignments] = useState();
   const [assignmets, setAssignments] = useState();
+  const [open, setOpen] = React.useState(false);
+  const [MessageTitle, setMessageTitle] = useState("");
   // --------------------------------------------------------------------------------------------------------
+
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  // -------------------------------------------------------------------------------------------------------
 
   const listAssignmentsFolders = async () => {
     const Url = `/Student_Answers/GetAssignmentanswerFolders`;
@@ -94,6 +128,22 @@ const AssignmentStudentAnswersTable = ({
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        style={{
+          Width: "150px",
+          height: "150px",
+          position: "absolute",
+          zIndex: 9999,
+        }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {MessageTitle} is deleted don't forget to upload another answer before
+          end time
+        </Alert>
+      </Snackbar>
       <TableContainer
         component={Paper}
         style={{
@@ -183,7 +233,11 @@ const AssignmentStudentAnswersTable = ({
                             get("/Student_Answers/deleteAssignmentAnswer", {
                               params: { fileId: assignment.id },
                             })
-                              .then(() => window.location.reload())
+                              .then(
+                                () => window.location.reload(),
+                                setMessageTitle(assignment.name),
+                                handleClick()
+                              )
                               .catch((err) => console.error(err));
                           }}
                         />

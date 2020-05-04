@@ -34,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewStudentQuizAnswers = () => {
+const ViewStudentQuizAnswers = ({match}) => {
   const listQuizzes = async () => {
     const QuizUrl = `/Student_Answers/GetQuizAnswerforStudent`;
     const { data } = await post(QuizUrl, null, {
-      params: { QuizID: 1 ,studentId:1 },
+      params: { QuizID: match.params.quizId ,studentId:1 },
     });
     setAllQuizzes(data);
   };

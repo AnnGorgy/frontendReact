@@ -55,7 +55,7 @@ const CourseHome = ({ history, match }) => {
                   padding: "15px 0px 30px 10px ",
                   fontSize: "40px",
                   backgroundColor: "white",
-                  fontFamily: "Monaco",
+                  fontFamily: "sans-serif ",
                 }}
               >
                 {CourseName}
@@ -119,7 +119,7 @@ const CourseHome = ({ history, match }) => {
                 </Tooltip>
               </Grid>
               {accountType == 2 && (
-                <Grid item style={{ marginTop: "-70px", marginLeft: "1000px" }}>
+                <Grid item style={{ marginTop: "-63px", marginLeft: "1100px" }}>
                   <Button
                     variant="outlined"
                     color="default"
@@ -130,17 +130,18 @@ const CourseHome = ({ history, match }) => {
                     }}
                   >
                     <img
-                      src="https://img.icons8.com/wired/64/000000/students.png"
+                      src="https://img.icons8.com/wired/50/000000/students.png"
                       alt="Students_LOGO"
                     />
                     <Typography
                       style={{
                         color: "black",
                         paddingLeft: "12px",
-                        fontSize: "24px",
+                        fontSize: "20px",
+                        fontWeight:"600"
                       }}
                     >
-                      Students
+                      Enrolled Students
                     </Typography>
                   </Button>
                 </Grid>

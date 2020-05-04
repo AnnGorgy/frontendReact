@@ -69,6 +69,7 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                   {/* Upload Button */}
                   <Grid item>
                     <DragImport
+                      Excel
                       editable
                       blobs={blobs}
                       onDrop={onDropBlobs}
@@ -118,7 +119,7 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                                 : classes.boldText
                             }
                           >
-                            Create
+                            Upload
                           </Typography>
                         </Button>
                       </Grid>

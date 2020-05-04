@@ -108,7 +108,7 @@ const UploadAssignmentAnswers = ({
                       }}
                     />
                   </Grid>
-                  {/* Upload Button */}
+                  {/* The File That will be add "Button" */}
                   <Grid item>
                     <DragImport
                       editable
@@ -118,7 +118,12 @@ const UploadAssignmentAnswers = ({
                     />
                   </Grid>
                 </Grid>
-                <Grid container justify="flex-end" spacing={1}>
+                <Grid
+                  container
+                  justify="flex-end"
+                  spacing={1}
+                  style={{ marginTop: "20px" }}
+                >
                   {/* Close Button */}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
@@ -142,7 +147,7 @@ const UploadAssignmentAnswers = ({
                       </Grid>
                     </Grid>
                   </Grid>
-                  {/* Create Button */}
+                  {/* Upload Button */}
                   <Grid item>
                     <Button
                       variant="outlined"
@@ -154,9 +159,17 @@ const UploadAssignmentAnswers = ({
                           blobs: blobs[0],
                         });
                       }}
+                      disabled={blobs.length !== 1 || AssName === ""}
                     >
-                      <Typography variant="h6" className={classes.boldText}>
-                        Create
+                      <Typography
+                        variant="h6"
+                        className={
+                          blobs.length !== 1 || AssName === ""
+                            ? classes.createText
+                            : classes.boldText
+                        }
+                      >
+                        Upload
                       </Typography>
                     </Button>
                   </Grid>
@@ -194,7 +207,7 @@ const styles = (theme) => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "50vh",
+    minHeight: "40vh",
     padding: "20px 0px",
   },
   createButton: {

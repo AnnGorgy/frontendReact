@@ -173,6 +173,7 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Account Type"
                       secondary={AccountTypeName}
+                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -181,6 +182,7 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Name in Arabic"
                       secondary={ArName}
+                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -188,6 +190,7 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="E-mail"
                       secondary={LoginEmail}
+                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -224,6 +227,7 @@ const InstructorProfilePage = ({ classes }) => {
                   multiline
                   rows={1}
                   value={Email}
+                  placeholder="Instructor@gmail.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -280,6 +284,7 @@ const InstructorProfilePage = ({ classes }) => {
                   label="Office Hours"
                   multiline
                   rows={2}
+                  placeholder=" Monday 11-1 pm  Class 7"
                   value={OfficeHours}
                   onChange={(e) => {
                     setOfficeHours(e.target.value);

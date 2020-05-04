@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+import DownloadIcon from "@material-ui/icons/GetAppSharp";
+import mime from "mime-types";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import {
   Table,
@@ -10,30 +13,33 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
+  Grid,
+  Typography,
 } from "@material-ui/core";
 
-const StudentQuizGrades = ({ match }) => {
-  const listGrades = async () => {
-    const Url = `/Student_Answers/GetQuizzessGrades`;
+const StudentAssignmentsTable = ({ match }) => {
+  const listAssignments = async () => {
+    const Url = `/Student_Answers/GetAssingmentsGrades`;
     const { data } = await post(Url, null, {
       params: { subjectId: match.params.courseId, studentId: 1 },
     });
-    setAllGrades(data);
+    setAllAssignments(data);
   };
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allGrades, setAllGrades] = useState();
+  const [allAssignments, setAllAssignments] = useState();
   const [displayedGrades, setDisplayedGrades] = useState();
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if (allGrades) {
-      setDisplayedGrades([...allGrades]);
+    if (allAssignments) {
+      setDisplayedGrades([...allAssignments]);
     }
-  }, [allGrades]);
+  }, [allAssignments]);
 
   useEffect(() => {
-    listGrades();
+    listAssignments();
   }, [match.params.courseId]);
 
   return (
@@ -63,7 +69,7 @@ const StudentQuizGrades = ({ match }) => {
                 fontFamily: "Impact",
               }}
             >
-              Quiz Name
+              Assignment Name
             </TableCell>
             <TableCell
               style={{
@@ -93,7 +99,7 @@ const StudentQuizGrades = ({ match }) => {
               }}
               align="right"
             >
-              EndDate
+              End Date
             </TableCell>
             <TableCell
               style={{
@@ -103,17 +109,7 @@ const StudentQuizGrades = ({ match }) => {
               }}
               align="right"
             >
-              Start Time
-            </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
-              EndTime
+              {}
             </TableCell>
           </TableRow>
         </TableHead>
@@ -127,18 +123,43 @@ const StudentQuizGrades = ({ match }) => {
                   : { background: "#E8FDFF" }
               }
             >
-              {/* Quiz Name cell */}
-              <TableCell>{grades.QuizName}</TableCell>
-              {/* grade cell */}
-              <TableCell align="right">{grades.QuizGrade}</TableCell>
-              {/* Quiz Start Date cell */}
-              <TableCell align="right">{grades.QuizstartDate}</TableCell>
-              {/* Quiz End Date cell */}
-              <TableCell align="right">{grades.QuizendDate}</TableCell>
-              {/* Quiz Start Time cell */}
-              <TableCell align="right">{grades.QuizstartTime}</TableCell>
-              {/* Quiz End Time cell */}
-              <TableCell align="right">{grades.QuizendTime}</TableCell>
+              {/* Assignment Name cell */}
+              <TableCell>{grades.AssignmentName}</TableCell>
+              {/* grade assignmet cell */}
+              <TableCell align="right">{grades.AssignmentGrade}</TableCell>
+              {/* Assignment Start Date cell */}
+              <TableCell align="right">{grades.AssignmentstartDate}</TableCell>
+              {/* Assignmet End Date cell */}
+              <TableCell align="right">{grades.AssignmentendDate}</TableCell>
+              <TableCell align="right">
+                <Tooltip title="Download" placement="bottom">
+                  <Button size="small">
+                     <DownloadIcon
+                       onClick={async () => {
+                        const response = await get("/Student_Answers/downloadAssignmentAnswer", {
+                          params: { AnswerID: grades.AssignmentId , studentID: 1 },
+                          responseType: "blob",
+                        });
+                        var fileURL = window.URL.createObjectURL(
+                          new Blob([response.data])
+                        );
+                        var fileLink = document.createElement("a");
+
+                        fileLink.href = fileURL;
+                        fileLink.setAttribute(
+                          "download",
+                          grades.AssignmentName +
+                            "." +
+                            mime.extension(response.data.type)
+                        );
+                        document.body.appendChild(fileLink);
+
+                        fileLink.click();
+                      }} 
+                    /> 
+                  </Button>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -146,4 +167,4 @@ const StudentQuizGrades = ({ match }) => {
     </TableContainer>
   );
 };
-export default withRouter(StudentQuizGrades);
+export default withRouter(StudentAssignmentsTable);

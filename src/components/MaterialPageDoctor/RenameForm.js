@@ -224,7 +224,7 @@ const styles = () => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "30vh",
+    minHeight: "25vh",
     padding: "20px 0px",
   },
   createButton: {

@@ -66,7 +66,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
           style={{
             maxHeight: "90vh",
             overflowY: "auto",
-            maxWidth: "170vh",
+            maxWidth: "165vh",
             marginLeft: "28px",
             marginTop: "20px"
           }}
@@ -82,9 +82,9 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
             <TableHead>
               {/* he Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
               <TableRow>
-                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }}>Name</TableCell>
-                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="right">ID</TableCell>
-               <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="right">E-Mail</TableCell>
+                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="left">Name</TableCell>
+                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="center">ID</TableCell>
+               <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"  }} align="center">E-Mail</TableCell>
               </TableRow>
 
             </TableHead>
@@ -92,15 +92,15 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
               {displayedStudents?.map((Student, index) => (
                 <TableRow key={index} style ={ index % 2? { background : "#E8FDFF" }:{ background : "#E8FDFF" }}>
                   {/* Name cell */}
-                  <TableCell>
+                  <TableCell align="left">
                     <Grid container spacing={1}>
                       <Typography>{Student.studentNameAR}</Typography>
                     </Grid>
                   </TableCell>
                   {/* ID cell */}
-                  <TableCell align="right">{Student.studentSeatNo}</TableCell>
+                  <TableCell align="center">{Student.studentSeatNo}</TableCell>
                   {/* Email cell */}
-                  <TableCell align="right">{Student.studentEmail}</TableCell>
+                  <TableCell align="center" >{Student.studentEmail}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

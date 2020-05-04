@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     height: 200,
     [theme.breakpoints.down("xs")]: {
-      width: "100% !important", // Overrides inline-style
+      width: "100% !important", 
       height: 100,
     },
     "&:hover, &$focusVisible": {
@@ -35,7 +35,9 @@ const useStyles = makeStyles((theme) => ({
         opacity: 0,
       },
       "& $imageTitle": {
-        border: "4px solid currentColor",
+        border: "4px solid black",
+        color:"black",
+        fontWeight:"bold" ,
       },
     },
   },
@@ -67,14 +69,12 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     backgroundColor: theme.palette.common.black,
-    opacity: 0.4,
+    opacity: 0.6,
     transition: theme.transitions.create("opacity"),
   },
   imageTitle: {
     position: "relative",
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-      theme.spacing(1) + 6
-    }px`,
+    padding: "5px",
   },
   imageMarked: {
     height: 3,
@@ -189,6 +189,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
                 variant="subtitle1"
                 color="inherit"
                 className={classes.imageTitle}
+                style={{fontSize:"20px" , fontWeight:"bold"}}
               >
                 {title}
                 <span className={classes.imageMarked} />

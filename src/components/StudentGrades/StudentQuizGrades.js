@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import DownloadIcon from "@material-ui/icons/GetAppSharp";
-import mime from "mime-types";
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import Tooltip from "@material-ui/core/Tooltip";
+
+
 
 import {
   Table,
@@ -14,32 +15,30 @@ import {
   TableRow,
   Paper,
   Button,
-  Grid,
-  Typography,
 } from "@material-ui/core";
 
-const StudentGradesTable = ({ match }) => {
-  const listAssignments = async () => {
-    const Url = `/Student_Answers/GetAssingmentsGrades`;
+const StudentQuizGrades = ({ match , history }) => {
+  const listGrades = async () => {
+    const Url = `/Student_Answers/GetQuizzessGrades`;
     const { data } = await post(Url, null, {
       params: { subjectId: match.params.courseId, studentId: 1 },
     });
-    setAllAssignments(data);
+    setAllGrades(data);
   };
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allAssignments, setAllAssignments] = useState();
+  const [allGrades, setAllGrades] = useState();
   const [displayedGrades, setDisplayedGrades] = useState();
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    if (allAssignments) {
-      setDisplayedGrades([...allAssignments]);
+    if (allGrades) {
+      setDisplayedGrades([...allGrades]);
     }
-  }, [allAssignments]);
+  }, [allGrades]);
 
   useEffect(() => {
-    listAssignments();
+    listGrades();
   }, [match.params.courseId]);
 
   return (
@@ -69,7 +68,7 @@ const StudentGradesTable = ({ match }) => {
                 fontFamily: "Impact",
               }}
             >
-              Assignment Name
+              Quiz Name
             </TableCell>
             <TableCell
               style={{
@@ -99,7 +98,7 @@ const StudentGradesTable = ({ match }) => {
               }}
               align="right"
             >
-              End Date
+              EndDate
             </TableCell>
             <TableCell
               style={{
@@ -123,39 +122,21 @@ const StudentGradesTable = ({ match }) => {
                   : { background: "#E8FDFF" }
               }
             >
-              {/* Assignment Name cell */}
-              <TableCell>{grades.AssignmentName}</TableCell>
-              {/* grade assignmet cell */}
-              <TableCell align="right">{grades.AssignmentGrade}</TableCell>
-              {/* Assignment Start Date cell */}
-              <TableCell align="right">{grades.AssignmentstartDate}</TableCell>
-              {/* Assignmet End Date cell */}
-              <TableCell align="right">{grades.AssignmentendDate}</TableCell>
+              {/* Quiz Name cell */}
+              <TableCell>{grades.QuizName}</TableCell>
+              {/* grade cell */}
+              <TableCell align="right">{grades.QuizGrade}</TableCell>
+              {/* Quiz Start Date cell */}
+              <TableCell align="right">{grades.QuizstartDate}</TableCell>
+              {/* Quiz End Date cell */}
+              <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
-                <Tooltip title="Download" placement="bottom">
+                <Tooltip title="Your Answers" placement="bottom">
                   <Button size="small">
-                     <DownloadIcon
-                       onClick={async () => {
-                        const response = await get("/Student_Answers/downloadAssignmentAnswer", {
-                          params: { AnswerID: grades.AssignmentId , studentID: 1 },
-                          responseType: "blob",
-                        });
-                        var fileURL = window.URL.createObjectURL(
-                          new Blob([response.data])
-                        );
-                        var fileLink = document.createElement("a");
-
-                        fileLink.href = fileURL;
-                        fileLink.setAttribute(
-                          "download",
-                          grades.AssignmentName +
-                            "." +
-                            mime.extension(response.data.type)
-                        );
-                        document.body.appendChild(fileLink);
-
-                        fileLink.click();
-                      }} 
+                     <QuestionAnswerIcon
+                        onClick={() => {
+                          history.push(`/answers/${grades.QuizID}`);
+                        }}
                     /> 
                   </Button>
                 </Tooltip>
@@ -167,4 +148,4 @@ const StudentGradesTable = ({ match }) => {
     </TableContainer>
   );
 };
-export default withRouter(StudentGradesTable);
+export default withRouter(StudentQuizGrades);
