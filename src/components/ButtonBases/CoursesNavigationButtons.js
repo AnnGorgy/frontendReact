@@ -105,7 +105,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
           subjectId: match.params.courseId,
         },
       });
-      /* setReloadAssignments(true);*/
+      
       if (callback) callback();
     } catch (err) {
       console.error(err);

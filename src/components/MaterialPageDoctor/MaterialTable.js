@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
+import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import RenameForm from "./RenameForm";
@@ -20,6 +21,8 @@ import {
   Grid,
   Typography,
   Tooltip,
+  Snackbar,
+  makeStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -33,6 +36,21 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
+//-----------------------------------------------------------------------------------------------------------
+
+//--------------------------------------  Message Function and It's style -----------------------------------
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 //-----------------------------------------------------------------------------------------------------------
 
 const MaterialTable = ({
@@ -76,6 +94,8 @@ const MaterialTable = ({
     await get(url, {
       params: { fileId: material.id, name: ChangedName },
     });
+    setMessageTitle("It has been renamed successfully");
+    handleClick();
     setReloadMaterials(true);
     if (callback) callback();
   };
@@ -99,6 +119,8 @@ const MaterialTable = ({
         end: date.end,
       },
     });
+    setMessageTitle("It has been Edited successfully");
+    handleClick();
     setReloadMaterials(true);
     if (callback) callback();
   };
@@ -155,6 +177,8 @@ const MaterialTable = ({
   const [RenameIsOpenMaterial, setRenameIsOpenMaterial] = useState(false);
   const [currentEditedMaterial, setCurrentEditedMaterial] = useState();
   const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [MessageTitle, setMessageTitle] = useState("");
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -173,6 +197,21 @@ const MaterialTable = ({
       default:
         break;
     }
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
   // -------------------------------------------------------------------------------------------------------
 
@@ -224,6 +263,21 @@ const MaterialTable = ({
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        style={{
+          Width: "150px",
+          height: "150px",
+          position: "absolute",
+          zIndex: 9999,
+        }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {MessageTitle}
+        </Alert>
+      </Snackbar>
       <RenameForm
         title="Another Name"
         CurrentName={currentEditedMaterial?.Name}
@@ -330,7 +384,7 @@ const MaterialTable = ({
                 }
                 // FIXME: any url not starting with http:// or https:// won't navigate
                 key={index}
-                onClick={() => {
+                onDoubleClick={() => {
                   if (material.type === "folder") {
                     setCurrentFolderId(material.id);
                     setCrumbs((prevCrumbs) => [
@@ -517,7 +571,13 @@ const MaterialTable = ({
                               get("/assignment/delete", {
                                 params: { fileId: material.id },
                               })
-                                .then(() => window.location.reload())
+                                .then(
+                                  () => window.location.reload(),
+                                  setMessageTitle(
+                                    "It has been removed successfully"
+                                  ),
+                                  handleClick()
+                                )
                                 .catch((err) => console.error(err));
                             }}
                           />
@@ -527,7 +587,13 @@ const MaterialTable = ({
                               get("/Doctor_Materials/delete", {
                                 params: { fileId: material.id },
                               })
-                                .then(() => window.location.reload())
+                                .then(
+                                  () => window.location.reload(),
+                                  setMessageTitle(
+                                    "It has been removed successfully"
+                                  ),
+                                  handleClick()
+                                )
                                 .catch((err) => console.error(err));
                             }}
                           />

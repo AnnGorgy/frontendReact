@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
@@ -25,20 +25,22 @@ const DragImportFile = ({
   blobs, // files that are ready to be uploaded to the server
   onDeleteBlob, // function to fire when press x on any of the blobs
   editable, // files editable?
-  multiple, // can upload multiple files?
   onDrop, // function to fire when a new file(s) added.
   classes,
-  Excel,
+  Extension,
 }) => {
   const {
     getRootProps,
     getInputProps,
     open: openFilesBrowser,
     isDragActive,
+    isDragReject,
+    isDragAccept,
   } = useDropzone({
     onDrop,
     noKeyboard: true,
-    multiple,
+    multiple: false,
+    accept: Extension,
   });
 
   return (
@@ -56,12 +58,10 @@ const DragImportFile = ({
             <CloudUploadIcon className={classes.cloudIcon} />
             <Typography className={classes.uploadButtonText} color="inherit">
               {isDragActive ? "Drag here" : "Drag here or Browse to Upload"}
+              {isDragAccept && (<p>Accepted</p>)}
+              {isDragReject && <p>Some files will be rejected</p>}
             </Typography>
-            {Excel ? (
-              <input {...getInputProps()} accept=".xls , .xlsx" />
-            ) : (
-              <input {...getInputProps()} />
-            )}
+            <input {...getInputProps()} />
           </Button>
         )}
       </Box>

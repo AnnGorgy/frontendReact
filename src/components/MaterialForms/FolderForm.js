@@ -6,7 +6,7 @@ import {
   Grid,
   withStyles,
   TextField,
-  Button
+  Button,
 } from "@material-ui/core";
 
 /* The dialog that appear in materials Page for "Folders-URL" */
@@ -16,21 +16,23 @@ const CreateFolderForm = ({
   title,
   onSubmit,
   isUrl,
-  classes
+  classes,
 }) => {
-
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
+  const [UrlArray, setUrlArray] = useState([]);
+  const UrlFirst = "http://";
   // ---------------------------------------------------------------------------------------------------------
-  
+
   /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
   const resetStates = () => {
     setName("");
     setDescription("");
     setLink("");
     onClose();
+    setUrlArray([]);
   };
 
   return (
@@ -96,7 +98,7 @@ const CreateFolderForm = ({
                       }}
                     />
                   </Grid>
-                  
+
                   {/* URL Field that we can add any URL but with a fixed start http:// */}
                   {isUrl && (
                     <Grid item>
@@ -108,6 +110,11 @@ const CreateFolderForm = ({
                         value={link}
                         onChange={(e) => {
                           setLink(e.target.value);
+                         /*  setUrlArray(link.split(":"));
+                          {
+                            UrlArray.length == 0 &&
+                              setLink(`${UrlFirst}${link}`);
+                          } */
                         }}
                         variant="outlined"
                         classes={{
@@ -217,50 +224,50 @@ const CreateFolderForm = ({
 };
 
 CreateFolderForm.defaultProps = {
-  isUrl: false
+  isUrl: false,
 };
 
 const styles = () => ({
   dialog: {
-    padding: "10px 0px"
+    padding: "10px 0px",
   },
   titleContainer: {
-    marginBottom: "18px"
+    marginBottom: "18px",
   },
   textFieldRoot: {
     backgroundColor: "white",
-    borderRadius: "7px"
+    borderRadius: "7px",
   },
   notchedOutline: {
     borderWidth: "1px",
-    borderColor: `black !important`
+    borderColor: `black !important`,
   },
   label: {
     color: "black !important",
-    fontWeight: "600"
+    fontWeight: "600",
   },
   dialogPaper: {
     minHeight: "15vh",
-    padding: "20px 0px"
+    padding: "20px 0px",
   },
   createButton: {
     height: "40px",
     width: "130px",
     borderRadius: "16px",
-    border: "2px black solid"
+    border: "2px black solid",
   },
   cancelButton: {
     height: "40px",
     width: "130px",
     borderRadius: "16px",
-    border: "2px red solid"
+    border: "2px red solid",
   },
   boldText: {
-    fontWeight: "600"
+    fontWeight: "600",
   },
   createText: {
-    color: "silver"
-  }
+    color: "silver",
+  },
 });
 
 export default withStyles(styles)(CreateFolderForm);

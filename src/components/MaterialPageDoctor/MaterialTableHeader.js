@@ -295,6 +295,7 @@ const MaterialTableHeader = ({
       />
       <CreateFileForm
         title="Create New Video"
+        videoExtension
         isOpened={videoIsOpen}
         onClose={() => setVideoIsOpen(false)}
         onSubmit={({ blobs, name, description }) =>
