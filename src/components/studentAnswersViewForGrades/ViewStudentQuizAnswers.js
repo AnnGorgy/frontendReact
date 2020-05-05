@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import MobileStepper from "@material-ui/core/MobileStepper";
-import Paper from "@material-ui/core/Paper";
 import { post, get } from "axios";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import { withRouter } from "react-router-dom";
-import { Grid, withStyles } from "@material-ui/core";
-import Switch from "@material-ui/core/Switch";
-import TextField from "@material-ui/core/TextField";
-import FormGroup from "@material-ui/core/FormGroup";
+import {
+  Grid,
+  withStyles,
+  Tooltip,
+  Button,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
 import ViewMCQStudentAnswers from "./ViewMCQStudentAnswers";
 import ViewTrueFalseStudentAnswers from "./ViewTrueFalseStudentAnswers";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,23 +32,79 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewStudentQuizAnswers = ({match}) => {
+const ViewStudentQuizAnswers = ({ match, history }) => {
   const listQuizzes = async () => {
     const QuizUrl = `/Student_Answers/GetQuizAnswerforStudent`;
     const { data } = await post(QuizUrl, null, {
-      params: { QuizID: match.params.quizId ,studentId:1 },
+      params: {
+        QuizID: match.params.quizId,
+        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+      },
     });
     setAllQuizzes(data);
   };
   const [allQuizzes, setAllQuizzes] = useState();
+  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
+
+  const QuizInforrmation = async () => {
+    const QuizUrl = `/Student_Answers/GetQuiz`;
+    const { data } = await post(QuizUrl, null, {
+      params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
+    });
+    setQuizInfo(data);
+  };
+  const [quizInfo, setQuizInfo] = useState();
 
   useEffect(() => {
     listQuizzes();
-  }, [localStorage.getItem("QuizID")]);
+  }, [match.params.quizId]);
+
+  useEffect(() => {
+    QuizInforrmation();
+  }, [match.params.quizId, match.params.courseId]);
 
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
+        {quizInfo?.map((info, index) => (
+          <Grid
+            item
+            style={{
+              height: "100px",
+              borderRadius: "2px",
+              webkitBoxShadow: "5px 5px 5px #9E9E9E",
+              mozBoxShadow: "5px 5px 5px #9E9E9E",
+              boxShadow: "5px 5px 5px #9E9E9E",
+              padding: "40px 40px 40px 40px",
+              marginRight: "9px",
+              backgroundColor: "white",
+              width: "1240px",
+            }}
+          >
+            <Grid item>
+              <Typography style={{ fontSize: "20px" }}>
+                your answers for {info.Name} in {SubjectName} on quiz date{" "}
+                {info.startDate}
+              </Typography>
+            </Grid>
+            <Grid item style={{ marginLeft: "1100px", marginTop: "-47px" }}>
+              <Tooltip title="Model Answer" placement="bottom">
+                <Button size="large">
+                  <QuestionAnswerIcon
+                    style={{ width: "50px", height: "50px" }}
+                    onClick={() => {
+                      history.push(
+                        `/viewquiz/${match.params.courseId}/${info.id}`
+                      );
+                    }}
+                  />
+                </Button>
+              </Tooltip>
+            </Grid>
+          </Grid>
+        ))}
         {allQuizzes?.map((quiz, index) => (
           <Grid
             item

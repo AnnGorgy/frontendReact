@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import Divider from "@material-ui/core/Divider";
 import { truncate } from "lodash";
 import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import IconButton from "@material-ui/core/IconButton";
-import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { post, get } from "axios";
-
-import { Grid } from "@material-ui/core";
+import {
+  Toolbar,
+  Collapse,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  ListItem,
+  List,
+  Drawer,
+  withStyles,
+  Divider,
+  useTheme,
+  Grid,
+} from "@material-ui/core";
 
 // Images //
 import Theimage from "./UniLogo.png";
@@ -159,7 +159,7 @@ function Navigator({ classes, history, match }) {
       const url = "/Login/getDoctor";
       const { data } = await post(url, null, {
         params: {
-          subjectId: "538",
+          subjectId: match.params.courseId,
         },
       });
       localStorage.setItem("DrInformation", JSON.stringify(data));
@@ -327,60 +327,12 @@ function Navigator({ classes, history, match }) {
           </ListItem>
           <Divider />
           {categories.map(({ Icon, children, title, active, onClick }, index) =>
-              children ? (
-                <React.Fragment>
-                  <ListItem
-                    key={index}
-                    button
-                    onClick={() => setOpenCourse((prev) => !prev)}
-                    className={clsx(
-                      classes.item,
-                      active && classes.itemActiveItem
-                    )}
-                  >
-                    <ListItemIcon className={classes.itemIcon}>
-                      {Icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      classes={{
-                        primary: classes.itemPrimary,
-                      }}
-                      primary={truncate(title, { length: 20 })}
-                    />
-                    {openCourses ? <ExpandLess /> : <ExpandMore />}
-                  </ListItem>
-                  <Collapse in={openCourses} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      {children.map(({ Subjectname, ID }) => (
-                        <ListItem
-                          key={ID}
-                          button
-                          onClick={() => {
-                            DoctorInformation();
-                            history.push(`/course/${ID}`);
-                          }}
-                          className={clsx(
-                            classes.nested,
-                            active && classes.itemActiveItem
-                          )}
-                        >
-                          <ListItemIcon>{CourseIcon}</ListItemIcon>
-                          <ListItemText
-                            classes={{
-                              primary: classes.itemPrimary,
-                            }}
-                            primary={truncate(Subjectname, { length: 25 })}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Collapse>
-                </React.Fragment>
-              ) : (
+            children ? (
+              <React.Fragment>
                 <ListItem
                   key={index}
                   button
-                  onClick={onClick}
+                  onClick={() => setOpenCourse((prev) => !prev)}
                   className={clsx(
                     classes.item,
                     active && classes.itemActiveItem
@@ -395,9 +347,52 @@ function Navigator({ classes, history, match }) {
                     }}
                     primary={truncate(title, { length: 20 })}
                   />
+                  {openCourses ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-              )
-            )}
+                <Collapse in={openCourses} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {children.map(({ Subjectname, ID }) => (
+                      <ListItem
+                        key={ID}
+                        button
+                        onClick={() => {
+                          DoctorInformation();
+                          history.push(`/course/${ID}`);
+                        }}
+                        className={clsx(
+                          classes.nested,
+                          active && classes.itemActiveItem
+                        )}
+                      >
+                        <ListItemIcon>{CourseIcon}</ListItemIcon>
+                        <ListItemText
+                          classes={{
+                            primary: classes.itemPrimary,
+                          }}
+                          primary={truncate(Subjectname, { length: 25 })}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            ) : (
+              <ListItem
+                key={index}
+                button
+                onClick={onClick}
+                className={clsx(classes.item, active && classes.itemActiveItem)}
+              >
+                <ListItemIcon className={classes.itemIcon}>{Icon}</ListItemIcon>
+                <ListItemText
+                  classes={{
+                    primary: classes.itemPrimary,
+                  }}
+                  primary={truncate(title, { length: 20 })}
+                />
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
     </React.Fragment>

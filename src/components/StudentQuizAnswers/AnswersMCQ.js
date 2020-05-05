@@ -3,11 +3,9 @@ import {
   TextField,
   withStyles,
   Grid,
-  Button,
-  Typography,
+  Checkbox,
+  Radio,
 } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
 
 const AnswersMCQ = ({
   classes,
@@ -25,7 +23,7 @@ const AnswersMCQ = ({
             : {
                 ...question,
                 answers: [value],
-                trueOrFalse: 0
+                trueOrFalse: 0,
               }
         )
       );
@@ -37,10 +35,9 @@ const AnswersMCQ = ({
             ? question
             : {
                 ...question,
-                trueOrFalse : 0 ,
+                trueOrFalse: 0,
                 answers: checked
-                  ? [...question.answers, value ] 
-                    
+                  ? [...question.answers, value]
                   : question.answers.filter(
                       (answerValue) => answerValue !== value
                     ),

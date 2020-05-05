@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateQuiz from "./UpdateQuiz";
@@ -20,6 +19,7 @@ import {
   Grid,
   Button,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
 
 const QuizTableMainInstructor = ({
@@ -250,7 +250,9 @@ const QuizTableMainInstructor = ({
                     <Button size="small">
                       <QuestionAnswerIcon
                         onClick={() => {
-                          history.push("/viewquiz");
+                          history.push(
+                            `/viewquiz/${match.params.courseId}/${quiz.id}`
+                          );
                         }}
                       />
                     </Button>

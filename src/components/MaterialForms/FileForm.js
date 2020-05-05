@@ -31,6 +31,7 @@ const CreateFileForm = ({
   const [blobs, setBlobs] = useState([]);
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
+  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -152,7 +153,7 @@ const CreateFileForm = ({
                     <Grid item>
                       <DragImport
                         editable
-                        Extension = '.webm , .mkv , .flv , .vob , .ogv, .ogg , .drc , .gif , .gifv , .mng ,.avi, .MTS, .M2TS, .TS ,.mov, .qt,.wmv,.yuv,.rm,.rmvb,.asf,.amv,.m4v,.mp4, .m4p,.mpg, .mp2, .mpeg, .mpe, .mpv,.mpg, .mpeg, .m2v,.m4v,.svi,.3gp,.3g2,.mxf,.roq,.nsv,.flv, .f4v ,.f4p ,.f4a ,.f4b'
+                        Extension=".webm , .mkv , .flv , .vob , .ogv, .ogg , .drc , .gif , .gifv , .mng ,.avi, .MTS, .M2TS, .TS ,.mov, .qt,.wmv,.yuv,.rm,.rmvb,.asf,.amv,.m4v,.mp4, .m4p,.mpg, .mp2, .mpeg, .mpe, .mpv,.mpg, .mpeg, .m2v,.m4v,.svi,.3gp,.3g2,.mxf,.roq,.nsv,.flv, .f4v ,.f4p ,.f4a ,.f4b"
                         blobs={blobs}
                         onDrop={onDropBlobs}
                         onDeleteBlob={onDeleteBlob}
@@ -238,7 +239,12 @@ const CreateFileForm = ({
                           disabled={
                             blobs.length !== 1 ||
                             name === "" ||
-                            (hasDate && (!goodStartDate || !goodEndDate))
+                            (hasDate &&
+                              (!goodStartDate ||
+                                !goodEndDate ||
+                                date.start < CurrentDate ||
+                                date.end < CurrentDate ||
+                                date.start > date.end))
                           }
                           onClick={() => {
                             resetStates();
@@ -255,7 +261,12 @@ const CreateFileForm = ({
                             className={
                               blobs.length !== 1 ||
                               name === "" ||
-                              (hasDate && (!goodStartDate || !goodEndDate))
+                              (hasDate &&
+                                (!goodStartDate ||
+                                  !goodEndDate ||
+                                  date.start < CurrentDate ||
+                                  date.end < CurrentDate ||
+                                  date.start > date.end))
                                 ? classes.createText
                                 : classes.boldText
                             }

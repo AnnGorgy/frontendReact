@@ -3,16 +3,9 @@ import {
   TextField,
   withStyles,
   Grid,
-  Button,
-  Typography,
+  Radio,
+  Checkbox,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormGroup from "@material-ui/core/FormGroup";
-import Switch from "@material-ui/core/Switch";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
 
 const ViewMCQStudentAnswers = ({ classes, questionData }) => {
   const [MCQData, setMCQData] = useState([]);
@@ -91,7 +84,7 @@ const ViewMCQStudentAnswers = ({ classes, questionData }) => {
                 <Grid item>
                   <TextField
                     value={question.choiceValueAsString}
-                    label={index+1}
+                    label={index + 1}
                     name="Choice"
                     rows={1}
                     variant="outlined"

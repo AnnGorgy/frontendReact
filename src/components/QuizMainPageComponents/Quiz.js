@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import {
   Dialog,
   Typography,
@@ -9,6 +6,9 @@ import {
   withStyles,
   TextField,
   Button,
+  Switch,
+  FormGroup,
+  FormControlLabel,
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -77,11 +77,10 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState();
   const [Description, setDescription] = useState();
-  const [TotalGrade, setTotalGrade] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
-  const [numberOfQues , setnumberOfQuestions] = useState();
+  const [numberOfQues, setnumberOfQuestions] = useState();
 
   const [date, setDate] = useState({
     start: new Date(),
@@ -208,11 +207,15 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                             root: classes.label,
                           },
                         }}
-                        style={{ width: "230px" , marginTop:"-59px" , marginLeft:"320px" }}
+                        style={{
+                          width: "230px",
+                          marginTop: "-59px",
+                          marginLeft: "320px",
+                        }}
                       />
                     </Grid>
                   </Grid>
-                  <Grid item style={{marginTop:"-15px"}}>
+                  <Grid item style={{ marginTop: "-15px" }}>
                     <Grid item>
                       {/* Dialog Duration */}
                       <TextField
@@ -403,6 +406,9 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                     <Button
                       variant="outlined"
                       className={classes.createButton}
+                      disabled={
+                        Name === "" || !goodStartDate || !goodEndDate 
+                      }
                       onClick={() => {
                         resetStates();
                         onSubmit({

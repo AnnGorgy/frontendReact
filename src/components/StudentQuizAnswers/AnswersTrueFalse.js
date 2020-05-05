@@ -3,10 +3,9 @@ import {
   TextField,
   withStyles,
   Grid,
-  Button,
   Typography,
+  Radio,
 } from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
 
 const AnswersTrueFalse = ({
   setQuestions,
@@ -111,13 +110,11 @@ const AnswersTrueFalse = ({
                     )[0]?.trueOrFalse == 1
                   )}
                   onChange={() => setQuestionAnswer(1, TFData.questionId)}
-                  
                   inputProps={{ "aria-label": "A" }}
                 />
               </Grid>
-              
             </Grid>
-            
+
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
               <Grid item>
                 <Typography

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import Tooltip from "@material-ui/core/Tooltip";
-
-
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
 import {
   Table,
@@ -15,13 +12,17 @@ import {
   TableRow,
   Paper,
   Button,
+  Tooltip,
 } from "@material-ui/core";
 
-const StudentQuizGrades = ({ match , history }) => {
+const StudentQuizGrades = ({ match, history }) => {
   const listGrades = async () => {
     const Url = `/Student_Answers/GetQuizzessGrades`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId, studentId: 1 },
+      params: {
+        subjectId: match.params.courseId,
+        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+      },
     });
     setAllGrades(data);
   };
@@ -133,11 +134,13 @@ const StudentQuizGrades = ({ match , history }) => {
               <TableCell align="right">
                 <Tooltip title="Your Answers" placement="bottom">
                   <Button size="small">
-                     <QuestionAnswerIcon
-                        onClick={() => {
-                          history.push(`/answers/${grades.QuizID}`);
-                        }}
-                    /> 
+                    <QuestionAnswerIcon
+                      onClick={() => {
+                        history.push(
+                          `/answers/${match.params.courseId}/${grades.QuizID}`
+                        );
+                      }}
+                    />
                   </Button>
                 </Tooltip>
               </TableCell>

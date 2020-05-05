@@ -216,10 +216,8 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
                       </Button>
                     </Tooltip>
                   </TableCell>
-                ):(
-                  <TableCell>
-                    {}
-                  </TableCell>
+                ) : (
+                  <TableCell>{}</TableCell>
                 )}
               </TableRow>
             ))}

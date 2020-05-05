@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import Tooltip from "@material-ui/core/Tooltip";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TimeQuizDialog from "./TimeQuizDialog";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
@@ -18,6 +16,7 @@ import {
   Grid,
   Button,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
 
 const QuizTableMainStudent = ({
@@ -166,14 +165,9 @@ const QuizTableMainStudent = ({
                       <img
                         src="https://img.icons8.com/ios/30/000000/quiz.png"
                         onClick={() => {
-                          history.push(`/studentanswers/${quiz.id}`);
-                          /* localStorage.setItem("QuizName", quiz.Name);
-                          localStorage.setItem("TotalTime", quiz.duration);
-                          localStorage.setItem(
-                            "numberOfQuestions",
-                            quiz.numberOfQuestions
+                          history.push(
+                            `/studentanswers/${match.params.courseId}/${quiz.id}`
                           );
-                          localStorage.setItem("QuizID", quiz.id); */
                         }}
                       />
                     </Button>
@@ -182,7 +176,9 @@ const QuizTableMainStudent = ({
                     <Button size="small">
                       <QuestionAnswerIcon
                         onClick={() => {
-                          history.push("/viewquiz");
+                          history.push(
+                            `/viewquiz/${match.params.courseId}/${quiz.id}`
+                          );
                         }}
                       />
                     </Button>

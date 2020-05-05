@@ -3,7 +3,6 @@ import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import mime from "mime-types";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import {
   Table,
@@ -14,15 +13,17 @@ import {
   TableRow,
   Paper,
   Button,
-  Grid,
-  Typography,
+  Tooltip,
 } from "@material-ui/core";
 
 const StudentAssignmentsTable = ({ match }) => {
   const listAssignments = async () => {
     const Url = `/Student_Answers/GetAssingmentsGrades`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId, studentId: 1 },
+      params: {
+        subjectId: match.params.courseId,
+        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+      },
     });
     setAllAssignments(data);
   };
@@ -134,12 +135,18 @@ const StudentAssignmentsTable = ({ match }) => {
               <TableCell align="right">
                 <Tooltip title="Download" placement="bottom">
                   <Button size="small">
-                     <DownloadIcon
-                       onClick={async () => {
-                        const response = await get("/Student_Answers/downloadAssignmentAnswer", {
-                          params: { AnswerID: grades.AssignmentId , studentID: 1 },
-                          responseType: "blob",
-                        });
+                    <DownloadIcon
+                      onClick={async () => {
+                        const response = await get(
+                          "/Student_Answers/downloadAssignmentAnswer",
+                          {
+                            params: {
+                              AnswerID: grades.AssignmentId,
+                              studentID: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+                            },
+                            responseType: "blob",
+                          }
+                        );
                         var fileURL = window.URL.createObjectURL(
                           new Blob([response.data])
                         );
@@ -155,8 +162,8 @@ const StudentAssignmentsTable = ({ match }) => {
                         document.body.appendChild(fileLink);
 
                         fileLink.click();
-                      }} 
-                    /> 
+                      }}
+                    />
                   </Button>
                 </Tooltip>
               </TableCell>

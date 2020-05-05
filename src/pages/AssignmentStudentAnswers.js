@@ -12,6 +12,7 @@ const AssignmentStudentAnswers = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [reloadAssignment, setReloadAssignment] = useState(true);
   const [crumbs, setCrumbs] = useState([]);
+  const [AssId , setAssId] = useState();
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -33,6 +34,7 @@ const AssignmentStudentAnswers = () => {
             <AssignmentStudentAnswersHeader
               setReloadAssignments={setReloadAssignment}
               crumbs={crumbs}
+              AssignmentID = {AssId}
             />
           </Grid>
           <Grid item>
@@ -40,6 +42,7 @@ const AssignmentStudentAnswers = () => {
               reloadAssignments={reloadAssignment}
               setReloadAssignments={setReloadAssignment}
               setCrumbs={setCrumbs}
+              setAssignmentID = {setAssId}
             />
           </Grid>
         </Grid>

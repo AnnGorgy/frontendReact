@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import {
   KeyboardTimePicker,
@@ -82,7 +79,7 @@ const TimeQuizDialog = ({
                             margin="normal"
                             id="time-picker"
                             label="Start Time"
-                            disabled = "true"
+                            disabled="true"
                             value={TimePicker.start}
                             onChange={(TimePicker) =>
                               setTimePicker((prev) => ({
@@ -104,7 +101,7 @@ const TimeQuizDialog = ({
                             margin="normal"
                             id="time-picker"
                             label="End Time"
-                            disabled = "true"
+                            disabled="true"
                             value={TimePicker.end}
                             onChange={(TimePicker) =>
                               setTimePicker((prev) => ({

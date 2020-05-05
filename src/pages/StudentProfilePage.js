@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import { SideBar } from "../components";
-import { Grid, Typography, withStyles, TextField } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  withStyles,
+  Divider,
+  ListItemText,
+  ListItem,
+  List,
+} from "@material-ui/core";
 
 import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";
 const StudentProfilePage = ({ classes }) => {
-
   // Set The First Letter Of The Users' Name To capial //
   const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
   const ViewingName =
@@ -20,7 +23,8 @@ const StudentProfilePage = ({ classes }) => {
   const LoginEmail = JSON.parse(localStorage.getItem("Information")).Email;
   const seatNo = JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo;
   const level = JSON.parse(localStorage.getItem("StuInformation"))[0].LevelName;
-  const department = JSON.parse(localStorage.getItem("StuInformation"))[0].Department;
+  const department = JSON.parse(localStorage.getItem("StuInformation"))[0]
+    .Department;
   const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
   const AccountTypeName = "Student Account";
   const [reloadProfile, setReloadProfile] = useState(true);
@@ -129,7 +133,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Name In Arabic"
                       secondary={ArName}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -138,7 +144,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Department"
                       secondary={department}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -146,7 +154,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Account Type"
                       secondary={AccountTypeName}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -189,7 +199,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Email"
                       secondary={LoginEmail}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -198,7 +210,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Seat Number"
                       secondary={seatNo}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -206,7 +220,9 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Level"
                       secondary={level}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>

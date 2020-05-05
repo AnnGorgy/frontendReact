@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import MobileStepper from "@material-ui/core/MobileStepper";
-import Paper from "@material-ui/core/Paper";
 import { post, get } from "axios";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import { withRouter } from "react-router-dom";
-import { Grid, withStyles } from "@material-ui/core";
-import Switch from "@material-ui/core/Switch";
-import TextField from "@material-ui/core/TextField";
-import FormGroup from "@material-ui/core/FormGroup";
+import {
+  Grid,
+  withStyles,
+  Typography,
+  TextField,
+  FormGroup,
+  Switch,
+  Button,
+  Paper,
+  MobileStepper,
+  makeStyles,
+  useTheme,
+} from "@material-ui/core";
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
@@ -76,7 +80,7 @@ const QuestionTypeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const QuizStepper = ({match}) => {
+const QuizStepper = ({ match }) => {
   const getDefaultQuestionBody = (length) => ({
     index: length + 1,
     type: "mcq",
@@ -209,8 +213,8 @@ const QuizStepper = ({match}) => {
         {questionIndex == maxSteps && (
           <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
             <Button
-              onClick={ async () =>
-               await post(
+              onClick={async () =>
+                await post(
                   "/DoctorMakeQuiz/createQuestions",
                   (questions: questions),
                   {

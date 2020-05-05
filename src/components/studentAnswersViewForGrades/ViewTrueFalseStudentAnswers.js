@@ -3,16 +3,9 @@ import {
   TextField,
   withStyles,
   Grid,
-  Button,
   Typography,
+  Radio,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormGroup from "@material-ui/core/FormGroup";
-import Switch from "@material-ui/core/Switch";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
 
 const ViewTrueFalseStudentAnswers = ({
   /* questionIndex,setQuestions, */ questionData,
@@ -91,7 +84,7 @@ const ViewTrueFalseStudentAnswers = ({
               style={{ width: "900px", marginLeft: "160px" }}
             />
           </Grid>
-          <Grid item style={{marginLeft:"140px"}}>
+          <Grid item style={{ marginLeft: "140px" }}>
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
               <Grid item>
                 <Typography

@@ -10,11 +10,15 @@ import {
   TableRow,
   Paper,
   Grid,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { SideBar } from "../components";
 
-const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => {
+const StudentsInSubjectPage = ({
+  reloadStudents,
+  setReloadStudents,
+  match,
+}) => {
   const listStudents = async () => {
     const StudentsUrl = `http://localhost:4375/api/Subject/GetStudentsEnrolledInSubject`;
 
@@ -38,7 +42,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
     setAllStudents(data);
   };
 
-  // ---------------------------- variables with it's states that we use it in this Page ------------------- 
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allStudents, setAllStudents] = useState();
   const [displayedStudents, setDisplayedStudents] = useState();
   //----------------------------------------------------------------------------------------------------------
@@ -49,9 +53,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
 
   useEffect(() => {
     if (allStudents) {
-      setDisplayedStudents([
-        ...allStudents
-      ]);
+      setDisplayedStudents([...allStudents]);
     }
   }, [allStudents]);
 
@@ -68,7 +70,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
             overflowY: "auto",
             maxWidth: "165vh",
             marginLeft: "28px",
-            marginTop: "20px"
+            marginTop: "20px",
           }}
         >
           <Table
@@ -82,15 +84,48 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
             <TableHead>
               {/* he Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
               <TableRow>
-                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="left">Name</TableCell>
-                <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact" }} align="center">ID</TableCell>
-               <TableCell style={{ backgroundColor: "black" , color:"white" , fontFamily: "Impact"  }} align="center">E-Mail</TableCell>
+                <TableCell
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    fontFamily: "Impact",
+                  }}
+                  align="left"
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    fontFamily: "Impact",
+                  }}
+                  align="center"
+                >
+                  ID
+                </TableCell>
+                <TableCell
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    fontFamily: "Impact",
+                  }}
+                  align="center"
+                >
+                  E-Mail
+                </TableCell>
               </TableRow>
-
             </TableHead>
             <TableBody>
               {displayedStudents?.map((Student, index) => (
-                <TableRow key={index} style ={ index % 2? { background : "#E8FDFF" }:{ background : "#E8FDFF" }}>
+                <TableRow
+                  key={index}
+                  style={
+                    index % 2
+                      ? { background: "#E8FDFF" }
+                      : { background: "#E8FDFF" }
+                  }
+                >
                   {/* Name cell */}
                   <TableCell align="left">
                     <Grid container spacing={1}>
@@ -100,7 +135,7 @@ const StudentsInSubjectPage = ({ reloadStudents, setReloadStudents, match }) => 
                   {/* ID cell */}
                   <TableCell align="center">{Student.studentSeatNo}</TableCell>
                   {/* Email cell */}
-                  <TableCell align="center" >{Student.studentEmail}</TableCell>
+                  <TableCell align="center">{Student.studentEmail}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

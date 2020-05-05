@@ -30,13 +30,13 @@ const RenameForm = ({
   const [RelodRename, setReloadRename] = useState(true);
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
+  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
   });
   //----------------------------------------------------------------------------------------------------------
 
-  
   useEffect(() => {
     if (RelodRename) {
       setReloadRename(false);
@@ -160,6 +160,8 @@ const RenameForm = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
+                            setChangedName(CurrentName);
+                            setDate({ start: sDate, end: eDate });
                           }}
                         >
                           <Typography
@@ -175,7 +177,15 @@ const RenameForm = ({
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={ChangedName === "" || ChangedName == CurrentName}
+                          disabled={
+                            ChangedName === "" ||
+                            ChangedName == CurrentName ||
+                            (hasDate &&
+                              (!goodStartDate ||
+                                !goodEndDate ||
+                                date.end < CurrentDate ||
+                                date.start > date.end))
+                          }
                           onClick={() => {
                             onSubmit({
                               ChangedName,
@@ -183,7 +193,20 @@ const RenameForm = ({
                             });
                           }}
                         >
-                          <Typography variant="h6" className={classes.boldText}>
+                          <Typography
+                            variant="h6"
+                            className={
+                              ChangedName === "" ||
+                              ChangedName == CurrentName ||
+                              (hasDate &&
+                                (!goodStartDate ||
+                                  !goodEndDate ||
+                                  date.end < CurrentDate ||
+                                  date.start > date.end))
+                                ? classes.createText
+                                : classes.boldText
+                            }
+                          >
                             Create
                           </Typography>
                         </Button>

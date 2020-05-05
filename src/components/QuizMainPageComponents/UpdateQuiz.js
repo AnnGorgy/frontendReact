@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import {
   KeyboardDatePicker,
@@ -17,6 +14,9 @@ import {
   withStyles,
   TextField,
   Button,
+  FormControlLabel,
+  FormGroup,
+  Switch,
 } from "@material-ui/core";
 const QuestionShuffleSwitch = withStyles((theme) => ({
   root: {
@@ -104,7 +104,7 @@ const UpdateQuiz = ({
     end: new Date(),
   });
   const [ChangedDuration, setChangedDuration] = useState();
-  const [ChangednumberOfQues , setChangednumberOfQuestions ] = useState();
+  const [ChangednumberOfQues, setChangednumberOfQuestions] = useState();
 
   //----------------------------------------------------------------------------------------------------------
 

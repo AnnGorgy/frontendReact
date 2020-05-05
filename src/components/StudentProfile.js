@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
-import Tooltip from "@material-ui/core/Tooltip";
 
 //------------------------------------------------- Icons --------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -11,6 +10,7 @@ import {
   withStyles,
   TextField,
   Button,
+  Tooltip,
 } from "@material-ui/core";
 
 const StudentProfilePage = ({

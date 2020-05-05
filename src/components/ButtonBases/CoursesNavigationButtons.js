@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import { withRouter } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
 import Grades from "./Grades.png";
 import materials from "./Materials.jpg";
 import { post, get } from "axios";
@@ -11,6 +8,7 @@ import Assignments from "./Assignments.jpg";
 import UploadExcelSheet from "../UploadExcelSheet";
 import Excel from "./ExcelSheet.jpg";
 import AssignmentDoctor from "./AssignmentDoctor.png";
+import { Typography, ButtonBase, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     height: 200,
     [theme.breakpoints.down("xs")]: {
-      width: "100% !important", 
+      width: "100% !important",
       height: 100,
     },
     "&:hover, &$focusVisible": {
@@ -36,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
       },
       "& $imageTitle": {
         border: "4px solid black",
-        color:"black",
-        fontWeight:"bold" ,
+        color: "black",
+        fontWeight: "bold",
       },
     },
   },
@@ -105,7 +103,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
           subjectId: match.params.courseId,
         },
       });
-      
+
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -189,7 +187,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
                 variant="subtitle1"
                 color="inherit"
                 className={classes.imageTitle}
-                style={{fontSize:"20px" , fontWeight:"bold"}}
+                style={{ fontSize: "20px", fontWeight: "bold" }}
               >
                 {title}
                 <span className={classes.imageMarked} />

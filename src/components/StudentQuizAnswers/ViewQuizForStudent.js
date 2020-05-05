@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import MobileStepper from "@material-ui/core/MobileStepper";
-import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
 import { post, get } from "axios";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import { withRouter } from "react-router-dom";
-import { Grid, withStyles } from "@material-ui/core";
-import Switch from "@material-ui/core/Switch";
-import TextField from "@material-ui/core/TextField";
-import FormGroup from "@material-ui/core/FormGroup";
+import { Grid, withStyles, Button, Typography } from "@material-ui/core";
 import AnswersMCQ from "./AnswersMCQ";
 import AnswersTrueFalse from "./AnswersTrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
@@ -62,12 +53,12 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "nowrap",
   },
 }));
-const ViewQuizForStudent = ({match}) => {
+const ViewQuizForStudent = ({ match }) => {
   // TODO: get the quiz id from the match.params
   // FIXME: make the path quiz/{id}
-  const getDefaultAnswerBody = (questionId , NumberofCorrectAnswers) => ({
+  const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
-    studentId: 1,
+    studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
     questionId,
     answers: [],
     trueOrFalse: null,
@@ -86,14 +77,30 @@ const ViewQuizForStudent = ({match}) => {
     setQuizData(data);
   };
   const [quizData, setQuizData] = useState();
+  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
+
+  const QuizInforrmation = async () => {
+    const QuizUrl = `/Student_Answers/GetQuiz`;
+    const { data } = await post(QuizUrl, null, {
+      params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
+    });
+    setQuizInfo(data);
+  };
+  const [quizInfo, setQuizInfo] = useState();
 
   useEffect(() => {
     listQuizzes();
   }, [localStorage.getItem("QuizID")]);
 
   useEffect(() => {
+    QuizInforrmation();
+  }, [match.params.quizId, match.params.courseId]);
+
+  useEffect(() => {
     const questionAnswerss = quizData?.map((question) =>
-      getDefaultAnswerBody(question.questionId , question.NumberofCorrectAnswers)
+      getDefaultAnswerBody(question.questionId, question.NumberofCorrectAnswers)
     );
     setAnswers(questionAnswerss);
   }, [quizData]);
@@ -101,6 +108,28 @@ const ViewQuizForStudent = ({match}) => {
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
+        {quizInfo?.map((info) => (
+          <Grid
+            item
+            style={{
+              height: "100px",
+              borderRadius: "2px",
+              webkitBoxShadow: "5px 5px 5px #9E9E9E",
+              mozBoxShadow: "5px 5px 5px #9E9E9E",
+              boxShadow: "5px 5px 5px #9E9E9E",
+              padding: "40px 40px 40px 40px",
+              marginRight: "9px",
+              backgroundColor: "white",
+              width: "1240px",
+            }}
+          >
+            <Grid item>
+              <Typography style={{ fontSize: "20px" }}>
+                {info.Name} in {SubjectName} on quiz date {info.startDate}
+              </Typography>
+            </Grid>
+          </Grid>
+        ))}
         {quizData?.map((question, index) => (
           <Grid
             item
@@ -174,18 +203,14 @@ const ViewQuizForStudent = ({match}) => {
 
       <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
         <Button
-          onClick={ async () =>
-            await post(
-              "/Student_Answers/addQuizAnswer",
-               (questionAnswers),
-               {
-                 params: {
-                  quiizID: match.params.quizId,
-                   studID : 1 , 
-                 },
-               }
-             )
-           }
+          onClick={async () =>
+            await post("/Student_Answers/addQuizAnswer", questionAnswers, {
+              params: {
+                quiizID: match.params.quizId,
+                studID: 1,
+              },
+            })
+          }
           className={classes.addButton}
           size="small"
         >

@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import { Grid, withStyles, Button, Typography } from "@material-ui/core";
+import {
+  Grid,
+  withStyles,
+  Button,
+  Typography,
+  makeStyles,
+  Snackbar,
+} from "@material-ui/core";
 import Quiz from "./Quiz";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/core/styles";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -27,7 +32,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
   const [open, setOpen] = React.useState(false);
-  const [MessageTitle , setMessageTitle] = useState("");
+  const [MessageTitle, setMessageTitle] = useState("");
 
   const handleClick = () => {
     setOpen(true);

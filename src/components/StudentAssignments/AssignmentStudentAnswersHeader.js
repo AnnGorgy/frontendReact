@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AssignmentStudentAnswersHeader = ({
   crumbs,
+  AssignmentID,
   classes,
   setReloadAssignments,
   match,
@@ -63,7 +64,7 @@ const AssignmentStudentAnswersHeader = ({
       await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
-          Assignment_Id: 2,
+          Assignment_Id: AssignmentID + 1,
           Name: AssName,
           Student_ID: 1,
         },

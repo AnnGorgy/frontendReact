@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SideBar } from "../components";
-import { Grid, Typography, Button } from "@material-ui/core";
-import Tooltip from "@material-ui/core/Tooltip";
+import { Grid, Typography, Button, Tooltip } from "@material-ui/core";
 import { InstructorProfile } from "../components";
 
 import Profile from "./Images/Profile.png";
@@ -61,7 +60,7 @@ const CourseHome = ({ history, match }) => {
                 {CourseName}
               </Typography>
             </Grid>
-            <Grid item style={{marginTop:"2px"}}>
+            <Grid item style={{ marginTop: "2px" }}>
               <Grid
                 item
                 style={{
@@ -138,7 +137,7 @@ const CourseHome = ({ history, match }) => {
                         color: "black",
                         paddingLeft: "12px",
                         fontSize: "20px",
-                        fontWeight:"600"
+                        fontWeight: "600",
                       }}
                     >
                       Enrolled Students

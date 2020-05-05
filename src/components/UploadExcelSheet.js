@@ -69,8 +69,7 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                   {/* Upload Button */}
                   <Grid item>
                     <DragImport
-                      
-                      Extension = '.xls ,.xlsx'
+                      Extension=".xls ,.xlsx"
                       editable
                       blobs={blobs}
                       onDrop={onDropBlobs}

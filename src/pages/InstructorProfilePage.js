@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import List from "@material-ui/core/List";
 import { post, get } from "axios";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import { SideBar } from "../components";
 import {
   Grid,
@@ -12,8 +8,12 @@ import {
   withStyles,
   TextField,
   Button,
+  Tooltip,
+  Divider,
+  ListItemText,
+  ListItem,
+  List,
 } from "@material-ui/core";
-import Tooltip from "@material-ui/core/Tooltip";
 
 //------------------------------------------------- Icons --------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
@@ -173,7 +173,9 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Account Type"
                       secondary={AccountTypeName}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -182,7 +184,9 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Name in Arabic"
                       secondary={ArName}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -190,7 +194,9 @@ const InstructorProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="E-mail"
                       secondary={LoginEmail}
-                      secondaryTypographyProps={{ style: { color: "darkslategray" , marginLeft:"20px" } }}
+                      secondaryTypographyProps={{
+                        style: { color: "darkslategray", marginLeft: "20px" },
+                      }}
                       style={{ padding: "20px" }}
                     />
                   </ListItem>
@@ -245,7 +251,7 @@ const InstructorProfilePage = ({ classes }) => {
                       root: classes.label,
                     },
                   }}
-                  style={{ width: "350px" , marginTop : "30px"}}
+                  style={{ width: "350px", marginTop: "30px" }}
                 />
 
                 {/* Add E-mail  */}
@@ -258,7 +264,7 @@ const InstructorProfilePage = ({ classes }) => {
                         })
                           .then(() => setReloadProfile(true))
                           .catch((err) => console.error(err));
-                          resetStates();
+                        resetStates();
                       }}
                     />
                   </Button>
@@ -274,7 +280,7 @@ const InstructorProfilePage = ({ classes }) => {
                         })
                           .then(() => setEmail(" "), setReloadProfile(true))
                           .catch((err) => console.error(err));
-                          resetStates();
+                        resetStates();
                       }}
                     />
                   </Button>
@@ -303,7 +309,7 @@ const InstructorProfilePage = ({ classes }) => {
                       root: classes.label,
                     },
                   }}
-                  style={{ width: "350px" , marginBottom:"30px" }}
+                  style={{ width: "350px", marginBottom: "30px" }}
                 />
                 {/* Add Office Hours */}
                 <Tooltip title="ADD" placement="bottom">
@@ -315,7 +321,7 @@ const InstructorProfilePage = ({ classes }) => {
                         })
                           .then(() => setReloadProfile(true))
                           .catch((err) => console.error(err));
-                          resetStates();
+                        resetStates();
                       }}
                     />
                   </Button>
@@ -334,7 +340,7 @@ const InstructorProfilePage = ({ classes }) => {
                             setReloadProfile(true)
                           )
                           .catch((err) => console.error(err));
-                          resetStates();
+                        resetStates();
                       }}
                     />
                   </Button>

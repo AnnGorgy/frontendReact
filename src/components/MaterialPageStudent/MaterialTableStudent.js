@@ -3,8 +3,6 @@ import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
 import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
 
 import {
   Table,
@@ -294,9 +292,6 @@ const MaterialTableStudent = ({
                   <Grid item>{getIcon(material)}</Grid>
                   <Grid item>
                     <Typography>
-                      {/* <TextField id="standard-bare" defaultValue={material.Name} margin="normal" onChange={(e) => {
-                        setChangedName(e.target.value)
-                      }} /> */}
                       {material.Name}
                     </Typography>
                   </Grid>

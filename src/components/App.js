@@ -38,12 +38,12 @@ const App = ({ match }) => {
       <Route exact path = {"/quiz/:courseId"} component={MainPageForQuiz} />
       <Route exact path = {"/quizstudent/:courseId"} component={MainPageForQuizStudent} />
       <Route exact path = {"/createquiz/:quizId"} component={QuizCreation} />
-      <Route exact path = {"/viewquiz"} component={ViewQuizDetails} />
-      <Route exact path = {"/studentanswers/:quizId"} component={StudentAnswerPage} />
+      <Route exact path = {"/viewquiz/:courseId/:quizId"} component={ViewQuizDetails} />
+      <Route exact path = {"/studentanswers/:courseId/:quizId"} component={StudentAnswerPage} />
       <Route exact path = {"/assignmentInstructor/:courseId"} component={StudentAnswerForAssignmentPage} />
       <Route exact path = {"/assignmentstudent/:courseId"} component={AssignmentStudentAnswers} />
       <Route exact path = {"/studentgrades/:courseId"} component={StudentGrades} />
-      <Route exact path = {"/answers/:quizId"} component={ViewStudentAnswers} />
+      <Route exact path = {"/answers/:courseId/:quizId"} component={ViewStudentAnswers} />
       <Route component={NotFoundPage} />
     </Switch>
   );

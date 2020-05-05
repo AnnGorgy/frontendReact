@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const AssignmentStudentAnswersTable = ({
   match,
   setCrumbs,
+  setAssignmentID,
   reloadAssignments,
   setReloadAssignments,
 }) => {
@@ -66,9 +67,9 @@ const AssignmentStudentAnswersTable = ({
   // -------------------------------------------------------------------------------------------------------
 
   const listAssignmentsFolders = async () => {
-    const Url = `/Student_Answers/GetAssignmentanswerFolders`;
+    const Url = `/Student_Answers/getAssignmentFolders`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId, studentId: 1 },
+      params: { subjectId: match.params.courseId },
     });
     setAllAssignmentsFolders(data);
   };
@@ -76,7 +77,10 @@ const AssignmentStudentAnswersTable = ({
   const listAssignmentsFiles = async () => {
     const Url = `/Student_Answers/GetAssignmentAnswerFiles`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId, studentId: 1 },
+      params: {
+        subjectId: match.params.courseId,
+        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+      },
     });
     setAllAssignmentsFiles(data);
   };
@@ -198,6 +202,7 @@ const AssignmentStudentAnswersTable = ({
                 onClick={() => {
                   if (assignment.type === "folder") {
                     setCurrentFolderId(assignment.id);
+                    setAssignmentID(assignment.id);
                     setCrumbs((prevCrumbs) => [
                       ...prevCrumbs,
                       {
