@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { TextField, withStyles, Grid, Typography } from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
+
+//--------------------------------- What was used from material ui core -------------------------------------
+import {
+  TextField,
+  withStyles,
+  Grid,
+  Typography,
+  Radio,
+} from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
   const setQuestionAnswer = (answer) => {

@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import mime from "mime-types";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import {
   Button,
   Tooltip,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const StudentAssignmentsTable = ({ match }) => {
   const listAssignments = async () => {

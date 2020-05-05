@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import mime from "mime-types";
-import Tooltip from "@material-ui/core/Tooltip";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -15,7 +15,10 @@ import {
   Button,
   Grid,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
+//------------------------------------------------------------------------------------------------------------
+
 
 //------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";

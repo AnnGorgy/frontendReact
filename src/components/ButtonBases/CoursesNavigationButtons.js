@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Grades from "./Grades.png";
 import materials from "./Materials.jpg";
-import { post, get } from "axios";
+import { post } from "axios";
 import Quizs from "./Quizs.jpg";
 import Assignments from "./Assignments.jpg";
 import UploadExcelSheet from "../UploadExcelSheet";
 import Excel from "./ExcelSheet.jpg";
 import AssignmentDoctor from "./AssignmentDoctor.png";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Typography, ButtonBase, makeStyles } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {

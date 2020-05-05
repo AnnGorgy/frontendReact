@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { post, get } from "axios";
 import { SideBar } from "../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   Typography,
@@ -14,6 +16,7 @@ import {
   ListItem,
   List,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons --------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";

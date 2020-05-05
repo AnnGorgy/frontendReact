@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import {
-  SideBar,
-  AssignmentStudentAnswersHeader,
-  AssignmentStudentAnswersTable,
-} from "../components";
+import { SideBar, AllStudentsAnswersInSpecificQuiz } from "../../components";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AssignmentStudentAnswers = () => {
+const DoctorTableStudentQuizAnswers = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [reloadAssignment, setReloadAssignment] = useState(true);
-  const [crumbs, setCrumbs] = useState([]);
-  const [AssId, setAssId] = useState();
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -34,23 +27,11 @@ const AssignmentStudentAnswers = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <AssignmentStudentAnswersHeader
-              setReloadAssignments={setReloadAssignment}
-              crumbs={crumbs}
-              AssignmentID={AssId}
-            />
-          </Grid>
-          <Grid item>
-            <AssignmentStudentAnswersTable
-              reloadAssignments={reloadAssignment}
-              setReloadAssignments={setReloadAssignment}
-              setCrumbs={setCrumbs}
-              setAssignmentID={setAssId}
-            />
+            <AllStudentsAnswersInSpecificQuiz />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default withRouter(AssignmentStudentAnswers);
+export default withRouter(DoctorTableStudentQuizAnswers);

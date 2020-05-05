@@ -17,3 +17,4 @@ export { default as StudentAnswerForAssignmentPage } from "./StudentAnswerForAss
 export { default as AssignmentStudentAnswers } from "./AssignmentStudentAnswers";
 export { default as StudentGrades } from "./StudentGrades";
 export {default as ViewStudentAnswers} from "./Quiz/ViewStudentAnswers";
+export {default as DoctorTableStudentQuizAnswers} from "./Quiz/DoctorTableStudentQuizAnswers";

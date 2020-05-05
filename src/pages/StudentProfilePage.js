@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { SideBar } from "../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   Typography,
@@ -10,6 +12,8 @@ import {
   ListItem,
   List,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 
 import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";

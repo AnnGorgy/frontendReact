@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DragImport } from "../";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -9,6 +10,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const UploadAssignmentAnswers = ({ onClose, isOpened, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);

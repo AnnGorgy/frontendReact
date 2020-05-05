@@ -7,6 +7,8 @@ import LMSImage from "./Images/LMS.png";
 import background from "./Images/background.jpg";
 import { post, get } from "axios";
 import MuiAlert from "@material-ui/lab/Alert";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   TextField,
@@ -15,6 +17,7 @@ import {
   Snackbar,
   makeStyles,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

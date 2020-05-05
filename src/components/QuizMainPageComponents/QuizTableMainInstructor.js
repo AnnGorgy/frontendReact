@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
@@ -8,6 +8,8 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TimeQuizDialog from "./TimeQuizDialog";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -21,6 +23,7 @@ import {
   Typography,
   Tooltip,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const QuizTableMainInstructor = ({
   reloadQuiz,
@@ -210,88 +213,100 @@ const QuizTableMainInstructor = ({
           </TableHead>
           <TableBody>
             {displayedQuiz?.map((quiz, index) => (
-              <TableRow
-                key={index}
-                style={
-                  index % 2
-                    ? { background: "#E8FDFF" }
-                    : { background: "#E8FDFF" }
-                }
-              >
-                {/* Quiz Name cell */}
-                <TableCell>
-                  <Grid container spacing={1}>
-                    <Typography>{quiz.Name}</Typography>
-                  </Grid>
-                </TableCell>
-                {/* Description cell */}
-                <TableCell align="right">{quiz.description}</TableCell>
-                {/* Start Date cell */}
-                <TableCell align="right">{quiz.startDate}</TableCell>
-                {/* End Date cell */}
-                <TableCell align="right">{quiz.endDate}</TableCell>
-                <TableCell align="right">
-                  <Tooltip title="Add Questions" placement="bottom">
-                    <Button size="small">
-                      <AddCircleOutlineIcon
-                        onClick={() => {
-                          history.push(`/createquiz/${quiz.id}`);
-                          localStorage.setItem("QuizName", quiz.Name);
-                          localStorage.setItem("TotalTime", quiz.duration);
-                          localStorage.setItem(
-                            "numberOfQuestions",
-                            quiz.numberOfQuestions
-                          );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Model Answer" placement="bottom">
-                    <Button size="small">
-                      <QuestionAnswerIcon
-                        onClick={() => {
-                          history.push(
-                            `/viewquiz/${match.params.courseId}/${quiz.id}`
-                          );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Time" placement="bottom">
-                    <Button size="small">
-                      <ScheduleIcon
-                        onClick={() => {
-                          setTimeIsOpen(true);
-                          setCurrentEditedQuiz(quiz);
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Delete" placement="bottom">
-                    <Button size="small">
-                      <DeleteIcon
-                        onClick={() => {
-                          post("/DoctorMakeQuiz/DeleteQuiz", null, {
-                            params: { QuizID: quiz.id },
-                          })
-                            .then(() => window.location.reload())
-                            .catch((err) => console.error(err));
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Update" placement="bottom">
-                    <Button size="small">
-                      <EditIcon
-                        onClick={() => {
-                          setUpdateQuizIsOpen(true);
-                          setCurrentEditedQuiz(quiz);
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
+              <Tooltip title={
+                <div style={{fontSize:"14px"}}>
+                Double Click For Student Answers and Grades
+                </div>
+              } >
+                <TableRow
+                  key={index}
+                  onDoubleClick={() => {
+                    history.push(
+                      `/studentquizanswers/${match.params.courseId}/${quiz.id}`
+                    );
+                  }}
+                  style={
+                    index % 2
+                      ? { background: "#E8FDFF" }
+                      : { background: "#E8FDFF" }
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  {/* Quiz Name cell */}
+                  <TableCell>
+                    <Grid container spacing={1}>
+                      <Typography>{quiz.Name}</Typography>
+                    </Grid>
+                  </TableCell>
+                  {/* Description cell */}
+                  <TableCell align="right">{quiz.description}</TableCell>
+                  {/* Start Date cell */}
+                  <TableCell align="right">{quiz.startDate}</TableCell>
+                  {/* End Date cell */}
+                  <TableCell align="right">{quiz.endDate}</TableCell>
+                  <TableCell align="right">
+                    <Tooltip title="Add Questions" placement="bottom">
+                      <Button size="small">
+                        <AddCircleOutlineIcon
+                          onClick={() => {
+                            history.push(`/createquiz/${quiz.id}`);
+                            localStorage.setItem("QuizName", quiz.Name);
+                            localStorage.setItem("TotalTime", quiz.duration);
+                            localStorage.setItem(
+                              "numberOfQuestions",
+                              quiz.numberOfQuestions
+                            );
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Model Answer" placement="bottom">
+                      <Button size="small">
+                        <QuestionAnswerIcon
+                          onClick={() => {
+                            history.push(
+                              `/viewquiz/${match.params.courseId}/${quiz.id}`
+                            );
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Time" placement="bottom">
+                      <Button size="small">
+                        <ScheduleIcon
+                          onClick={() => {
+                            setTimeIsOpen(true);
+                            setCurrentEditedQuiz(quiz);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Delete" placement="bottom">
+                      <Button size="small">
+                        <DeleteIcon
+                          onClick={() => {
+                            post("/DoctorMakeQuiz/DeleteQuiz", null, {
+                              params: { QuizID: quiz.id },
+                            })
+                              .then(() => window.location.reload())
+                              .catch((err) => console.error(err));
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Update" placement="bottom">
+                      <Button size="small">
+                        <EditIcon
+                          onClick={() => {
+                            setUpdateQuizIsOpen(true);
+                            setCurrentEditedQuiz(quiz);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              </Tooltip>
             ))}
           </TableBody>
         </Table>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
 
-//------------------------------------------------- Icons --------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -10,15 +8,13 @@ import {
   withStyles,
   TextField,
   Button,
-  Tooltip,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 
 const StudentProfilePage = ({
   onClose,
   isOpened,
-  title,
-  match,
-  onSubmit,
   classes,
 }) => {
 

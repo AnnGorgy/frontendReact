@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SideBar } from "../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, Typography, Button, Tooltip } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import { InstructorProfile } from "../components";
 
 import Profile from "./Images/Profile.png";

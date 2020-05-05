@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   withStyles,
@@ -9,6 +11,8 @@ import {
   makeStyles,
   Snackbar,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import Quiz from "./Quiz";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import MuiAlert from "@material-ui/lab/Alert";

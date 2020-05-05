@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
-import { Grid, withStyles, Button, Typography } from "@material-ui/core";
+//--------------------------------- What was used from material ui core -------------------------------------
+import {
+  Grid,
+  withStyles,
+  Button,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import AnswersMCQ from "./AnswersMCQ";
 import AnswersTrueFalse from "./AnswersTrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
@@ -66,6 +73,7 @@ const ViewQuizForStudent = ({ match }) => {
   });
 
   const [questionAnswers, setAnswers] = useState();
+
   console.log(questionAnswers);
   const classes = useStyles();
   const body = { questionAnswers };

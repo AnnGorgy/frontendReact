@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import AttachedFile from "./AttachedFile.js";
 
 const styles = () => ({
@@ -58,7 +60,7 @@ const DragImportFile = ({
             <CloudUploadIcon className={classes.cloudIcon} />
             <Typography className={classes.uploadButtonText} color="inherit">
               {isDragActive ? "Drag here" : "Drag here or Browse to Upload"}
-              {isDragAccept && (<p>Accepted</p>)}
+              {isDragAccept && <p>Accepted</p>}
               {isDragReject && <p>Some files will be rejected</p>}
             </Typography>
             <input {...getInputProps()} />

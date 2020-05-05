@@ -9,7 +9,10 @@ import {
   MCQ,
   TrueFalse,
 } from "../../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const QuizCreation = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
@@ -34,7 +37,7 @@ const QuizCreation = () => {
             <QuizHeaderCreation />
           </Grid>
           <Grid item>
-            <QuizStepper/> 
+            <QuizStepper />
             {/*<MCQ /> */}
             {/* <TrueFalse />*/}
           </Grid>

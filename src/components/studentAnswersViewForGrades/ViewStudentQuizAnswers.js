@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   withStyles,
-  Tooltip,
   Button,
   Typography,
   makeStyles,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import ViewMCQStudentAnswers from "./ViewMCQStudentAnswers";
 import ViewTrueFalseStudentAnswers from "./ViewTrueFalseStudentAnswers";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
@@ -30,9 +33,39 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     font: 50,
   },
+  addButton: {
+    borderRadius: "16px",
+    width: "200px",
+    color: "black",
+    "&:hover, &:focus": {
+      backgroundColor: "#CCF6FF",
+      color: "black",
+    },
+  },
+  addIcon: {
+    marginTop: "4px",
+  },
+  buttonText: {
+    color: "black",
+    paddingLeft: "5px",
+    fontSize: "16px",
+    fontWeight: "600",
+  },
+  addButtonBody: {
+    marginLeft: "4px",
+    marginRight: "4px",
+  },
+  tableHeader: {
+    paddingRight: "20px",
+    paddingLeft: "1000px",
+    marginTop: "20px",
+    marginLeft: "30px",
+    flexWrap: "nowrap",
+  },
 }));
 
 const ViewStudentQuizAnswers = ({ match, history }) => {
+  const classes = useStyles();
   const listQuizzes = async () => {
     const QuizUrl = `/Student_Answers/GetQuizAnswerforStudent`;
     const { data } = await post(QuizUrl, null, {
@@ -44,6 +77,9 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     setAllQuizzes(data);
   };
   const [allQuizzes, setAllQuizzes] = useState();
+  const [accountType, setaccountType] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountType
+  );
   const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
@@ -62,13 +98,17 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
   }, [match.params.quizId]);
 
   useEffect(() => {
-    QuizInforrmation();
+    if (accountType==1)
+    {
+      QuizInforrmation();
+    }
+    
   }, [match.params.quizId, match.params.courseId]);
 
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
-        {quizInfo?.map((info, index) => (
+        {quizInfo?.map((info) => (
           <Grid
             item
             style={{
@@ -89,19 +129,33 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                 {info.startDate}
               </Typography>
             </Grid>
-            <Grid item style={{ marginLeft: "1100px", marginTop: "-47px" }}>
-              <Tooltip title="Model Answer" placement="bottom">
-                <Button size="large">
-                  <QuestionAnswerIcon
-                    style={{ width: "50px", height: "50px" }}
-                    onClick={() => {
-                      history.push(
-                        `/viewquiz/${match.params.courseId}/${info.id}`
-                      );
-                    }}
-                  />
-                </Button>
-              </Tooltip>
+
+            <Grid item style={{ marginLeft: "970px", marginTop: "-40px" }}>
+              <Button
+               variant="outlined"
+               color="default"
+                size="small"
+                className={classes.addButton}
+                onClick={() => {
+                  history.push(`/viewquiz/${match.params.courseId}/${info.id}`);
+                }}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  alignItems="center"
+                  className={classes.addButtonBody}
+                >
+                  <Grid item>
+                    <QuestionAnswerIcon className={classes.addIcon} />
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.buttonText} >
+                      Model Answers
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Button>
             </Grid>
           </Grid>
         ))}

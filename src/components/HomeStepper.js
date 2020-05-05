@@ -2,6 +2,8 @@ import React from "react";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import { withRouter } from "react-router-dom";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   withStyles,
   Button,
@@ -9,8 +11,7 @@ import {
   makeStyles,
   useTheme,
 } from "@material-ui/core";
-
-//import MuiImageSlider from 'mui-image-slider';
+//-----------------------------------------------------------------------------------------------------------
 
 const tutorialSteps = [
   {

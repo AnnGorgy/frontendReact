@@ -6,6 +6,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   makeStyles,
   fade,
@@ -18,6 +19,7 @@ import {
   MenuItem,
   Menu,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   grow: {

@@ -2,35 +2,36 @@ import React from "react";
 
 import { withRouter } from "react-router-dom";
 
-import { Grid, Typography, Button, withStyles } from "@material-ui/core";
+//--------------------------------- What was used from material ui core -------------------------------------
+import { Grid } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import { SideBar } from "../components";
 
+import HomeStepper from "../components/HomeStepper";
 
-// ------------------------------------------------- Images --------------------------------------------------
-import Header from "./Images/HomeBackground.jpg";
-import HomeStepper from "../components/HomeStepper"
-// -----------------------------------------------------------------------------------------------------------
-
-const Home = ({ history, classes }) => {
+const Home = () => {
   return (
-    <Grid classes={classes.container}>
-
+    <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
-      <Grid >
+      <Grid item xs={2}>
         <SideBar />
       </Grid>
-
-      <HomeStepper/>
-
+      <Grid item xs={10}>
+        <Grid
+          container
+          direction="column"
+          alignItems="stretch"
+          justify="center"
+          spacing={1}
+          style={{ flexWrap: "nowrap" }}
+        >
+          <Grid item>
+            <HomeStepper />
+          </Grid>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
 
-// Page Styles
-const styles = () => ({
-  container: {
-    flexWrap: "nowrap",
-  }
-});
-
-export default withStyles(styles)(withRouter(Home));
+export default withRouter(Home);

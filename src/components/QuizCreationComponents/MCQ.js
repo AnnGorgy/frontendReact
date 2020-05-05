@@ -1,18 +1,22 @@
 import React, { useState } from "react";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   TextField,
   withStyles,
   Grid,
   Button,
   Typography,
+  FormGroup,
+  Switch,
+  Checkbox,
+  Radio,
+  Tooltip,
 } from "@material-ui/core";
+//----------------------------------------------------------------------------------------------------------
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormGroup from "@material-ui/core/FormGroup";
-import Switch from "@material-ui/core/Switch";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
 
 const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
   const [currentChoiceIndex, setCurrentChoiceIndex] = useState(1);
@@ -230,7 +234,6 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
           </Grid>
           <Grid>
             <TextField
-            
               placeholder="Enter Your Question Statement"
               value={questionData.questionAsString}
               onChange={(e) =>

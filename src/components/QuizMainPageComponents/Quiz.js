@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -10,6 +11,7 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
@@ -75,12 +77,16 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
 
   const [reloadProfile, setReloadProfile] = useState(true);
-  const [Name, setName] = useState();
+  const [Name, setName] = useState("");
   const [Description, setDescription] = useState();
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
-  const [numberOfQues, setnumberOfQuestions] = useState();
+  const [numberOfQues, setnumberOfQuestions] = useState("");
+  const [Duration, setDuration] = useState("");
+  const [CurrentDate, setCurrentDate] = useState(new Date());
+  const [goodStartTime, setGoodStartTime] = useState(false);
+  const [goodEndTime, setGoodEndTime] = useState(false);
 
   const [date, setDate] = useState({
     start: new Date(),
@@ -93,7 +99,6 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const handleChange = () => {
     setQuestionType((prev) => !prev);
   };
-  const [Duration, setDuration] = useState();
 
   //----------------------------------------------------------------------------------------------------------
 
@@ -347,6 +352,7 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                                 start: TimePicker,
                               }))
                             }
+                            onError={(bad) => setGoodStartTime(!bad)}
                             KeyboardButtonProps={{
                               "aria-label": "change time",
                             }}
@@ -368,6 +374,7 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                                 end: TimePicker,
                               }))
                             }
+                            onError={(bad) => setGoodEndTime(!bad)}
                             KeyboardButtonProps={{
                               "aria-label": "change time",
                             }}
@@ -407,7 +414,16 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       variant="outlined"
                       className={classes.createButton}
                       disabled={
-                        Name === "" || !goodStartDate || !goodEndDate 
+                        Name === "" ||
+                        !goodStartDate ||
+                        !goodEndDate ||
+                        !goodStartTime ||
+                        !goodEndTime ||
+                        numberOfQues === "" ||
+                        Duration === "" ||
+                        date.start < CurrentDate ||
+                        date.end < CurrentDate ||
+                        date.start > date.end
                       }
                       onClick={() => {
                         resetStates();
@@ -422,7 +438,23 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                         });
                       }}
                     >
-                      <Typography variant="h6" className={classes.boldText}>
+                      <Typography
+                        variant="h6"
+                        className={
+                          Name === "" ||
+                          !goodStartTime ||
+                          !goodEndTime ||
+                          !goodStartDate ||
+                          !goodEndDate ||
+                          numberOfQues === "" ||
+                          Duration === "" ||
+                          date.start < CurrentDate ||
+                          date.end < CurrentDate ||
+                          date.start > date.end
+                            ? classes.createText
+                            : classes.boldText
+                        }
+                      >
                         Create
                       </Typography>
                     </Button>

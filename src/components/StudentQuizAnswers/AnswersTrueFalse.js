@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   TextField,
   withStyles,
@@ -6,6 +8,8 @@ import {
   Typography,
   Radio,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 
 const AnswersTrueFalse = ({
   setQuestions,

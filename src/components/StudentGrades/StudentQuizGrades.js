@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -14,6 +15,7 @@ import {
   Button,
   Tooltip,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const StudentQuizGrades = ({ match, history }) => {
   const listGrades = async () => {

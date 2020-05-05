@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, Typography } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const QuizHeaderCreation = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   /* const [CourseName, setCourseName] = useState("nyla"); */
-  const [QuizName, setQuizName] = useState(localStorage.getItem('QuizName'));
-  const [TotalTime, setTotalTime] = useState(localStorage.getItem('TotalTime'));
+  const [QuizName, setQuizName] = useState(localStorage.getItem("QuizName"));
+  const [TotalTime, setTotalTime] = useState(localStorage.getItem("TotalTime"));
   //--------------------------------------------------------------------------------------------------------
   // dh hna al header bta3 al quiz zat nfso bs dh lsh mtrbt4 bl back l7ad mw y3mloh
   return (
@@ -47,7 +49,7 @@ const QuizHeaderCreation = () => {
         </Typography>
       </Grid> */}
 
-      <Grid item style ={{marginLeft:"500px", marginTop:"-15px"}}>
+      <Grid item style={{ marginLeft: "500px", marginTop: "-15px" }}>
         <Typography
           style={{
             fontSize: 30,
@@ -59,15 +61,15 @@ const QuizHeaderCreation = () => {
 
         <Typography
           style={{
-             fontSize: 24,
+            fontSize: 24,
             color: "silver",
-            marginLeft:"150px",
+            marginLeft: "150px",
           }}
         >
           {QuizName}
         </Typography>
       </Grid>
-      <Grid item style ={{marginLeft:"950px" , marginTop:"-80px"}}>
+      <Grid item style={{ marginLeft: "950px", marginTop: "-80px" }}>
         <Typography
           style={{
             fontSize: 30,
@@ -80,7 +82,7 @@ const QuizHeaderCreation = () => {
           style={{
             fontSize: 24,
             color: "silver",
-            marginLeft:"150px",
+            marginLeft: "150px",
           }}
         >
           {TotalTime}

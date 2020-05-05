@@ -6,6 +6,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -13,6 +14,7 @@ import {
   withStyles,
   Button,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const TimeQuizDialog = ({
   onClose,

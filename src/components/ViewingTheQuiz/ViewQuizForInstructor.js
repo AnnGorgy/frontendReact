@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, withStyles, Typography } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 import ViewMCQ from "./ViewMCQ";
 import ViewTrueFalse from "./ViewTrueFalse";
 

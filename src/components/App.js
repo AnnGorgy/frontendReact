@@ -21,6 +21,7 @@ import {
   AssignmentStudentAnswers,
   StudentGrades,
   ViewStudentAnswers,
+  DoctorTableStudentQuizAnswers,
 } from "../pages";
 
 const App = ({ match }) => {
@@ -44,6 +45,7 @@ const App = ({ match }) => {
       <Route exact path = {"/assignmentstudent/:courseId"} component={AssignmentStudentAnswers} />
       <Route exact path = {"/studentgrades/:courseId"} component={StudentGrades} />
       <Route exact path = {"/answers/:courseId/:quizId"} component={ViewStudentAnswers} />
+      <Route exact path = {"/studentquizanswers/:courseId/:quizId"} component={DoctorTableStudentQuizAnswers} />
       <Route component={NotFoundPage} />
     </Switch>
   );

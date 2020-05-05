@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 
-//------------------------------------------------- Icons --------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -11,12 +10,9 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
-const DoctorProfilePage = ({
-  onClose,
-  isOpened,
-  classes,
-}) => {
+const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
   // Set The First Letter Of The Users' Name To capial //
   const EnName = JSON.parse(localStorage.getItem("DocInformation")).NameEN;
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);

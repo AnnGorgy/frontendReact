@@ -1,7 +1,10 @@
 import React from "react";
 import { truncate } from "lodash";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, Typography, withStyles } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const styles = theme => ({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -12,6 +13,8 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import { SideBar } from "../components";
 
 const StudentsInSubjectPage = ({

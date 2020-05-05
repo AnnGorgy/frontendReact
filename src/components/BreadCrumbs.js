@@ -1,7 +1,8 @@
 import React from "react";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Breadcrumbs, Chip, withStyles, Box } from "@material-ui/core";
-
+//-----------------------------------------------------------------------------------------------------------
 
 // Bread Crumbs styles
 const styles = theme => ({

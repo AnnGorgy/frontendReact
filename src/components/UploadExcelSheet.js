@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -7,6 +9,7 @@ import {
   withStyles,
   Button,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 import { DragImport } from "./";
 

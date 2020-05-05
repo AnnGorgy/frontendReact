@@ -9,6 +9,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { post, get } from "axios";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Toolbar,
   Collapse,
@@ -23,6 +25,7 @@ import {
   useTheme,
   Grid,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 // Images //
 import Theimage from "./UniLogo.png";
@@ -272,7 +275,7 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      onClick: () => history.push("/answers"),
+      onClick: () => history.push("/studentquizanswers"),
     },
   ];
 

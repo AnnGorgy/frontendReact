@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SideBar,ViewStudentQuizAnswers } from "../../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const ViewStudentAnswers = () => {
  

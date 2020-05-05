@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import { TableHeader, MaterialTable, SideBar } from "../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const MaterialsPage = () => {
 

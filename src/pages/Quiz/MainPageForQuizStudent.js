@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SideBar, QuizTableMainStudent } from "../../components";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 const MainPageForQuizStudent = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------

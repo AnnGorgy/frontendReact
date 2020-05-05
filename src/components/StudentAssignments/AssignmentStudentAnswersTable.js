@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
   TableBody,
@@ -17,6 +18,8 @@ import {
   makeStyles,
   Snackbar,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import MuiAlert from "@material-ui/lab/Alert";
 
 //--------------------------------------  Message Function and It's style -----------------------------------

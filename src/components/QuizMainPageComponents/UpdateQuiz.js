@@ -7,6 +7,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -18,6 +19,9 @@ import {
   FormGroup,
   Switch,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
+
 const QuestionShuffleSwitch = withStyles((theme) => ({
   root: {
     width: 42,

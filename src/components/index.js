@@ -38,3 +38,4 @@ export { default as DoctorAssignmentsStudensHeader } from "./StudentAsnwersForDo
 export {default as ViewMCQStudentAnswers } from "./studentAnswersViewForGrades/ViewMCQStudentAnswers";
 export {default as ViewStudentQuizAnswers } from "./studentAnswersViewForGrades/ViewStudentQuizAnswers";
 export {default as ViewTrueFalseStudentAnswers } from "./studentAnswersViewForGrades/ViewTrueFalseStudentAnswers";
+export { default as AllStudentsAnswersInSpecificQuiz } from "./QuizMainPageComponents/AllStudentsAnswersInSpecificQuiz";

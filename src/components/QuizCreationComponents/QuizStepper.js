@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import { withRouter } from "react-router-dom";
+
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
   withStyles,
@@ -16,6 +18,8 @@ import {
   makeStyles,
   useTheme,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
@@ -216,7 +220,7 @@ const QuizStepper = ({ match }) => {
               onClick={async () =>
                 await post(
                   "/DoctorMakeQuiz/createQuestions",
-                  (questions: questions),
+                  ( questions),
                   {
                     params: {
                       quizID: match.params.quizId,

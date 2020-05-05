@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
   Typography,
@@ -8,6 +9,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 /* The dialog that appear in materials Page for "Folders-URL" */
 const CreateFolderForm = ({

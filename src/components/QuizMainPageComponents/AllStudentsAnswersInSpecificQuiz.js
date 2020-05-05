@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import TimeQuizDialog from "./TimeQuizDialog";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -21,16 +19,14 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const QuizTableMainStudent = ({
-  reloadQuiz,
-  setReloadQuiz,
+const AllStudentsAnswersInSpecificQuiz = ({
   match,
   history,
 }) => {
   const listQuizzes = async () => {
-    const Url = `/DoctorMakeQuiz/GetQuizzes`;
+    const Url = `/DoctorMakeQuiz/GetAllGradesQuizzes`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: match.params.courseId },
+      params: { QuizID: match.params.quizId, subjectID: match.params.courseId },
     });
     setAllQuiz(data);
   };
@@ -38,17 +34,7 @@ const QuizTableMainStudent = ({
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
-  const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
-  const [TimeIsOpen, setTimeIsOpen] = useState(false);
-
   //----------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (reloadQuiz === true) {
-      listQuizzes();
-      setReloadQuiz(false);
-    }
-  }, [reloadQuiz]);
-
   useEffect(() => {
     if (allQuiz) {
       setDisplayedQuiz([...allQuiz]);
@@ -61,20 +47,13 @@ const QuizTableMainStudent = ({
 
   return (
     <React.Fragment>
-      <TimeQuizDialog
-        title="Time"
-        isOpened={TimeIsOpen}
-        onClose={() => setTimeIsOpen(false)}
-        sTime={currentEditedQuiz?.startTime}
-        eTime={currentEditedQuiz?.endTime}
-      />
       <TableContainer
         component={Paper}
         style={{
           maxHeight: "90vh",
           overflowY: "auto",
           maxWidth: "170vh",
-          marginTop: "10px",
+          marginTop: "40px",
         }}
       >
         <Table
@@ -95,7 +74,7 @@ const QuizTableMainStudent = ({
                   fontFamily: "Impact",
                 }}
               >
-                Quiz Name
+                Student Name
               </TableCell>
               <TableCell
                 style={{
@@ -105,7 +84,7 @@ const QuizTableMainStudent = ({
                 }}
                 align="right"
               >
-                Description
+                SeatNo
               </TableCell>
               <TableCell
                 style={{
@@ -115,7 +94,7 @@ const QuizTableMainStudent = ({
                 }}
                 align="right"
               >
-                Start Date
+                  Grade
               </TableCell>
               <TableCell
                 style={{
@@ -125,18 +104,9 @@ const QuizTableMainStudent = ({
                 }}
                 align="right"
               >
-                End Date
+                  {}
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
-                {}
-              </TableCell>
+              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -149,53 +119,29 @@ const QuizTableMainStudent = ({
                     : { background: "#E8FDFF" }
                 }
               >
-                {/* Quiz Name cell */}
+                {/* Student Name cell */}
                 <TableCell>
                   <Grid container spacing={1}>
-                    <Typography>{quiz.Name}</Typography>
+                    <Typography>{quiz.studentName}</Typography>
                   </Grid>
                 </TableCell>
-                {/* Description cell */}
-                <TableCell align="right">{quiz.description}</TableCell>
-                {/* Start Date cell */}
-                <TableCell align="right">{quiz.startDate}</TableCell>
-                {/* End Date cell */}
-                <TableCell align="right">{quiz.endDate}</TableCell>
+                {/* SeatNo cell */}
+                <TableCell align="right">{quiz.studentSeatNo}</TableCell>
+                {/* grade cell */}
+                <TableCell align="right">{quiz.grade}</TableCell>
                 <TableCell align="right">
-                  <Tooltip title="Enter The Quiz" placement="bottom">
-                    <Button size="small">
-                      <img
-                        src="https://img.icons8.com/ios/30/000000/quiz.png"
-                        onClick={() => {
-                          history.push(
-                            `/studentanswers/${match.params.courseId}/${quiz.id}`
-                          );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Model Answer" placement="bottom">
-                    <Button size="small">
-                      <QuestionAnswerIcon
-                        onClick={() => {
-                          history.push(
-                            `/viewquiz/${match.params.courseId}/${quiz.id}`
-                          );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Time" placement="bottom">
-                    <Button size="small">
-                      <ScheduleIcon
-                        onClick={() => {
-                          setTimeIsOpen(true);
-                          setCurrentEditedQuiz(quiz);
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                </TableCell>
+                <Tooltip title="Student Answers" placement="bottom">
+                  <Button size="small">
+                    <QuestionAnswerIcon
+                      onClick={() => {
+                        history.push(
+                          `/answers/${match.params.courseId}/${match.params.quizId}`
+                        );
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
+              </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -205,4 +151,4 @@ const QuizTableMainStudent = ({
   );
 };
 
-export default withRouter(QuizTableMainStudent);
+export default withRouter(AllStudentsAnswersInSpecificQuiz);

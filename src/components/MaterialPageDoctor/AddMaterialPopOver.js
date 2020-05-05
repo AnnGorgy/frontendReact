@@ -1,5 +1,6 @@
 import React from "react";
 
+//--------------------------------- What was used from material ui core -------------------------------------
 import {
   Popover,
   Grid,
@@ -7,6 +8,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
 
 import FolderIcon from "@material-ui/icons/CreateNewFolder";
 import VideoIcon from "@material-ui/icons/Videocam";
