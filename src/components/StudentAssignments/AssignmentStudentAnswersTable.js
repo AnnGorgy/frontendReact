@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -19,8 +23,6 @@ import {
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
-
-import MuiAlert from "@material-ui/lab/Alert";
 
 //--------------------------------------  Message Function and It's style -----------------------------------
 function Alert(props) {
@@ -69,6 +71,7 @@ const AssignmentStudentAnswersTable = ({
   };
   // -------------------------------------------------------------------------------------------------------
 
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignmentsFolders = async () => {
     const Url = `/Student_Answers/getAssignmentFolders`;
     const { data } = await post(Url, null, {
@@ -87,6 +90,26 @@ const AssignmentStudentAnswersTable = ({
     });
     setAllAssignmentsFiles(data);
   };
+
+  const DeleteAssignemnt = async (id) => {
+    const url = "/Student_Answers/deleteAssignmentAnswer";
+    try {
+      const { data } = await post(url, null, {
+        params: {
+          fileId: id,
+        },
+      });
+      if (data == "Asignment has been deleted") {
+        window.location.reload();
+      } else {
+        setMessageTitle(data);
+        handleClick();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     listAssignmentsFiles();
@@ -146,9 +169,8 @@ const AssignmentStudentAnswersTable = ({
           zIndex: 9999,
         }}
       >
-        <Alert onClose={handleClose} severity="success">
-          {MessageTitle} is deleted don't forget to upload another answer before
-          end time
+        <Alert onClose={handleClose} severity="error">
+          {MessageTitle}
         </Alert>
       </Snackbar>
       <TableContainer
@@ -233,25 +255,17 @@ const AssignmentStudentAnswersTable = ({
                 {/* File Name Cell */}
                 <TableCell>{assignment.name}</TableCell>
                 <TableCell align="right">
-                  <Tooltip title="Delete" placement="bottom">
-                    <Button size="small">
-                      {assignment.type === "file" && (
+                  {assignment.type === "file" && (
+                    <Tooltip title="Delete" placement="bottom">
+                      <Button size="small">
                         <DeleteIcon
                           onClick={() => {
-                            get("/Student_Answers/deleteAssignmentAnswer", {
-                              params: { fileId: assignment.id },
-                            })
-                              .then(
-                                () => window.location.reload(),
-                                setMessageTitle(assignment.name),
-                                handleClick()
-                              )
-                              .catch((err) => console.error(err));
+                            DeleteAssignemnt(assignment.id);
                           }}
                         />
-                      )}
-                    </Button>
-                  </Tooltip>
+                      </Button>
+                    </Tooltip>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

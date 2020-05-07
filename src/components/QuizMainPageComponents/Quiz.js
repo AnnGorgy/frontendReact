@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from "react";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  KeyboardDatePicker,
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
@@ -12,12 +18,6 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
 
 const QuestionShuffleSwitch = withStyles((theme) => ({
   root: {
@@ -74,8 +74,7 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
 });
 
 const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
-  // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
-
+  // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState("");
   const [Description, setDescription] = useState();
@@ -87,7 +86,6 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [goodStartTime, setGoodStartTime] = useState(false);
   const [goodEndTime, setGoodEndTime] = useState(false);
-
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -96,12 +94,11 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
     start: new Date(),
     end: new Date(),
   });
+  //----------------------------------------------------------------------------------------------------------
+
   const handleChange = () => {
     setQuestionType((prev) => !prev);
   };
-
-  //----------------------------------------------------------------------------------------------------------
-
   const resetStates = () => {
     setName("");
     setDescription("");

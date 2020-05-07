@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -18,6 +21,7 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 const StudentQuizGrades = ({ match, history }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listGrades = async () => {
     const Url = `/Student_Answers/GetQuizzessGrades`;
     const { data } = await post(Url, null, {
@@ -28,6 +32,7 @@ const StudentQuizGrades = ({ match, history }) => {
     });
     setAllGrades(data);
   };
+  //---------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allGrades, setAllGrades] = useState();

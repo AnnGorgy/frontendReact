@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -13,10 +14,15 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component -------------------------------
 import Quiz from "./Quiz";
-import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import MuiAlert from "@material-ui/lab/Alert";
+//-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Icons ------------------------------------------------
+import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//-----------------------------------------------------------------------------------------------------------
+
+//--------------------------------------  Message Function and It's style --------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -29,27 +35,34 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+//-----------------------------------------------------------------------------------------------------------
 
 const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenQuiz, setOpenQuiz] = useState(false);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  //-----------------------------------------------------------------------------------------------------------
 
+  // ---------------------- we use it To Show The Message after every operation ----------------------------
   const handleClick = () => {
     setOpen(true);
   };
+  //-----------------------------------------------------------------------------------------------------------
 
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
+  //-----------------------------------------------------------------------------------------------------------
 
+  // -------------------------------------------- API Calls ------------------------------------------------
   const ViewData = async (
     Name,
     Description,
@@ -85,7 +98,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
       console.error(err);
     }
   };
-
+  //-----------------------------------------------------------------------------------------------------------
   return (
     <React.Fragment>
       <Snackbar

@@ -10,13 +10,14 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const ViewTrueFalseStudentAnswers = ({
-  /* questionIndex,setQuestions, */ questionData,
-  classes,
-}) => {
+const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
+  
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [TFData, setTFData] = useState([]);
   const [tfTrue, setTfTrue] = useState(false);
   const [tfFalse, setTfFalse] = useState(false);
+  //---------------------------------------------------------------------------------------------------------
+
   useEffect(() => {
     setTFData(questionData);
   }, [questionData]);

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
@@ -11,7 +10,9 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component -------------------------------
 import { DragImport } from "./";
+//--------------------------------------------------------------------------------------------------------
 
 /* The dialog that appear in materials Page for "Files-Assignemnets-videos" */
 const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
@@ -72,6 +73,7 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                   {/* Upload Button */}
                   <Grid item>
                     <DragImport
+                      excel
                       Extension=".xls ,.xlsx"
                       editable
                       blobs={blobs}

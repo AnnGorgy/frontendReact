@@ -5,8 +5,11 @@ import { withRouter } from "react-router-dom";
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, withStyles, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component -------------------------------
 import ViewMCQ from "./ViewMCQ";
 import ViewTrueFalse from "./ViewTrueFalse";
+//---------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +31,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ViewQuizForInstructor = ({ match }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [allQuizzes, setAllQuizzes] = useState();
+  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
+  const [quizInfo, setQuizInfo] = useState();
+  //---------------------------------------------------------------------------------------------------------
+
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const QuizUrl = `/DoctorMakeQuiz/GetSpecificQuiz`;
     const { data } = await post(QuizUrl, null, {
@@ -35,11 +47,7 @@ const ViewQuizForInstructor = ({ match }) => {
     });
     setAllQuizzes(data);
   };
-  const [allQuizzes, setAllQuizzes] = useState();
-  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
-    (subject) => subject.ID == match.params.courseId
-  ).Subjectname;
-
+  //----------------------------------------------------------------------------------------------------------
   const QuizInforrmation = async () => {
     const QuizUrl = `/Student_Answers/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
@@ -47,7 +55,7 @@ const ViewQuizForInstructor = ({ match }) => {
     });
     setQuizInfo(data);
   };
-  const [quizInfo, setQuizInfo] = useState();
+  //---------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     listQuizzes();

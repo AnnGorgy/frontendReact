@@ -7,11 +7,9 @@ import { Grid, Typography } from "@material-ui/core";
 
 const QuizHeaderCreation = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
-  /* const [CourseName, setCourseName] = useState("nyla"); */
   const [QuizName, setQuizName] = useState(localStorage.getItem("QuizName"));
   const [TotalTime, setTotalTime] = useState(localStorage.getItem("TotalTime"));
   //--------------------------------------------------------------------------------------------------------
-  // dh hna al header bta3 al quiz zat nfso bs dh lsh mtrbt4 bl back l7ad mw y3mloh
   return (
     <Grid
       item
@@ -28,27 +26,6 @@ const QuizHeaderCreation = () => {
         backgroundColor: "white",
       }}
     >
-      {/* <Grid item style={{marginLeft:"40px" , marginTop:"-7px"}}>
-        <Typography
-          style={{
-            fontSize: 30,
-            fontFamily: "sans-serif",
-          }}
-        >
-          Course Name :
-        </Typography>
-        <Typography
-          style={{
-            fontSize: 24,
-            color: "silver",
-            marginLeft:"177px",
-            fontFamily: "sans-serif",
-          }}
-        >
-          {CourseName}
-        </Typography>
-      </Grid> */}
-
       <Grid item style={{ marginLeft: "500px", marginTop: "-15px" }}>
         <Typography
           style={{

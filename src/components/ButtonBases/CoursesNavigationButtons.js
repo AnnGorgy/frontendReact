@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import Grades from "./Grades.png";
-import materials from "./Materials.jpg";
 import { post } from "axios";
+
+//------------------------------ Another Components Used In This Component ----------------------------------
+import UploadExcelSheet from "../UploadExcelSheet";
+//----------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Images ---------------------------------------------------
 import Quizs from "./Quizs.jpg";
 import Assignments from "./Assignments.jpg";
-import UploadExcelSheet from "../UploadExcelSheet";
 import Excel from "./ExcelSheet.jpg";
 import AssignmentDoctor from "./AssignmentDoctor.png";
+import Grades from "./Grades.png";
+import materials from "./Materials.jpg";
+//----------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Typography, ButtonBase, makeStyles } from "@material-ui/core";
@@ -89,13 +95,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CoursesNavigationButtons = ({ history, match }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const classes = useStyles();
-
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
   const [ExcelSheetIsOpen, setExcelSheetIsOpen] = useState(false);
+  //----------------------------------------------------------------------------------------------------
 
+  // ------------------------------------- API Calls ---------------------------------------------------
   const ExcelSheet = async ({ file, callback }) => {
     const url = "/Doctor_Manage_student/importExcelSheet";
     const formData = new FormData();
@@ -112,6 +120,7 @@ const CoursesNavigationButtons = ({ history, match }) => {
       console.error(err);
     }
   };
+  //----------------------------------------------------------------------------------------------------
 
   const images = [
     {

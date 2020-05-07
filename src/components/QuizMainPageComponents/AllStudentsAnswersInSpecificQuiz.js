@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -19,10 +22,8 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AllStudentsAnswersInSpecificQuiz = ({
-  match,
-  history,
-}) => {
+const AllStudentsAnswersInSpecificQuiz = ({ match, history }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetAllGradesQuizzes`;
     const { data } = await post(Url, null, {
@@ -30,6 +31,7 @@ const AllStudentsAnswersInSpecificQuiz = ({
     });
     setAllQuiz(data);
   };
+  //--------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
@@ -94,7 +96,7 @@ const AllStudentsAnswersInSpecificQuiz = ({
                 }}
                 align="right"
               >
-                  Grade
+                Grade
               </TableCell>
               <TableCell
                 style={{
@@ -104,9 +106,8 @@ const AllStudentsAnswersInSpecificQuiz = ({
                 }}
                 align="right"
               >
-                  {}
+                {}
               </TableCell>
-              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -130,18 +131,18 @@ const AllStudentsAnswersInSpecificQuiz = ({
                 {/* grade cell */}
                 <TableCell align="right">{quiz.grade}</TableCell>
                 <TableCell align="right">
-                <Tooltip title="Student Answers" placement="bottom">
-                  <Button size="small">
-                    <QuestionAnswerIcon
-                      onClick={() => {
-                        history.push(
-                          `/answers/${match.params.courseId}/${match.params.quizId}`
-                        );
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
-              </TableCell>
+                  <Tooltip title="Student Answers" placement="bottom">
+                    <Button size="small">
+                      <QuestionAnswerIcon
+                        onClick={() => {
+                          history.push(
+                            `/answers/${match.params.courseId}/${match.params.quizId}`
+                          );
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

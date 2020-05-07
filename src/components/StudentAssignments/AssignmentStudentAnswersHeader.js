@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -12,10 +13,15 @@ import {
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component -------------------------------
 import UploadAssignmentAnswers from "./UploadAssignmentAnswers";
-import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import { BreadCrumbs } from "../";
-import MuiAlert from "@material-ui/lab/Alert";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
+import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------------  Message Function and It's style -----------------------------------
 function Alert(props) {
@@ -37,11 +43,12 @@ const AssignmentStudentAnswersHeader = ({
   AssignmentID,
   classes,
   setReloadAssignments,
-  match,
 }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenAssignment, setOpenAssignment] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  //--------------------------------------------------------------------------------------------------------
 
   // ---------------------- we use it To Show The Message after every operation --------------------------
   const handleClick = () => {
@@ -58,13 +65,14 @@ const AssignmentStudentAnswersHeader = ({
   };
   // -------------------------------------------------------------------------------------------------------
 
+  // -------------------------------------------- API Calls ------------------------------------------------
   const UploadAssignment = async ({ AssName, file, callback }) => {
     const url = "/Student_Answers/upload_Assignment_Answer";
     const formData = new FormData();
     formData.append("Document", file);
     try {
       // post syntax (url, body, options)
-      await post(url, formData, {
+     const {data} =  await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
           Assignment_Id: AssignmentID + 1,
@@ -73,13 +81,14 @@ const AssignmentStudentAnswersHeader = ({
         },
       });
       setReloadAssignments(true);
-      setMessageTitle(AssName);
+      setMessageTitle(data);
       handleClick();
       if (callback) callback();
     } catch (err) {
       console.error(err);
     }
   };
+  // -------------------------------------------------------------------------------------------------------
 
   return (
     <React.Fragment>
@@ -94,8 +103,8 @@ const AssignmentStudentAnswersHeader = ({
           zIndex: 9999,
         }}
       >
-        <Alert onClose={handleClose} severity="success">
-          {MessageTitle} has been uploaded
+        <Alert icon= {false} onClose={handleClose} color="primary" variant="outlined" >
+          {MessageTitle}
         </Alert>
       </Snackbar>
       <UploadAssignmentAnswers

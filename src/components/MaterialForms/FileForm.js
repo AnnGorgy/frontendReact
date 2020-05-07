@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
@@ -9,13 +15,10 @@ import {
   Button,
 } from "@material-ui/core";
 //------------------------------------------------------------------------------------------------------------
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
 
+//------------------------------ Another Components Used In This Component -----------------------------------
 import { DragImport } from "../";
+//------------------------------------------------------------------------------------------------------------
 
 /* The dialog that appear in materials Page for "Files-Assignemnets-videos" */
 const CreateFileForm = ({
@@ -38,7 +41,6 @@ const CreateFileForm = ({
     start: new Date(),
     end: new Date(),
   });
-
   // ---------------------------------------------------------------------------------------------------------
   const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
@@ -48,7 +50,7 @@ const CreateFileForm = ({
     setBlobs([]);
   };
 
-  /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
+  //----- this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button -----
   const resetStates = () => {
     setName("");
     setDescription("");
@@ -57,7 +59,7 @@ const CreateFileForm = ({
     setGoodStartDate(false);
     setGoodEndDate(false);
   };
-
+  //------------------------------------------------------------------------------------------------------------
   return (
     isOpened && (
       <Dialog
@@ -155,6 +157,7 @@ const CreateFileForm = ({
                     <Grid item>
                       <DragImport
                         editable
+                        video
                         Extension=".webm , .mkv , .flv , .vob , .ogv, .ogg , .drc , .gif , .gifv , .mng ,.avi, .MTS, .M2TS, .TS ,.mov, .qt,.wmv,.yuv,.rm,.rmvb,.asf,.amv,.m4v,.mp4, .m4p,.mpg, .mp2, .mpeg, .mpe, .mpv,.mpg, .mpeg, .m2v,.m4v,.svi,.3gp,.3g2,.mxf,.roq,.nsv,.flv, .f4v ,.f4p ,.f4a ,.f4b"
                         blobs={blobs}
                         onDrop={onDropBlobs}

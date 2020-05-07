@@ -1,10 +1,13 @@
 import React from "react";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+//---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -86,10 +89,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 

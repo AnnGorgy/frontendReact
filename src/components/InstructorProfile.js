@@ -37,6 +37,8 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
     setEmail(Email);
     setOfficeHours(OfficeHours);
   };
+
+  // -------------------------------------------- API Calls ------------------------------------------------
   const ViewData = async ({ callback }) => {
     const url = "/Office_Hours/Get_Instructor_data";
     try {
@@ -56,7 +58,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
       console.error(err);
     }
   };
-
+  //-------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadProfile) {
       ViewData({});

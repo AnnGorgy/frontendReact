@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Grid,
@@ -10,9 +11,15 @@ import {
   makeStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component -------------------------------
 import AnswersMCQ from "./AnswersMCQ";
 import AnswersTrueFalse from "./AnswersTrueFalse";
+//--------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//---------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,8 +68,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const ViewQuizForStudent = ({ match }) => {
-  // TODO: get the quiz id from the match.params
-  // FIXME: make the path quiz/{id}
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
     studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
@@ -72,11 +77,17 @@ const ViewQuizForStudent = ({ match }) => {
     NumberofCorrectAnswers,
   });
 
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [questionAnswers, setAnswers] = useState();
-
-  console.log(questionAnswers);
   const classes = useStyles();
-  const body = { questionAnswers };
+  const [quizData, setQuizData] = useState();
+  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
+  const [quizInfo, setQuizInfo] = useState();
+  //--------------------------------------------------------------------------------------------------------
+
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const QuizUrl = `/Student_Answers/GetSpecificQuizforStudent`;
     const { data } = await post(QuizUrl, null, {
@@ -84,11 +95,8 @@ const ViewQuizForStudent = ({ match }) => {
     });
     setQuizData(data);
   };
-  const [quizData, setQuizData] = useState();
-  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
-    (subject) => subject.ID == match.params.courseId
-  ).Subjectname;
 
+  //--------------------------------------------------------------------------------------------------------
   const QuizInforrmation = async () => {
     const QuizUrl = `/Student_Answers/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
@@ -96,7 +104,7 @@ const ViewQuizForStudent = ({ match }) => {
     });
     setQuizInfo(data);
   };
-  const [quizInfo, setQuizInfo] = useState();
+  //--------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     listQuizzes();

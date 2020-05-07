@@ -108,6 +108,7 @@ const MaterialTableHeader = ({
   };
   // -------------------------------------------------------------------------------------------------------
 
+  // -------------------------------------------- API Calls ------------------------------------------------
   const uploadFile = async ({ file, name, description, callback }) => {
     const url = uploadUrl;
     /*  
@@ -256,6 +257,7 @@ const MaterialTableHeader = ({
     handleClick();
     if (callback) callback();
   };
+  // -------------------------------------------------------------------------------------------------------
 
   return (
     <React.Fragment>

@@ -15,8 +15,10 @@ import {
 } from "@material-ui/core";
 //----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Icons ------------------------------------------------
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+//----------------------------------------------------------------------------------------------------------
 
 const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
   const [currentChoiceIndex, setCurrentChoiceIndex] = useState(1);

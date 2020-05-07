@@ -12,9 +12,14 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component -------------------------------
 import ViewMCQStudentAnswers from "./ViewMCQStudentAnswers";
 import ViewTrueFalseStudentAnswers from "./ViewTrueFalseStudentAnswers";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+//-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +70,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ViewStudentQuizAnswers = ({ match, history }) => {
+  
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const classes = useStyles();
+  const [allQuizzes, setAllQuizzes] = useState();
+  const [accountType, setaccountType] = useState(
+    JSON.parse(localStorage.getItem("Information")).AccountType
+  );
+  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
+    (subject) => subject.ID == match.params.courseId
+  ).Subjectname;
+  const [quizInfo, setQuizInfo] = useState();
+  //--------------------------------------------------------------------------------------------------------
+
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const QuizUrl = `/Student_Answers/GetQuizAnswerforStudent`;
     const { data } = await post(QuizUrl, null, {
@@ -76,14 +94,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     });
     setAllQuizzes(data);
   };
-  const [allQuizzes, setAllQuizzes] = useState();
-  const [accountType, setaccountType] = useState(
-    JSON.parse(localStorage.getItem("Information")).AccountType
-  );
-  const SubjectName = JSON.parse(localStorage.getItem("subjects")).find(
-    (subject) => subject.ID == match.params.courseId
-  ).Subjectname;
-
+  //-----------------------------------------------------------------------------------------------------------
   const QuizInforrmation = async () => {
     const QuizUrl = `/Student_Answers/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
@@ -91,18 +102,16 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     });
     setQuizInfo(data);
   };
-  const [quizInfo, setQuizInfo] = useState();
+  //-----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     listQuizzes();
   }, [match.params.quizId]);
 
   useEffect(() => {
-    if (accountType==1)
-    {
+    if (accountType == 1) {
       QuizInforrmation();
     }
-    
   }, [match.params.quizId, match.params.courseId]);
 
   return (
@@ -132,8 +141,8 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
 
             <Grid item style={{ marginLeft: "970px", marginTop: "-40px" }}>
               <Button
-               variant="outlined"
-               color="default"
+                variant="outlined"
+                color="default"
                 size="small"
                 className={classes.addButton}
                 onClick={() => {
@@ -150,7 +159,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                     <QuestionAnswerIcon className={classes.addIcon} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.buttonText} >
+                    <Typography className={classes.buttonText}>
                       Model Answers
                     </Typography>
                   </Grid>

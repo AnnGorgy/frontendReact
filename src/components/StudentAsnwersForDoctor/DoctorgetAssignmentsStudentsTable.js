@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+import mime from "mime-types";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
-import mime from "mime-types";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -28,6 +31,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
   const [assignmets, setAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
 
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignmentsFolders = async () => {
     const Url = `/Doctor_Manage_student/getAssignmentsFolders`;
     const { data } = await post(Url, null, {
@@ -43,6 +47,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
     });
     setAllAssignmentsFiles(data);
   };
+  //--------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     listAssignmentsFiles();

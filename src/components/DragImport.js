@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+//--------------------------------------------------------------------------------------------------------
+
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component -------------------------------
 import AttachedFile from "./AttachedFile.js";
+//--------------------------------------------------------------------------------------------------------
 
 const styles = () => ({
   uploadButton: {
@@ -30,14 +37,14 @@ const DragImportFile = ({
   onDrop, // function to fire when a new file(s) added.
   classes,
   Extension,
+  video,
+  excel,
 }) => {
   const {
     getRootProps,
     getInputProps,
     open: openFilesBrowser,
     isDragActive,
-    isDragReject,
-    isDragAccept,
   } = useDropzone({
     onDrop,
     noKeyboard: true,
@@ -59,9 +66,10 @@ const DragImportFile = ({
           >
             <CloudUploadIcon className={classes.cloudIcon} />
             <Typography className={classes.uploadButtonText} color="inherit">
-              {isDragActive ? "Drag here" : "Drag here or Browse to Upload"}
-              {isDragAccept && <p>Accepted</p>}
-              {isDragReject && <p>Some files will be rejected</p>}
+              {isDragActive && video && "Drag here Extensions video only"}
+              {isDragActive && excel && "Drag here Extensions excel only"}
+              {isDragActive && !excel && !video && "Drag here "}
+              {!isDragActive && "Drag here or Browse to Upload"}
             </Typography>
             <input {...getInputProps()} />
           </Button>

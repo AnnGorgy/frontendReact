@@ -5,7 +5,9 @@ import { truncate } from "lodash";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Icons ------------------------------------------------
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+//--------------------------------------------------------------------------------------------------------
 
 const styles = theme => ({
   displayedIcon: {

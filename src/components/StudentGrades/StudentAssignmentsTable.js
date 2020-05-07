@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import mime from "mime-types";
+
+//------------------------------------------------- Icons ------------------------------------------------
+import DownloadIcon from "@material-ui/icons/GetAppSharp";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -19,6 +22,7 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 const StudentAssignmentsTable = ({ match }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignments = async () => {
     const Url = `/Student_Answers/GetAssingmentsGrades`;
     const { data } = await post(Url, null, {
@@ -29,6 +33,7 @@ const StudentAssignmentsTable = ({ match }) => {
     });
     setAllAssignments(data);
   };
+  //--------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignments, setAllAssignments] = useState();

@@ -3,12 +3,15 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { truncate } from "lodash";
 import { withRouter } from "react-router-dom";
+import { post, get } from "axios";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { post, get } from "axios";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -145,11 +148,20 @@ const styles = (theme) => ({
 });
 
 function Navigator({ classes, history, match }) {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [openCourses, setOpenCourse] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  // Set The First Letter Of The Users' Name To capial //
+  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
+  const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
+  //-------------------------------------------------------------------------------------------------------
+
+  // -------------------------------------------- API Calls ------------------------------------------------
   const isUserLoggedIn = () => {
     if (localStorage.getItem("subjects") === null) {
       history.push("/login");
@@ -157,6 +169,8 @@ function Navigator({ classes, history, match }) {
     }
     return true;
   };
+
+  //---------------------------------------------------------------------------------------------------------
   const DoctorInformation = async () => {
     try {
       const url = "/Login/getDoctor";
@@ -177,10 +191,7 @@ function Navigator({ classes, history, match }) {
       console.error(err);
     }
   };
-
-  // Set The First Letter Of The Users' Name To capial //
-  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
-  const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
+  //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (isUserLoggedIn()) {
@@ -195,8 +206,6 @@ function Navigator({ classes, history, match }) {
   1- src : the Image of the button in the navigation bar "For the Course".
   2- alt : The name that will appear when the image does not exist .
   */
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
 
   const handleDrawerOpen = () => {
     setOpen(true);

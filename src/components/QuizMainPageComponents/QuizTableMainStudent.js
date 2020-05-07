@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
-import ScheduleIcon from "@material-ui/icons/Schedule";
+
+//------------------------------ Another Components Used In This Component -------------------------------
 import TimeQuizDialog from "./TimeQuizDialog";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
+import ScheduleIcon from "@material-ui/icons/Schedule";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -27,6 +33,7 @@ const QuizTableMainStudent = ({
   match,
   history,
 }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -34,13 +41,13 @@ const QuizTableMainStudent = ({
     });
     setAllQuiz(data);
   };
+  //----------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   const [TimeIsOpen, setTimeIsOpen] = useState(false);
-
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadQuiz === true) {

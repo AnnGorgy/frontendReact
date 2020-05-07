@@ -10,11 +10,13 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/CreateNewFolder";
 import VideoIcon from "@material-ui/icons/Videocam";
 import LinkIcon from "@material-ui/icons/Link";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import FileIcon from "@material-ui/icons/Description";
+//-----------------------------------------------------------------------------------------------------------
 
 const AddMaterialPopOver = ({
   createButtonReference,

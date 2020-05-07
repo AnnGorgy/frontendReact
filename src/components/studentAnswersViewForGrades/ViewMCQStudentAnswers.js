@@ -10,9 +10,11 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-
 const ViewMCQStudentAnswers = ({ classes, questionData }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [MCQData, setMCQData] = useState([]);
+  //-----------------------------------------------------------------------------------------------------------
+
   useEffect(() => {
     setMCQData(questionData);
   }, [questionData]);

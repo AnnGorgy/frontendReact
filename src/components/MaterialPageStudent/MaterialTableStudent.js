@@ -19,7 +19,6 @@ import {
 } from "@material-ui/core";
 //------------------------------------------------------------------------------------------------------------
 
-
 //------------------------------------------------- Icons ---------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
@@ -28,7 +27,6 @@ import LinkIcon from "@material-ui/icons/Link";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
-import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 //-----------------------------------------------------------------------------------------------------------
 
 const MaterialTableStudent = ({
@@ -37,6 +35,7 @@ const MaterialTableStudent = ({
   reloadMaterials,
   setReloadMaterials,
 }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listMaterials = async () => {
     const materialsUrl = `/Doctor_Materials/GetFiles`;
     /*  
@@ -57,7 +56,6 @@ const MaterialTableStudent = ({
     setAllMaterials(data);
   };
 
-  // -----------------------------------------------------------------------------------------------------
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
        So With IT To Add Root For This Subject So We Can Add On IT  */
   const createRootFolder = async () => {
@@ -99,6 +97,7 @@ const MaterialTableStudent = ({
       data.map((assignment) => ({ ...assignment, type: "assignment" }))
     );
   };
+  // -----------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allMaterials, setAllMaterials] = useState();
@@ -294,9 +293,7 @@ const MaterialTableStudent = ({
                 <Grid container spacing={1}>
                   <Grid item>{getIcon(material)}</Grid>
                   <Grid item>
-                    <Typography>
-                      {material.Name}
-                    </Typography>
+                    <Typography>{material.Name}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>

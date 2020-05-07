@@ -1,7 +1,10 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+
+//------------------------------------------------- Icons ------------------------------------------------
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import { withRouter } from "react-router-dom";
+//---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -155,6 +158,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomeStepper = () => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -162,6 +166,8 @@ const HomeStepper = () => {
   const [state, setState] = React.useState({
     checkedA: true,
   });
+  //------------------------------------------------------------------------------------------------------
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };

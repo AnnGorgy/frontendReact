@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+
+//------------------------------ Another Components Used In This Component -------------------------------
+import TimeQuizDialog from "./TimeQuizDialog";
+import UpdateQuiz from "./UpdateQuiz";
+//--------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
-import UpdateQuiz from "./UpdateQuiz";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import TimeQuizDialog from "./TimeQuizDialog";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -31,6 +37,7 @@ const QuizTableMainInstructor = ({
   match,
   history,
 }) => {
+  // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetQuizzes`;
     const { data } = await post(Url, null, {
@@ -38,15 +45,6 @@ const QuizTableMainInstructor = ({
     });
     setAllQuiz(data);
   };
-
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allQuiz, setAllQuiz] = useState();
-  const [displayedQuiz, setDisplayedQuiz] = useState();
-  const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
-  const [UpdateQuizIsOpen, setUpdateQuizIsOpen] = useState(false);
-  const [TimeIsOpen, setTimeIsOpen] = useState(false);
-
-  //----------------------------------------------------------------------------------------------------------
 
   const Updatequiz = async (
     Quiz,
@@ -78,6 +76,15 @@ const QuizTableMainInstructor = ({
     setReloadQuiz(true);
     if (callback) callback();
   };
+  //----------------------------------------------------------------------------------------------------------
+
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [allQuiz, setAllQuiz] = useState();
+  const [displayedQuiz, setDisplayedQuiz] = useState();
+  const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
+  const [UpdateQuizIsOpen, setUpdateQuizIsOpen] = useState(false);
+  const [TimeIsOpen, setTimeIsOpen] = useState(false);
+  //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (reloadQuiz === true) {
@@ -213,11 +220,13 @@ const QuizTableMainInstructor = ({
           </TableHead>
           <TableBody>
             {displayedQuiz?.map((quiz, index) => (
-              <Tooltip title={
-                <div style={{fontSize:"14px"}}>
-                Double Click For Student Answers and Grades
-                </div>
-              } >
+              <Tooltip
+                title={
+                  <div style={{ fontSize: "14px" }}>
+                    Double Click For Student Answers and Grades
+                  </div>
+                }
+              >
                 <TableRow
                   key={index}
                   onDoubleClick={() => {

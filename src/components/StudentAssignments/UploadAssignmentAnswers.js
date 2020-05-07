@@ -13,12 +13,11 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 const UploadAssignmentAnswers = ({ onClose, isOpened, onSubmit, classes }) => {
+  
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------   const [name, setName] = useState(ViewingName);
-
   const [reloadProfile, setReloadProfile] = useState(true);
   const [AssName, setName] = useState();
   const [blobs, setBlobs] = useState([]);
-
   //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {

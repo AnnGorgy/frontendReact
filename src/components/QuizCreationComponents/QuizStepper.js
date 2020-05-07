@@ -20,15 +20,19 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component -------------------------------
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Icons ------------------------------------------------
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
     flexGrow: 1,
-    //marginTop:"100px",
   },
   header: {
     display: "flex",
@@ -37,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
     mozBoxShadow: "5px 5px 5px #9E9E9E",
     boxShadow: "5px 5px 5px #9E9E9E",
-    //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
   },
@@ -105,6 +108,7 @@ const QuizStepper = ({ match }) => {
     title: "",
   });
 
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [questions, setQuestions] = useState([getDefaultQuestionBody(0)]);
   const [questionIndex, setQuestionIndex] = useState(1);
   const [maxSteps, setmaxSteps] = useState();
@@ -113,8 +117,8 @@ const QuizStepper = ({ match }) => {
   useEffect(() => {
     setmaxSteps(localStorage.getItem("numberOfQuestions"));
   }, []);
+  //-----------------------------------------------------------------------------------------------------------
 
-  console.log(questions);
   const handleNext = () => {
     if (questionIndex === questions.length) {
       setQuestions((prev) => {
@@ -218,15 +222,11 @@ const QuizStepper = ({ match }) => {
           <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
             <Button
               onClick={async () =>
-                await post(
-                  "/DoctorMakeQuiz/createQuestions",
-                  ( questions),
-                  {
-                    params: {
-                      quizID: match.params.quizId,
-                    },
-                  }
-                )
+                await post("/DoctorMakeQuiz/createQuestions", questions, {
+                  params: {
+                    quizID: match.params.quizId,
+                  },
+                })
               }
               className={classes.addButton}
               size="small"

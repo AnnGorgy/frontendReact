@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
-
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
@@ -109,7 +108,6 @@ const UpdateQuiz = ({
   });
   const [ChangedDuration, setChangedDuration] = useState();
   const [ChangednumberOfQues, setChangednumberOfQuestions] = useState();
-
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
