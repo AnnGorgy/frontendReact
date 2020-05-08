@@ -19,10 +19,11 @@ import {
   Paper,
   Tooltip,
   Button,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
+const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
   const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
@@ -88,16 +89,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
 
   return (
     <React.Fragment>
-      <TableContainer
-        component={Paper}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          maxWidth: "165vh",
-          marginLeft: "28px",
-          marginTop: "10px",
-        }}
-      >
+      <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
             minWidth: 650,
@@ -108,39 +100,16 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
         >
           <TableHead>
             <TableRow>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
+              <TableCell width="25%" className={classes.tableHeader}>
                 File Name
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
+              <TableCell width="25%" className={classes.tableHeader}>
                 Student Name
               </TableCell>
+              <TableCell className={classes.tableHeader}>SeatNo</TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
-                SeatNo
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
+                width="5%"
+                className={classes.tableHeader}
                 align="right"
               >
                 {}
@@ -185,13 +154,13 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
                 }}
               >
                 {/* File Name Cell */}
-                <TableCell>{assignment.name}</TableCell>
+                <TableCell width="25%">{assignment.name}</TableCell>
                 {/* Student Name Cell */}
-                <TableCell>{assignment.studentName}</TableCell>
+                <TableCell width="25%">{assignment.studentName}</TableCell>
                 {/* SeatNo Cell */}
                 <TableCell>{assignment.SeatNo}</TableCell>
                 {assignment.type === "file" ? (
-                  <TableCell align="right">
+                  <TableCell align="right" width="5%">
                     <Tooltip title="Download" placement="bottom">
                       <Button size="small">
                         <DownloadIcon
@@ -235,4 +204,20 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs }) => {
   );
 };
 
-export default withRouter(DoctorgetAssignmentsStudentsTable);
+const styles = (theme) => ({
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(
+  withRouter(DoctorgetAssignmentsStudentsTable)
+);

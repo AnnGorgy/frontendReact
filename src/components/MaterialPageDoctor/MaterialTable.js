@@ -22,7 +22,7 @@ import {
   Typography,
   Tooltip,
   Snackbar,
-  makeStyles,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -38,19 +38,10 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------  Message Function and It's style -----------------------------------
+//--------------------------------------  Message Function  -----------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 //-----------------------------------------------------------------------------------------------------------
 
 const MaterialTable = ({
@@ -58,6 +49,7 @@ const MaterialTable = ({
   match,
   reloadMaterials,
   setReloadMaterials,
+  classes,
 }) => {
   const listMaterials = async () => {
     // ------------------------------------- API Calls ------------------------------------------
@@ -164,7 +156,7 @@ const MaterialTable = ({
       params: { sub_Id: match.params.courseId },
     });
     setAllAssignments(
-      data.map((assignment) => ({ ...assignment, type: "assignment" }))
+      data.map((assignment) => ({ ...assignment, type: "Assignment" }))
     );
   };
   // --------------------------------------------------------------------------------------------------------
@@ -267,12 +259,7 @@ const MaterialTable = ({
         open={open}
         onClose={handleClose}
         autoHideDuration={2000}
-        style={{
-          Width: "150px",
-          height: "150px",
-          position: "absolute",
-          zIndex: 9999,
-        }}
+        className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
           {MessageTitle}
@@ -303,15 +290,7 @@ const MaterialTable = ({
           )
         }
       />
-      <TableContainer
-        component={Paper}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          maxWidth: "170vh",
-          marginLeft: "28px",
-        }}
-      >
+      <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
             minWidth: 650,
@@ -323,51 +302,25 @@ const MaterialTable = ({
           <TableHead>
             <TableRow>
               {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
+              <TableCell width="20%" className={classes.tableHeader}>
                 File Name
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 Size
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 Type
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
+                width="30%"
+                className={classes.tableHeader}
+                align="center"
               >
                 Description
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
+                width="22%"
+                className={classes.tableHeader}
                 align="right"
               >
                 {}
@@ -416,6 +369,7 @@ const MaterialTable = ({
               [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
               */}
                 <TableCell
+                  width="20%"
                   component="a"
                   scope="row"
                   href={material.type === "URL" ? material.url : null}
@@ -450,7 +404,9 @@ const MaterialTable = ({
                 <TableCell align="right">{material.type}</TableCell>
 
                 {/* Material Description Cell */}
-                <TableCell align="right">{material.description}</TableCell>
+                <TableCell width="30%" align="center">
+                  {material.description}
+                </TableCell>
 
                 {/*
               [1] For the folder type we will not add any delete or download button
@@ -463,7 +419,7 @@ const MaterialTable = ({
 
                 {material.type === "folder" ? (
                   /* We Don't Add Any Action To Folder Type */
-                  <TableCell align="right">
+                  <TableCell align="right" width="22%">
                     <Tooltip title="Rename" placement="bottom">
                       <Button size="small">
                         <EditIcon
@@ -477,13 +433,13 @@ const MaterialTable = ({
                   </TableCell>
                 ) : (
                   /* Start & End Date Icon */
-                  <TableCell align="right">
+                  <TableCell align="right" width="22%">
                     {material.type === "assignment" && (
                       <Tooltip
                         title={
-                          <div>
+                          <div style={{ fontSize: "15px" }}>
                             Start Date : {material.startdate}
-                            <br /> End Date : {material.enddate}
+                            <br /> <br /> End Date : {material.enddate}
                           </div>
                         }
                         placement="bottom"
@@ -636,4 +592,30 @@ const MaterialTable = ({
   );
 };
 
-export default withRouter(MaterialTable);
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+  message: {
+    Width: "150px",
+    height: "150px",
+    position: "absolute",
+    zIndex: 9999,
+  },
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(withRouter(MaterialTable));

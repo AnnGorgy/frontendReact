@@ -1,13 +1,14 @@
 import React from "react";
-
 import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
-import { SideBar } from "../components";
 
+//------------------------------ Another Components Used In This Component ----------------------------------
+import { SideBar } from "../components";
 import HomeStepper from "../components/HomeStepper";
+//-----------------------------------------------------------------------------------------------------------
 
 const Home = () => {
   return (

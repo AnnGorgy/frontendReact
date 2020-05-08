@@ -9,7 +9,6 @@ import {
   withStyles,
   Button,
   Typography,
-  makeStyles,
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
@@ -27,19 +26,10 @@ import {
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------  Message Function and It's style -----------------------------------
+//--------------------------------------  Message Function  -------------------------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 //-----------------------------------------------------------------------------------------------------------
 
 const MaterialTableHeader = ({
@@ -265,12 +255,7 @@ const MaterialTableHeader = ({
         open={open}
         onClose={handleClose}
         autoHideDuration={2000}
-        style={{
-          Width: "150px",
-          height: "150px",
-          position: "absolute",
-          zIndex: 9999,
-        }}
+        className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
           {MessageTitle} has been uploaded
@@ -392,7 +377,13 @@ const MaterialTableHeader = ({
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
   breadCrumpContainer: {
     maxWidth: "100%",
   },
@@ -424,6 +415,12 @@ const styles = () => ({
   },
   noWrap: {
     flexWrap: "nowrap",
+  },
+  message: {
+    Width: "150px",
+    height: "150px",
+    position: "absolute",
+    zIndex: 9999,
   },
 });
 

@@ -19,17 +19,12 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
 
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState(ViewingName);
-  const [ID, setID] = useState("");
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
   const [reloadProfile, setReloadProfile] = useState(true);
-  const [NewID, setNewID] = useState(
-    JSON.parse(localStorage.getItem("DocInformation")).AccountID
-  );
   const [LoginEmail, setLoginEmail] = useState(
     JSON.parse(localStorage.getItem("DocInformation")).Email
   );
-  const AccountTypeName = "Instructor Account";
   const ArName = JSON.parse(localStorage.getItem("DocInformation")).NameAR;
   //----------------------------------------------------------------------------------------------------------
 
@@ -50,7 +45,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
       });
       if (callback) callback();
       setEmail(data[0].email);
-      setID(data[0].id);
       setOfficeHours(data[0].office);
       setName(JSON.parse(localStorage.getItem("DocInformation")).NameEN);
       setLoginEmail(JSON.parse(localStorage.getItem("DocInformation")).Email);
@@ -126,7 +120,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -151,7 +145,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -176,7 +170,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      className={classes.TextFieldInfo}
                     />
                   </Grid>
 
@@ -205,7 +199,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      className={classes.TextFieldInfo}
                     />
                   </Grid>
 
@@ -234,7 +228,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                           root: classes.label,
                         },
                       }}
-                      style={{ width: "350px" }}
+                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -307,6 +301,9 @@ const styles = () => ({
   },
   createText: {
     color: "silver",
+  },
+  TextFieldInfo: {
+    width: "350px",
   },
 });
 

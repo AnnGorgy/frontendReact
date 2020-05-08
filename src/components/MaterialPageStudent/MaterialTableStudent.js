@@ -16,6 +16,7 @@ import {
   Grid,
   Typography,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 //------------------------------------------------------------------------------------------------------------
 
@@ -34,6 +35,7 @@ const MaterialTableStudent = ({
   match,
   reloadMaterials,
   setReloadMaterials,
+  classes,
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listMaterials = async () => {
@@ -104,7 +106,6 @@ const MaterialTableStudent = ({
   const [allAssignments, setAllAssignments] = useState();
   const [currentFolderId, setCurrentFolderId] = useState();
   const [displayedMaterials, setDisplayedMaterials] = useState();
-  const [ChangedName, setChangedName] = useState();
   // -------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -173,15 +174,7 @@ const MaterialTableStudent = ({
   }, [currentFolderId, allMaterials, allAssignments]);
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        maxHeight: "90vh",
-        overflowY: "auto",
-        maxWidth: "170vh",
-        marginLeft: "28px",
-      }}
-    >
+    <TableContainer component={Paper} className={classes.tablePosition}>
       <Table
         style={{
           minWidth: 650,
@@ -193,51 +186,25 @@ const MaterialTableStudent = ({
         <TableHead>
           <TableRow>
             {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-            >
+            <TableCell width="20%" className={classes.tableHeader}>
               File Name
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               Size
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               Type
             </TableCell>
             <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
+              className={classes.tableHeader}
+              width="30%"
               align="right"
             >
               Description
             </TableCell>
             <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
+              width="22%"
+              className={classes.tableHeader}
               align="right"
             >
               {}
@@ -253,7 +220,6 @@ const MaterialTableStudent = ({
                   ? { background: "#E8FDFF" }
                   : { background: "#E8FDFF" }
               }
-              // FIXME: any url not starting with http:// or https:// won't navigate
               key={index}
               onClick={() => {
                 if (material.type === "folder") {
@@ -285,6 +251,7 @@ const MaterialTableStudent = ({
               [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
               */}
               <TableCell
+                width="20%"
                 component="a"
                 scope="row"
                 href={material.type === "URL" ? material.url : null}
@@ -319,7 +286,9 @@ const MaterialTableStudent = ({
               <TableCell align="right">{material.type}</TableCell>
 
               {/* Material Description Cell */}
-              <TableCell align="right">{material.description}</TableCell>
+              <TableCell align="right" width="30%">
+                {material.description}
+              </TableCell>
 
               {/*
               [1] For the folder type we will not add any delete or download button
@@ -335,7 +304,7 @@ const MaterialTableStudent = ({
                 <TableCell align="right">{}</TableCell>
               ) : (
                 /* Start & End Date Icon */
-                <TableCell align="right">
+                <TableCell align="right" width="22%">
                   {material.type === "assignment" && (
                     <Tooltip
                       title={
@@ -422,4 +391,18 @@ const MaterialTableStudent = ({
   );
 };
 
-export default withRouter(MaterialTableStudent);
+const styles = () => ({
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(withRouter(MaterialTableStudent));

@@ -31,36 +31,10 @@ const DoctorAssignmentsStudensHeader = ({ crumbs, classes, match }) => {
 };
 
 const styles = () => ({
-  breadCrumpContainer: {
-    maxWidth: "100%",
-  },
-  addButton: {
-    borderRadius: "16px",
-    width: "240px",
-    color: "black",
-    backgroundColor: "#7dbbb9",
-    "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
-      color: "black",
-    },
-  },
-  addIcon: {
-    marginTop: "4px",
-  },
-  buttonText: {
-    color: "black",
-  },
-  addButtonBody: {
-    marginLeft: "4px",
-    marginRight: "4px",
-  },
   tableHeader: {
     paddingRight: "20px",
     paddingLeft: "20px",
     marginTop: "8px",
-    flexWrap: "nowrap",
-  },
-  noWrap: {
     flexWrap: "nowrap",
   },
 });

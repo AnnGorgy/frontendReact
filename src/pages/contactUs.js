@@ -1,73 +1,40 @@
 import React from "react";
-
 import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, Typography, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
-import { SideBar } from "../components";
 
-// ------------------------------------------------- Images --------------------------------------------------
+//------------------------------ Another Components Used In This Component ----------------------------------
+import { SideBar } from "../components";
+//-----------------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------- Icons --------------------------------------------------
 import FacebookIcon from "@material-ui/icons/Facebook";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import Header from "./Images/ContactUS.jpg";
 // -----------------------------------------------------------------------------------------------------------
 
-const Home = ({ history, classes }) => {
+// ------------------------------------------------- Images --------------------------------------------------
+import Header from "./Images/ContactUS.jpg";
+//------------------------------------------------------------------------------------------------------------
+
+const Home = ({ classes }) => {
   return (
-    <Grid
-      container
-      style={{
-        flexWrap: "nowrap",
-        backgroundImage: `url(${Header})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center left",
-        height: "100%",
-        marginLeft: "8%",
-      }}
-    >
+    <Grid container className={classes.MainPage}>
       {/* Navigation bar */}
       <Grid item xs={2}>
         <SideBar />
       </Grid>
       <Grid item xs={10}>
-        <Grid
-          style={{
-            marginTop: "450px",
-            marginLeft: "-115px",
-            padding: "3px",
-            height: "200px",
-            width: "550px",
-            borderRadius: "64px",
-            border: "4px solid black",
-            borderColor: "	#242222",
-            backgroundColor: "	#dadada",
-          }}
-        >
-          <Grid
-            item
-            style={{
-              width: "50%",
-              marginLeft: "20px",
-              marginTop: "2px",
-            }}
-          >
-            <Typography
-              style={{
-                fontFamily: "Monaco",
-                fontSize: "30px",
-                color: "#009685",
-              }}
-            >
-              Contact Us
-            </Typography>
+        <Grid className={classes.dialogContainer}>
+          <Grid item className={classes.ContactUsContainer}>
+            <Typography className={classes.headerInfo}>Contact Us</Typography>
             <MailOutlineIcon
               style={{ paddingRight: "5px", width: "30px", height: "30px" }}
             />
             <text style={{ fontSize: "20px", color: "	#003539" }}>
               E-learning@cis.asu.edu.eg
-            </text>{" "}
+            </text>
             <br /> <br />
             <Typography style={{ marginTop: "2px", color: "#009685" }}>
               Follow us
@@ -76,35 +43,19 @@ const Home = ({ history, classes }) => {
               <FacebookIcon style={{ width: "45px", height: "45px" }} />
             </a>
           </Grid>
-          <Grid
-            item
-            style={{
-              width: "50%",
-              marginLeft: "310px",
-              marginTop: "-180px",
-              color: "#009685",
-            }}
-          >
-            <Typography
-              style={{
-                fontFamily: "Monaco",
-                fontSize: "30px",
-                color: "#009685",
-              }}
-            >
-              Info
-            </Typography>
-            <a href="http://cis.asu.edu.eg/" style={{ fontSize: "20px" }}>
+          <Grid item className={classes.InfoContainer}>
+            <Typography className={classes.headerInfo}>Info</Typography>
+            <a href="http://cis.asu.edu.eg/" className={classes.SiteInfoSize}>
               Faculty of Computer and Information Sciences
             </a>
             <br /> <br />
-            <a href="http://asu.edu.eg/" style={{ fontSize: "20px" }}>
+            <a href="http://asu.edu.eg/" className={classes.SiteInfoSize}>
               Ain Shams University
             </a>
             <br /> <br />
             <a
               href="https://www.google.com/maps/place/Faculty+of+Computer+and+Information+Sciences+-+Ain+Shams+University/@30.0782592,31.2827444,17z/data=!3m1!4b1!4m5!3m4!1s0x14583f95f0512f29:0xfa1ccd201d070672!8m2!3d30.0782592!4d31.2849384?shorturl=1"
-              style={{ fontSize: "20px" }}
+              className={classes.SiteInfoSize}
             >
               Location by Google Maps
             </a>
@@ -119,6 +70,45 @@ const Home = ({ history, classes }) => {
 const styles = () => ({
   container: {
     flexWrap: "nowrap",
+  },
+  MainPage: {
+    flexWrap: "nowrap",
+    backgroundImage: `url(${Header})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center left",
+    height: "100%",
+    marginLeft: "8%",
+  },
+  dialogContainer: {
+    marginTop: "450px",
+    marginLeft: "-115px",
+    padding: "3px",
+    height: "200px",
+    width: "550px",
+    borderRadius: "64px",
+    border: "4px solid black",
+    borderColor: "	#242222",
+    backgroundColor: "	#dadada",
+  },
+  headerInfo: {
+    fontFamily: "Monaco",
+    fontSize: "30px",
+    color: "#009685",
+  },
+  ContactUsContainer: {
+    width: "50%",
+    marginLeft: "20px",
+    marginTop: "2px",
+  },
+  InfoContainer: {
+    width: "50%",
+    marginLeft: "310px",
+    marginTop: "-180px",
+    color: "#009685",
+  },
+  SiteInfoSize: {
+    fontSize: "20px",
   },
 });
 

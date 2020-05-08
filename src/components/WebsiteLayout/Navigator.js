@@ -30,122 +30,12 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-// Images //
+//------------------------------------------------- Images ---------------------------------------------------
 import Theimage from "./UniLogo.png";
+//------------------------------------------------------------------------------------------------------------
+
 // mostafa20191701201@cis.asu.edu.eg //
 // instructor@chpsis.cis.asu.edu.eg //
-// Page Style //
-const drawerWidth = 240;
-const styles = (theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: "black",
-    backgroundColor: "#1C1C1C",
-  },
-  hide: {
-    display: "none",
-  },
-  drawer: {
-    width: drawerWidth,
-    backgroundColor: "#1C1C1C",
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: "#1C1C1C",
-    color: "white",
-  },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#1C1C1C",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
-  content: {
-    flexGrow: 1,
-    color: "White",
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-
-  ///////////////////////////////////////////////////
-  item: {
-    backgroundColor: "#1C1C1C",
-    paddingTop: 17.3,
-    paddingBottom: 17.3,
-    paddingLeft: 0,
-    color: "rgba(255, 255, 255, 1.0)",
-    width: "235px",
-    height: "100px",
-  },
-  itemCategory: {
-    backgroundColor: "#1C1C1C",
-    boxShadow: "0 -1px 0 #404854 inset",
-    color: "rgba(255, 255, 255, 1.0)",
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  courseImage: {
-    width: "45px",
-    paddingLeft: "18px",
-    paddingRight: "8px",
-  },
-  firebase: {
-    fontSize: 24,
-    height: "150px",
-  },
-  itemActiveItem: {
-    color: "#4A4A4A",
-    backgroundColor: "#4A4A4A",
-  },
-  itemPrimary: {
-    fontSize: 26,
-    color: "rgba(255, 255, 255, 1.0)",
-  },
-  itemIcon: {
-    color: "#4A4A4A",
-    minWidth: "auto",
-    marginRight: theme.spacing(2),
-    paddingBottom: theme.spacing(1.5),
-    paddingLeft: theme.spacing(1),
-  },
-  nested: {
-    paddingLeft: theme.spacing(1.5),
-    backgroundColor: "#1C1C1C",
-    width: "235px",
-  },
-});
 
 function Navigator({ classes, history, match }) {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
@@ -284,7 +174,7 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      onClick: () => history.push("/studentquizanswers"),
+      onClick: () => history.push("/"),
     },
   ];
 
@@ -414,5 +304,118 @@ function Navigator({ classes, history, match }) {
 Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+// Page Style //
+const drawerWidth = 240;
+const styles = (theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    color: "black",
+    backgroundColor: "#1C1C1C",
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    width: drawerWidth,
+    backgroundColor: "#1C1C1C",
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: "#1C1C1C",
+    color: "white",
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#1C1C1C",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+  content: {
+    flexGrow: 1,
+    color: "White",
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+
+  ///////////////////////////////////////////////////
+  item: {
+    backgroundColor: "#1C1C1C",
+    paddingTop: 17.3,
+    paddingBottom: 17.3,
+    paddingLeft: 0,
+    color: "rgba(255, 255, 255, 1.0)",
+    width: "235px",
+    height: "100px",
+  },
+  itemCategory: {
+    backgroundColor: "#1C1C1C",
+    boxShadow: "0 -1px 0 #404854 inset",
+    color: "rgba(255, 255, 255, 1.0)",
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  courseImage: {
+    width: "45px",
+    paddingLeft: "18px",
+    paddingRight: "8px",
+  },
+  firebase: {
+    fontSize: 24,
+    height: "150px",
+  },
+  itemActiveItem: {
+    color: "#4A4A4A",
+    backgroundColor: "#4A4A4A",
+  },
+  itemPrimary: {
+    fontSize: 26,
+    color: "rgba(255, 255, 255, 1.0)",
+  },
+  itemIcon: {
+    color: "#4A4A4A",
+    minWidth: "auto",
+    marginRight: theme.spacing(2),
+    paddingBottom: theme.spacing(1.5),
+    paddingLeft: theme.spacing(1),
+  },
+  nested: {
+    paddingLeft: theme.spacing(1.5),
+    backgroundColor: "#1C1C1C",
+    width: "235px",
+  },
+});
 
 export default withStyles(styles)(withRouter(Navigator));

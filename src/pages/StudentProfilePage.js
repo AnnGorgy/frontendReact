@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+
+//------------------------------ Another Components Used In This Component ----------------------------------
 import { SideBar } from "../components";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -14,9 +17,11 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-
+//------------------------------------------------- Images ---------------------------------------------------
 import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";
+//------------------------------------------------------------------------------------------------------------
+
 const StudentProfilePage = ({ classes }) => {
   // Set The First Letter Of The Users' Name To capial //
   const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
@@ -39,7 +44,7 @@ const StudentProfilePage = ({ classes }) => {
     }
   }, [reloadProfile]);
   return (
-    <Grid container style={{ flexWrap: "nowrap" }}>
+    <Grid container className={classes.mainPage}>
       {/* Navigation bar */}
       <Grid item xs={2}>
         <SideBar />
@@ -55,60 +60,19 @@ const StudentProfilePage = ({ classes }) => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <Grid
-              style={{
-                align: "left",
-                height: "40px",
-                marginTop: "10px",
-                borderRadius: "2px",
-                webkitBoxShadow: "5px 5px 5px #9E9E9E",
-                mozBoxShadow: "5px 5px 5px #9E9E9E",
-                boxShadow: "5px 5px 5px #9E9E9E",
-                marginRight: "9px",
-                padding: "15px 0px 70px 545px ",
-                fontSize: "40px",
-                backgroundColor: "white",
-                fontFamily: "Monaco",
-              }}
-            >
+            <Grid className={classes.FirstGrid}>
               <img
                 alt="ProfileImage"
                 src={Profile}
-                style={{
-                  width: "138px",
-                  height: "138px",
-                  borderRadius: "256px",
-                  border: "5px solid black",
-                  position: "absolute",
-                  zIndex: "1",
-                }}
+                className={classes.ProfileImage}
               />
             </Grid>
           </Grid>
           <Grid item>
-            <Grid
-              style={{
-                align: "left",
-                height: "570px",
-                marginTop: "4px",
-                borderRadius: "2px",
-                webkitBoxShadow: "5px 5px 5px #9E9E9E",
-                mozBoxShadow: "5px 5px 5px #9E9E9E",
-                boxShadow: "5px 5px 5px #9E9E9E",
-                marginRight: "9px",
-                backgroundColor: "white",
-              }}
-            >
+            <Grid className={classes.SecondGrid}>
               <Grid style={{ paddingTop: "30px", paddingLeft: "98px" }}>
                 {/* Dialog English Name */}
-                <Typography
-                  style={{
-                    width: "350px",
-                    marginLeft: "460px",
-                    fontFamily: "Monaco",
-                    fontSize: "40px",
-                  }}
-                >
+                <Typography className={classes.engNameText}>
                   {EnName}
                 </Typography>
               </Grid>
@@ -116,22 +80,12 @@ const StudentProfilePage = ({ classes }) => {
                 container
                 alignItems="center"
                 justify="center"
-                style={{
-                  width: "500px",
-                  padding: "10px",
-                  marginTop: "30px",
-                  marginLeft: "20px",
-                }}
+                className={classes.LeftDialog}
               >
                 <List
                   component="nav"
                   aria-label="mailbox folders"
-                  style={{
-                    borderRadius: "32px",
-                    border: "3px solid black",
-                    width: "500px",
-                    height: "330px",
-                  }}
+                  className={classes.ListContainer}
                 >
                   <ListItem>
                     <ListItemText
@@ -140,7 +94,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                   <Divider />
@@ -151,7 +105,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                   <ListItem>
@@ -161,7 +115,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                 </List>
@@ -170,34 +124,19 @@ const StudentProfilePage = ({ classes }) => {
                 <img
                   alt="LineImage"
                   src={Line}
-                  style={{
-                    width: "25px",
-                    marginLeft: "610px",
-                    marginTop: "-350px",
-                    height: "400px",
-                  }}
+                  className={classes.LineDivider}
                 />
               </Grid>
               <Grid
                 container
                 alignItems="center"
                 justify="center"
-                style={{
-                  marginLeft: "735px",
-                  marginTop: "-432px",
-                  width: "500px",
-                  padding: "10px",
-                }}
+                className={classes.RightDialog}
               >
                 <List
                   component="nav"
                   aria-label="mailbox folders"
-                  style={{
-                    borderRadius: "32px",
-                    border: "3px solid black",
-                    width: "500px",
-                    height: "330px",
-                  }}
+                  className={classes.ListContainer}
                 >
                   <ListItem>
                     <ListItemText
@@ -206,7 +145,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                   <Divider />
@@ -217,7 +156,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                   <ListItem>
@@ -227,7 +166,7 @@ const StudentProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                 </List>
@@ -240,49 +179,79 @@ const StudentProfilePage = ({ classes }) => {
   );
 };
 // Dialog styles
-const styles = (theme) => ({
-  dialog: {
-    padding: "10px 0px",
-  },
-  multilineColor: {
-    color: "red",
-  },
-  titleContainer: {
-    marginBottom: "18px",
-  },
-  textFieldRoot: {
-    backgroundColor: "white",
-    borderRadius: "7px",
-  },
-  notchedOutline: {
-    borderWidth: "1px",
-    borderColor: `black !important`,
+const styles = () => ({
+  mainPage: {
+    flexWrap: "nowrap",
   },
   label: {
     color: "black !important",
     fontWeight: "600",
   },
-  dialogPaper: {
-    minHeight: "50vh",
-    padding: "20px 0px",
+  LeftDialog: {
+    width: "500px",
+    padding: "10px",
+    marginTop: "30px",
+    marginLeft: "5%",
   },
-  createButton: {
-    height: "40px",
-    width: "130px",
-    borderRadius: "16px",
-    border: "2px black solid",
+  RightDialog: {
+    marginLeft: "60%",
+    marginTop: "-432px",
+    width: "500px",
+    padding: "10px",
   },
-  cancelButton: {
-    height: "40px",
-    width: "130px",
-    borderRadius: "16px",
-    border: "2px red solid",
+  LineDivider: {
+    width: "25px",
+    marginLeft: "49.5%",
+    marginTop: "-350px",
+    height: "400px",
   },
-  boldText: {
-    fontWeight: "600",
+  engNameText: {
+    width: "350px",
+    marginLeft: "41.6%",
+    fontFamily: "Monaco",
+    fontSize: "40px",
   },
-  createText: {
-    color: "silver",
+  FirstGrid: {
+    align: "left",
+    height: "60px",
+    marginTop: "1%",
+    borderRadius: "2px",
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
+    marginRight: "0.6%",
+    padding: "15px 0px 70px 545px ",
+    backgroundColor: "white",
+  },
+  ProfileImage: {
+    width: "138px",
+    height: "138px",
+    borderRadius: "256px",
+    border: "5px solid black",
+    position: "absolute",
+    zIndex: "1",
+    marginLeft: "5.4%",
+    marginTop: "25px",
+  },
+  SecondGrid: {
+    align: "left",
+    height: "590px",
+    marginTop: "4px",
+    borderRadius: "2px",
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
+    marginRight: "0.6%",
+    backgroundColor: "white",
+  },
+  ListContainer: {
+    borderRadius: "32px",
+    border: "3px solid black",
+    width: "500px",
+    height: "330px",
+  },
+  HeaderInfoPosition: {
+    padding: "20px",
   },
 });
 export default withStyles(styles)(withRouter(StudentProfilePage));

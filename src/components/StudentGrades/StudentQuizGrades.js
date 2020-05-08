@@ -17,10 +17,11 @@ import {
   Paper,
   Button,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentQuizGrades = ({ match, history }) => {
+const StudentQuizGrades = ({ match, history, classes }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listGrades = async () => {
     const Url = `/Student_Answers/GetQuizzessGrades`;
@@ -50,15 +51,7 @@ const StudentQuizGrades = ({ match, history }) => {
   }, [match.params.courseId]);
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        maxHeight: "90vh",
-        overflowY: "auto",
-        maxWidth: "170vh",
-        marginTop: "10px",
-      }}
-    >
+    <TableContainer component={Paper} className={classes.tablePosition}>
       <Table
         style={{
           minWidth: "650px",
@@ -69,53 +62,17 @@ const StudentQuizGrades = ({ match, history }) => {
       >
         <TableHead>
           <TableRow>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-            >
-              Quiz Name
-            </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader}>Quiz Name</TableCell>
+            <TableCell className={classes.tableHeader} align="right">
               Grade
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               Start Date
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               EndDate
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               {}
             </TableCell>
           </TableRow>
@@ -158,4 +115,18 @@ const StudentQuizGrades = ({ match, history }) => {
     </TableContainer>
   );
 };
-export default withRouter(StudentQuizGrades);
+const styles = () => ({
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginTop: "10px",
+  },
+});
+
+export default withStyles(styles)(withRouter(StudentQuizGrades));

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import { post } from "axios";
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -12,16 +13,16 @@ import {
   Paper,
   Grid,
   Typography,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component ----------------------------------
 import { SideBar } from "../components";
+//-----------------------------------------------------------------------------------------------------------
 
-const StudentsInSubjectPage = ({
-  reloadStudents,
-  setReloadStudents,
-  match,
-}) => {
+const StudentsInSubjectPage = ({ reloadStudents, match, classes }) => {
+  // ------------------------------------- API Calls ---------------------------------------------------------
   const listStudents = async () => {
     const StudentsUrl = `http://localhost:4375/api/Subject/GetStudentsEnrolledInSubject`;
 
@@ -44,6 +45,7 @@ const StudentsInSubjectPage = ({
     });
     setAllStudents(data);
   };
+  //--------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allStudents, setAllStudents] = useState();
@@ -61,21 +63,12 @@ const StudentsInSubjectPage = ({
   }, [allStudents]);
 
   return (
-    <Grid container style={{ flexWrap: "nowrap" }}>
+    <Grid container className={classes.mainPage}>
       <Grid item xs={2}>
         <SideBar />
       </Grid>
       <Grid item xs={10}>
-        <TableContainer
-          component={Paper}
-          style={{
-            maxHeight: "90vh",
-            overflowY: "auto",
-            maxWidth: "165vh",
-            marginLeft: "28px",
-            marginTop: "20px",
-          }}
-        >
+        <TableContainer className={classes.tablePosition} component={Paper}>
           <Table
             style={{
               minWidth: 650,
@@ -87,34 +80,13 @@ const StudentsInSubjectPage = ({
             <TableHead>
               {/* he Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
               <TableRow>
-                <TableCell
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    fontFamily: "Impact",
-                  }}
-                  align="left"
-                >
+                <TableCell className={classes.tableHeader} align="left">
                   Name
                 </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    fontFamily: "Impact",
-                  }}
-                  align="center"
-                >
+                <TableCell className={classes.tableHeader} align="center">
                   ID
                 </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    fontFamily: "Impact",
-                  }}
-                  align="center"
-                >
+                <TableCell className={classes.tableHeader} align="center">
                   E-Mail
                 </TableCell>
               </TableRow>
@@ -129,15 +101,15 @@ const StudentsInSubjectPage = ({
                       : { background: "#E8FDFF" }
                   }
                 >
-                  {/* Name cell */}
+                  {/* Student Name cell */}
                   <TableCell align="left">
                     <Grid container spacing={1}>
                       <Typography>{Student.studentNameAR}</Typography>
                     </Grid>
                   </TableCell>
-                  {/* ID cell */}
+                  {/* Student ID cell */}
                   <TableCell align="center">{Student.studentSeatNo}</TableCell>
-                  {/* Email cell */}
+                  {/* Student Email cell */}
                   <TableCell align="center">{Student.studentEmail}</TableCell>
                 </TableRow>
               ))}
@@ -149,4 +121,22 @@ const StudentsInSubjectPage = ({
   );
 };
 
-export default StudentsInSubjectPage;
+const styles = () => ({
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "165vh",
+    marginLeft: "28px",
+    marginTop: "20px",
+  },
+  mainPage: {
+    flexWrap: "nowrap",
+  },
+});
+
+export default withStyles(styles)(withRouter(StudentsInSubjectPage));

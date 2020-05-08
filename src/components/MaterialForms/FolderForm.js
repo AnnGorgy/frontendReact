@@ -24,8 +24,6 @@ const CreateFolderForm = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-  const [UrlArray, setUrlArray] = useState([]);
-  const UrlFirst = "http://";
   // ---------------------------------------------------------------------------------------------------------
 
   /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */

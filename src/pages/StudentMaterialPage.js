@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { TableHeader, MaterialTableStudent , SideBar } from "../components";
+//------------------------------ Another Components Used In This Component ----------------------------------
+import { TableHeader, MaterialTableStudent, SideBar } from "../components";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-
 const StudentMaterialPage = () => {
-
-  // ---------------------------- variables with it's states that we use it in this Page ------------------- 
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [crumbs, setCrumbs] = useState([]);
   const [reloadMaterials, setReloadMaterials] = useState(true);
   //--------------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ const StudentMaterialPage = () => {
       <Grid item xs={2}>
         <SideBar />
       </Grid>
-      
+
       <Grid item xs={10}>
         <Grid
           container

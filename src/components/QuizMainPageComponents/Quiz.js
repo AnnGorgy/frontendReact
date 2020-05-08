@@ -81,8 +81,8 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
-  const [numberOfQues, setnumberOfQuestions] = useState("");
-  const [Duration, setDuration] = useState("");
+  const [numberOfQues, setnumberOfQuestions] = useState();
+  const [Duration, setDuration] = useState();
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [goodStartTime, setGoodStartTime] = useState(false);
   const [goodEndTime, setGoodEndTime] = useState(false);
@@ -187,15 +187,14 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       {/* Dialog Number Of Questions */}
                       <TextField
                         label="Number Of Questions"
-                        rows={1}
                         required
                         value={numberOfQues}
-                        onChange={(e) => {
-                          setnumberOfQuestions(e.target.value);
-                        }}
                         type="number"
                         placeholder="Min"
                         variant="outlined"
+                        onChange={(e) => {
+                          setnumberOfQuestions(e.target.value);
+                        }}
                         classes={{
                           root: classes.textFieldRoot,
                         }}
@@ -222,15 +221,14 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       {/* Dialog Duration */}
                       <TextField
                         label="Duration"
-                        rows={1}
                         required
                         value={Duration}
-                        onChange={(e) => {
-                          setDuration(e.target.value);
-                        }}
                         type="number"
                         placeholder="Min"
                         variant="outlined"
+                        onChange={(e) => {
+                          setDuration(e.target.value);
+                        }}
                         classes={{
                           root: classes.textFieldRoot,
                         }}
@@ -276,7 +274,6 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       onChange={(e) => {
                         setDescription(e.target.value);
                       }}
-                      required
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,

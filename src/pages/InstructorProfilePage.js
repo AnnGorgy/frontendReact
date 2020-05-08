@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { post, get } from "axios";
+
+//------------------------------ Another Components Used In This Component ----------------------------------
 import { SideBar } from "../components";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -23,8 +26,11 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------- Images ---------------------------------------------------
 import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";
+//------------------------------------------------------------------------------------------------------------
+
 const InstructorProfilePage = ({ classes }) => {
   // Set The First Letter Of The Users' Name To capial //
   const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
@@ -58,6 +64,7 @@ const InstructorProfilePage = ({ classes }) => {
     setOfficeHours(OfficeHours);
   };
 
+  //-------------------------------------- API Calls ---------------------------------------------------------
   const ViewData = async ({ callback }) => {
     const url = "/Office_Hours/Get_Instructor_data";
     try {
@@ -77,8 +84,9 @@ const InstructorProfilePage = ({ classes }) => {
       console.error(err);
     }
   };
+  //----------------------------------------------------------------------------------------------------------
   return (
-    <Grid container style={{ flexWrap: "nowrap" }}>
+    <Grid container className={classes.mainPage}>
       {/* Navigation bar */}
       <Grid item xs={2}>
         <SideBar />
@@ -94,95 +102,41 @@ const InstructorProfilePage = ({ classes }) => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <Grid
-              style={{
-                align: "left",
-                height: "40px",
-                marginTop: "10px",
-                borderRadius: "2px",
-                webkitBoxShadow: "5px 5px 5px #9E9E9E",
-                mozBoxShadow: "5px 5px 5px #9E9E9E",
-                boxShadow: "5px 5px 5px #9E9E9E",
-                marginRight: "9px",
-                padding: "15px 0px 70px 545px ",
-                fontSize: "40px",
-                backgroundColor: "white",
-                fontFamily: "Monaco",
-              }}
-            >
+            <Grid className={classes.FirstGrid}>
               <img
                 alt="ProfileImage"
                 src={Profile}
-                style={{
-                  width: "138px",
-                  height: "138px",
-                  borderRadius: "256px",
-                  border: "5px solid black",
-                  position: "absolute",
-                  zIndex: "1",
-                }}
+                className={classes.ProfileImage}
               />
             </Grid>
           </Grid>
           <Grid item>
-            <Grid
-              style={{
-                align: "left",
-                height: "570px",
-                marginTop: "4px",
-                borderRadius: "2px",
-                webkitBoxShadow: "5px 5px 5px #9E9E9E",
-                mozBoxShadow: "5px 5px 5px #9E9E9E",
-                boxShadow: "5px 5px 5px #9E9E9E",
-                marginRight: "9px",
-                backgroundColor: "white",
-              }}
-            >
+            <Grid className={classes.SecondGrid}>
               <Grid style={{ paddingTop: "30px", paddingLeft: "85px" }}>
                 {/* Dialog English Name */}
-                <Typography
-                  style={{
-                    width: "350px",
-                    marginLeft: "460px",
-                    fontFamily: "Monaco",
-                    fontSize: "40px",
-                  }}
-                >
-                  {name}
-                </Typography>
+                <Typography className={classes.engNameText}>{name}</Typography>
               </Grid>
               <Grid
                 container
                 alignItems="center"
                 justify="center"
-                style={{
-                  width: "500px",
-                  padding: "10px",
-                  marginTop: "30px",
-                  marginLeft: "20px",
-                }}
+                className={classes.LeftDialog}
               >
                 <List
                   component="nav"
                   aria-label="mailbox folders"
-                  style={{
-                    borderRadius: "32px",
-                    border: "3px solid black",
-                    width: "130%",
-                    height: "380px",
-                  }}
+                  className={classes.ListContainer}
                 >
-                  <ListItem>
+                  <ListItem divider>
                     <ListItemText
                       primary="Account Type"
                       secondary={AccountTypeName}
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
-                  <Divider />
                   <ListItem divider>
                     <ListItemText
                       primary="Name in Arabic"
@@ -190,7 +144,7 @@ const InstructorProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                   <ListItem>
@@ -200,7 +154,7 @@ const InstructorProfilePage = ({ classes }) => {
                       secondaryTypographyProps={{
                         style: { color: "darkslategray", marginLeft: "20px" },
                       }}
-                      style={{ padding: "20px" }}
+                      className={classes.HeaderInfoPosition}
                     />
                   </ListItem>
                 </List>
@@ -209,26 +163,14 @@ const InstructorProfilePage = ({ classes }) => {
                 <img
                   alt="LineImage"
                   src={Line}
-                  style={{
-                    width: "25px",
-                    marginLeft: "605px",
-                    marginTop: "-420px",
-                    height: "400px",
-                  }}
+                  className={classes.LineDivider}
                 />
               </Grid>
               <Grid
                 container
                 alignItems="center"
                 justify="center"
-                style={{
-                  marginLeft: "720px",
-                  marginTop: "-432px",
-                  width: "510px",
-                  height: "380px",
-                  borderRadius: "32px",
-                  border: "3px solid black",
-                }}
+                className={classes.RightDialog}
               >
                 {/* Dialog Additional E-mail */}
                 <TextField
@@ -254,7 +196,7 @@ const InstructorProfilePage = ({ classes }) => {
                       root: classes.label,
                     },
                   }}
-                  style={{ width: "350px", marginTop: "30px" }}
+                  className={classes.textFieldInfo}
                 />
 
                 {/* Add E-mail  */}
@@ -312,7 +254,7 @@ const InstructorProfilePage = ({ classes }) => {
                       root: classes.label,
                     },
                   }}
-                  style={{ width: "350px", marginBottom: "30px" }}
+                  className={classes.textFieldInfo}
                 />
                 {/* Add Office Hours */}
                 <Tooltip title="ADD" placement="bottom">
@@ -358,15 +300,6 @@ const InstructorProfilePage = ({ classes }) => {
 };
 // Dialog styles
 const styles = (theme) => ({
-  dialog: {
-    padding: "10px 0px",
-  },
-  multilineColor: {
-    color: "red",
-  },
-  titleContainer: {
-    marginBottom: "18px",
-  },
   textFieldRoot: {
     backgroundColor: "white",
     borderRadius: "7px",
@@ -379,27 +312,82 @@ const styles = (theme) => ({
     color: "black !important",
     fontWeight: "600",
   },
-  dialogPaper: {
-    minHeight: "50vh",
-    padding: "20px 0px",
+  LeftDialog: {
+    width: "510px",
+    height: "400px",
+    padding: "10px",
+    marginTop: "10px",
+    marginLeft: "5%",
   },
-  createButton: {
-    height: "40px",
-    width: "130px",
-    borderRadius: "16px",
-    border: "2px black solid",
+  RightDialog: {
+    width: "510px",
+    height: "400px",
+    borderRadius: "32px",
+    border: "3px solid black",
+    marginLeft: "58%",
+    marginTop: "-447px",
+    padding: "10px",
   },
-  cancelButton: {
-    height: "40px",
-    width: "130px",
-    borderRadius: "16px",
-    border: "2px red solid",
+  LineDivider: {
+    width: "25px",
+    marginLeft: "48.5%",
+    marginTop: "-350px",
+    height: "400px",
   },
-  boldText: {
-    fontWeight: "600",
+  engNameText: {
+    width: "350px",
+    marginLeft: "40.5%",
+    fontFamily: "Monaco",
+    fontSize: "40px",
   },
-  createText: {
-    color: "silver",
+  ProfileImage: {
+    width: "138px",
+    height: "138px",
+    borderRadius: "256px",
+    border: "5px solid black",
+    position: "absolute",
+    zIndex: "1",
+    marginLeft: "4.8%",
+    marginTop: "25px",
+  },
+  FirstGrid: {
+    align: "left",
+    height: "60px",
+    marginTop: "1%",
+    borderRadius: "2px",
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
+    marginRight: "0.6%",
+    padding: "15px 0px 70px 545px ",
+    backgroundColor: "white",
+  },
+  SecondGrid: {
+    align: "left",
+    height: "590px",
+    marginTop: "4px",
+    borderRadius: "2px",
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
+    marginRight: "0.6%",
+    backgroundColor: "white",
+  },
+  ListContainer: {
+    borderRadius: "32px",
+    border: "3px solid black",
+    width: "130%",
+    height: "380px",
+  },
+  mainPage: {
+    flexWrap: "nowrap",
+  },
+  textFieldInfo: {
+    width: "350px",
+    marginTop: "30px",
+  },
+  HeaderInfoPosition: {
+    padding: "20px",
   },
 });
 export default withStyles(styles)(withRouter(InstructorProfilePage));

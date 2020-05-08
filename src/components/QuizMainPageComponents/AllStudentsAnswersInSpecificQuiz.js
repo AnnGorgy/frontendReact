@@ -19,10 +19,11 @@ import {
   Button,
   Typography,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AllStudentsAnswersInSpecificQuiz = ({ match, history }) => {
+const AllStudentsAnswersInSpecificQuiz = ({ match, history, classes }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetAllGradesQuizzes`;
@@ -49,15 +50,7 @@ const AllStudentsAnswersInSpecificQuiz = ({ match, history }) => {
 
   return (
     <React.Fragment>
-      <TableContainer
-        component={Paper}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          maxWidth: "170vh",
-          marginTop: "40px",
-        }}
-      >
+      <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
             minWidth: 650,
@@ -69,43 +62,16 @@ const AllStudentsAnswersInSpecificQuiz = ({ match, history }) => {
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
+              <TableCell className={classes.tableHeader}>
                 Student Name
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 SeatNo
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 Grade
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 {}
               </TableCell>
             </TableRow>
@@ -152,4 +118,18 @@ const AllStudentsAnswersInSpecificQuiz = ({ match, history }) => {
   );
 };
 
-export default withRouter(AllStudentsAnswersInSpecificQuiz);
+const styles = () => ({
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(withRouter(AllStudentsAnswersInSpecificQuiz));

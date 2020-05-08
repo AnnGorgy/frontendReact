@@ -24,10 +24,12 @@ import {
   Button,
   Typography,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 const QuizTableMainStudent = ({
+  classes,
   reloadQuiz,
   setReloadQuiz,
   match,
@@ -75,15 +77,7 @@ const QuizTableMainStudent = ({
         sTime={currentEditedQuiz?.startTime}
         eTime={currentEditedQuiz?.endTime}
       />
-      <TableContainer
-        component={Paper}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          maxWidth: "170vh",
-          marginTop: "10px",
-        }}
-      >
+      <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
             minWidth: 650,
@@ -95,51 +89,33 @@ const QuizTableMainStudent = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
+              <TableCell width="10%" className={classes.tableHeader}>
                 Quiz Name
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
+                width="25%"
+                className={classes.tableHeader}
+                align="center"
               >
                 Description
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
+                width="20%"
+                className={classes.tableHeader}
                 align="right"
               >
                 Start Date
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
+                width="20%"
+                className={classes.tableHeader}
                 align="right"
               >
                 End Date
               </TableCell>
               <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
+                width="20%"
+                className={classes.tableHeader}
                 align="right"
               >
                 {}
@@ -157,18 +133,24 @@ const QuizTableMainStudent = ({
                 }
               >
                 {/* Quiz Name cell */}
-                <TableCell>
+                <TableCell width="10%">
                   <Grid container spacing={1}>
                     <Typography>{quiz.Name}</Typography>
                   </Grid>
                 </TableCell>
                 {/* Description cell */}
-                <TableCell align="right">{quiz.description}</TableCell>
+                <TableCell align="center" width="25%">
+                  {quiz.description}
+                </TableCell>
                 {/* Start Date cell */}
-                <TableCell align="right">{quiz.startDate}</TableCell>
+                <TableCell align="right" width="20%">
+                  {quiz.startDate}
+                </TableCell>
                 {/* End Date cell */}
-                <TableCell align="right">{quiz.endDate}</TableCell>
-                <TableCell align="right">
+                <TableCell align="right" width="20%">
+                  {quiz.endDate}
+                </TableCell>
+                <TableCell align="right" width="20%">
                   <Tooltip title="Enter The Quiz" placement="bottom">
                     <Button size="small">
                       <img
@@ -212,4 +194,18 @@ const QuizTableMainStudent = ({
   );
 };
 
-export default withRouter(QuizTableMainStudent);
+const styles = () => ({
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(withRouter(QuizTableMainStudent));

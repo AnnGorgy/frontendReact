@@ -11,7 +11,6 @@ export { default as CreateFileForm } from "./MaterialForms/FileForm";
 export { default as CreateFolderForm } from "./MaterialForms/FolderForm";
 export { default as RenameForm } from "./MaterialPageDoctor/RenameForm";
 export { default as Quiz } from "./QuizMainPageComponents/Quiz";
-export { default as StudentProfile } from "./StudentProfile";
 export { default as CoursesNavigationButtons } from "./ButtonBases/CoursesNavigationButtons";
 export { default as QuizTableMainInstructor } from "./QuizMainPageComponents/QuizTableMainInstructor";
 export { default as QuizTableMainStudent } from "./QuizMainPageComponents/QuizTableMainStudent";

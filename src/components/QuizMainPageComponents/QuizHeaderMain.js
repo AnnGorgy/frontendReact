@@ -22,19 +22,10 @@ import Quiz from "./Quiz";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------  Message Function and It's style --------------------------------
+//--------------------------------------  Message Function  ------------------------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 //-----------------------------------------------------------------------------------------------------------
 
 const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
@@ -105,12 +96,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
         open={open}
         onClose={handleClose}
         autoHideDuration={2000}
-        style={{
-          Width: "150px",
-          height: "150px",
-          position: "absolute",
-          zIndex: 9999,
-        }}
+        className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
           {MessageTitle} has been uploaded
@@ -175,7 +161,13 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
     </React.Fragment>
   );
 };
-const styles = () => ({
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
   addButton: {
     borderRadius: "16px",
     width: "180px",
@@ -203,6 +195,12 @@ const styles = () => ({
     marginTop: "20px",
     marginLeft: "30px",
     flexWrap: "nowrap",
+  },
+  message: {
+    Width: "150px",
+    height: "150px",
+    position: "absolute",
+    zIndex: 9999,
   },
 });
 

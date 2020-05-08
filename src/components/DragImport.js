@@ -13,21 +13,6 @@ import { Typography, Button, withStyles, Grid, Box } from "@material-ui/core";
 import AttachedFile from "./AttachedFile.js";
 //--------------------------------------------------------------------------------------------------------
 
-const styles = () => ({
-  uploadButton: {
-    width: "100%",
-    height: "80px",
-    backgroundColor: "#b7b7b7",
-  },
-  cloudIcon: {
-    marginRight: "5px",
-    fill: "#777777",
-  },
-  uploadButtonText: {
-    colorInherit: "#777777",
-  },
-});
-
 const DragImportFile = ({
   attachments, // files that are uploaded to the server
   onDeleteAttachment, // function to fire when you press x on any of the attachments
@@ -110,5 +95,20 @@ DragImportFile.defaultProps = {
   onDeleteBlob: () => null,
   onDrop: () => null,
 };
+
+const styles = () => ({
+  uploadButton: {
+    width: "100%",
+    height: "80px",
+    backgroundColor: "#b7b7b7",
+  },
+  cloudIcon: {
+    marginRight: "5px",
+    fill: "#777777",
+  },
+  uploadButtonText: {
+    colorInherit: "#777777",
+  },
+});
 
 export default withStyles(styles)(DragImportFile);

@@ -19,27 +19,19 @@ import {
   Paper,
   Button,
   Tooltip,
-  makeStyles,
+  withStyles,
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------  Message Function and It's style -----------------------------------
+//--------------------------------------  Message Function  -----------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 //-----------------------------------------------------------------------------------------------------------
 
 const AssignmentStudentAnswersTable = ({
+  classes,
   match,
   setCrumbs,
   setAssignmentID,
@@ -162,27 +154,13 @@ const AssignmentStudentAnswersTable = ({
         open={open}
         onClose={handleClose}
         autoHideDuration={2000}
-        style={{
-          Width: "150px",
-          height: "150px",
-          position: "absolute",
-          zIndex: 9999,
-        }}
+        className={classes.message}
       >
         <Alert onClose={handleClose} severity="error">
           {MessageTitle}
         </Alert>
       </Snackbar>
-      <TableContainer
-        component={Paper}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          maxWidth: "165vh",
-          marginLeft: "28px",
-          marginTop: "10px",
-        }}
-      >
+      <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
             minWidth: 650,
@@ -193,23 +171,8 @@ const AssignmentStudentAnswersTable = ({
         >
           <TableHead>
             <TableRow>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-              >
-                File Name
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontFamily: "Impact",
-                }}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader}>File Name</TableCell>
+              <TableCell className={classes.tableHeader} align="right">
                 {}
               </TableCell>
             </TableRow>
@@ -276,4 +239,30 @@ const AssignmentStudentAnswersTable = ({
   );
 };
 
-export default withRouter(AssignmentStudentAnswersTable);
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+  message: {
+    Width: "150px",
+    height: "150px",
+    position: "absolute",
+    zIndex: 9999,
+  },
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginLeft: "28px",
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+});
+
+export default withStyles(styles)(withRouter(AssignmentStudentAnswersTable));

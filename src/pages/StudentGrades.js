@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 
+//------------------------------ Another Components Used In This Component ----------------------------------
 import {
   StudentAssignmentsTable,
   SideBar,
   StudentQuizGrades,
 } from "../components";
+//-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentGrades = ({ match, history }) => {
+const StudentGrades = () => {
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}

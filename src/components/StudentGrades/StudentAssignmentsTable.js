@@ -18,10 +18,11 @@ import {
   Paper,
   Button,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentAssignmentsTable = ({ match }) => {
+const StudentAssignmentsTable = ({ match, classes }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignments = async () => {
     const Url = `/Student_Answers/GetAssingmentsGrades`;
@@ -51,15 +52,7 @@ const StudentAssignmentsTable = ({ match }) => {
   }, [match.params.courseId]);
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        maxHeight: "90vh",
-        overflowY: "auto",
-        maxWidth: "170vh",
-        marginTop: "10px",
-      }}
-    >
+    <TableContainer component={Paper} className={classes.tablePosition}>
       <Table
         style={{
           minWidth: "650px",
@@ -70,53 +63,19 @@ const StudentAssignmentsTable = ({ match }) => {
       >
         <TableHead>
           <TableRow>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-            >
+            <TableCell className={classes.tableHeader}>
               Assignment Name
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               Grade
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               Start Date
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               End Date
             </TableCell>
-            <TableCell
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontFamily: "Impact",
-              }}
-              align="right"
-            >
+            <TableCell className={classes.tableHeader} align="right">
               {}
             </TableCell>
           </TableRow>
@@ -181,4 +140,19 @@ const StudentAssignmentsTable = ({ match }) => {
     </TableContainer>
   );
 };
-export default withRouter(StudentAssignmentsTable);
+
+const styles = () => ({
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    fontFamily: "Impact",
+  },
+  tablePosition: {
+    maxHeight: "90vh",
+    overflowY: "auto",
+    maxWidth: "170vh",
+    marginTop: "10px",
+  },
+});
+
+export default withStyles(styles)(withRouter(StudentAssignmentsTable));

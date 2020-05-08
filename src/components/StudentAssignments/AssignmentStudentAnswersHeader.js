@@ -9,7 +9,6 @@ import {
   withStyles,
   Button,
   Typography,
-  makeStyles,
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
@@ -23,19 +22,10 @@ import { BreadCrumbs } from "../";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------  Message Function and It's style -----------------------------------
+//--------------------------------------  Message Function -----------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 //-----------------------------------------------------------------------------------------------------------
 
 const AssignmentStudentAnswersHeader = ({
@@ -72,7 +62,7 @@ const AssignmentStudentAnswersHeader = ({
     formData.append("Document", file);
     try {
       // post syntax (url, body, options)
-     const {data} =  await post(url, formData, {
+      const { data } = await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
           Assignment_Id: AssignmentID + 1,
@@ -96,14 +86,14 @@ const AssignmentStudentAnswersHeader = ({
         open={open}
         onClose={handleClose}
         autoHideDuration={2000}
-        style={{
-          Width: "150px",
-          height: "150px",
-          position: "absolute",
-          zIndex: 9999,
-        }}
+        className={classes.message}
       >
-        <Alert icon= {false} onClose={handleClose} color="primary" variant="outlined" >
+        <Alert
+          icon={false}
+          onClose={handleClose}
+          color="primary"
+          variant="outlined"
+        >
           {MessageTitle}
         </Alert>
       </Snackbar>
@@ -160,7 +150,13 @@ const AssignmentStudentAnswersHeader = ({
     </React.Fragment>
   );
 };
-const styles = () => ({
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
   breadCrumpContainer: {
     maxWidth: "100%",
   },
@@ -192,6 +188,12 @@ const styles = () => ({
   },
   noWrap: {
     flexWrap: "nowrap",
+  },
+  message: {
+    Width: "150px",
+    height: "150px",
+    position: "absolute",
+    zIndex: 9999,
   },
 });
 
