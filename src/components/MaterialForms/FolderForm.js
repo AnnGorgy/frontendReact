@@ -32,7 +32,6 @@ const CreateFolderForm = ({
     setDescription("");
     setLink("");
     onClose();
-    setUrlArray([]);
   };
 
   return (
@@ -110,11 +109,6 @@ const CreateFolderForm = ({
                         value={link}
                         onChange={(e) => {
                           setLink(e.target.value);
-                         /*  setUrlArray(link.split(":"));
-                          {
-                            UrlArray.length == 0 &&
-                              setLink(`${UrlFirst}${link}`);
-                          } */
                         }}
                         variant="outlined"
                         classes={{
