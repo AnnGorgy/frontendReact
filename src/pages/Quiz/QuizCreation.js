@@ -6,9 +6,6 @@ import {
   SideBar,
   QuizHeaderCreation,
   QuizStepper,
-  Quiz,
-  MCQ,
-  TrueFalse,
 } from "../../components";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -17,9 +14,6 @@ import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 const QuizCreation = () => {
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [reloadQuizzes, setReloadQuizzes] = useState(true);
-  //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
@@ -40,8 +34,6 @@ const QuizCreation = () => {
           </Grid>
           <Grid item>
             <QuizStepper />
-            {/*<MCQ /> */}
-            {/* <TrueFalse />*/}
           </Grid>
         </Grid>
       </Grid>

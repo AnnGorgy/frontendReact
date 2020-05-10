@@ -9,7 +9,6 @@ import {
   withStyles,
   Button,
   Typography,
-  makeStyles,
   Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
@@ -67,7 +66,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
     const url = "/DoctorMakeQuiz/AddQuiz";
     try {
       // post syntax (url, body, options)
-      const { data } = await post(url, null, {
+       await post(url, null, {
         params: {
           name: Name,
           description: Description,

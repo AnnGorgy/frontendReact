@@ -29,7 +29,7 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
         <Grid
           style={{
             align: "left",
-            height: "500px",
+            height: "530px",
             marginTop: "10px",
             borderRadius: "2px",
             webkitBoxShadow: "5px 5px 5px #9E9E9E",
@@ -37,7 +37,7 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
             boxShadow: "5px 5px 5px #9E9E9E",
             marginRight: "9px",
             backgroundColor: "white",
-            width: "1257px",
+            width: "1414px",
           }}
         >
           <Grid>
@@ -122,22 +122,18 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
             spacing={1}
             style={{
               flexWrap: "nowrap",
-              borderRadius: "4px",
-              border: "1px solid black",
-              overflowY: "auto",
-              width: "650px",
-              height: "280px",
               marginLeft: "220px",
-              flexGrow: 1,
-              display: "flex",
             }}
           >
-            <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
-              <Grid item>
+            <Grid item style={{ marginLeft: "80px", paddingBottom: "40px" }}>
+              <Grid item style={{ marginTop: "5px" }}>
+                <Typography style={{ fontSize: "25px" }}>[1]</Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-45px", marginLeft: "70px" }}>
                 <Typography
                   style={{
-                    fontSize: "35px",
-                    fontFamily: "Times New Roman",
+                    fontSize: "30px",
+                    fontFamily: "sans-serif ",
                   }}
                 >
                   True
@@ -151,12 +147,15 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
                 />
               </Grid>
             </Grid>
-            <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
-              <Grid item>
+            <Grid item style={{ marginLeft: "80px", paddingBottom: "40px" }}>
+              <Grid item style={{ marginTop: "5px" }}>
+                <Typography style={{ fontSize: "25px" }}>[2]</Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-45px", marginLeft: "70px" }}>
                 <Typography
                   style={{
-                    fontSize: "35px",
-                    fontFamily: "Times New Roman",
+                    fontSize: "30px",
+                    fontFamily: "sans-serif ",
                   }}
                 >
                   False

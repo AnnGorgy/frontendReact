@@ -13,9 +13,7 @@ import {
   FormGroup,
   Switch,
   Button,
-  Paper,
   MobileStepper,
-  makeStyles,
   useTheme,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
@@ -29,50 +27,6 @@ import TrueFalse from "./TrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //-----------------------------------------------------------------------------------------------------------
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 1257,
-    flexGrow: 1,
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    height: 60,
-    webkitBoxShadow: "5px 5px 5px #9E9E9E",
-    mozBoxShadow: "5px 5px 5px #9E9E9E",
-    boxShadow: "5px 5px 5px #9E9E9E",
-    backgroundColor: theme.palette.background.default,
-    font: 50,
-  },
-  addButton: {
-    borderRadius: "16px",
-    width: "130px",
-    color: "black",
-    backgroundColor: "#7dbbb9",
-    "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
-      color: "black",
-    },
-  },
-  addIcon: {
-    marginTop: "4px",
-  },
-  buttonText: {
-    color: "black",
-    paddingLeft: "5px",
-  },
-  addButtonBody: {
-    marginLeft: "4px",
-    marginRight: "4px",
-  },
-  tableHeader: {
-    paddingRight: "20px",
-    paddingLeft: "1000px",
-    marginTop: "20px",
-    marginLeft: "30px",
-    flexWrap: "nowrap",
-  },
-}));
 const QuestionTypeSwitch = withStyles({
   switchBase: {
     color: "#00867d",
@@ -87,7 +41,7 @@ const QuestionTypeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const QuizStepper = ({ match }) => {
+const QuizStepper = ({ match, classes }) => {
   const getDefaultQuestionBody = (length) => ({
     index: length + 1,
     type: "mcq",
@@ -112,7 +66,6 @@ const QuizStepper = ({ match }) => {
   const [questions, setQuestions] = useState([getDefaultQuestionBody(0)]);
   const [questionIndex, setQuestionIndex] = useState(1);
   const [maxSteps, setmaxSteps] = useState();
-  const classes = useStyles();
   const theme = useTheme();
   useEffect(() => {
     setmaxSteps(localStorage.getItem("numberOfQuestions"));
@@ -151,19 +104,23 @@ const QuizStepper = ({ match }) => {
 
   return (
     <Grid item>
-      <Paper square elevation={0} className={classes.header}>
+      <Grid
+        item
+        className={classes.header}
+        style={{ marginRight: "9px", height: "85px" }}
+      >
         <Typography
           style={{
             marginLeft: "30px",
             fontFamily: "Monaco",
             fontSize: "25px",
-            width: "140px",
+            width: "130px",
             padding: "2px 2px 2px 20px",
             borderRadius: "16px",
             border: "3px solid black",
           }}
         >
-          {`Question: ${questionIndex}`}
+          {`Question ${questionIndex}`}
         </Typography>
 
         <TextField
@@ -183,43 +140,50 @@ const QuizStepper = ({ match }) => {
           }}
           style={{
             alignItems: "right",
-            marginLeft: "360px",
+            marginLeft: "400px",
             marginBottom: "20px",
+            width:"230px"
           }}
-          inputProps={{ style: { color: "black" } }}
-          InputLabelProps={{ style: { color: "black" } }}
+          inputProps={{ style: { color: "black"  } }}
+          InputLabelProps={{ style: { color: "black", fontSize:"22px" } }}
         />
-        <FormGroup style={{ marginLeft: "240px" }}>
+        <FormGroup style={{ marginLeft: "315px" }}>
           <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
-              <Grid item>True/False</Grid>
+              <Grid item>
+                <Typography style={{fontSize:"25px"}}> True/False </Typography>
+              </Grid>
               <Grid item>
                 <QuestionTypeSwitch
                   checked={questions[questionIndex - 1].type === "mcq"}
                   onChange={changeQuestionType}
                 />
               </Grid>
-              <Grid item>MCQ</Grid>
+              <Grid item>
+                <Typography style={{fontSize:"25px"}}> MCQ </Typography>
+              </Grid>
             </Grid>
           </Typography>
         </FormGroup>
-      </Paper>
+      </Grid>
       <Grid item>
-        {questions[questionIndex - 1].type === "mcq" ? (
-          <MCQ
-            questionIndex={questionIndex}
-            questionData={questions[questionIndex - 1]}
-            setQuestions={setQuestions}
-          />
-        ) : (
-          <TrueFalse
-            questionIndex={questionIndex}
-            questionData={questions[questionIndex - 1]}
-            setQuestions={setQuestions}
-          />
-        )}
+        <Grid item>
+          {questions[questionIndex - 1].type === "mcq" ? (
+            <MCQ
+              questionIndex={questionIndex}
+              questionData={questions[questionIndex - 1]}
+              setQuestions={setQuestions}
+            />
+          ) : (
+            <TrueFalse
+              questionIndex={questionIndex}
+              questionData={questions[questionIndex - 1]}
+              setQuestions={setQuestions}
+            />
+          )}
+        </Grid>
         {questionIndex == maxSteps && (
-          <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
+          <Grid item style={{ marginTop: "-19px" }}>
             <Button
               onClick={async () =>
                 await post("/DoctorMakeQuiz/createQuestions", questions, {
@@ -247,53 +211,101 @@ const QuizStepper = ({ match }) => {
             </Button>
           </Grid>
         )}
-
-        <Grid item style={{ marginTop: "25px" }}>
-          <MobileStepper
-            style={{
-              width: "1241px",
-              height: "20px",
-              webkitBoxShadow: "5px 5px 5px #9E9E9E",
-              mozBoxShadow: "5px 5px 5px #9E9E9E",
-              boxShadow: "5px 5px 5px #9E9E9E",
-              backgroundColor: "silver",
-            }}
-            steps={maxSteps}
-            position="static"
-            variant="text"
-            activeStep={questionIndex - 1}
-            nextButton={
-              <Button
-                size="small"
-                onClick={handleNext}
-                disabled={questionIndex == maxSteps}
-              >
-                Next
-                {theme.direction === "rtl" ? (
-                  <KeyboardArrowLeft />
-                ) : (
-                  <KeyboardArrowRight />
-                )}
-              </Button>
-            }
-            backButton={
-              <Button
-                size="small"
-                onClick={handleBack}
-                disabled={questionIndex === 1}
-              >
-                {theme.direction === "rtl" ? (
-                  <KeyboardArrowRight />
-                ) : (
-                  <KeyboardArrowLeft />
-                )}
-                Back
-              </Button>
-            }
-          />
-        </Grid>
+      </Grid>
+      <Grid item style={{ marginTop: "10px" }}>
+        <MobileStepper
+          style={{
+            width: "1400px",
+            height: "30px",
+            webkitBoxShadow: "5px 5px 5px #9E9E9E",
+            mozBoxShadow: "5px 5px 5px #9E9E9E",
+            boxShadow: "5px 5px 5px #9E9E9E",
+            backgroundColor: "silver",
+          }}
+          steps={maxSteps}
+          position="static"
+          variant="text"
+          activeStep={questionIndex - 1}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={questionIndex == maxSteps}
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={questionIndex === 1}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
       </Grid>
     </Grid>
   );
 };
-export default withStyles(useStyles)(withRouter(QuizStepper));
+
+const styles = () => ({
+  root: {
+    maxWidth: 1257,
+    flexGrow: 1,
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    height: 60,
+    webkitBoxShadow: "5px 5px 5px #9E9E9E",
+    mozBoxShadow: "5px 5px 5px #9E9E9E",
+    boxShadow: "5px 5px 5px #9E9E9E",
+    backgroundColor: "white",
+    font: 50,
+  },
+  addButton: {
+    borderRadius: "16px",
+    width: "125px",
+    height: "40px",
+    color: "black",
+    marginTop: "-90px",
+    marginLeft: "1250px",
+    backgroundColor: "#7dbbb9",
+    "&:hover, &:focus": {
+      backgroundColor: "#CCE6E5",
+      color: "black",
+    },
+  },
+  addIcon: {
+    marginTop: "4px",
+  },
+  buttonText: {
+    color: "black",
+    paddingLeft: "5px",
+  },
+  addButtonBody: {
+    marginLeft: "4px",
+    marginRight: "4px",
+  },
+  tableHeader: {
+    paddingRight: "20px",
+    paddingLeft: "1000px",
+    marginTop: "20px",
+    marginLeft: "30px",
+    flexWrap: "nowrap",
+  },
+});
+
+export default withStyles(styles)(withRouter(QuizStepper));

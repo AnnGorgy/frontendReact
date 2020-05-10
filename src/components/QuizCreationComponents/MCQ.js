@@ -166,7 +166,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
         <Grid
           style={{
             align: "left",
-            height: "500px",
+            height: "530px",
             marginTop: "10px",
             borderRadius: "2px",
             webkitBoxShadow: "5px 5px 5px #9E9E9E",
@@ -174,7 +174,9 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
             boxShadow: "5px 5px 5px #9E9E9E",
             marginRight: "9px",
             backgroundColor: "white",
-            width: "1257px",
+            width: "1414px",
+            overflowY: "auto",
+            overflowX: "hidden",
           }}
         >
           <Grid item>
@@ -299,52 +301,57 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
             spacing={1}
             style={{
               flexWrap: "nowrap",
-              borderRadius: "4px",
-              border: "1px solid black",
-              overflowY: "auto",
-              width: "760px",
-              height: "280px",
-              marginLeft: "220px",
-              flexGrow: 1,
-              display: "flex",
+              width: "1200px",
+              marginLeft: "150px",
             }}
           >
             {questionData.choices.map((choice, arrayIndex) => {
               return (
-                <Grid item style={{ marginLeft: "-180px" }}>
+                <Grid item style={{ marginLeft: "-180px" , marginBottom:"30px" }}>
                   <Grid item>
-                    <TextField
-                      label="Enter Your Choice"
-                      name="Choice"
-                      value={choice.choiceValueAsString}
-                      onChange={(e) => {
-                        handleChoiceTextChange(e, choice.index);
-                      }}
-                      rows={1}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{
-                        width: "350px",
-                        marginLeft: "285px",
-                        marginBottom: "2px",
-                      }}
-                    />
+                    <Grid
+                      item
+                      style={{ marginLeft: "220px", marginTop: "20px" }}
+                    >
+                      <Typography style={{ fontSize: "20px" }}>{` [ ${
+                        arrayIndex + 1
+                      } ] `}</Typography>
+                    </Grid>
+                    <Grid item style={{ marginTop: "-60px" }}>
+                      <TextField
+                        label="Enter Your Choice"
+                        name="Choice"
+                        multiline
+                        value={choice.choiceValueAsString}
+                        onChange={(e) => {
+                          handleChoiceTextChange(e, choice.index);
+                        }}
+                        rows={1}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{
+                          width: "750px",
+                          marginLeft: "285px",
+                          marginBottom: "2px",
+                        }}
+                      />
+                    </Grid>
                   </Grid>
                   <Grid
                     item
-                    style={{ marginTop: "-50px", marginLeft: "670px" }}
+                    style={{ marginTop: "-55px", marginLeft: "1100px" }}
                   >
                     {questionData.options.multipleCorrectAnswers ? (
                       // multiple correct answers
@@ -375,7 +382,7 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
 
                   <Grid
                     item
-                    style={{ marginTop: "-58px", marginLeft: "700px" }}
+                    style={{ marginTop: "-58px", marginLeft: "1150px" }}
                   >
                     {questionData.choices.length - 1 === arrayIndex && (
                       <Tooltip title="Add" placement="bottom">
@@ -399,7 +406,6 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
                 </Grid>
               );
             })}
-            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
           </Grid>
         </Grid>
       </Grid>

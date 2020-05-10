@@ -20,7 +20,6 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-
 const QuestionShuffleSwitch = withStyles((theme) => ({
   root: {
     width: 42,
@@ -437,7 +436,11 @@ const UpdateQuiz = ({
                           variant="outlined"
                           className={classes.createButton}
                           disabled={
-                            ChangedName === "" || ChangedName == CurrentName
+                            ChangedName === "" ||
+                            ChangedName == CurrentName ||
+                            !goodStartDate ||
+                            !goodEndDate ||
+                            ChangedDate.start > ChangedDate.end
                           }
                           onClick={() => {
                             onSubmit({
@@ -451,7 +454,18 @@ const UpdateQuiz = ({
                             });
                           }}
                         >
-                          <Typography variant="h6" className={classes.boldText}>
+                          <Typography
+                            variant="h6"
+                            className={
+                              ChangedName === "" ||
+                              ChangedName == CurrentName ||
+                              !goodStartDate ||
+                              !goodEndDate ||
+                              ChangedDate.start > ChangedDate.end
+                                ? classes.createText
+                                : classes.boldText
+                            }
+                          >
                             Create
                           </Typography>
                         </Button>
