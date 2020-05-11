@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -127,9 +127,9 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
           >
             <Grid item style={{ marginLeft: "80px", paddingBottom: "40px" }}>
               <Grid item style={{ marginTop: "5px" }}>
-                <Typography style={{ fontSize: "25px" }}>[1]</Typography>
+                <Typography style={{ fontSize: "20px" }}>[ 1 ]</Typography>
               </Grid>
-              <Grid item style={{ marginTop: "-45px", marginLeft: "70px" }}>
+              <Grid item style={{ marginTop: "-40px", marginLeft: "70px" }}>
                 <Typography
                   style={{
                     fontSize: "30px",
@@ -144,14 +144,15 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
                   checked={questionData.trueOrFalse}
                   onChange={() => setQuestionAnswer(true)}
                   inputProps={{ "aria-label": "A" }}
+                  classes={{ root: classes.radio, checked: classes.checked }}
                 />
               </Grid>
             </Grid>
             <Grid item style={{ marginLeft: "80px", paddingBottom: "40px" }}>
               <Grid item style={{ marginTop: "5px" }}>
-                <Typography style={{ fontSize: "25px" }}>[2]</Typography>
+                <Typography style={{ fontSize: "20px" }}>[ 2 ]</Typography>
               </Grid>
-              <Grid item style={{ marginTop: "-45px", marginLeft: "70px" }}>
+              <Grid item style={{ marginTop: "-40px", marginLeft: "70px" }}>
                 <Typography
                   style={{
                     fontSize: "30px",
@@ -166,6 +167,7 @@ const TrueFalse = ({ questionIndex, questionData, setQuestions, classes }) => {
                   checked={!questionData.trueOrFalse}
                   onChange={() => setQuestionAnswer(false)}
                   inputProps={{ "aria-label": "A" }}
+                  classes={{ root: classes.radio, checked: classes.checked }}
                 />
               </Grid>
             </Grid>
@@ -221,6 +223,12 @@ const styles = (theme) => ({
   createText: {
     color: "silver",
   },
+  radio: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
 export default withStyles(styles)(TrueFalse);

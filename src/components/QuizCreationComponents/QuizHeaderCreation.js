@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
+
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-//------------------------------------------- icons ---------------------------------------------------------
-
+//------------------------------------------- Images ---------------------------------------------------------
+import QuizImage from "./QuizImage.png";
 //-----------------------------------------------------------------------------------------------------------
 
 const QuizHeaderCreation = () => {
@@ -29,19 +30,22 @@ const QuizHeaderCreation = () => {
       }}
     >
       <Grid item>
-        <img
-          src="https://icons8.com/icon/7FYKzUGseWMH/questions"
-          alt="img"
-        />
-        <Typography
-          style={{
-            fontSize: 50,
-            marginLeft: "620px",
-            color: "black",
-          }}
-        >
-          {QuizName}
-        </Typography>
+        <Grid item>
+          <img src={QuizImage} alt="QuizImage"  style={{marginLeft:"580px" , marginTop:"10px"}}/>
+        </Grid>
+        <Grid item>
+          <Typography
+            style={{
+              fontSize: 50,
+              marginLeft: "660px",
+              marginTop:"-73px" ,
+              color: "black",
+              fontFamily: "GreatVibes"
+            }}
+          >
+            {QuizName}
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
   );

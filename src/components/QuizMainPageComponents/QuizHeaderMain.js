@@ -168,7 +168,9 @@ const styles = (theme) => ({
     },
   },
   addButton: {
-    borderRadius: "16px",
+    borderRadius: "32px",
+    marginLeft:"180px",
+    height:"50px",
     width: "180px",
     color: "black",
     backgroundColor: "#7dbbb9",

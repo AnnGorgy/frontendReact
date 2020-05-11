@@ -293,7 +293,7 @@ const styles = () => ({
     maxHeight: "90vh",
     overflowY: "auto",
     maxWidth: "170vh",
-    marginLeft: "28px",
+    marginLeft: "15px",
   },
   tableHeader: {
     backgroundColor: "black",

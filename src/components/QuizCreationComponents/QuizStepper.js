@@ -18,6 +18,10 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------------------- Images ---------------------------------------------------------
+import QuestionNumber from "./QuestionNumber.png";
+//-----------------------------------------------------------------------------------------------------------
+
 //------------------------------ Another Components Used In This Component -------------------------------
 import MCQ from "./MCQ";
 import TrueFalse from "./TrueFalse";
@@ -109,62 +113,85 @@ const QuizStepper = ({ match, classes }) => {
         className={classes.header}
         style={{ marginRight: "9px", height: "85px" }}
       >
-        <Typography
+        <Grid
+          item
           style={{
-            marginLeft: "30px",
-            fontFamily: "Monaco",
-            fontSize: "25px",
-            width: "130px",
-            padding: "2px 2px 2px 20px",
+            padding: "3px 3px 3px 3px",
             borderRadius: "16px",
             border: "3px solid black",
+            width:"220px",
+            height:"60px",
+            marginLeft:"40px"
           }}
         >
-          {`Question ${questionIndex}`}
-        </Typography>
-
-        <TextField
-          id="standard-basic"
-          label="Enter Question Grade"
-          type="number"
-          value={questions[questionIndex - 1].grade}
-          onChange={(e) => {
-            const newGrade = Number(e.target.value);
-            setQuestions((prev) =>
-              prev.map((question, currIndex) =>
-                currIndex !== questionIndex - 1
-                  ? question
-                  : { ...question, grade: newGrade }
-              )
-            );
-          }}
-          style={{
-            alignItems: "right",
-            marginLeft: "400px",
-            marginBottom: "20px",
-            width:"230px"
-          }}
-          inputProps={{ style: { color: "black"  } }}
-          InputLabelProps={{ style: { color: "black", fontSize:"22px" } }}
-        />
-        <FormGroup style={{ marginLeft: "315px" }}>
-          <Typography component="div">
-            <Grid component="label" container alignItems="center" spacing={1}>
-              <Grid item>
-                <Typography style={{fontSize:"25px"}}> True/False </Typography>
+          <Grid item style={{marginLeft:"10px"}}>
+            <img
+              src={QuestionNumber}
+              alt="QuestionNumberImage"
+              style={{ width: "50px", height: "50px"  }}
+            />
+          </Grid>
+          <Grid item style={{ marginTop:"-50px" , marginLeft:"40px" }}>
+            <Typography
+              style={{
+                marginLeft: "30px",
+                fontFamily: "Monaco",
+                fontSize: "25px",
+                width: "130px",
+              }}
+            >
+              {`Question ${questionIndex}`}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <TextField
+            id="standard-basic"
+            label="Enter Question Grade"
+            type="number"
+            value={questions[questionIndex - 1].grade}
+            onChange={(e) => {
+              const newGrade = Number(e.target.value);
+              setQuestions((prev) =>
+                prev.map((question, currIndex) =>
+                  currIndex !== questionIndex - 1
+                    ? question
+                    : { ...question, grade: newGrade }
+                )
+              );
+            }}
+            style={{
+              alignItems: "right",
+              marginLeft: "335px",
+              marginBottom: "20px",
+              width: "230px",
+            }}
+            inputProps={{ style: { color: "black" } }}
+            InputLabelProps={{ style: { color: "black", fontSize: "22px" } }}
+          />
+        </Grid>
+        <Grid item>
+          <FormGroup style={{ marginLeft: "280px" }}>
+            <Typography component="div">
+              <Grid component="label" container alignItems="center" spacing={1}>
+                <Grid item>
+                  <Typography style={{ fontSize: "25px" }}>
+                    True/False
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <QuestionTypeSwitch
+                    checked={questions[questionIndex - 1].type === "mcq"}
+                    onChange={changeQuestionType}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography style={{ fontSize: "25px" }}> MCQ </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <QuestionTypeSwitch
-                  checked={questions[questionIndex - 1].type === "mcq"}
-                  onChange={changeQuestionType}
-                />
-              </Grid>
-              <Grid item>
-                <Typography style={{fontSize:"25px"}}> MCQ </Typography>
-              </Grid>
-            </Grid>
-          </Typography>
-        </FormGroup>
+            </Typography>
+          </FormGroup>
+        </Grid>
       </Grid>
       <Grid item>
         <Grid item>

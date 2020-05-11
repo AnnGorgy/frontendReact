@@ -11,6 +11,11 @@ import ViewMCQ from "./ViewMCQ";
 import ViewTrueFalse from "./ViewTrueFalse";
 //---------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------ Images ---------------------------------------------------
+import Grades from "./Grades.png";
+import QuestionNumber from "../QuizCreationComponents/QuestionNumber.png";
+//-----------------------------------------------------------------------------------------------------------
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
@@ -96,59 +101,90 @@ const ViewQuizForInstructor = ({ match }) => {
             item
             style={{
               align: "left",
-              height: "600px",
+              height: "auto",
               marginTop: "10px",
               borderRadius: "2px",
               webkitBoxShadow: "5px 5px 5px #9E9E9E",
               mozBoxShadow: "5px 5px 5px #9E9E9E",
               boxShadow: "5px 5px 5px #9E9E9E",
-              padding: "5px 5px 5px 5px",
+              padding: "10px 10px 10px 10px",
               marginRight: "9px",
               backgroundColor: "white",
               width: "1240px",
             }}
           >
-            <Grid item>
-              <Grid item>
-                <Typography
-                  style={{
-                    marginLeft: "200px",
-                    fontFamily: "Monaco",
-                    fontSize: "25px",
-                    marginTop: "20px",
-                    width: "140px",
-                    padding: "2px 2px 2px 20px",
-                    borderRadius: "16px",
-                    border: "3px solid black",
-                  }}
-                >
-                  {`Question: ${index + 1}`}
-                </Typography>
+            <Grid
+              item
+              style={{
+                padding: "10px 10px 10px 10px",
+                borderRadius: "16px",
+                border: "3px solid black",
+                width: "220px",
+                height: "75px",
+                marginLeft: "109px",
+                marginTop: "15px",
+              }}
+            >
+              <Grid item style={{ marginLeft: "10px" }}>
+                <img
+                  src={QuestionNumber}
+                  alt="QuestionNumberImage"
+                  style={{ width: "50px", height: "50px" }}
+                />
               </Grid>
-
-              <Grid item>
+              <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
                 <Typography
                   style={{
-                    marginLeft: "500px",
+                    marginLeft: "30px",
                     fontFamily: "Monaco",
                     fontSize: "25px",
-                    marginTop: "-45px",
-                    width: "200px",
-                    padding: "2px 2px 2px 20px",
-                    borderRadius: "16px",
-                    border: "3px solid black",
                   }}
                 >
-                  {`Question Grade: ${quiz.grade}`}
+                  {`Question ${index + 1}`}
                 </Typography>
               </Grid>
             </Grid>
+
             <Grid item>
-              {quiz.Type == "mcq" ? (
-                <ViewMCQ questionData={quiz} />
-              ) : (
-                <ViewTrueFalse questionData={quiz} />
-              )}
+              <Grid item style={{marginTop:"10px"}}>
+                <Grid
+                  item
+                  style={{
+                    padding: "10px 10px 10px 10px",
+                    borderRadius: "16px",
+                    border: "3px solid black",
+                    width: "180px",
+                    height: "75px",
+                    marginLeft: "880px",
+                  }}
+                >
+                  <Grid item style={{ marginLeft: "10px" }}>
+                    <img
+                      src={Grades}
+                      alt="GradeImage"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </Grid>
+                  <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
+                    <Typography
+                      style={{
+                        marginLeft: "30px",
+                        fontFamily: "Monaco",
+                        fontSize: "25px",
+                      }}
+                    >
+                      {`Mark: ${quiz.grade}`}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{marginTop:"-100px"}}>
+                {quiz.Type == "mcq" ? (
+                  <ViewMCQ questionData={quiz} />
+                ) : (
+                  <ViewTrueFalse questionData={quiz} />
+                )}
+              </Grid>
             </Grid>
           </Grid>
         ))}

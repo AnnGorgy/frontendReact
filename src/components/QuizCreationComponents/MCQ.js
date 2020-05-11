@@ -307,7 +307,10 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
           >
             {questionData.choices.map((choice, arrayIndex) => {
               return (
-                <Grid item style={{ marginLeft: "-180px" , marginBottom:"30px" }}>
+                <Grid
+                  item
+                  style={{ marginLeft: "-180px", marginBottom: "30px" }}
+                >
                   <Grid item>
                     <Grid
                       item
@@ -358,6 +361,10 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
                       <Checkbox
                         inputProps={{ "aria-label": "uncontrolled-checkbox" }}
                         checked={Boolean(choice.correctChoice)}
+                        classes={{
+                          root: classes.check,
+                          checked: classes.checked,
+                        }}
                         onChange={(e) =>
                           handleChooseChoiceAsCorrectAnswer(
                             e.target.checked,
@@ -376,6 +383,10 @@ const MCQ = ({ classes, questionData, setQuestions, questionIndex }) => {
                           )
                         }
                         inputProps={{ "aria-label": "A" }}
+                        classes={{
+                          root: classes.radio,
+                          checked: classes.checked,
+                        }}
                       />
                     )}
                   </Grid>
@@ -458,6 +469,18 @@ const styles = (theme) => ({
   createText: {
     color: "silver",
   },
+  radio: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
+  check: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
 export default withStyles(styles)(MCQ);
