@@ -11,7 +11,6 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
-  
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [TFData, setTFData] = useState([]);
   const [tfTrue, setTfTrue] = useState(false);
@@ -33,39 +32,18 @@ const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
         <Grid
           style={{
             align: "left",
-            height: "100px",
-            marginTop: "10px",
+            height: "auto",
+            marginTop: "30px",
             marginRight: "9px",
             width: "1257px",
           }}
         >
-          <Grid>
-            <TextField
-              placeholder="Enter The Title Of The Question"
-              label="Title"
-              variant="outlined"
-              classes={{
-                root: classes.textFieldRoot,
-              }}
-              InputProps={{
-                classes: {
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.label,
-                },
-              }}
-              defaultValue={TFData.title}
-              value={TFData.title}
-              style={{ width: "500px", marginLeft: "160px" }}
-            />
+          <Grid item style={{ marginLeft: "110px" }}>
+            <Typography style={{ fontSize: "35px" }}>{TFData.title}</Typography>
           </Grid>
 
           <Grid>
             <TextField
-              placeholder="Enter Your Question"
               label="Question Statement"
               value={TFData.QuestionAsString}
               defaultValue={TFData.QuestionAsString}
@@ -79,21 +57,28 @@ const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
                 classes: {
                   notchedOutline: classes.notchedOutline,
                 },
+                readOnly: true,
+                style: { fontSize: "30px" },
               }}
               InputLabelProps={{
                 classes: {
                   root: classes.label,
                 },
+                shrink: "true",
+                style: { fontSize: "20px" },
               }}
-              style={{ width: "900px", marginLeft: "160px" }}
+              style={{ width: "900px", marginLeft: "160px", marginTop: "40px" }}
             />
           </Grid>
           <Grid item style={{ marginLeft: "140px" }}>
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
-              <Grid item>
+              <Grid item style={{ marginTop: "5px" }}>
+                <Typography style={{ fontSize: "20px" }}>[ 1 ]</Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-40px", marginLeft: "70px" }}>
                 <Typography
                   style={{
-                    fontSize: "35px",
+                    fontSize: "32px",
                     fontFamily: "Times New Roman",
                   }}
                 >
@@ -101,14 +86,22 @@ const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
                 </Typography>
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
-                <Radio checked={tfTrue} inputProps={{ "aria-label": "A" }} />
+                <Radio
+                  checked={tfTrue}
+                  disableRipple
+                  inputProps={{ "aria-label": "A" }}
+                  classes={{ root: classes.radio, checked: classes.checked }}
+                />
               </Grid>
             </Grid>
             <Grid item style={{ marginLeft: "180px", paddingBottom: "40px" }}>
-              <Grid item>
+              <Grid item style={{ marginTop: "5px" }}>
+                <Typography style={{ fontSize: "20px" }}>[ 2 ]</Typography>
+              </Grid>
+              <Grid item style={{ marginTop: "-40px", marginLeft: "70px" }}>
                 <Typography
                   style={{
-                    fontSize: "35px",
+                    fontSize: "32px",
                     fontFamily: "Times New Roman",
                   }}
                 >
@@ -116,7 +109,12 @@ const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
                 </Typography>
               </Grid>
               <Grid item style={{ marginTop: "-43px", marginLeft: "200px" }}>
-                <Radio checked={tfFalse} inputProps={{ "aria-label": "A" }} />
+                <Radio
+                  checked={tfFalse}
+                  inputProps={{ "aria-label": "A" }}
+                  disableRipple
+                  classes={{ root: classes.radio, checked: classes.checked }}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -144,6 +142,7 @@ const styles = (theme) => ({
   notchedOutline: {
     borderWidth: "1px",
     borderColor: `black !important`,
+    fontSize: "21px",
   },
   label: {
     color: "black !important",
@@ -171,6 +170,12 @@ const styles = (theme) => ({
   createText: {
     color: "silver",
   },
+  radio: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
 export default withStyles(styles)(ViewTrueFalseStudentAnswers);

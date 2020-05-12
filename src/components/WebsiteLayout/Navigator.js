@@ -26,7 +26,6 @@ import {
   withStyles,
   Divider,
   useTheme,
-  Grid,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -61,22 +60,23 @@ function Navigator({ classes, history, match }) {
   };
 
   //---------------------------------------------------------------------------------------------------------
-  const DoctorInformation = async () => {
+  const DoctorInformation = async (CourseID) => {
     try {
       const url = "/Login/getDoctor";
       const { data } = await post(url, null, {
         params: {
-          subjectId: match.params.courseId,
+          subjectId:  CourseID ,
         },
       });
       localStorage.setItem("DrInformation", JSON.stringify(data));
       const url2 = "/Login/getuserObject";
       const { data: data2 } = await get(url2, {
         params: {
-          email: data[0].doctorEmail,
+          email:   data[0].doctorEmail ,
         },
       });
       localStorage.setItem("DocInformation", JSON.stringify(data2));
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -174,7 +174,9 @@ function Navigator({ classes, history, match }) {
           alt="SignOut_LOGO"
         />
       ),
-      onClick: () => history.push("/"),
+      onClick: () => {
+        localStorage.clear(); 
+        history.push("/")},
     },
   ];
 
@@ -258,7 +260,7 @@ function Navigator({ classes, history, match }) {
                         key={ID}
                         button
                         onClick={() => {
-                          DoctorInformation();
+                          DoctorInformation(ID);
                           history.push(`/course/${ID}`);
                         }}
                         className={clsx(

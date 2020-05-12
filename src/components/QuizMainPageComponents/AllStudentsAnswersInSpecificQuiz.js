@@ -104,6 +104,8 @@ const AllStudentsAnswersInSpecificQuiz = ({ match, history, classes }) => {
                           history.push(
                             `/answers/${match.params.courseId}/${match.params.quizId}`
                           );
+                          localStorage.setItem("StudentName", quiz.studentName);
+                          localStorage.setItem("StudentID", quiz.studentSeatNo);
                         }}
                       />
                     </Button>

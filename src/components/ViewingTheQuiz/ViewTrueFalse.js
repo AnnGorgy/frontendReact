@@ -123,7 +123,7 @@ const ViewTrueFalse = ({ questionData, classes }) => {
     </React.Fragment>
   );
 };
-const styles = (theme) => ({
+const styles = () => ({
   dialog: {
     padding: "10px 0px",
   },

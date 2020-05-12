@@ -218,21 +218,6 @@ const QuizTableMainInstructor = ({
                   {/* End Date cell */}
                   <TableCell align="right">{quiz.endDate}</TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Add Questions" placement="bottom">
-                      <Button size="small">
-                        <AddCircleOutlineIcon
-                          onClick={() => {
-                            history.push(`/createquiz/${quiz.id}`);
-                            localStorage.setItem("QuizName", quiz.Name);
-                            localStorage.setItem("TotalTime", quiz.duration);
-                            localStorage.setItem(
-                              "numberOfQuestions",
-                              quiz.numberOfQuestions
-                            );
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
                     <Tooltip title="Model Answer" placement="bottom">
                       <Button size="small">
                         <QuestionAnswerIcon

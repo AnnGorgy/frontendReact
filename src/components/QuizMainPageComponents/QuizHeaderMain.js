@@ -27,7 +27,7 @@ function Alert(props) {
 }
 //-----------------------------------------------------------------------------------------------------------
 
-const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
+const QuizHeaderMain = ({ classes, setReloadQuizzes, match, history }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenQuiz, setOpenQuiz] = useState(false);
   const [accountType, setaccountType] = useState(
@@ -66,7 +66,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
     const url = "/DoctorMakeQuiz/AddQuiz";
     try {
       // post syntax (url, body, options)
-       await post(url, null, {
+      const { data } = await post(url, null, {
         params: {
           name: Name,
           description: Description,
@@ -83,6 +83,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match }) => {
       setReloadQuizzes(true);
       handleClick();
       setMessageTitle(Name);
+      history.push(`/createquiz/${data}`);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -169,8 +170,8 @@ const styles = (theme) => ({
   },
   addButton: {
     borderRadius: "32px",
-    marginLeft:"180px",
-    height:"50px",
+    marginLeft: "180px",
+    height: "50px",
     width: "180px",
     color: "black",
     backgroundColor: "#7dbbb9",

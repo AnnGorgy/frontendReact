@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 const ViewQuizForStudent = ({ match }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
-    studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+    studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
     questionId,
     answers: [],
     trueOrFalse: null,
@@ -85,6 +85,7 @@ const ViewQuizForStudent = ({ match }) => {
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [quizInfo, setQuizInfo] = useState();
+  const [timer, setTimer] = useState(100000);
   //--------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -102,9 +103,20 @@ const ViewQuizForStudent = ({ match }) => {
     const { data } = await post(QuizUrl, null, {
       params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
     });
-    setQuizInfo(data);
+    setQuizInfo({ ...data[0], openedAt: Date.now() });
   };
   //--------------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    const interval = setInterval(()=> {
+      if(quizInfo) {
+        const endTime = quizInfo.openedAt + quizInfo.duration * 60000;
+        setTimer((endTime - Date.now()) / 60000);
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [quizInfo]);
 
   useEffect(() => {
     listQuizzes();
@@ -115,6 +127,7 @@ const ViewQuizForStudent = ({ match }) => {
   }, [match.params.quizId, match.params.courseId]);
 
   useEffect(() => {
+    // tyb l7d ma y3mloha hn3tbr quizInfo.openedAt feha el time ely 3wzeno tmm
     const questionAnswerss = quizData?.map((question) =>
       getDefaultAnswerBody(question.questionId, question.NumberofCorrectAnswers)
     );
@@ -124,7 +137,7 @@ const ViewQuizForStudent = ({ match }) => {
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
-        {quizInfo?.map((info) => (
+        {quizInfo && (
           <Grid
             item
             style={{
@@ -141,11 +154,18 @@ const ViewQuizForStudent = ({ match }) => {
           >
             <Grid item>
               <Typography style={{ fontSize: "20px" }}>
-                {info.Name} in {SubjectName} on quiz date {info.startDate}
+                {quizInfo.Name} in {SubjectName} on quiz date{" "}
+                {quizInfo.startDate}
+              </Typography>
+              <Typography>
+                Remaining time:
+                {`${Math.floor(timer)}:${Math.floor(
+                  (timer - Math.floor(timer)) * 60
+                )}`}
               </Typography>
             </Grid>
           </Grid>
-        ))}
+        )}
         {quizData?.map((question, index) => (
           <Grid
             item

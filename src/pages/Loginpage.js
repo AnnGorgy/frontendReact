@@ -61,7 +61,6 @@ const LoginPage = ({ history, classes }) => {
       const { data } = await post(url, body);
       localStorage.setItem("subjects", JSON.stringify(data));
       history.push("/home");
-      console.log(JSON.parse(localStorage.getItem("subjects")));
     } catch (err) {
       setMessageTitle("Either your E-mail or your password isn't correct!");
       handleClick();

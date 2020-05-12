@@ -14,6 +14,10 @@ import ViewTrueFalse from "./ViewTrueFalse";
 //------------------------------------------------ Images ---------------------------------------------------
 import Grades from "./Grades.png";
 import QuestionNumber from "../QuizCreationComponents/QuestionNumber.png";
+import CourseImage from "../QuizImages/CourseImage.png";
+import DateImage from "../QuizImages/DateImage.png";
+import QuizImage from "../QuizCreationComponents/QuizImage.png";
+
 //-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +81,7 @@ const ViewQuizForInstructor = ({ match }) => {
           <Grid
             item
             style={{
-              height: "100px",
+              height: "auto",
               borderRadius: "2px",
               webkitBoxShadow: "5px 5px 5px #9E9E9E",
               mozBoxShadow: "5px 5px 5px #9E9E9E",
@@ -89,10 +93,48 @@ const ViewQuizForInstructor = ({ match }) => {
             }}
           >
             <Grid item>
-              <Typography style={{ fontSize: "20px" }}>
-                Model answers for {info.Name} in {SubjectName} on quiz date
-                {info.startDate}
-              </Typography>
+              <Grid item style={{marginLeft:"450px" , marginTop:"10px"}}>
+                <Grid item>
+                  <img
+                    src={QuizImage}
+                    alt="CourseImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {info.Name}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item style={{marginLeft:"430px" , marginTop:"10px"}}>
+                <Grid item>
+                  <img
+                    src={CourseImage}
+                    alt="CourseImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {SubjectName}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item style={{marginLeft:"295px" , marginTop:"10px"}}>
+                <Grid item>
+                  <img
+                    src={DateImage}
+                    alt="DateImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {info.startDate}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         ))}
@@ -146,7 +188,7 @@ const ViewQuizForInstructor = ({ match }) => {
             </Grid>
 
             <Grid item>
-              <Grid item style={{marginTop:"10px"}}>
+              <Grid item style={{ marginTop: "10px" }}>
                 <Grid
                   item
                   style={{
@@ -178,7 +220,7 @@ const ViewQuizForInstructor = ({ match }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item style={{marginTop:"-100px"}}>
+              <Grid item style={{ marginTop: "-100px" }}>
                 {quiz.Type == "mcq" ? (
                   <ViewMCQ questionData={quiz} />
                 ) : (

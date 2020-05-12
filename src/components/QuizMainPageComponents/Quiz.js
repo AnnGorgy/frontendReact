@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
+import { withRouter } from "react-router-dom";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
@@ -73,7 +74,7 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
   );
 });
 
-const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
+const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState("");
@@ -421,6 +422,8 @@ const Quiz = ({ onClose, isOpened, match, onSubmit, classes }) => {
                       }
                       onClick={() => {
                         resetStates();
+                        localStorage.setItem("numberOfQuestions", numberOfQues);
+                        localStorage.setItem("QuizName", Name);
                         onSubmit({
                           Name,
                           Description,
@@ -512,4 +515,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(Quiz);
+export default withStyles(styles)(withRouter(Quiz));

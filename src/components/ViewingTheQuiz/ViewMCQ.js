@@ -146,7 +146,7 @@ const ViewMCQ = ({ classes, questionData }) => {
     </React.Fragment>
   );
 };
-const styles = (theme) => ({
+const styles = () => ({
   dialog: {
     padding: "10px 0px",
   },
