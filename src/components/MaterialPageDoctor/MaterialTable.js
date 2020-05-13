@@ -180,7 +180,7 @@ const MaterialTable = ({
         return <FileIcon />;
       case "Video":
         return <VideoIcon />;
-      case "assignment":
+      case "Assignment":
         return <AssignmentIcon />;
       case "URL":
         return <LinkIcon />;
@@ -434,12 +434,12 @@ const MaterialTable = ({
                 ) : (
                   /* Start & End Date Icon */
                   <TableCell align="right" width="22%">
-                    {material.type === "assignment" && (
+                    {material.type === "Assignment" && (
                       <Tooltip
                         title={
                           <div style={{ fontSize: "15px" }}>
-                            Start Date : {material.startdate}
-                            <br /> <br /> End Date : {material.enddate}
+                            Start Date : {material.Start}
+                            <br /> <br /> End Date : {material.End}
                           </div>
                         }
                         placement="bottom"
@@ -453,7 +453,7 @@ const MaterialTable = ({
 
                     {material.type !== "folder" &&
                       material.type !== "URL" &&
-                      material.type !== "assignment" && (
+                      material.type !== "Assignment" && (
                         <Tooltip title="Download" placement="bottom">
                           <Button size="small">
                             <DownloadIcon
@@ -486,7 +486,7 @@ const MaterialTable = ({
                         </Tooltip>
                       )}
                     {/* Download Icon  (Assignment Type -  Another Types) */}
-                    {material.type === "assignment" && (
+                    {material.type === "Assignment" && (
                       <Tooltip title="Download" placement="bottom">
                         <Button size="small">
                           <DownloadIcon
@@ -521,7 +521,7 @@ const MaterialTable = ({
 
                     <Tooltip title="Delete" placement="bottom">
                       <Button size="small">
-                        {material.type === "assignment" ? (
+                        {material.type === "Assignment" ? (
                           <DeleteIcon
                             onClick={() => {
                               get("/assignment/delete", {
@@ -556,7 +556,7 @@ const MaterialTable = ({
                         )}
                       </Button>
                     </Tooltip>
-                    {material.type === "assignment" && (
+                    {material.type === "Assignment" && (
                       <Tooltip title="Edit" placement="bottom">
                         <Button size="small">
                           <EditIcon
@@ -568,7 +568,7 @@ const MaterialTable = ({
                         </Button>
                       </Tooltip>
                     )}
-                    {material.type !== "assignment" &&
+                    {material.type !== "Assignment" &&
                       material.type !== "folder" && (
                         <Tooltip title="Rename" placement="bottom">
                           <Button size="small">
