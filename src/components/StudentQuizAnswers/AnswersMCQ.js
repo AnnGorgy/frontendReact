@@ -7,6 +7,7 @@ import {
   Grid,
   Checkbox,
   Radio,
+  Typography,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -55,33 +56,16 @@ const AnswersMCQ = ({
       <Grid
         style={{
           align: "left",
-          height: "500px",
-          marginTop: "10px",
+          height: "auto",
+          marginTop: "30px",
           marginRight: "9px",
           width: "1257px",
         }}
       >
-        <Grid item>
-          <TextField
-            label="Title"
-            defaultValue={questionData.title}
-            value={questionData.title}
-            variant="outlined"
-            classes={{
-              root: classes.textFieldRoot,
-            }}
-            InputProps={{
-              classes: {
-                notchedOutline: classes.notchedOutline,
-              },
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.label,
-              },
-            }}
-            style={{ width: "500px", marginLeft: "160px" }}
-          />
+        <Grid item style={{ marginLeft: "110px" }}>
+          <Typography style={{ fontSize: "35px" }}>
+            {questionData.title}
+          </Typography>
         </Grid>
         <Grid item>
           <TextField
@@ -98,11 +82,15 @@ const AnswersMCQ = ({
               classes: {
                 notchedOutline: classes.notchedOutline,
               },
+              readOnly: true,
+              style: { fontSize: "30px" },
             }}
             InputLabelProps={{
               classes: {
                 root: classes.label,
               },
+              shrink: "true",
+              style: { fontSize: "20px" },
             }}
             style={{
               width: "900px",
@@ -116,39 +104,56 @@ const AnswersMCQ = ({
           {questionData.choices.map((question, index) => {
             return (
               <Grid item>
-                <Grid item>
-                  <TextField
-                    value={question.choiceValueAsString}
-                    label={index + 1}
-                    name="Choice"
-                    rows={1}
-                    variant="outlined"
-                    classes={{
-                      root: classes.textFieldRoot,
-                    }}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline,
-                      },
-                    }}
-                    InputLabelProps={{
-                      classes: {
-                        root: classes.label,
-                      },
-                    }}
-                    style={{
-                      width: "350px",
-                      marginLeft: "285px",
-                      marginBottom: "2px",
-                      paddingBottom: "7px",
-                    }}
-                  />
+                <Grid item style={{ marginTop: "30px" }}>
+                  <Grid item style={{ marginLeft: "220px", marginTop: "15px" }}>
+                    <Typography style={{ fontSize: "20px" }}>{` [ ${
+                      index + 1
+                    } ] `}</Typography>
+                  </Grid>
+                  <Grid item style={{ marginTop: "-60px" }}>
+                    <TextField
+                      value={question.choiceValueAsString}
+                      name="Choice"
+                      rows={1}
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                        shrink: "true",
+                      }}
+                      style={{
+                        width: "350px",
+                        marginLeft: "285px",
+                        marginBottom: "2px",
+                        paddingBottom: "7px",
+                      }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item style={{ marginTop: "-50px", marginLeft: "670px" }}>
+                <Grid item style={{
+                    marginTop: "-55px",
+                    marginLeft: "670px",
+                    paddingBottom: "15px",
+                  }}>
                   {questionData.options.multipleCorrectAnswers ? (
                     // multiple correct answers
                     <Checkbox
                       inputProps={{ "aria-label": "uncontrolled-checkbox" }}
+                      classes={{
+                        root: classes.check,
+                        checked: classes.checked,
+                      }}
                       checked={Boolean(
                         allQuestionAnswers
                           ?.filter(
@@ -176,6 +181,10 @@ const AnswersMCQ = ({
                           )[0]
                           ?.answers.includes(question.choiceValueAsString)
                       )}
+                      classes={{
+                        root: classes.radio,
+                        checked: classes.checked,
+                      }}
                       onChange={(event) =>
                         handleChooseChoiceAsStudentAnswer(
                           question.choiceValueAsString,
@@ -195,7 +204,7 @@ const AnswersMCQ = ({
     </React.Fragment>
   );
 };
-const styles = (theme) => ({
+const styles = () => ({
   dialog: {
     padding: "10px 0px",
   },
@@ -208,12 +217,13 @@ const styles = (theme) => ({
   textFieldRoot: {
     backgroundColor: "white",
     borderRadius: "7px",
-    marginTop: "10px",
+    marginTop: "20px",
     marginBottom: "10px",
   },
   notchedOutline: {
     borderWidth: "1px",
     borderColor: `black !important`,
+    fontSize: "21px",
   },
   label: {
     color: "black !important",
@@ -238,9 +248,21 @@ const styles = (theme) => ({
   boldText: {
     fontWeight: "600",
   },
+  check:{
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
   createText: {
     color: "silver",
   },
+  radio: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
 export default withStyles(styles)(AnswersMCQ);

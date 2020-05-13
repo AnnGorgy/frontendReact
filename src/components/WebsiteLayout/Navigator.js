@@ -31,6 +31,12 @@ import {
 
 //------------------------------------------------- Images ---------------------------------------------------
 import Theimage from "./UniLogo.png";
+import ContactUsImage from "../NavBarImages/ContactUsImage.png";
+import CoursesImage from "../NavBarImages/CoursesImage.png";
+import HomeImage from "../NavBarImages/HomeImage.png";
+import SignOutImage from "../NavBarImages/SignOutImage.png";
+import CourseImageee from "../NavBarImages/CourseImage.png";
+import ProfileImage from "../NavBarImages/ProfileImage.png";
 //------------------------------------------------------------------------------------------------------------
 
 // mostafa20191701201@cis.asu.edu.eg //
@@ -65,24 +71,66 @@ function Navigator({ classes, history, match }) {
       const url = "/Login/getDoctor";
       const { data } = await post(url, null, {
         params: {
-          subjectId:  CourseID ,
+          subjectId: CourseID,
         },
       });
       localStorage.setItem("DrInformation", JSON.stringify(data));
       const url2 = "/Login/getuserObject";
       const { data: data2 } = await get(url2, {
         params: {
-          email:   data[0].doctorEmail ,
+          email: data[0].doctorEmail,
         },
       });
       localStorage.setItem("DocInformation", JSON.stringify(data2));
-      window.location.reload();
+      /* window.location.reload(); */
     } catch (err) {
       console.error(err);
     }
   };
   //----------------------------------------------------------------------------------------------------------
 
+  const createRootFolder = async (courseId) => {
+    //FIXME: This shouldn't be a function or endpoint, otherwise it should be handled in the backend
+    const url = "/Doctor_Materials/Create_First_Folder_Subject";
+    /*  
+    Get syntax (
+     url " url (The local host that We Use IT To Add Root To New Subject ) ",
+     body "no body cause this function use parametares only ", 
+     options "It takes (2) Parameter"
+     [1] sub_Id ... [2] Folder_Name ...
+     ) 
+     "folderName : We Add It From Subject LocalStorage To Set The Root To SubjectName"
+    */
+    const folderName = JSON.parse(localStorage.getItem("subjects")).find(
+      (subject) => subject.ID == courseId
+    ).Subjectname;
+    await get(url, {
+      params: { sub_Id: courseId, Folder_Name: folderName },
+    });
+  };
+
+  //----------------------------------------------------------------------------------------------
+
+  const listMaterials = async (courseId) => {
+    const materialsUrl = `/Doctor_Materials/GetFiles`;
+    /*  
+    post syntax (
+     url " materialsUrl (The local host that Get Materials In a specific subject) ",
+     body "no body cause this function use parametares only", 
+     options "It takes (1) Parameter"
+     [1] sub_Id ... 
+     ) 
+    */
+    const { data } = await post(materialsUrl, null, {
+      params: { sub_Id: courseId },
+    });
+    if (data.length === 0) {
+      await createRootFolder(courseId);
+      window.location.reload();
+    }
+  };
+
+  //----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (isUserLoggedIn()) {
       setSubjects(JSON.parse(localStorage.getItem("subjects")));
@@ -105,11 +153,7 @@ function Navigator({ classes, history, match }) {
     setOpen(false);
   };
   const CourseIcon = (
-    <img
-      src="https://img.icons8.com/wired/30/FFFFFF/book.png"
-      className={classes.courseImage}
-      alt="img"
-    />
+    <img src={CourseImageee} className={classes.courseImage} alt="img" />
   );
 
   /* 
@@ -125,7 +169,8 @@ function Navigator({ classes, history, match }) {
       title: "Home",
       Icon: (
         <img
-          src="https://img.icons8.com/metro/55/FFFFFF/home.png"
+          style={{ width: "80px", hegith: "80px" , marginLeft:"-10px" }}
+          src={HomeImage}
           alt="Home_LOGO"
         />
       ),
@@ -135,7 +180,8 @@ function Navigator({ classes, history, match }) {
       title: ViewingName,
       Icon: (
         <img
-          src="https://img.icons8.com/ios/55/FFFFFF/gender-neutral-user.png"
+          style={{ width: "70px", hegith: "70px" , marginLeft:"-2px" }}
+          src={ProfileImage}
           alt="profile_LOGO"
         />
       ),
@@ -149,7 +195,8 @@ function Navigator({ classes, history, match }) {
       title: "Courses",
       Icon: (
         <img
-          src="https://img.icons8.com/ios-filled/55/FFFFFF/courses.png"
+          style={{ width: "55px", hegith: "55px" }}
+          src={CoursesImage}
           alt="Courses_LOGO"
         />
       ),
@@ -160,7 +207,8 @@ function Navigator({ classes, history, match }) {
       title: "Contact Us",
       Icon: (
         <img
-          src="https://img.icons8.com/ios-filled/55/FFFFFF/add-contact-to-company.png"
+          style={{ width: "65px", hegith: "65px" , marginLeft:"-10px" }}
+          src={ContactUsImage}
           alt="ContactUs_LOGO"
         />
       ),
@@ -170,13 +218,15 @@ function Navigator({ classes, history, match }) {
       title: "Sign Out",
       Icon: (
         <img
-          src="https://img.icons8.com/ios/55/FFFFFF/exit.png"
+          style={{ width: "100px", hegith: "100px" , marginLeft:"-20px" }}
+          src={SignOutImage}
           alt="SignOut_LOGO"
         />
       ),
       onClick: () => {
-        localStorage.clear(); 
-        history.push("/")},
+        localStorage.clear();
+        history.push("/");
+      },
     },
   ];
 
@@ -222,7 +272,8 @@ function Navigator({ classes, history, match }) {
               src={Theimage}
               alt="FCIS_LOGO"
               style={{
-                width: "150px",
+                width: "auto",
+                height:"auto",
                 marginLeft: theme.spacing(4),
                 marginBottom: theme.spacing(3),
                 marginTop: theme.spacing(2),
@@ -262,6 +313,7 @@ function Navigator({ classes, history, match }) {
                         onClick={() => {
                           DoctorInformation(ID);
                           history.push(`/course/${ID}`);
+                          listMaterials(ID);
                         }}
                         className={clsx(
                           classes.nested,
@@ -308,7 +360,7 @@ Navigator.propTypes = {
 };
 
 // Page Style //
-const drawerWidth = 240;
+const drawerWidth = 280;
 const styles = (theme) => ({
   root: {
     display: "flex",
@@ -375,12 +427,12 @@ const styles = (theme) => ({
   ///////////////////////////////////////////////////
   item: {
     backgroundColor: "#1C1C1C",
-    paddingTop: 17.3,
-    paddingBottom: 17.3,
-    paddingLeft: 0,
+    paddingTop: 17,
+    paddingBottom: 17,
+    paddingLeft: 0.2,
     color: "rgba(255, 255, 255, 1.0)",
-    width: "235px",
-    height: "100px",
+    width: "auto",
+    height: "auto",
   },
   itemCategory: {
     backgroundColor: "#1C1C1C",
@@ -396,14 +448,15 @@ const styles = (theme) => ({
   },
   firebase: {
     fontSize: 24,
-    height: "150px",
+    height: "auto",
   },
   itemActiveItem: {
     color: "#4A4A4A",
     backgroundColor: "#4A4A4A",
   },
   itemPrimary: {
-    fontSize: 26,
+    fontSize: 30,
+    fontWeight:600,
     color: "rgba(255, 255, 255, 1.0)",
   },
   itemIcon: {
@@ -411,7 +464,7 @@ const styles = (theme) => ({
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
-    paddingLeft: theme.spacing(1),
+    paddingLeft:"10px"
   },
   nested: {
     paddingLeft: theme.spacing(1.5),

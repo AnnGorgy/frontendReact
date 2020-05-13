@@ -440,7 +440,10 @@ const UpdateQuiz = ({
                             ChangedName == CurrentName ||
                             !goodStartDate ||
                             !goodEndDate ||
-                            ChangedDate.start > ChangedDate.end
+                            ChangedDate.start > ChangedDate.end ||
+                            (ChangedDate.start === ChangedDate.end &&
+                              ChangedTimePicker.start.getTime() >=
+                                ChangedTimePicker.end.getTime())
                           }
                           onClick={() => {
                             onSubmit({
@@ -461,7 +464,10 @@ const UpdateQuiz = ({
                               ChangedName == CurrentName ||
                               !goodStartDate ||
                               !goodEndDate ||
-                              ChangedDate.start > ChangedDate.end
+                              ChangedDate.start > ChangedDate.end ||
+                              (ChangedDate.start === ChangedDate.end &&
+                                ChangedTimePicker.start.getTime() >=
+                                  ChangedTimePicker.end.getTime())
                                 ? classes.createText
                                 : classes.boldText
                             }

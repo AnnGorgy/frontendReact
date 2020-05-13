@@ -30,7 +30,7 @@ const CourseHome = ({ history, match , classes }) => {
   ).Subjectname;
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
   const DoctorName = JSON.parse(localStorage.getItem("DrInformation"))[0]
-    .doctorName;
+    ?.doctorName;
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );

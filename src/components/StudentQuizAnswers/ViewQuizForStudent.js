@@ -21,6 +21,17 @@ import AnswersTrueFalse from "./AnswersTrueFalse";
 import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //---------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------ Images ---------------------------------------------------
+import CourseImage from "../QuizImages/CourseImage.png";
+import DateImage from "../QuizImages/DateImage.png";
+import QuizImage from "../QuizCreationComponents/QuizImage.png";
+import NAME from "../QuizImages/StudentName.png";
+import ID from "../QuizImages/StudentId.png";
+import QuizTimer from "../QuizImages/QuizTimer.gif";
+import Grades from "../ViewingTheQuiz/Grades.png";
+import QuestionNumber from "../QuizCreationComponents/QuestionNumber.png";
+//-----------------------------------------------------------------------------------------------------------
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
@@ -40,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   addButton: {
     borderRadius: "16px",
-    width: "130px",
+    width: "160px",
     color: "black",
     backgroundColor: "#7dbbb9",
     "&:hover, &:focus": {
@@ -50,10 +61,13 @@ const useStyles = makeStyles((theme) => ({
   },
   addIcon: {
     marginTop: "4px",
+    width: "30px",
+    height: "30px",
   },
   buttonText: {
     color: "black",
     paddingLeft: "5px",
+    fontSize: "25px",
   },
   addButtonBody: {
     marginLeft: "4px",
@@ -108,8 +122,8 @@ const ViewQuizForStudent = ({ match }) => {
   //--------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    const interval = setInterval(()=> {
-      if(quizInfo) {
+    const interval = setInterval(() => {
+      if (quizInfo) {
         const endTime = quizInfo.openedAt + quizInfo.duration * 60000;
         setTimer((endTime - Date.now()) / 60000);
       }
@@ -117,6 +131,12 @@ const ViewQuizForStudent = ({ match }) => {
 
     return () => clearInterval(interval);
   }, [quizInfo]);
+
+  useEffect(() => {
+    if(timer <= 0) {
+      // redirect here 
+    }
+  }, [timer])
 
   useEffect(() => {
     listQuizzes();
@@ -141,7 +161,7 @@ const ViewQuizForStudent = ({ match }) => {
           <Grid
             item
             style={{
-              height: "100px",
+              height: "auto",
               borderRadius: "2px",
               webkitBoxShadow: "5px 5px 5px #9E9E9E",
               mozBoxShadow: "5px 5px 5px #9E9E9E",
@@ -153,16 +173,112 @@ const ViewQuizForStudent = ({ match }) => {
             }}
           >
             <Grid item>
-              <Typography style={{ fontSize: "20px" }}>
-                {quizInfo.Name} in {SubjectName} on quiz date{" "}
-                {quizInfo.startDate}
-              </Typography>
-              <Typography>
-                Remaining time:
-                {`${Math.floor(timer)}:${Math.floor(
-                  (timer - Math.floor(timer)) * 60
-                )}`}
-              </Typography>
+              <Grid item>
+                <Grid item style={{ marginLeft: "800px" }}>
+                  <Grid item style={{ marginLeft: "300px" }}>
+                    <img
+                      src={NAME}
+                      alt="StudentNameImage"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </Grid>
+                  <Grid item style={{ marginTop: "-50px" }}>
+                    <Typography style={{ fontSize: "25px" }}>
+                      {JSON.parse(localStorage.getItem("Information")).NameAR}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item style={{ marginLeft: "30px", marginTop: "-35px" }}>
+                  <Grid item>
+                    <img
+                      src={ID}
+                      alt="StudentIdImage"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </Grid>
+                  <Grid item style={{ marginTop: "-50px", marginLeft: "70px" }}>
+                    <Typography style={{ fontSize: "25px" }}>
+                      {
+                        JSON.parse(localStorage.getItem("StuInformation"))[0]
+                          .SeatNo
+                      }
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid item style={{ marginLeft: "450px", marginTop: "10px" }}>
+                <Grid item>
+                  <img
+                    src={QuizImage}
+                    alt="CourseImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {quizInfo.Name}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item style={{ marginLeft: "430px", marginTop: "10px" }}>
+                <Grid item>
+                  <img
+                    src={CourseImage}
+                    alt="CourseImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {SubjectName}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item style={{ marginLeft: "295px", marginTop: "10px" }}>
+                <Grid item>
+                  <img
+                    src={DateImage}
+                    alt="DateImage"
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {quizInfo.startDate}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                style={{
+                  marginLeft: "830px",
+                  width: "auto",
+                  height: "auto",
+                  borderRadius: "132px",
+                  borderRadius: "16px",
+                  border: "3px solid black",
+                  webkitBoxShadow: "5px 5px 5px #9E9E9E",
+                  mozBoxShadow: "5px 5px 5px #9E9E9E",
+                  boxShadow: "5px 5px 5px #9E9E9E",
+                  padding: "5px 5px 20px 60px",
+                }}
+              >
+                <Grid item>
+                  <img
+                    src={QuizTimer}
+                    alt="QuizTimerImage"
+                    style={{ width: "80px", height: "80px" }}
+                  />
+                </Grid>
+                <Grid item style={{ marginTop: "-70px", marginLeft: "90px" }}>
+                  <Typography style={{ fontSize: "35px" }}>
+                    {`${Math.floor(timer)}: ${Math.floor(
+                      (timer - Math.floor(timer)) * 60
+                    )}`}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         )}
@@ -171,99 +287,144 @@ const ViewQuizForStudent = ({ match }) => {
             item
             style={{
               align: "left",
-              height: "600px",
+              height: "auto",
               marginTop: "10px",
               borderRadius: "2px",
               webkitBoxShadow: "5px 5px 5px #9E9E9E",
               mozBoxShadow: "5px 5px 5px #9E9E9E",
               boxShadow: "5px 5px 5px #9E9E9E",
-              padding: "5px 5px 5px 5px",
+              padding: "10px 10px 10px 10px",
               marginRight: "9px",
               backgroundColor: "white",
               width: "1240px",
             }}
           >
-            <Grid item>
-              <Grid item>
-                <Typography
-                  style={{
-                    marginLeft: "200px",
-                    fontFamily: "Monaco",
-                    fontSize: "25px",
-                    marginTop: "20px",
-                    width: "140px",
-                    padding: "2px 2px 2px 20px",
-                    borderRadius: "16px",
-                    border: "3px solid black",
-                  }}
-                >
-                  {`Question: ${index + 1}`}
-                </Typography>
+            <Grid
+              item
+              style={{
+                padding: "10px 10px 10px 10px",
+                borderRadius: "16px",
+                border: "3px solid black",
+                width: "220px",
+                height: "75px",
+                marginLeft: "109px",
+                marginTop: "15px",
+              }}
+            >
+              <Grid item style={{ marginLeft: "10px" }}>
+                <img
+                  src={QuestionNumber}
+                  alt="QuestionNumberImage"
+                  style={{ width: "50px", height: "50px" }}
+                />
               </Grid>
-
-              <Grid item>
+              <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
                 <Typography
                   style={{
-                    marginLeft: "500px",
+                    marginLeft: "30px",
                     fontFamily: "Monaco",
                     fontSize: "25px",
-                    marginTop: "-45px",
-                    width: "200px",
-                    padding: "2px 2px 2px 20px",
-                    borderRadius: "16px",
-                    border: "3px solid black",
                   }}
                 >
-                  {`Question Grade: ${question.grade}`}
+                  {`Question ${index + 1}`}
                 </Typography>
               </Grid>
             </Grid>
+
             <Grid item>
-              {question.Type == "mcq" ? (
-                <AnswersMCQ
-                  questionData={question}
-                  setQuestions={setAnswers}
-                  allQuestionAnswers={questionAnswers}
-                />
-              ) : (
-                <AnswersTrueFalse
-                  questionData={question}
-                  setQuestions={setAnswers}
-                  allQuestionAnswers={questionAnswers}
-                />
-              )}
+              <Grid item style={{ marginTop: "10px" }}>
+                <Grid
+                  item
+                  style={{
+                    padding: "10px 10px 10px 10px",
+                    borderRadius: "16px",
+                    border: "3px solid black",
+                    width: "180px",
+                    height: "75px",
+                    marginLeft: "880px",
+                  }}
+                >
+                  <Grid item style={{ marginLeft: "10px" }}>
+                    <img
+                      src={Grades}
+                      alt="GradeImage"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </Grid>
+                  <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
+                    <Typography
+                      style={{
+                        marginLeft: "30px",
+                        fontFamily: "Monaco",
+                        fontSize: "25px",
+                      }}
+                    >
+                      {`Mark: ${question.grade}`}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{ marginTop: "-100px" }}>
+                {question.Type == "mcq" ? (
+                  <AnswersMCQ
+                    questionData={question}
+                    setQuestions={setAnswers}
+                    allQuestionAnswers={questionAnswers}
+                  />
+                ) : (
+                  <AnswersTrueFalse
+                    questionData={question}
+                    setQuestions={setAnswers}
+                    allQuestionAnswers={questionAnswers}
+                  />
+                )}
+              </Grid>
             </Grid>
           </Grid>
         ))}
-      </Grid>
-
-      <Grid item style={{ marginTop: "-65px", marginLeft: "1050px" }}>
-        <Button
-          onClick={async () =>
-            await post("/Student_Answers/addQuizAnswer", questionAnswers, {
-              params: {
-                quiizID: match.params.quizId,
-                studID: 1,
-              },
-            })
-          }
-          className={classes.addButton}
-          size="small"
+        <Grid
+          item
+          style={{
+            height: "auto",
+            borderRadius: "2px",
+            webkitBoxShadow: "5px 5px 5px #9E9E9E",
+            mozBoxShadow: "5px 5px 5px #9E9E9E",
+            boxShadow: "5px 5px 5px #9E9E9E",
+            padding: "40px 40px 40px 40px",
+            marginRight: "9px",
+            backgroundColor: "white",
+            width: "1240px",
+          }}
         >
-          <Grid
-            container
-            spacing={1}
-            alignItems="center"
-            className={classes.addButtonBody}
-          >
-            <Grid item>
-              <AddMaterialIcon className={classes.addIcon} />
-            </Grid>
-            <Grid item>
-              <Typography className={classes.buttonText}>Submit</Typography>
-            </Grid>
+          <Grid item style={{ marginLeft: "1000px" }}>
+            <Button
+              onClick={async () =>
+                await post("/Student_Answers/addQuizAnswer", questionAnswers, {
+                  params: {
+                    quiizID: match.params.quizId,
+                    studID: 1,
+                  },
+                })
+              }
+              className={classes.addButton}
+              size="small"
+            >
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                className={classes.addButtonBody}
+              >
+                <Grid item>
+                  <AddMaterialIcon className={classes.addIcon} />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.buttonText}>Submit</Typography>
+                </Grid>
+              </Grid>
+            </Button>
           </Grid>
-        </Button>
+        </Grid>
       </Grid>
     </React.Fragment>
   );

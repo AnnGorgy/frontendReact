@@ -82,7 +82,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
-  const [numberOfQues, setnumberOfQuestions] = useState();
+  const [numberOfQues, setnumberOfQuestions] = useState(0);
   const [Duration, setDuration] = useState();
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [goodStartTime, setGoodStartTime] = useState(false);
@@ -105,8 +105,8 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
     setDescription("");
     setDate({ start: new Date(), end: new Date() });
     setTimePicker({ start: new Date(), end: new Date() });
-    setDuration("");
-    setnumberOfQuestions("");
+    setDuration();
+    setnumberOfQuestions(0);
     setGoodStartDate(false);
     setGoodEndDate(false);
     setQuestionType(false);
@@ -188,13 +188,12 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                       {/* Dialog Number Of Questions */}
                       <TextField
                         label="Number Of Questions"
-                        required
                         value={numberOfQues}
                         type="number"
-                        placeholder="Min"
+                        // placeholder="Min"
                         variant="outlined"
                         onChange={(e) => {
-                          setnumberOfQuestions(e.target.value);
+                          setnumberOfQuestions(Number(e.target.value));
                         }}
                         classes={{
                           root: classes.textFieldRoot,
@@ -418,7 +417,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         Duration === "" ||
                         date.start < CurrentDate ||
                         date.end < CurrentDate ||
-                        date.start > date.end
+                        date.start > date.end ||
+                        (date.start === date.end &&
+                          TimePicker.start.getTime() >=
+                            TimePicker.end.getTime())
                       }
                       onClick={() => {
                         resetStates();
@@ -447,7 +449,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                           Duration === "" ||
                           date.start < CurrentDate ||
                           date.end < CurrentDate ||
-                          date.start > date.end
+                          date.start > date.end ||
+                          (date.start === date.end &&
+                            TimePicker.start.getTime() >=
+                              TimePicker.end.getTime())
                             ? classes.createText
                             : classes.boldText
                         }
