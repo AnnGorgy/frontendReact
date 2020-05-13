@@ -49,7 +49,7 @@ function Navigator({ classes, history, match }) {
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const theme = useTheme();
   // Set The First Letter Of The Users' Name To capial //
   const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
@@ -233,39 +233,19 @@ function Navigator({ classes, history, match }) {
   return (
     <React.Fragment>
       <Toolbar style={{ backgroundColor: "#1C1C1C", width: "12px" }}>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          className={clsx(classes.menuButton, open && classes.hide)}
-        >
-          <MenuIcon style={{ color: "white" }} />
-        </IconButton>
+    
       </Toolbar>
 
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant="permanent"
         anchor="left"
         open={open}
         classes={{
           paper: classes.drawerPaper,
         }}
       >
-        <div
-          className={classes.drawerHeader}
-          style={{ backgroundColor: "#1C1C1C", height: "4px" }}
-        >
-          <IconButton onClick={handleDrawerClose} fontSize={"small"}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon style={{ color: "white" }} />
-            ) : (
-              <ChevronRightIcon style={{ color: "white" }} />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
+        
         <List disablePadding>
           <ListItem className={clsx(classes.firebase, classes.item)}>
             <img

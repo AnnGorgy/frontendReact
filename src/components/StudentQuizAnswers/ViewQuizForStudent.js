@@ -115,7 +115,11 @@ const ViewQuizForStudent = ({ match }) => {
   const QuizInforrmation = async () => {
     const QuizUrl = `/Student_Answers/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
-      params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
+      params: {
+        quizID: match.params.quizId,
+        sub_Id: match.params.courseId,
+        StudID: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+      },
     });
     setQuizInfo({ ...data[0], openedAt: Date.now() });
   };
@@ -133,10 +137,10 @@ const ViewQuizForStudent = ({ match }) => {
   }, [quizInfo]);
 
   useEffect(() => {
-    if(timer <= 0) {
-      // redirect here 
+    if (timer <= 0) {
+      // redirect here
     }
-  }, [timer])
+  }, [timer]);
 
   useEffect(() => {
     listQuizzes();
