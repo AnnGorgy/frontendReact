@@ -96,7 +96,7 @@ const MaterialTableStudent = ({
       params: { sub_Id: match.params.courseId },
     });
     setAllAssignments(
-      data.map((assignment) => ({ ...assignment, type: "assignment" }))
+      data.map((assignment) => ({ ...assignment, type: "Assignment" }))
     );
   };
   // -----------------------------------------------------------------------------------------------------
@@ -111,15 +111,15 @@ const MaterialTableStudent = ({
   // ------------------- Switch case to choose the icon that will put before every type --------------------
   const getIcon = (material) => {
     switch (material.type) {
-      case "file":
+      case "File":
         return <FileIcon />;
       case "Video":
         return <VideoIcon />;
-      case "assignment":
+      case "Assignment":
         return <AssignmentIcon />;
       case "URL":
         return <LinkIcon />;
-      case "folder":
+      case "Folder":
         return <FolderIcon />;
       default:
         break;
@@ -222,7 +222,7 @@ const MaterialTableStudent = ({
               }
               key={index}
               onClick={() => {
-                if (material.type === "folder") {
+                if (material.type === "Folder") {
                   setCurrentFolderId(material.id);
                   setCrumbs((prevCrumbs) => [
                     ...prevCrumbs,
@@ -270,7 +270,7 @@ const MaterialTableStudent = ({
               [2] Size cell (by KB) 
               */}
               <TableCell align="right">
-                {material.type === "folder"
+                {material.type === "Folder"
                   ? `${
                       allMaterials.filter(
                         (current) => current.parent_ID === material.id
@@ -299,18 +299,18 @@ const MaterialTableStudent = ({
                   Cause It's Have Another LocalHost To Delete The Assignments From It's Table  
                   */}
 
-              {material.type === "folder" ? (
+              {material.type === "Folder" ? (
                 /* We Don't Add Any Action To Folder Type */
                 <TableCell align="right">{}</TableCell>
               ) : (
                 /* Start & End Date Icon */
                 <TableCell align="right" width="22%">
-                  {material.type === "assignment" && (
+                  {material.type === "Assignment" && (
                     <Tooltip
                       title={
-                        <div>
-                          Start Date : {material.startdate}
-                          <br /> End Date : {material.enddate}
+                        <div style={{ fontSize: "15px" }}>
+                          Start Date : {material.Start}
+                          <br /> <br /> End Date : {material.End}
                         </div>
                       }
                       placement="bottom"
@@ -323,9 +323,9 @@ const MaterialTableStudent = ({
                   {/* Download Icon Depends On It's Type */}
                   <Tooltip title="Download" placement="bottom">
                     <Button size="small">
-                      {material.type !== "folder" &&
+                      {material.type !== "Folder" &&
                         material.type !== "URL" &&
-                        material.type !== "assignment" && (
+                        material.type !== "Assignment" && (
                           <DownloadIcon
                             onClick={async () => {
                               const response = await get(
@@ -354,7 +354,7 @@ const MaterialTableStudent = ({
                           />
                         )}
                       {/* Download Icon  (Assignment Type -  Another Types) */}
-                      {material.type === "assignment" && (
+                      {material.type === "Assignment" && (
                         <DownloadIcon
                           onClick={async () => {
                             const response = await get("/assignment/download", {

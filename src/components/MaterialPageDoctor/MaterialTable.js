@@ -176,7 +176,7 @@ const MaterialTable = ({
   // ------------------- Switch case to choose the icon that will put before every type --------------------
   const getIcon = (material) => {
     switch (material.type) {
-      case "file":
+      case "File":
         return <FileIcon />;
       case "Video":
         return <VideoIcon />;
@@ -184,7 +184,7 @@ const MaterialTable = ({
         return <AssignmentIcon />;
       case "URL":
         return <LinkIcon />;
-      case "folder":
+      case "Folder":
         return <FolderIcon />;
       default:
         break;
@@ -338,7 +338,7 @@ const MaterialTable = ({
                 // FIXME: any url not starting with http:// or https:// won't navigate
                 key={index}
                 onDoubleClick={() => {
-                  if (material.type === "folder") {
+                  if (material.type === "Folder") {
                     setCurrentFolderId(material.id);
                     setCrumbs((prevCrumbs) => [
                       ...prevCrumbs,
@@ -388,7 +388,7 @@ const MaterialTable = ({
               [2] Size cell (by KB) 
               */}
                 <TableCell align="right">
-                  {material.type === "folder"
+                  {material.type === "Folder"
                     ? `${
                         allMaterials.filter(
                           (current) => current.parent_ID === material.id
@@ -417,7 +417,7 @@ const MaterialTable = ({
                   Cause It's Have Another LocalHost To Delete The Assignments From It's Table  
                   */}
 
-                {material.type === "folder" ? (
+                {material.type === "Folder" ? (
                   /* We Don't Add Any Action To Folder Type */
                   <TableCell align="right" width="22%">
                     <Tooltip title="Rename" placement="bottom">
@@ -451,7 +451,7 @@ const MaterialTable = ({
                     )}
                     {/* Download Icon Depends On It's Type */}
 
-                    {material.type !== "folder" &&
+                    {material.type !== "Folder" &&
                       material.type !== "URL" &&
                       material.type !== "Assignment" && (
                         <Tooltip title="Download" placement="bottom">
@@ -569,7 +569,7 @@ const MaterialTable = ({
                       </Tooltip>
                     )}
                     {material.type !== "Assignment" &&
-                      material.type !== "folder" && (
+                      material.type !== "Folder" && (
                         <Tooltip title="Rename" placement="bottom">
                           <Button size="small">
                             <EditIcon

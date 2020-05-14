@@ -232,11 +232,7 @@ function Navigator({ classes, history, match }) {
 
   return (
     <React.Fragment>
-      <Toolbar style={{ backgroundColor: "#1C1C1C", width: "12px" }}>
-    
-      </Toolbar>
-
-      <Drawer
+       <Drawer
         className={classes.drawer}
         variant="permanent"
         anchor="left"
@@ -244,7 +240,7 @@ function Navigator({ classes, history, match }) {
         classes={{
           paper: classes.drawerPaper,
         }}
-      >
+      > 
         
         <List disablePadding>
           <ListItem className={clsx(classes.firebase, classes.item)}>
@@ -254,13 +250,12 @@ function Navigator({ classes, history, match }) {
               style={{
                 width: "auto",
                 height:"auto",
-                marginLeft: theme.spacing(4),
+                marginLeft: theme.spacing(2),
                 marginBottom: theme.spacing(3),
-                marginTop: theme.spacing(2),
+                marginTop: theme.spacing(0.2),
               }}
             />
           </ListItem>
-          <Divider />
           {categories.map(({ Icon, children, title, active, onClick }, index) =>
             children ? (
               <React.Fragment>
@@ -330,7 +325,7 @@ function Navigator({ classes, history, match }) {
             )
           )}
         </List>
-      </Drawer>
+      </Drawer> 
     </React.Fragment>
   );
 }
@@ -340,92 +335,31 @@ Navigator.propTypes = {
 };
 
 // Page Style //
-const drawerWidth = 280;
+const drawerWidth = 270;
 const styles = (theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: "black",
-    backgroundColor: "#1C1C1C",
-  },
-  hide: {
-    display: "none",
-  },
   drawer: {
     width: drawerWidth,
     backgroundColor: "#1C1C1C",
     flexShrink: 0,
   },
   drawerPaper: {
+    overflowY:"auto",
+    overflowX:"hidden",
     width: drawerWidth,
     backgroundColor: "#1C1C1C",
     color: "white",
   },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#1C1C1C",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
-  content: {
-    flexGrow: 1,
-    color: "White",
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-
-  ///////////////////////////////////////////////////
   item: {
     backgroundColor: "#1C1C1C",
-    paddingTop: 17,
-    paddingBottom: 17,
     paddingLeft: 0.2,
     color: "rgba(255, 255, 255, 1.0)",
     width: "auto",
     height: "auto",
   },
-  itemCategory: {
-    backgroundColor: "#1C1C1C",
-    boxShadow: "0 -1px 0 #404854 inset",
-    color: "rgba(255, 255, 255, 1.0)",
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
   courseImage: {
     width: "45px",
-    paddingLeft: "18px",
-    paddingRight: "8px",
-  },
+    paddingLeft: "12px",
+ },
   firebase: {
     fontSize: 24,
     height: "auto",
@@ -449,7 +383,7 @@ const styles = (theme) => ({
   nested: {
     paddingLeft: theme.spacing(1.5),
     backgroundColor: "#1C1C1C",
-    width: "235px",
+    width: "240px",
   },
 });
 

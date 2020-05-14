@@ -121,14 +121,14 @@ const ViewQuizForStudent = ({ match }) => {
         StudID: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
       },
     });
-    setQuizInfo({ ...data[0], openedAt: Date.now() });
+    setQuizInfo({ ...data[0] });
   };
   //--------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (quizInfo) {
-        const endTime = quizInfo.openedAt + quizInfo.duration * 60000;
+        const endTime = quizInfo.OpenedAt + quizInfo.duration * 60000;
         setTimer((endTime - Date.now()) / 60000);
       }
     }, 500);

@@ -152,7 +152,7 @@ const QuizTableMainStudent = ({
                 </TableCell>
                 <TableCell align="right" width="20%">
                   <Tooltip title="Enter The Quiz" placement="bottom">
-                    <Button size="small" disabled={quiz.openedAt + quiz.duration * 60000 < Date.now()}>
+                    <Button size="small" /* disabled={quiz.openedAt + quiz.duration * 60000 < Date.now()} */>
                       <img
                         src="https://img.icons8.com/ios/30/000000/quiz.png"
                         onClick={() => {
