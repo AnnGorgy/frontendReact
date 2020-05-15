@@ -114,6 +114,7 @@ const UpdateQuiz = ({
       setReloadQuiz(false);
     }
   }, [ReloadQuiz]);
+
   useEffect(() => {
     setQuestionType(CurrentchangeQuestionsOrder);
   }, [CurrentchangeQuestionsOrder]);
@@ -124,10 +125,6 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangednumberOfQuestions(numQuestions);
   }, [numQuestions]);
-
-  useEffect(() => {
-    setChangedDescription(descr);
-  }, [descr]);
 
   useEffect(() => {
     setChangedDescription(descr);
@@ -221,7 +218,7 @@ const UpdateQuiz = ({
                         required
                         value={ChangednumberOfQues}
                         onChange={(e) => {
-                          setChangednumberOfQuestions(e.target.value);
+                          setChangednumberOfQuestions(Number(e.target.value));
                         }}
                         type="number"
                         placeholder="Min"
@@ -256,7 +253,7 @@ const UpdateQuiz = ({
                         required
                         value={ChangedDuration}
                         onChange={(e) => {
-                          setChangedDuration(e.target.value);
+                          setChangedDuration(Number(e.target.value));
                         }}
                         type="number"
                         placeholder="Min"
@@ -420,6 +417,12 @@ const UpdateQuiz = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
+                            setQuestionType(CurrentchangeQuestionsOrder);
+                            setChangedName(CurrentName);
+                            setChangednumberOfQuestions(numQuestions);
+                            setChangedDuration(durat);
+                            setChangedDate({ start: sDate, end: eDate });
+                            setChangedTimePicker({ start: sTime, end: eTime });
                           }}
                         >
                           <Typography

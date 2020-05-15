@@ -83,7 +83,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
   const [numberOfQues, setnumberOfQuestions] = useState(0);
-  const [Duration, setDuration] = useState();
+  const [Duration, setDuration] = useState(0);
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [goodStartTime, setGoodStartTime] = useState(false);
   const [goodEndTime, setGoodEndTime] = useState(false);
@@ -105,7 +105,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
     setDescription("");
     setDate({ start: new Date(), end: new Date() });
     setTimePicker({ start: new Date(), end: new Date() });
-    setDuration();
+    setDuration(0);
     setnumberOfQuestions(0);
     setGoodStartDate(false);
     setGoodEndDate(false);
@@ -190,7 +190,6 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         label="Number Of Questions"
                         value={numberOfQues}
                         type="number"
-                        // placeholder="Min"
                         variant="outlined"
                         onChange={(e) => {
                           setnumberOfQuestions(Number(e.target.value));
@@ -224,10 +223,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         required
                         value={Duration}
                         type="number"
-                        placeholder="Min"
                         variant="outlined"
                         onChange={(e) => {
-                          setDuration(e.target.value);
+                          setDuration(Number(e.target.value));
                         }}
                         classes={{
                           root: classes.textFieldRoot,
@@ -309,6 +307,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                             }
                             onError={(bad) => setGoodStartDate(!bad)}
                             format="MM/dd/yyyy"
+                          
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -422,6 +421,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                           TimePicker.start.getTime() >=
                             TimePicker.end.getTime())
                       }
+                      
                       onClick={() => {
                         resetStates();
                         localStorage.setItem("numberOfQuestions", numberOfQues);
@@ -437,6 +437,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         });
                       }}
                     >
+                      
                       <Typography
                         variant="h6"
                         className={

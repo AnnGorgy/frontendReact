@@ -15,6 +15,7 @@ import {
 //------------------------------ Another Components Used In This Component -------------------------------
 import AnswersMCQ from "./AnswersMCQ";
 import AnswersTrueFalse from "./AnswersTrueFalse";
+import GradeDialog from "./GradeDialog";
 //--------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ------------------------------------------------
@@ -100,6 +101,8 @@ const ViewQuizForStudent = ({ match }) => {
   ).Subjectname;
   const [quizInfo, setQuizInfo] = useState();
   const [timer, setTimer] = useState(100000);
+  const [gradeDialogIsOpen, setGradeDialogIsOpen] = useState(false);
+  const [studentGrade, setStudentGrade] = useState();
   //--------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -124,11 +127,23 @@ const ViewQuizForStudent = ({ match }) => {
     setQuizInfo({ ...data[0] });
   };
   //--------------------------------------------------------------------------------------------------------
+  const AddQuizAnswer = async () => {
+    const Url = `/Student_Answers/addQuizAnswer`;
+    const { data } = await post(Url, questionAnswers, {
+      params: {
+        quiizID: match.params.quizId,
+        studID: 1,
+      },
+    });
+    setStudentGrade(data);
+  };
+  //---------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (quizInfo) {
         const endTime = quizInfo.OpenedAt + quizInfo.duration * 60000;
+        console.log("aly rag3 mn al back",quizInfo.OpenedAt,"al w2t dlwa2ty", Date.now());
         setTimer((endTime - Date.now()) / 60000);
       }
     }, 500);
@@ -138,7 +153,8 @@ const ViewQuizForStudent = ({ match }) => {
 
   useEffect(() => {
     if (timer <= 0) {
-      // redirect here
+      AddQuizAnswer();
+      setGradeDialogIsOpen(true);
     }
   }, [timer]);
 
@@ -151,7 +167,6 @@ const ViewQuizForStudent = ({ match }) => {
   }, [match.params.quizId, match.params.courseId]);
 
   useEffect(() => {
-    // tyb l7d ma y3mloha hn3tbr quizInfo.openedAt feha el time ely 3wzeno tmm
     const questionAnswerss = quizData?.map((question) =>
       getDefaultAnswerBody(question.questionId, question.NumberofCorrectAnswers)
     );
@@ -160,6 +175,12 @@ const ViewQuizForStudent = ({ match }) => {
 
   return (
     <React.Fragment>
+      <GradeDialog
+        title="Student Grade"
+        isOpened={gradeDialogIsOpen}
+        onClose={() => setGradeDialogIsOpen(false)}
+        grade={studentGrade}
+      />
       <Grid item style={{ marginTop: "20px" }}>
         {quizInfo && (
           <Grid
@@ -402,14 +423,10 @@ const ViewQuizForStudent = ({ match }) => {
         >
           <Grid item style={{ marginLeft: "1000px" }}>
             <Button
-              onClick={async () =>
-                await post("/Student_Answers/addQuizAnswer", questionAnswers, {
-                  params: {
-                    quiizID: match.params.quizId,
-                    studID: 1,
-                  },
-                })
-              }
+              onClick={() => {
+                AddQuizAnswer();
+                setGradeDialogIsOpen(true);
+              }}
               className={classes.addButton}
               size="small"
             >

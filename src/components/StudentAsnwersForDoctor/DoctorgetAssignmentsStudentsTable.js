@@ -103,10 +103,10 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
               <TableCell width="25%" className={classes.tableHeader}>
                 File Name
               </TableCell>
-              <TableCell width="25%" className={classes.tableHeader}>
+              <TableCell width="25%"  align = "center"className={classes.tableHeader}>
                 Student Name
               </TableCell>
-              <TableCell className={classes.tableHeader}>SeatNo</TableCell>
+              <TableCell align="center" className={classes.tableHeader}>SeatNo</TableCell>
               <TableCell
                 width="5%"
                 className={classes.tableHeader}
@@ -155,10 +155,23 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
               >
                 {/* File Name Cell */}
                 <TableCell width="25%">{assignment.name}</TableCell>
-                {/* Student Name Cell */}
-                <TableCell width="25%">{assignment.studentName}</TableCell>
-                {/* SeatNo Cell */}
-                <TableCell>{assignment.SeatNo}</TableCell>
+                {/* Student Name Cell "File" */}
+                {assignment.type==="file"&&(
+                  <TableCell align="center" width="25%">{assignment.studentName}</TableCell>
+                )}
+                {/* SeatNo Cell "File" */}
+                {assignment.type==="file"&&(
+                <TableCell align="center">{assignment.SeatNo}</TableCell>
+                )}
+                {/* Student Name Cell "Folder" */}
+                {assignment.type==="folder"&&(
+                  <TableCell align="center" width="25%">__</TableCell>
+                )}
+                {/* SeatNo Cell "Folder" */}
+                {assignment.type==="folder"&&(
+                <TableCell align="center">__</TableCell>
+                )}
+
                 {assignment.type === "file" ? (
                   <TableCell align="right" width="5%">
                     <Tooltip title="Download" placement="bottom">

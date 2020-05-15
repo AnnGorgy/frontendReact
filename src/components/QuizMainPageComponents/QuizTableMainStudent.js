@@ -50,6 +50,7 @@ const QuizTableMainStudent = ({
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   const [TimeIsOpen, setTimeIsOpen] = useState(false);
+  /* const [CurrentDate, setCurrentDate] = useState(new Date()); */
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadQuiz === true) {
@@ -152,7 +153,15 @@ const QuizTableMainStudent = ({
                 </TableCell>
                 <TableCell align="right" width="20%">
                   <Tooltip title="Enter The Quiz" placement="bottom">
-                    <Button size="small" /* disabled={quiz.openedAt + quiz.duration * 60000 < Date.now()} */>
+                    <Button
+                      size="small"
+                      /* disabled={
+                        quiz.startDate > CurrentDate.toDateString() ||
+                        quiz.endDate < CurrentDate.toDateString()
+                      } */
+                    >
+                      {/* {console.log(quiz.startDate > CurrentDate.toDateString() , 
+                        quiz.endDate < CurrentDate.toDateString())} */}
                       <img
                         src="https://img.icons8.com/ios/30/000000/quiz.png"
                         onClick={() => {
@@ -164,7 +173,13 @@ const QuizTableMainStudent = ({
                     </Button>
                   </Tooltip>
                   <Tooltip title="Model Answer" placement="bottom">
-                    <Button size="small">
+                    <Button
+                      size="small"
+                      /* disabled={
+                        quiz.startDate > CurrentDate.toDateString() ||
+                        quiz.endDate < CurrentDate.toDateString()
+                      } */
+                    >
                       <QuestionAnswerIcon
                         onClick={() => {
                           history.push(
@@ -200,7 +215,7 @@ const styles = () => ({
     overflowY: "auto",
     maxWidth: "170vh",
     marginLeft: "15px",
-    marginTop:"20px"
+    marginTop: "20px",
   },
   tableHeader: {
     backgroundColor: "black",
