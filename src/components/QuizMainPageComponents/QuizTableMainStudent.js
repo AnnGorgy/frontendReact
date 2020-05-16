@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 
-//------------------------------ Another Components Used In This Component -------------------------------
-import TimeQuizDialog from "./TimeQuizDialog";
-//-----------------------------------------------------------------------------------------------------------
-
 //------------------------------------------------- Icons ------------------------------------------------
-import ScheduleIcon from "@material-ui/icons/Schedule";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -37,9 +32,9 @@ const QuizTableMainStudent = ({
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
-    const Url = `/DoctorMakeQuiz/GetQuizzes`;
+    const Url = `/Student_Answers/GetQuizforStudent`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: match.params.courseId },
+      params: { sub_Id: match.params.courseId, StudID: 1 },
     });
     setAllQuiz(data);
   };
@@ -48,9 +43,6 @@ const QuizTableMainStudent = ({
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
-  const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
-  const [TimeIsOpen, setTimeIsOpen] = useState(false);
-  /* const [CurrentDate, setCurrentDate] = useState(new Date()); */
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadQuiz === true) {
@@ -71,13 +63,6 @@ const QuizTableMainStudent = ({
 
   return (
     <React.Fragment>
-      <TimeQuizDialog
-        title="Time"
-        isOpened={TimeIsOpen}
-        onClose={() => setTimeIsOpen(false)}
-        sTime={currentEditedQuiz?.startTime}
-        eTime={currentEditedQuiz?.endTime}
-      />
       <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
@@ -152,49 +137,27 @@ const QuizTableMainStudent = ({
                   {quiz.endDate}
                 </TableCell>
                 <TableCell align="right" width="20%">
-                  <Tooltip title="Enter The Quiz" placement="bottom">
-                    <Button
-                      size="small"
-                      /* disabled={
-                        quiz.startDate > CurrentDate.toDateString() ||
-                        quiz.endDate < CurrentDate.toDateString()
-                      } */
-                    >
-                      {/* {console.log(quiz.startDate > CurrentDate.toDateString() , 
-                        quiz.endDate < CurrentDate.toDateString())} */}
-                      <img
-                        src="https://img.icons8.com/ios/30/000000/quiz.png"
-                        onClick={() => {
-                          history.push(
-                            `/studentanswers/${match.params.courseId}/${quiz.id}`
-                          );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
+                  {quiz.hasGrade == null && quiz.isAvailable == true && (
+                    <Tooltip title="Enter The Quiz" placement="bottom">
+                      <Button size="small">
+                        <img
+                          src="https://img.icons8.com/ios/30/000000/quiz.png"
+                          onClick={() => {
+                            history.push(
+                              `/studentanswers/${match.params.courseId}/${quiz.id}`
+                            );
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  )}
                   <Tooltip title="Model Answer" placement="bottom">
-                    <Button
-                      size="small"
-                      /* disabled={
-                        quiz.startDate > CurrentDate.toDateString() ||
-                        quiz.endDate < CurrentDate.toDateString()
-                      } */
-                    >
+                    <Button size="small" disabled={quiz.Finish == false}>
                       <QuestionAnswerIcon
                         onClick={() => {
                           history.push(
                             `/viewquiz/${match.params.courseId}/${quiz.id}`
                           );
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Time" placement="bottom">
-                    <Button size="small">
-                      <ScheduleIcon
-                        onClick={() => {
-                          setTimeIsOpen(true);
-                          setCurrentEditedQuiz(quiz);
                         }}
                       />
                     </Button>

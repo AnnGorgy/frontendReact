@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
@@ -80,8 +79,6 @@ const UpdateQuiz = ({
   CurrentName,
   sDate,
   eDate,
-  sTime,
-  eTime,
   numQuestions,
   isOpened,
   durat,
@@ -98,10 +95,6 @@ const UpdateQuiz = ({
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
   const [ChangedDate, setChangedDate] = useState({
-    start: new Date(),
-    end: new Date(),
-  });
-  const [ChangedTimePicker, setChangedTimePicker] = useState({
     start: new Date(),
     end: new Date(),
   });
@@ -137,10 +130,6 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangedDate({ start: sDate, end: eDate });
   }, [sDate, eDate]);
-
-  useEffect(() => {
-    setChangedTimePicker({ start: sTime, end: eTime });
-  }, [sTime, eTime]);
 
   const handleChange = () => {
     setQuestionType((prev) => !prev);
@@ -324,7 +313,7 @@ const UpdateQuiz = ({
                     <Grid container justify="space-between">
                       <Grid item xs={5}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <KeyboardDateTimePicker
                             required
                             clearable
                             autoOk
@@ -338,13 +327,13 @@ const UpdateQuiz = ({
                               }))
                             }
                             onError={(bad) => setGoodStartDate(!bad)}
-                            format="MM/dd/yyyy"
+                            format="yyyy/MM/dd hh:mm a"
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
                       <Grid item xs={5}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <KeyboardDateTimePicker
                             required
                             clearable
                             autoOk
@@ -357,58 +346,12 @@ const UpdateQuiz = ({
                               }))
                             }
                             onError={(bad) => setGoodEndDate(!bad)}
-                            format="MM/dd/yyyy"
+                            format="yyyy/MM/dd hh:mm a"
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item>
-                    <Grid container justify="space-between">
-                      <Grid item xs={5}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardTimePicker
-                            required
-                            margin="normal"
-                            id="time-picker"
-                            label="Start Time"
-                            value={ChangedTimePicker.start}
-                            onChange={(ChangedTimePicker) =>
-                              setChangedTimePicker((prev) => ({
-                                ...prev,
-                                start: ChangedTimePicker,
-                              }))
-                            }
-                            KeyboardButtonProps={{
-                              "aria-label": "change time",
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardTimePicker
-                            required
-                            margin="normal"
-                            id="time-picker"
-                            label="End Time"
-                            value={ChangedTimePicker.end}
-                            onChange={(ChangedTimePicker) =>
-                              setChangedTimePicker((prev) => ({
-                                ...prev,
-                                end: ChangedTimePicker,
-                              }))
-                            }
-                            KeyboardButtonProps={{
-                              "aria-label": "change time",
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -422,7 +365,6 @@ const UpdateQuiz = ({
                             setChangednumberOfQuestions(numQuestions);
                             setChangedDuration(durat);
                             setChangedDate({ start: sDate, end: eDate });
-                            setChangedTimePicker({ start: sTime, end: eTime });
                           }}
                         >
                           <Typography
@@ -443,10 +385,10 @@ const UpdateQuiz = ({
                             ChangedName == CurrentName ||
                             !goodStartDate ||
                             !goodEndDate ||
-                            ChangedDate.start > ChangedDate.end ||
+                            ChangedDate.start > ChangedDate.end /* ||
                             (ChangedDate.start === ChangedDate.end &&
                               ChangedTimePicker.start.getTime() >=
-                                ChangedTimePicker.end.getTime())
+                                ChangedTimePicker.end.getTime()) */
                           }
                           onClick={() => {
                             onSubmit({
@@ -454,7 +396,6 @@ const UpdateQuiz = ({
                               ChangedDate,
                               ChangedDescription,
                               ChangedDuration,
-                              ChangedTimePicker,
                               questionType,
                               ChangednumberOfQues,
                             });
@@ -467,10 +408,10 @@ const UpdateQuiz = ({
                               ChangedName == CurrentName ||
                               !goodStartDate ||
                               !goodEndDate ||
-                              ChangedDate.start > ChangedDate.end ||
+                              ChangedDate.start > ChangedDate.end /* ||
                               (ChangedDate.start === ChangedDate.end &&
                                 ChangedTimePicker.start.getTime() >=
-                                  ChangedTimePicker.end.getTime())
+                                  ChangedTimePicker.end.getTime()) */
                                 ? classes.createText
                                 : classes.boldText
                             }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  KeyboardDatePicker,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
@@ -182,7 +182,7 @@ const CreateFileForm = ({
                       <Grid container justify="space-between">
                         <Grid item xs={5}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
+                            <KeyboardDateTimePicker
                               clearable
                               autoOk
                               label="Start Date"
@@ -192,13 +192,13 @@ const CreateFileForm = ({
                                 setDate((prev) => ({ ...prev, start: date }))
                               }
                               onError={(bad) => setGoodStartDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
+                              format="yyyy/MM/dd hh:mm a"
+                              />
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item xs={5}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
+                            <KeyboardDateTimePicker
                               clearable
                               autoOk
                               label="End Date"
@@ -207,8 +207,8 @@ const CreateFileForm = ({
                                 setDate((prev) => ({ ...prev, end: date }))
                               }
                               onError={(bad) => setGoodEndDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
+                              format="yyyy/MM/dd hh:mm a"
+                              />
                           </MuiPickersUtilsProvider>
                         </Grid>
                       </Grid>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  KeyboardDatePicker,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
@@ -122,7 +122,7 @@ const RenameForm = ({
                       <Grid container justify="space-between">
                         <Grid item xs={5}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
+                            <KeyboardDateTimePicker
                               clearable
                               autoOk
                               label="Start Date"
@@ -132,13 +132,13 @@ const RenameForm = ({
                                 setDate((prev) => ({ ...prev, start: date }))
                               }
                               onError={(bad) => setGoodStartDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
+                              format="yyyy/MM/dd hh:mm a"
+                              />
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item xs={5}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
+                            <KeyboardDateTimePicker
                               clearable
                               autoOk
                               label="End Date"
@@ -147,8 +147,8 @@ const RenameForm = ({
                                 setDate((prev) => ({ ...prev, end: date }))
                               }
                               onError={(bad) => setGoodEndDate(!bad)}
-                              format="MM/dd/yyyy"
-                            />
+                              format="yyyy/MM/dd hh:mm a"
+                              />
                           </MuiPickersUtilsProvider>
                         </Grid>
                       </Grid>
@@ -185,7 +185,6 @@ const RenameForm = ({
                             (hasDate &&
                               (!goodStartDate ||
                                 !goodEndDate ||
-                                date.end < CurrentDate ||
                                 date.start > date.end))
                           }
                           onClick={() => {
@@ -203,7 +202,6 @@ const RenameForm = ({
                               (hasDate &&
                                 (!goodStartDate ||
                                   !goodEndDate ||
-                                  date.end < CurrentDate ||
                                   date.start > date.end))
                                 ? classes.createText
                                 : classes.boldText

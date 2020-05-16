@@ -142,8 +142,10 @@ const ViewQuizForStudent = ({ match }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (quizInfo) {
-        const endTime = quizInfo.OpenedAt + quizInfo.duration * 60000;
-        console.log("aly rag3 mn al back",quizInfo.OpenedAt,"al w2t dlwa2ty", Date.now());
+        const endTime = (math.floor(quizInfo.OpenedAt)) + quizInfo.duration * 60000;
+        const test = Date(quizInfo.OpenedAt);
+        const bad = Date(Date.now());
+        console.log(test, bad, (math.floor(quizInfo.OpenedAt)));
         setTimer((endTime - Date.now()) / 60000);
       }
     }, 500);
@@ -153,8 +155,7 @@ const ViewQuizForStudent = ({ match }) => {
 
   useEffect(() => {
     if (timer <= 0) {
-      AddQuizAnswer();
-      setGradeDialogIsOpen(true);
+      //redirect
     }
   }, [timer]);
 

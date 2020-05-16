@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import { withRouter } from "react-router-dom";
 import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
+  KeyboardDateTimePicker ,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -85,13 +84,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
   const [numberOfQues, setnumberOfQuestions] = useState(0);
   const [Duration, setDuration] = useState(0);
   const [CurrentDate, setCurrentDate] = useState(new Date());
-  const [goodStartTime, setGoodStartTime] = useState(false);
-  const [goodEndTime, setGoodEndTime] = useState(false);
   const [date, setDate] = useState({
-    start: new Date(),
-    end: new Date(),
-  });
-  const [TimePicker, setTimePicker] = useState({
     start: new Date(),
     end: new Date(),
   });
@@ -104,7 +97,6 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
     setName("");
     setDescription("");
     setDate({ start: new Date(), end: new Date() });
-    setTimePicker({ start: new Date(), end: new Date() });
     setDuration(0);
     setnumberOfQuestions(0);
     setGoodStartDate(false);
@@ -292,7 +284,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                     <Grid container justify="space-between">
                       <Grid item xs={5}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <KeyboardDateTimePicker 
                             required
                             clearable
                             autoOk
@@ -306,14 +298,13 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                               setDate((prev) => ({ ...prev, start: date }))
                             }
                             onError={(bad) => setGoodStartDate(!bad)}
-                            format="MM/dd/yyyy"
-                          
+                            format="yyyy/MM/dd hh:mm a"
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
                       <Grid item xs={5}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <KeyboardDateTimePicker
                             required
                             clearable
                             autoOk
@@ -323,54 +314,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                               setDate((prev) => ({ ...prev, end: date }))
                             }
                             onError={(bad) => setGoodEndDate(!bad)}
-                            format="MM/dd/yyyy"
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Grid container justify="space-between">
-                      <Grid item xs={5}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardTimePicker
-                            required
-                            margin="normal"
-                            id="time-picker"
-                            label="Start Time"
-                            value={TimePicker.start}
-                            onChange={(TimePicker) =>
-                              setTimePicker((prev) => ({
-                                ...prev,
-                                start: TimePicker,
-                              }))
-                            }
-                            onError={(bad) => setGoodStartTime(!bad)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change time",
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardTimePicker
-                            required
-                            margin="normal"
-                            id="time-picker"
-                            label="End Time"
-                            value={TimePicker.end}
-                            onChange={(TimePicker) =>
-                              setTimePicker((prev) => ({
-                                ...prev,
-                                end: TimePicker,
-                              }))
-                            }
-                            onError={(bad) => setGoodEndTime(!bad)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change time",
-                            }}
+                            format="yyyy/MM/dd hh:mm a"
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -410,16 +354,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         Name === "" ||
                         !goodStartDate ||
                         !goodEndDate ||
-                        !goodStartTime ||
-                        !goodEndTime ||
                         numberOfQues === "" ||
                         Duration === "" ||
-                        date.start < CurrentDate ||
-                        date.end < CurrentDate ||
-                        date.start > date.end ||
-                        (date.start === date.end &&
-                          TimePicker.start.getTime() >=
-                            TimePicker.end.getTime())
+                        date.start > date.end 
                       }
                       
                       onClick={() => {
@@ -430,7 +367,6 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                           Name,
                           Description,
                           date,
-                          TimePicker,
                           Duration,
                           questionType,
                           numberOfQues,
@@ -442,18 +378,11 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         variant="h6"
                         className={
                           Name === "" ||
-                          !goodStartTime ||
-                          !goodEndTime ||
                           !goodStartDate ||
                           !goodEndDate ||
                           numberOfQues === "" ||
                           Duration === "" ||
-                          date.start < CurrentDate ||
-                          date.end < CurrentDate ||
-                          date.start > date.end ||
-                          (date.start === date.end &&
-                            TimePicker.start.getTime() >=
-                              TimePicker.end.getTime())
+                          date.start > date.end 
                             ? classes.createText
                             : classes.boldText
                         }

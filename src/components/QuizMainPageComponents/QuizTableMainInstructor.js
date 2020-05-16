@@ -3,15 +3,12 @@ import { post } from "axios";
 import { withRouter } from "react-router-dom";
 
 //------------------------------ Another Components Used In This Component -------------------------------
-import TimeQuizDialog from "./TimeQuizDialog";
 import UpdateQuiz from "./UpdateQuiz";
 //--------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 //--------------------------------------------------------------------------------------------------------
 
@@ -54,7 +51,6 @@ const QuizTableMainInstructor = ({
     ChangedDate,
     ChangedDescription,
     ChangedDuration,
-    ChangedTimePicker,
     questionType,
     ChangednumberOfQues,
     callback
@@ -67,8 +63,6 @@ const QuizTableMainInstructor = ({
         description: ChangedDescription,
         startDate: ChangedDate.start,
         endDate: ChangedDate.end,
-        startTime: ChangedTimePicker.start,
-        endTime: ChangedTimePicker.end,
         duration: ChangedDuration,
         shuffleQuestion: questionType,
         subID: match.params.courseId,
@@ -85,7 +79,6 @@ const QuizTableMainInstructor = ({
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   const [UpdateQuizIsOpen, setUpdateQuizIsOpen] = useState(false);
-  const [TimeIsOpen, setTimeIsOpen] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -107,20 +100,12 @@ const QuizTableMainInstructor = ({
 
   return (
     <React.Fragment>
-      <TimeQuizDialog
-        title="Time"
-        isOpened={TimeIsOpen}
-        onClose={() => setTimeIsOpen(false)}
-        sTime={currentEditedQuiz?.startTime}
-        eTime={currentEditedQuiz?.endTime}
-      />
+      
       <UpdateQuiz
         title="Update Quiz"
         CurrentName={currentEditedQuiz?.Name}
         sDate={currentEditedQuiz?.startDate}
         eDate={currentEditedQuiz?.endDate}
-        sTime={currentEditedQuiz?.startTime}
-        eTime={currentEditedQuiz?.endTime}
         durat={currentEditedQuiz?.duration}
         CurrentchangeQuestionsOrder={currentEditedQuiz?.shuffleQuestion}
         descr={currentEditedQuiz?.description}
@@ -132,7 +117,6 @@ const QuizTableMainInstructor = ({
           ChangedDate,
           ChangedDescription,
           ChangedDuration,
-          ChangedTimePicker,
           questionType,
           ChangednumberOfQues,
         }) =>
@@ -142,7 +126,6 @@ const QuizTableMainInstructor = ({
             ChangedDate,
             ChangedDescription,
             ChangedDuration,
-            ChangedTimePicker,
             questionType,
             ChangednumberOfQues,
             () => setUpdateQuizIsOpen(false)
@@ -229,16 +212,7 @@ const QuizTableMainInstructor = ({
                         />
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Time" placement="bottom">
-                      <Button size="small">
-                        <ScheduleIcon
-                          onClick={() => {
-                            setTimeIsOpen(true);
-                            setCurrentEditedQuiz(quiz);
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
+
                     <Tooltip title="Delete" placement="bottom">
                       <Button size="small">
                         <DeleteIcon

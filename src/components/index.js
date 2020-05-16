@@ -19,7 +19,6 @@ export { default as QuizHeaderCreation } from "./QuizCreationComponents/QuizHead
 export { default as QuizStepper } from "./QuizCreationComponents/QuizStepper";
 export { default as MCQ } from "./QuizCreationComponents/MCQ";
 export { default as TrueFalse } from "./QuizCreationComponents/TrueFalse";
-export { default as TimeQuizDialog } from "./QuizMainPageComponents/TimeQuizDialog";
 export { default as ViewQuizForInstructor } from "./ViewingTheQuiz/ViewQuizForInstructor";
 export { default as ViewMCQ } from "./ViewingTheQuiz/ViewMCQ";
 export { default as ViewTrueFalse } from "./ViewingTheQuiz/ViewTrueFalse";
