@@ -142,10 +142,10 @@ const ViewQuizForStudent = ({ match }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (quizInfo) {
-        const endTime = (math.floor(quizInfo.OpenedAt)) + quizInfo.duration * 60000;
+        const endTime = (Math.floor(quizInfo.OpenedAt)) + quizInfo.duration * 60000;
         const test = Date(quizInfo.OpenedAt);
         const bad = Date(Date.now());
-        console.log(test, bad, (math.floor(quizInfo.OpenedAt)));
+        console.log(test, bad, (Math.floor(quizInfo.OpenedAt)));
         setTimer((endTime - Date.now()) / 60000);
       }
     }, 500);
