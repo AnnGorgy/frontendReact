@@ -181,8 +181,8 @@ const QuizTableMainInstructor = ({
                   }}
                   style={
                     index % 2
-                      ? { background: "#E8FDFF" }
-                      : { background: "#E8FDFF" }
+                      ? { background: "#FFFFFF" }
+                      : { background: "#FFFFFF" }
                   }
                   style={{ cursor: "pointer" }}
                 >
@@ -255,9 +255,11 @@ const styles = () => ({
     marginLeft: "15px",
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });
 

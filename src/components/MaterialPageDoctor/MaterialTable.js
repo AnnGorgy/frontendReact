@@ -332,8 +332,8 @@ const MaterialTable = ({
               <TableRow
                 style={
                   index % 2
-                    ? { background: "	#E8FDFF	" }
-                    : { background: "	#E8FDFF	" }
+                    ? { background: "	#FFFFFF	" }
+                    : { background: "	#FFFFFF	" }
                 }
                 // FIXME: any url not starting with http:// or https:// won't navigate
                 key={index}
@@ -612,9 +612,11 @@ const styles = (theme) => ({
     marginLeft: "28px",
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });
 

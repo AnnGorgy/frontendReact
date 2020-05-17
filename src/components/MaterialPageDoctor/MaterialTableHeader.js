@@ -390,10 +390,10 @@ const styles = (theme) => ({
   addButton: {
     borderRadius: "16px",
     width: "240px",
-    color: "black",
-    backgroundColor: "#7dbbb9",
+    color: "white",
+    backgroundColor: "#0c6170",
     "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
+      backgroundColor: "#3C808C",
       color: "black",
     },
   },
@@ -401,7 +401,8 @@ const styles = (theme) => ({
     marginTop: "4px",
   },
   buttonText: {
-    color: "black",
+    "&:hover, &:focus": {color: "black"},
+    color: "white",
   },
   addButtonBody: {
     marginLeft: "4px",
@@ -412,7 +413,9 @@ const styles = (theme) => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
+    
   },
+  
   noWrap: {
     flexWrap: "nowrap",
   },

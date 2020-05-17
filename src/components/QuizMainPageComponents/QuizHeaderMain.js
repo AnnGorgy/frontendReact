@@ -80,7 +80,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match, history }) => {
       setReloadQuizzes(true);
       handleClick();
       setMessageTitle(Name);
-      history.push(`/createquiz/${data}`);
+      history.push(`/createquiz/${match.params.courseId}/${data}`);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -164,29 +164,37 @@ const styles = (theme) => ({
     },
   },
   addButton: {
-    borderRadius: "32px",
-    marginLeft: "180px",
-    height: "50px",
+    borderRadius: "16px",
     width: "180px",
-    color: "black",
-    backgroundColor: "#7dbbb9",
+    height: "50px",
+    marginLeft: "180px",
+
+    color: "white",
+    backgroundColor: "#0c6170",
     "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
+      backgroundColor: "#3C808C",
       color: "black",
     },
+    
+    
+  
+
   },
   addIcon: {
     marginTop: "4px",
   },
   buttonText: {
-    color: "black",
+    color: "white",
+
     paddingLeft: "5px",
+    "&:hover, &:focus": {color: "black"},
   },
   addButtonBody: {
     marginLeft: "4px",
     marginRight: "4px",
   },
   tableHeader: {
+  
     paddingRight: "20px",
     paddingLeft: "1000px",
     marginTop: "20px",

@@ -183,12 +183,12 @@ const AssignmentStudentAnswersTable = ({
               <TableRow
                 style={
                   index % 2
-                    ? { background: "	#E8FDFF	" }
-                    : { background: "	#E8FDFF	" }
+                    ? { background: "	#FFFFFF	" }
+                    : { background: "	#FFFFFF	" }
                 }
                 key={index}
                 onClick={() => {
-                  if (assignment.type === "folder") {
+                  if (assignment.type === "Folder") {
                     setCurrentFolderId(assignment.id);
                     setAssignmentID(assignment.id);
                     setCrumbs((prevCrumbs) => [
@@ -259,9 +259,11 @@ const styles = (theme) => ({
     marginLeft: "28px",
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });
 

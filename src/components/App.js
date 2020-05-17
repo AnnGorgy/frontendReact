@@ -38,7 +38,7 @@ const App = ({ match }) => {
       <Route exact path = {"/Instructorprof"}component={InstructorProfilePage} />
       <Route exact path = {"/quiz/:courseId"} component={MainPageForQuiz} />
       <Route exact path = {"/quizstudent/:courseId"} component={MainPageForQuizStudent} />
-      <Route exact path = {"/createquiz/:quizId"} component={QuizCreation} />
+      <Route exact path = {"/createquiz/:courseId/:quizId"} component={QuizCreation} />
       <Route exact path = {"/viewquiz/:courseId/:quizId"} component={ViewQuizDetails} />
       <Route exact path = {"/studentanswers/:courseId/:quizId"} component={StudentAnswerPage} />
       <Route exact path = {"/assignmentInstructor/:courseId"} component={StudentAnswerForAssignmentPage} />

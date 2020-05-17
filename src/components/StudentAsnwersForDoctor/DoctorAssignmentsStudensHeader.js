@@ -36,6 +36,7 @@ const styles = () => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
+    
   },
 });
 

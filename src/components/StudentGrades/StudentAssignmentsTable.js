@@ -86,8 +86,8 @@ const StudentAssignmentsTable = ({ match, classes }) => {
               key={index}
               style={
                 index % 2
-                  ? { background: "#E8FDFF" }
-                  : { background: "#E8FDFF" }
+                  ? { background: "#FFFFFF" }
+                  : { background: "#FFFFFF" }
               }
             >
               {/* Assignment Name cell */}
@@ -143,9 +143,11 @@ const StudentAssignmentsTable = ({ match, classes }) => {
 
 const styles = () => ({
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
   tablePosition: {
     maxHeight: "90vh",

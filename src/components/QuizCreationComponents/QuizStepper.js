@@ -45,7 +45,7 @@ const QuestionTypeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const QuizStepper = ({ match, classes }) => {
+const QuizStepper = ({ match, classes ,history }) => {
   const getDefaultQuestionBody = (length) => ({
     index: length + 1,
     type: "mcq",
@@ -75,6 +75,17 @@ const QuizStepper = ({ match, classes }) => {
     setmaxSteps(localStorage.getItem("numberOfQuestions"));
   }, []);
   //-----------------------------------------------------------------------------------------------------------
+
+  // -------------------------------------------- API Calls ------------------------------------------------
+  const AddQuestionsForTheQuiz = async () => {
+    const Url = `/DoctorMakeQuiz/createQuestions`;
+    const { data } = await post(Url, questions, {
+      params: {
+        quizID: match.params.quizId,
+      },
+    });
+  };
+  //---------------------------------------------------------------------------------------------------------
 
   const handleNext = () => {
     if (questionIndex === questions.length) {
@@ -119,19 +130,19 @@ const QuizStepper = ({ match, classes }) => {
             padding: "3px 3px 3px 3px",
             borderRadius: "16px",
             border: "3px solid black",
-            width:"220px",
-            height:"60px",
-            marginLeft:"40px"
+            width: "220px",
+            height: "60px",
+            marginLeft: "40px",
           }}
         >
-          <Grid item style={{marginLeft:"10px"}}>
+          <Grid item style={{ marginLeft: "10px" }}>
             <img
               src={QuestionNumber}
               alt="QuestionNumberImage"
-              style={{ width: "50px", height: "50px"  }}
+              style={{ width: "50px", height: "50px" }}
             />
           </Grid>
-          <Grid item style={{ marginTop:"-50px" , marginLeft:"40px" }}>
+          <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
             <Typography
               style={{
                 marginLeft: "30px",
@@ -212,13 +223,10 @@ const QuizStepper = ({ match, classes }) => {
         {questionIndex == maxSteps && (
           <Grid item style={{ marginTop: "-19px" }}>
             <Button
-              onClick={async () =>
-                await post("/DoctorMakeQuiz/createQuestions", questions, {
-                  params: {
-                    quizID: match.params.quizId,
-                  },
-                })
-              }
+              onClick={() => {
+                AddQuestionsForTheQuiz();
+                history.push(`/quiz/${match.params.courseId}`);
+              }}
               className={classes.addButton}
               size="small"
             >

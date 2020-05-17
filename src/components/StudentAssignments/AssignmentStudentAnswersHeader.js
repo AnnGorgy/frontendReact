@@ -185,6 +185,7 @@ const styles = (theme) => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
+    
   },
   noWrap: {
     flexWrap: "nowrap",

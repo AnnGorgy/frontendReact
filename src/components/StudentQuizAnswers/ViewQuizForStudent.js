@@ -80,9 +80,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "20px",
     marginLeft: "30px",
     flexWrap: "nowrap",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
+    color: "white",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 }));
-const ViewQuizForStudent = ({ match }) => {
+const ViewQuizForStudent = ({ match , history }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
     studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
@@ -154,7 +159,7 @@ const ViewQuizForStudent = ({ match }) => {
 
   useEffect(() => {
     if (timer <= 0) {
-      //redirect
+      history.push(`/quizstudent/${match.params.courseId}`);
     }
   }, [timer]);
 

@@ -283,6 +283,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                     variant="contained"
                     color="default"
                     size="small"
+                    disabled={info.Finish == false}
                     className={classes.addButton}
                     onClick={() => {
                       history.push(

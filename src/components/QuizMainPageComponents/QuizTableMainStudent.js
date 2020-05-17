@@ -114,8 +114,8 @@ const QuizTableMainStudent = ({
                 key={index}
                 style={
                   index % 2
-                    ? { background: "#E8FDFF" }
-                    : { background: "#E8FDFF" }
+                    ? { background: "#FFFFFF" }
+                    : { background: "#FFFFFF" }
                 }
               >
                 {/* Quiz Name cell */}
@@ -181,9 +181,11 @@ const styles = () => ({
     marginTop: "20px",
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });
 

@@ -83,8 +83,8 @@ const StudentQuizGrades = ({ match, history, classes }) => {
               key={index}
               style={
                 index % 2
-                  ? { background: "#E8FDFF" }
-                  : { background: "#E8FDFF" }
+                  ? { background: "#FFFFFF" }
+                  : { background: "#FFFFFF" }
               }
             >
               {/* Quiz Name cell */}
@@ -97,7 +97,7 @@ const StudentQuizGrades = ({ match, history, classes }) => {
               <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
                 <Tooltip title="Your Answers" placement="bottom">
-                  <Button size="small">
+                  <Button size="small" disabled={grades.Finish== false}>
                     <QuestionAnswerIcon
                       onClick={() => {
                         history.push(
@@ -117,9 +117,11 @@ const StudentQuizGrades = ({ match, history, classes }) => {
 };
 const styles = () => ({
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
   tablePosition: {
     maxHeight: "90vh",

@@ -122,12 +122,12 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
               <TableRow
                 style={
                   index % 2
-                    ? { background: "	#E8FDFF	" }
-                    : { background: "	#E8FDFF	" }
+                    ? { background: "	#FFFFFF	" }
+                    : { background: "	#FFFFFF	" }
                 }
                 key={index}
                 onClick={() => {
-                  if (assignment.type === "folder") {
+                  if (assignment.type === "Folder") {
                     setCurrentFolderId(assignment.id);
                     setCrumbs((prevCrumbs) => [
                       ...prevCrumbs,
@@ -164,11 +164,11 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
                 <TableCell align="center">{assignment.SeatNo}</TableCell>
                 )}
                 {/* Student Name Cell "Folder" */}
-                {assignment.type==="folder"&&(
+                {assignment.type==="Folder"&&(
                   <TableCell align="center" width="25%">__</TableCell>
                 )}
                 {/* SeatNo Cell "Folder" */}
-                {assignment.type==="folder"&&(
+                {assignment.type==="Folder"&&(
                 <TableCell align="center">__</TableCell>
                 )}
 
@@ -225,9 +225,11 @@ const styles = (theme) => ({
     marginLeft: "28px",
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#0c6170",
+    fontSize:"17px",
     color: "white",
-    fontFamily: "Impact",
+    fontweight:"bold",
+    fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });
 

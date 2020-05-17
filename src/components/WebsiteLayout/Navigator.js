@@ -335,33 +335,35 @@ Navigator.propTypes = {
 };
 
 // Page Style //
-const drawerWidth = 270;
+const drawerWidth = 240;
 const styles = (theme) => ({
   drawer: {
     width: drawerWidth,
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#021316  ",
     flexShrink: 0,
   },
   drawerPaper: {
     overflowY:"auto",
     overflowX:"hidden",
     width: drawerWidth,
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#021316  ",
     color: "white",
   },
   item: {
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#021316  ",
     paddingLeft: 0.2,
+    paddingBottom: 12,
+    paddingTop: 12,
     color: "rgba(255, 255, 255, 1.0)",
     width: "auto",
     height: "auto",
   },
   courseImage: {
-    width: "45px",
+    width: "30px",
     paddingLeft: "12px",
  },
   firebase: {
-    fontSize: 24,
+    fontSize: 20,
     height: "auto",
   },
   itemActiveItem: {
@@ -369,12 +371,12 @@ const styles = (theme) => ({
     backgroundColor: "#4A4A4A",
   },
   itemPrimary: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight:600,
     color: "rgba(255, 255, 255, 1.0)",
   },
   itemIcon: {
-    color: "#4A4A4A",
+    color: "#021316",
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
@@ -382,7 +384,7 @@ const styles = (theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(1.5),
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#021316",
     width: "240px",
   },
 });
