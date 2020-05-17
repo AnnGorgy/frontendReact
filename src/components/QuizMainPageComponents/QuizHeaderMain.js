@@ -15,6 +15,7 @@ import {
 
 //------------------------------ Another Components Used In This Component -------------------------------
 import Quiz from "./Quiz";
+import { BreadCrumbs } from "..";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ------------------------------------------------
@@ -27,7 +28,13 @@ function Alert(props) {
 }
 //-----------------------------------------------------------------------------------------------------------
 
-const QuizHeaderMain = ({ classes, setReloadQuizzes, match, history }) => {
+const QuizHeaderMain = ({
+  classes,
+  setReloadQuizzes,
+  match,
+  history,
+  crumbs,
+}) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenQuiz, setOpenQuiz] = useState(false);
   const [accountType, setaccountType] = useState(
@@ -80,7 +87,7 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match, history }) => {
       setReloadQuizzes(true);
       handleClick();
       setMessageTitle(Name);
-      history.push(`/createquiz/${match.params.courseId}/${data}`);
+      history.push(`/createquiz/${match.params.courseId}/${data}/${match.params.coursename}`);
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -127,6 +134,17 @@ const QuizHeaderMain = ({ classes, setReloadQuizzes, match, history }) => {
         alignItems="center"
         className={classes.tableHeader}
       >
+        <Grid item xs={7}>
+          {crumbs?.length ? (
+            <BreadCrumbs crumbs={crumbs} />
+          ) : (
+            <React.Fragment />
+          )}
+        </Grid>
+        {crumbs.length == 1 &&
+          history.push(
+            `/course/${match.params.courseId}/${match.params.coursename}`
+          )}
         {accountType == 2 && (
           <Grid item>
             <Button
@@ -163,42 +181,38 @@ const styles = (theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  breadCrumpContainer: {
+    maxWidth: "100%",
+  },
   addButton: {
     borderRadius: "16px",
     width: "180px",
-    height: "50px",
-    marginLeft: "180px",
-
     color: "white",
     backgroundColor: "#0c6170",
     "&:hover, &:focus": {
       backgroundColor: "#3C808C",
       color: "black",
     },
-    
-    
-  
-
   },
   addIcon: {
     marginTop: "4px",
   },
   buttonText: {
+    "&:hover, &:focus": { color: "black" },
     color: "white",
-
-    paddingLeft: "5px",
-    "&:hover, &:focus": {color: "black"},
   },
   addButtonBody: {
     marginLeft: "4px",
     marginRight: "4px",
   },
   tableHeader: {
-  
     paddingRight: "20px",
-    paddingLeft: "1000px",
-    marginTop: "20px",
-    marginLeft: "30px",
+    paddingLeft: "20px",
+    marginTop: "8px",
+    flexWrap: "nowrap",
+  },
+
+  noWrap: {
     flexWrap: "nowrap",
   },
   message: {

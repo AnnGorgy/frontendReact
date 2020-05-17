@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import FolderIcon from "@material-ui/icons/Folder";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -29,6 +30,7 @@ const QuizTableMainStudent = ({
   setReloadQuiz,
   match,
   history,
+  setCrumbs
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
@@ -60,6 +62,25 @@ const QuizTableMainStudent = ({
   useEffect(() => {
     listQuizzes();
   }, [match.params.courseId]);
+
+  useEffect(() => {
+    setCrumbs([
+      {
+        label: match.params.coursename,
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Quizzes",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+    ]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -144,7 +165,7 @@ const QuizTableMainStudent = ({
                           src="https://img.icons8.com/ios/30/000000/quiz.png"
                           onClick={() => {
                             history.push(
-                              `/studentanswers/${match.params.courseId}/${quiz.id}`
+                              `/studentanswers/${match.params.courseId}/${quiz.id}/${match.params.coursename}`
                             );
                           }}
                         />

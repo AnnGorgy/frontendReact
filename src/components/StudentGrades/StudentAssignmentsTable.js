@@ -5,6 +5,7 @@ import mime from "mime-types";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
+import FolderIcon from "@material-ui/icons/Folder";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -22,7 +23,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentAssignmentsTable = ({ match, classes }) => {
+const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignments = async () => {
     const Url = `/Student_Answers/GetAssingmentsGrades`;
@@ -50,6 +51,25 @@ const StudentAssignmentsTable = ({ match, classes }) => {
   useEffect(() => {
     listAssignments();
   }, [match.params.courseId]);
+
+  useEffect(() => {
+    setCrumbs([
+      {
+        label: match.params.coursename,
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Grades",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+    ]);
+  }, []);
 
   return (
     <TableContainer component={Paper} className={classes.tablePosition}>
@@ -144,9 +164,9 @@ const StudentAssignmentsTable = ({ match, classes }) => {
 const styles = () => ({
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
   tablePosition: {

@@ -23,7 +23,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
+const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes  }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
   const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
@@ -77,10 +77,18 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
   useEffect(() => {
     setCrumbs([
       {
-        label: "Home",
+        label: match.params.coursename,
         onClick: () => {
           setCurrentFolderId(null);
           setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Assignments",
+        onClick: () => {
+          setCurrentFolderId(null);
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
         },
         Icon: FolderIcon,
       },
@@ -156,11 +164,11 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
                 {/* File Name Cell */}
                 <TableCell width="25%">{assignment.name}</TableCell>
                 {/* Student Name Cell "File" */}
-                {assignment.type==="file"&&(
+                {assignment.type==="File"&&(
                   <TableCell align="center" width="25%">{assignment.studentName}</TableCell>
                 )}
                 {/* SeatNo Cell "File" */}
-                {assignment.type==="file"&&(
+                {assignment.type==="File"&&(
                 <TableCell align="center">{assignment.SeatNo}</TableCell>
                 )}
                 {/* Student Name Cell "Folder" */}

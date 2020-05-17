@@ -104,7 +104,7 @@ const CourseHome = ({ history, match , classes }) => {
                     color="default"
                     onClick={() => {
                       history.push(
-                        `/courses/${match.params.courseId}/students`
+                        `/courses/${match.params.courseId}/${match.params.coursename}/students`
                       );
                     }}
                   >

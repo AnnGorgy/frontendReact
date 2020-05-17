@@ -16,6 +16,7 @@ import { Grid } from "@material-ui/core";
 const MainPageForQuiz = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [reloadQuiz, setReloadQuiz] = useState(true);
+  const [crumbs, setCrumbs] = useState([]);
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -34,12 +35,13 @@ const MainPageForQuiz = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <QuizHeaderMain setReloadQuizzes={setReloadQuiz} />
+            <QuizHeaderMain setReloadQuizzes={setReloadQuiz} crumbs={crumbs} />
           </Grid>
           <Grid item>
             <QuizTableMainInstructor
               reloadQuiz={reloadQuiz}
               setReloadQuiz={setReloadQuiz}
+              setCrumbs={setCrumbs}
             />
           </Grid>
         </Grid>

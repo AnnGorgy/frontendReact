@@ -33,6 +33,7 @@ const AssignmentStudentAnswersHeader = ({
   AssignmentID,
   classes,
   setReloadAssignments,
+   match , history
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenAssignment, setOpenAssignment] = useState(false);
@@ -56,7 +57,7 @@ const AssignmentStudentAnswersHeader = ({
   // -------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
-  const UploadAssignment = async ({ AssName, file, callback }) => {
+  const UploadAssignment = async ({ AssName, file, callback  }) => {
     const url = "/Student_Answers/upload_Assignment_Answer";
     const formData = new FormData();
     formData.append("Document", file);
@@ -121,7 +122,10 @@ const AssignmentStudentAnswersHeader = ({
             <React.Fragment />
           )}
         </Grid>
-        {crumbs.length != 1 && (
+        {crumbs.length==1&&(
+          history.push(`/course/${match.params.courseId}/${match.params.coursename}`)
+        )}
+        {crumbs.length != 2 && (
           <Grid item>
             <Button
               onClick={() => setOpenAssignment(true)}

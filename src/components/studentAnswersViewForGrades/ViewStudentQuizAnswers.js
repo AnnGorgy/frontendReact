@@ -105,7 +105,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     const { data } = await post(QuizUrl, null, {
       params: {
         QuizID: match.params.quizId,
-        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
       },
     });
     setAllQuizzes(data);

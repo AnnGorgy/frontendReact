@@ -159,7 +159,7 @@ const ViewQuizForStudent = ({ match , history }) => {
 
   useEffect(() => {
     if (timer <= 0) {
-      history.push(`/quizstudent/${match.params.courseId}`);
+      history.push(`/quizstudent/${match.params.courseId}/${match.params.coursename}`);
     }
   }, [timer]);
 

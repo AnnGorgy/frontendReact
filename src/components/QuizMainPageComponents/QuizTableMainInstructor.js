@@ -10,6 +10,7 @@ import UpdateQuiz from "./UpdateQuiz";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import FolderIcon from "@material-ui/icons/Folder";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -35,6 +36,7 @@ const QuizTableMainInstructor = ({
   setReloadQuiz,
   match,
   history,
+  setCrumbs
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
@@ -97,6 +99,25 @@ const QuizTableMainInstructor = ({
   useEffect(() => {
     listQuizzes();
   }, [match.params.courseId]);
+
+  useEffect(() => {
+    setCrumbs([
+      {
+        label: match.params.coursename,
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Quizzes",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+    ]);
+  }, []);
 
   return (
     <React.Fragment>

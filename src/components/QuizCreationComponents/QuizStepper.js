@@ -225,7 +225,7 @@ const QuizStepper = ({ match, classes ,history }) => {
             <Button
               onClick={() => {
                 AddQuestionsForTheQuiz();
-                history.push(`/quiz/${match.params.courseId}`);
+                history.push(`/quiz/${match.params.courseId}/${match.params.coursename}`);
               }}
               className={classes.addButton}
               size="small"

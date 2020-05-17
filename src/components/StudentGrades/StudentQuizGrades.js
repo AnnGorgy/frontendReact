@@ -96,7 +96,8 @@ const StudentQuizGrades = ({ match, history, classes }) => {
               {/* Quiz End Date cell */}
               <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
-                <Tooltip title="Your Answers" placement="bottom">
+             
+              <Tooltip title="your Answers"  placement="bottom">
                   <Button size="small" disabled={grades.Finish== false}>
                     <QuestionAnswerIcon
                       onClick={() => {

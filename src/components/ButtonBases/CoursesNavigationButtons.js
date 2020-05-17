@@ -52,16 +52,16 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
       title: "Open Materials",
       onClick: () =>
         accountType == 2
-          ? history.push(`/courses/${match.params.courseId}/materials`)
-          : history.push(`/courses/${match.params.courseId}/StudentMaterials`),
+          ? history.push(`/courses/${match.params.courseId}/${match.params.coursename}/materials`)
+          : history.push(`/courses/${match.params.courseId}/${match.params.coursename}/StudentMaterials`),
     },
     {
       url: Quizs,
       title: accountType !== 2 ? "Online Quiz" : "Create Quiz",
       onClick: () =>
         accountType == 2
-          ? history.push(`/quiz/${match.params.courseId}`)
-          : history.push(`/quizstudent/${match.params.courseId}`),
+          ? history.push(`/quiz/${match.params.courseId}/${match.params.coursename}`)
+          : history.push(`/quizstudent/${match.params.courseId}/${match.params.coursename}`),
     },
     {
       url: accountType == 2 ? AssignmentDoctor : Assignments,
@@ -71,8 +71,8 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
           : "Student Assignment Answers",
       onClick: () =>
         accountType == 2
-          ? history.push(`/assignmentInstructor/${match.params.courseId}`)
-          : history.push(`/assignmentstudent/${match.params.courseId}`),
+          ? history.push(`/assignmentInstructor/${match.params.courseId}/${match.params.coursename}`)
+          : history.push(`/assignmentstudent/${match.params.courseId}/${match.params.coursename}`),
     },
     {
       url: accountType == 2 ? Excel : Grades,
@@ -80,7 +80,7 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
       onClick: () =>
         accountType == 2
           ? setExcelSheetIsOpen(true)
-          : history.push(`/studentgrades/${match.params.courseId}`),
+          : history.push(`/studentgrades/${match.params.courseId}/${match.params.coursename}`),
     },
   ];
 

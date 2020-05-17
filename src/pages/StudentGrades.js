@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
@@ -6,6 +6,7 @@ import {
   StudentAssignmentsTable,
   SideBar,
   StudentQuizGrades,
+  GradesHeaderMain
 } from "../components";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -14,6 +15,9 @@ import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 const StudentGrades = () => {
+   // ---------------------------- variables with it's states that we use it in this Page -------------------
+   const [crumbs, setCrumbs] = useState([]);
+   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
@@ -31,7 +35,10 @@ const StudentGrades = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <StudentAssignmentsTable />
+            <GradesHeaderMain crumbs={crumbs}/>
+          </Grid>
+          <Grid item>
+            <StudentAssignmentsTable setCrumbs={setCrumbs} />
           </Grid>
           <Grid item>
             <StudentQuizGrades />

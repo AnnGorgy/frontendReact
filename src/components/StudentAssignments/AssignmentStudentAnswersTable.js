@@ -32,11 +32,12 @@ function Alert(props) {
 
 const AssignmentStudentAnswersTable = ({
   classes,
-  match,
   setCrumbs,
   setAssignmentID,
   reloadAssignments,
   setReloadAssignments,
+  match,
+  history,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
@@ -138,10 +139,18 @@ const AssignmentStudentAnswersTable = ({
   useEffect(() => {
     setCrumbs([
       {
-        label: "Home",
+        label: match.params.coursename,
         onClick: () => {
           setCurrentFolderId(null);
           setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Assignments",
+        onClick: () => {
+          setCurrentFolderId(null);
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
         },
         Icon: FolderIcon,
       },
@@ -260,9 +269,9 @@ const styles = (theme) => ({
   },
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });

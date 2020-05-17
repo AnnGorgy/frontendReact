@@ -287,7 +287,7 @@ function Navigator({ classes, history, match }) {
                         button
                         onClick={() => {
                           DoctorInformation(ID);
-                          history.push(`/course/${ID}`);
+                          history.push(`/course/${ID}/${Subjectname}`);
                           listMaterials(ID);
                         }}
                         className={clsx(

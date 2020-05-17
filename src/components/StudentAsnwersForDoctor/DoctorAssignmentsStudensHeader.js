@@ -9,7 +9,7 @@ import { Grid, withStyles } from "@material-ui/core";
 import { BreadCrumbs } from "../";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorAssignmentsStudensHeader = ({ crumbs, classes, match }) => {
+const DoctorAssignmentsStudensHeader = ({ crumbs, classes, match ,history }) => {
   return (
     <React.Fragment>
       <Grid
@@ -18,6 +18,10 @@ const DoctorAssignmentsStudensHeader = ({ crumbs, classes, match }) => {
         alignItems="center"
         className={classes.tableHeader}
       >
+        {crumbs.length == 1 &&
+          history.push(
+            `/course/${match.params.courseId}/${match.params.coursename}`
+          )}
         <Grid item xs={7}>
           {crumbs?.length ? (
             <BreadCrumbs crumbs={crumbs} />
@@ -36,7 +40,6 @@ const styles = () => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
-    
   },
 });
 

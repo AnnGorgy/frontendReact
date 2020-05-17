@@ -38,3 +38,8 @@ export {default as ViewMCQStudentAnswers } from "./studentAnswersViewForGrades/V
 export {default as ViewStudentQuizAnswers } from "./studentAnswersViewForGrades/ViewStudentQuizAnswers";
 export {default as ViewTrueFalseStudentAnswers } from "./studentAnswersViewForGrades/ViewTrueFalseStudentAnswers";
 export { default as AllStudentsAnswersInSpecificQuiz } from "./QuizMainPageComponents/AllStudentsAnswersInSpecificQuiz";
+export {default as GradesHeaderMain} from "./StudentGrades/GradesHeaderMain";
+export {default as StudentsInSubject} from "./AllStudentsInSubject/StudentsInSubject";
+export {default as AllStudentsInSubjectHeaderMain} from "./AllStudentsInSubject/AllStudentsInSubjectHeaderMain";
+
+

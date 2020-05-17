@@ -73,16 +73,10 @@ const styles = () => ({
   },
   MainPage: {
     flexWrap: "nowrap",
-    backgroundImage: `url(${Header})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center left",
-    height: "100%",
-    marginLeft: "8%",
   },
   dialogContainer: {
-    marginTop: "450px",
-    marginLeft: "-115px",
+    marginTop: "480px",
+    marginLeft: "100px",
     padding: "3px",
     height: "200px",
     width: "550px",

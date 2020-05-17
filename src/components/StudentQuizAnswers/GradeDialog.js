@@ -118,7 +118,7 @@ const GradeDialog = ({
                           onClick={() => {
                             onClose();
                             history.push(
-                              `/quizstudent/${match.params.courseId}`
+                              `/quizstudent/${match.params.courseId}/${match.params.coursename}`
                             );
                           }}
                         >
