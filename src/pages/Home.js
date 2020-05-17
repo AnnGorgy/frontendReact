@@ -26,9 +26,9 @@ const Home = () => {
           spacing={1}
           style={{ flexWrap: "nowrap" }}
         >
-          <Grid item>
+         {/*  <Grid item>
             <HomeStepper />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Grid>
