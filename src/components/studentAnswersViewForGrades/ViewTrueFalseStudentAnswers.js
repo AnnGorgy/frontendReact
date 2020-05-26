@@ -13,8 +13,8 @@ import {
 const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [TFData, setTFData] = useState([]);
-  const [tfTrue, setTfTrue] = useState(false);
-  const [tfFalse, setTfFalse] = useState(false);
+  const [tfTrue, setTfTrue] = useState(null);
+  const [tfFalse, setTfFalse] = useState(null);
   //---------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -22,8 +22,10 @@ const ViewTrueFalseStudentAnswers = ({ questionData, classes }) => {
   }, [questionData]);
 
   useEffect(() => {
-    setTfTrue(TFData.TrueOrFalse);
-    setTfFalse(!TFData.TrueOrFalse);
+    if (TFData.TrueOrFalse != null) {
+      setTfTrue(TFData.TrueOrFalse);
+      setTfFalse(!TFData.TrueOrFalse);
+    }
   }, [TFData]);
 
   return (

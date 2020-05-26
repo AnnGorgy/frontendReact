@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
+import EditIcon from "@material-ui/icons/Edit";
+//-----------------------------------------------------------------------------------------------------------
+
+//------------------------------ Another Components Used In This Component ----------------------------------
+import EditGradesStudentForm from "./EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -25,35 +30,40 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const QuizTableMainStudent = ({
-  classes,
-  reloadQuiz,
-  setReloadQuiz,
+const AllStudentsGradesInSpecificQuiz = ({
   match,
   history,
+  classes,
   setCrumbs,
+  reloadQuizzes,
+  setReloadQuizzes,
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
-    const Url = `/Student_Answers/GetQuizforStudent`;
+    const Url = `/DoctorMakeQuiz/GetAllGradesQuizzes`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: match.params.courseId, StudID: 3 },
+      params: { QuizID: match.params.quizId, subjectID: match.params.courseId },
     });
     setAllQuiz(data);
   };
-  //----------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------
+
+  const RenameQuiz = async (quiz, ChangedGrade, callback) => {
+    const url = "/Doctor_Manage_student/UpdateQuizGrade";
+    await post(url, null, {
+      params: { studentID: quiz.studentID, QuizID: match.params.quizId , Newgrade : ChangedGrade },
+    });
+    setReloadQuizzes(true);
+    if (callback) callback();
+  };
+  //--------------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
+  const [EditIsOpenQuizGrade, setEditIsOpenQuizGrade] = useState(false);
+  const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   //----------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (reloadQuiz === true) {
-      listQuizzes();
-      setReloadQuiz(false);
-    }
-  }, [reloadQuiz]);
-
   useEffect(() => {
     if (allQuiz) {
       setDisplayedQuiz([...allQuiz]);
@@ -65,6 +75,13 @@ const QuizTableMainStudent = ({
   }, [match.params.courseId]);
 
   useEffect(() => {
+    if (reloadQuizzes === true) {
+      listQuizzes();
+      setReloadQuizzes(false);
+    }
+  }, [reloadQuizzes]);
+
+  useEffect(() => {
     setCrumbs([
       {
         label: match.params.coursename,
@@ -74,9 +91,23 @@ const QuizTableMainStudent = ({
         Icon: FolderIcon,
       },
       {
-        label: "Quizzes",
+        label: "Grades",
         onClick: () => {
           setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Quizzes",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 3)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: match.params.quizname,
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 4)]);
         },
         Icon: FolderIcon,
       },
@@ -85,6 +116,17 @@ const QuizTableMainStudent = ({
 
   return (
     <React.Fragment>
+      <EditGradesStudentForm
+      title="Another Student Quiz Grade"
+      CurrentGrade={currentEditedQuiz?.grade}
+      isOpened={EditIsOpenQuizGrade}
+      onClose={() => setEditIsOpenQuizGrade(false)}
+      onSubmit={({ ChangedGrade }) =>
+      RenameQuiz(currentEditedQuiz, ChangedGrade, () =>
+          setEditIsOpenQuizGrade(false)
+        )
+      }
+      />
       <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
@@ -97,35 +139,16 @@ const QuizTableMainStudent = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell width="10%" className={classes.tableHeader}>
-                Quiz Name
+              <TableCell className={classes.tableHeader}>
+                Student Name
               </TableCell>
-              <TableCell
-                width="25%"
-                className={classes.tableHeader}
-                align="center"
-              >
-                Description
+              <TableCell className={classes.tableHeader} align="right">
+                SeatNo
               </TableCell>
-              <TableCell
-                width="20%"
-                className={classes.tableHeader}
-                align="right"
-              >
-                Start Date
+              <TableCell className={classes.tableHeader} align="right">
+                Grade
               </TableCell>
-              <TableCell
-                width="20%"
-                className={classes.tableHeader}
-                align="right"
-              >
-                End Date
-              </TableCell>
-              <TableCell
-                width="20%"
-                className={classes.tableHeader}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 {}
               </TableCell>
             </TableRow>
@@ -140,51 +163,41 @@ const QuizTableMainStudent = ({
                     : { background: "#FFFFFF" }
                 }
               >
-                {/* Quiz Name cell */}
-                <TableCell width="10%">
+                {/* Student Name cell */}
+                <TableCell>
                   <Grid container spacing={1}>
                     <Grid item>
                       <FileIcon />
                     </Grid>
                     <Grid item>
-                      <Typography>{quiz.Name}</Typography>
+                      <Typography>{quiz.studentName}</Typography>
                     </Grid>
                   </Grid>
                 </TableCell>
-                {/* Description cell */}
-                <TableCell align="center" width="25%">
-                  {quiz.description}
-                </TableCell>
-                {/* Start Date cell */}
-                <TableCell align="right" width="20%">
-                  {quiz.startDate}
-                </TableCell>
-                {/* End Date cell */}
-                <TableCell align="right" width="20%">
-                  {quiz.endDate}
-                </TableCell>
-                <TableCell align="right" width="20%">
-                  {quiz.hasGrade == null && quiz.isAvailable == true && (
-                    <Tooltip title="Enter The Quiz" placement="bottom">
-                      <Button size="small">
-                        <img
-                          src="https://img.icons8.com/ios/30/000000/quiz.png"
-                          onClick={() => {
-                            history.push(
-                              `/studentanswers/${match.params.courseId}/${quiz.id}/${match.params.coursename}`
-                            );
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-                  )}
-                  <Tooltip title="Model Answer" placement="bottom">
-                    <Button size="small" disabled={quiz.Finish == false}>
+                {/* SeatNo cell */}
+                <TableCell align="right">{quiz.studentSeatNo}</TableCell>
+                {/* grade cell */}
+                <TableCell align="right">{quiz.grade}</TableCell>
+                <TableCell align="right">
+                  <Tooltip title="Edit Student Grade" placement="bottom">
+                    <Button size="small">
+                      <EditIcon
+                        onClick={() => {
+                           setEditIsOpenQuizGrade(true);
+                            setCurrentEditedQuiz(quiz); 
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Student Answers" placement="bottom">
+                    <Button size="small">
                       <QuestionAnswerIcon
                         onClick={() => {
                           history.push(
-                            `/viewquiz/${match.params.courseId}/${quiz.id}`
+                            `/answers/${match.params.courseId}/${match.params.quizId}`
                           );
+                          localStorage.setItem("StudentName", quiz.studentName);
+                          localStorage.setItem("StudentID", quiz.studentSeatNo);
                         }}
                       />
                     </Button>
@@ -204,8 +217,7 @@ const styles = () => ({
     maxHeight: "90vh",
     overflowY: "auto",
     maxWidth: "170vh",
-    marginLeft: "15px",
-    marginTop: "20px",
+    marginLeft: "28px",
   },
   tableHeader: {
     backgroundColor: "#0c6170",
@@ -216,4 +228,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withRouter(QuizTableMainStudent));
+export default withStyles(styles)(withRouter(AllStudentsGradesInSpecificQuiz));

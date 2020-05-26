@@ -6,6 +6,7 @@ import mime from "mime-types";
 //------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
+import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -20,10 +21,12 @@ import {
   Tooltip,
   Button,
   withStyles,
+  Typography,
+  Grid,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes  }) => {
+const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allAssignmentsFiles, setAllAssignmentsFiles] = useState();
   const [allAssignmentsFolders, setAllAssignmentsFolders] = useState();
@@ -31,6 +34,19 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes  }) => {
   const [displayedAssignments, setDisplayedAssignments] = useState();
   const [assignmets, setAssignments] = useState();
   // --------------------------------------------------------------------------------------------------------
+
+  // ------------------- Switch case to choose the icon that will put before every type --------------------
+  const getIcon = (assignmentt) => {
+    switch (assignmentt.type) {
+      case "File":
+        return <FileIcon />;
+      case "Folder":
+        return <FolderIcon />;
+      default:
+        break;
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignmentsFolders = async () => {
@@ -111,10 +127,16 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes  }) => {
               <TableCell width="25%" className={classes.tableHeader}>
                 File Name
               </TableCell>
-              <TableCell width="25%"  align = "center"className={classes.tableHeader}>
+              <TableCell
+                width="25%"
+                align="center"
+                className={classes.tableHeader}
+              >
                 Student Name
               </TableCell>
-              <TableCell align="center" className={classes.tableHeader}>SeatNo</TableCell>
+              <TableCell align="center" className={classes.tableHeader}>
+                SeatNo
+              </TableCell>
               <TableCell
                 width="5%"
                 className={classes.tableHeader}
@@ -161,23 +183,34 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes  }) => {
                   }
                 }}
               >
-                {/* File Name Cell */}
-                <TableCell width="25%">{assignment.name}</TableCell>
+                {/* File Name Cell  */}
+                <TableCell width="25%">
+                  <Grid container spacing={1}>
+                    <Grid item>{getIcon(assignment)}</Grid>
+                    <Grid item>
+                      <Typography>{assignment.name}</Typography>
+                    </Grid>
+                  </Grid>
+                </TableCell>
                 {/* Student Name Cell "File" */}
-                {assignment.type==="File"&&(
-                  <TableCell align="center" width="25%">{assignment.studentName}</TableCell>
+                {assignment.type === "File" && (
+                  <TableCell align="center" width="25%">
+                    {assignment.studentName}
+                  </TableCell>
                 )}
                 {/* SeatNo Cell "File" */}
-                {assignment.type==="File"&&(
-                <TableCell align="center">{assignment.SeatNo}</TableCell>
+                {assignment.type === "File" && (
+                  <TableCell align="center">{assignment.SeatNo}</TableCell>
                 )}
                 {/* Student Name Cell "Folder" */}
-                {assignment.type==="Folder"&&(
-                  <TableCell align="center" width="25%">__</TableCell>
+                {assignment.type === "Folder" && (
+                  <TableCell align="center" width="25%">
+                    __
+                  </TableCell>
                 )}
                 {/* SeatNo Cell "Folder" */}
-                {assignment.type==="Folder"&&(
-                <TableCell align="center">__</TableCell>
+                {assignment.type === "Folder" && (
+                  <TableCell align="center">__</TableCell>
                 )}
 
                 {assignment.type === "file" ? (
@@ -234,9 +267,9 @@ const styles = (theme) => ({
   },
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });

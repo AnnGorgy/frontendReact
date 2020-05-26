@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { post } from "axios";
+import { post, get } from "axios";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -12,20 +12,16 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
+const DoctorProfilePage = ({ onClose, isOpened, classes,  }) => {
   // Set The First Letter Of The Users' Name To capial //
-  const EnName = JSON.parse(localStorage.getItem("DocInformation")).NameEN;
+  const [EnName, setEnName] = useState("");
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
 
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [name, setName] = useState(ViewingName);
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
-  const [reloadProfile, setReloadProfile] = useState(true);
-  const [LoginEmail, setLoginEmail] = useState(
-    JSON.parse(localStorage.getItem("DocInformation")).Email
-  );
-  const ArName = JSON.parse(localStorage.getItem("DocInformation")).NameAR;
+  const [LoginEmail, setLoginEmail] = useState("");
+  const [ArName, setArName] = useState("");
   //----------------------------------------------------------------------------------------------------------
 
   const resetStates = () => {
@@ -40,25 +36,38 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
       // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: {
-          Doc_id: JSON.parse(localStorage.getItem("DocInformation")).AccountID,
+          Doc_id:  localStorage.getItem("DoctorAccountID") ,
         },
       });
       if (callback) callback();
       setEmail(data[0].email);
       setOfficeHours(data[0].office);
-      setName(JSON.parse(localStorage.getItem("DocInformation")).NameEN);
-      setLoginEmail(JSON.parse(localStorage.getItem("DocInformation")).Email);
     } catch (err) {
       console.error(err);
     }
   };
   //-------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (reloadProfile) {
-      ViewData({});
-      setReloadProfile(false);
+  const DoctorInformation = async () => {
+    try {
+      const url = "/Login/getuserObject";
+      const { data } = await get(url, {
+        params: {
+          email: localStorage.getItem("DoctorEmail"),
+        },
+      });
+      setLoginEmail(data.Email);
+      setArName(data.NameAR);
+      setEnName(data.NameEN);
+    } catch (err) {
+      console.error(err);
     }
-  }, [reloadProfile]);
+  };
+  //-----------------------------------------------------------------------------------------------------
+  useEffect(() => {
+      ViewData({});
+      DoctorInformation();
+  }, []);
+
 
   return (
     isOpened && (
@@ -104,7 +113,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
                       label="Name"
                       multiline
                       rows={1}
-                      value={name}
+                      value={ViewingName}
                       disabled="true"
                       variant="outlined"
                       classes={{

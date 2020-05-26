@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -6,37 +6,38 @@ import {
   Typography,
   Grid,
   withStyles,
+  TextField,
   Button,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-//------------------------------ Another Components Used In This Component -------------------------------
-import { DragImport } from "./";
-//--------------------------------------------------------------------------------------------------------
-
-/* The dialog that appear in materials Page for "Files-Assignemnets-videos" */
-const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
+const EditGradesStudentForm = ({
+  onClose,
+  title,
+  CurrentGrade,
+  isOpened,
+  onSubmit,
+  classes,
+}) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [blobs, setBlobs] = useState([]);
-  // ---------------------------------------------------------------------------------------------------------
-  const onDropBlobs = (blobs) => {
-    setBlobs([...blobs]);
-  };
+  const [ChangedGrade, setChangedGrade] = useState();
+  const [RelodEditGrade, setReloadEditGrade] = useState(true);
+  //----------------------------------------------------------------------------------------------------------
 
-  const onDeleteBlob = () => {
-    setBlobs([]);
-  };
+  useEffect(() => {
+    if (RelodEditGrade) {
+      setReloadEditGrade(false);
+    }
+  }, [RelodEditGrade]);
 
-  /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
-  const resetStates = () => {
-    setBlobs([]);
-  };
+  useEffect(() => {
+    setChangedGrade(CurrentGrade);
+  }, [CurrentGrade]);
 
   return (
     isOpened && (
       <Dialog
         onClose={() => {
-          resetStates();
           onClose();
         }}
         open={isOpened}
@@ -70,27 +71,40 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                   justify="center"
                   spacing={3}
                 >
-                  {/* Upload Button */}
                   <Grid item>
-                    <DragImport
-                      excel
-                      Extension=".xls ,.xlsx"
-                      editable
-                      blobs={blobs}
-                      onDrop={onDropBlobs}
-                      onDeleteBlob={onDeleteBlob}
+                    <TextField
+                      label="New Grade"
+                      value={ChangedGrade}
+                      type="number"
+                      variant="outlined"
+                      onChange={(e) => {
+                        setChangedGrade(Number(e.target.value));
+                      }}
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                      style={{ width: "230px" }}
                     />
                   </Grid>
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
-                      {/* Dialog Cancel Button */}
                       <Grid item>
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
                           onClick={() => {
-                            resetStates();
                             onClose();
+                            setChangedGrade(CurrentGrade);
                           }}
                         >
                           <Typography
@@ -98,33 +112,33 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
                             className={classes.boldText}
                             color="error"
                           >
-                            Cancel
+                            Close
                           </Typography>
                         </Button>
                       </Grid>
-
-                      {/* Dialog Create Button */}
                       <Grid item>
                         <Button
                           variant="outlined"
                           className={classes.createButton}
-                          disabled={blobs.length !== 1}
+                          disabled={
+                            ChangedGrade === "" || ChangedGrade == CurrentGrade
+                          }
                           onClick={() => {
-                            resetStates();
                             onSubmit({
-                              blobs: blobs[0],
+                              ChangedGrade,
                             });
                           }}
                         >
                           <Typography
                             variant="h6"
                             className={
-                              blobs.length !== 1
+                              ChangedGrade === "" ||
+                              ChangedGrade == CurrentGrade
                                 ? classes.createText
                                 : classes.boldText
                             }
                           >
-                            Upload
+                            Edit
                           </Typography>
                         </Button>
                       </Grid>
@@ -140,7 +154,7 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
   );
 };
 
-/* Dialog styles */
+// Dialog styles
 const styles = () => ({
   dialog: {
     padding: "10px 0px",
@@ -161,7 +175,7 @@ const styles = () => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "30vh",
+    minHeight: "25vh",
     padding: "20px 0px",
   },
   createButton: {
@@ -184,4 +198,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(UploadExcelSheet);
+export default withStyles(styles)(EditGradesStudentForm);

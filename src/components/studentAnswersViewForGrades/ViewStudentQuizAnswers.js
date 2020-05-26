@@ -16,6 +16,7 @@ import {
 //------------------------------ Another Components Used In This Component -------------------------------
 import ViewMCQStudentAnswers from "./ViewMCQStudentAnswers";
 import ViewTrueFalseStudentAnswers from "./ViewTrueFalseStudentAnswers";
+import ViewMatchStudentAnswer from "./ViewMatchStudentAnswer";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------ Images ---------------------------------------------------
@@ -395,10 +396,14 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                 </Grid>
               </Grid>
               <Grid item style={{ marginTop: "-100px" }}>
-                {quiz.Type == "mcq" ? (
+                {quiz.Type == "mcq" && (
                   <ViewMCQStudentAnswers questionData={quiz} />
-                ) : (
+                )}
+                {quiz.Type == "tf" && (
                   <ViewTrueFalseStudentAnswers questionData={quiz} />
+                )}
+                {quiz.Type == "match" && (
+                  <ViewMatchStudentAnswer questionData={quiz} />
                 )}
               </Grid>
             </Grid>

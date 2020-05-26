@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+import mime from "mime-types";
 
 //------------------------------ Another Components Used In This Component -------------------------------
 import UpdateQuiz from "./UpdateQuiz";
@@ -11,6 +12,7 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
+import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -36,7 +38,7 @@ const QuizTableMainInstructor = ({
   setReloadQuiz,
   match,
   history,
-  setCrumbs
+  setCrumbs,
 }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
@@ -121,7 +123,6 @@ const QuizTableMainInstructor = ({
 
   return (
     <React.Fragment>
-      
       <UpdateQuiz
         title="Update Quiz"
         CurrentName={currentEditedQuiz?.Name}
@@ -186,80 +187,71 @@ const QuizTableMainInstructor = ({
           </TableHead>
           <TableBody>
             {displayedQuiz?.map((quiz, index) => (
-              <Tooltip
-                title={
-                  <div style={{ fontSize: "14px" }}>
-                    Double Click For Student Answers and Grades
-                  </div>
+              <TableRow
+                key={index}
+                style={
+                  index % 2
+                    ? { background: "#FFFFFF" }
+                    : { background: "#FFFFFF" }
                 }
+                style={{ cursor: "pointer" }}
               >
-                <TableRow
-                  key={index}
-                  onDoubleClick={() => {
-                    history.push(
-                      `/studentquizanswers/${match.params.courseId}/${quiz.id}`
-                    );
-                  }}
-                  style={
-                    index % 2
-                      ? { background: "#FFFFFF" }
-                      : { background: "#FFFFFF" }
-                  }
-                  style={{ cursor: "pointer" }}
-                >
-                  {/* Quiz Name cell */}
-                  <TableCell>
-                    <Grid container spacing={1}>
+                {/* Quiz Name cell */}
+                <TableCell>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <FileIcon />
+                    </Grid>
+                    <Grid item>
                       <Typography>{quiz.Name}</Typography>
                     </Grid>
-                  </TableCell>
-                  {/* Description cell */}
-                  <TableCell align="center" width="20%">
-                    {quiz.description}
-                  </TableCell>
-                  {/* Start Date cell */}
-                  <TableCell align="right">{quiz.startDate}</TableCell>
-                  {/* End Date cell */}
-                  <TableCell align="right">{quiz.endDate}</TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Model Answer" placement="bottom">
-                      <Button size="small">
-                        <QuestionAnswerIcon
-                          onClick={() => {
-                            history.push(
-                              `/viewquiz/${match.params.courseId}/${quiz.id}`
-                            );
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button size="small">
-                        <DeleteIcon
-                          onClick={() => {
-                            post("/DoctorMakeQuiz/DeleteQuiz", null, {
-                              params: { QuizID: quiz.id },
-                            })
-                              .then(() => window.location.reload())
-                              .catch((err) => console.error(err));
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Update" placement="bottom">
-                      <Button size="small">
-                        <EditIcon
-                          onClick={() => {
-                            setUpdateQuizIsOpen(true);
-                            setCurrentEditedQuiz(quiz);
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              </Tooltip>
+                  </Grid>
+                </TableCell>
+                {/* Description cell */}
+                <TableCell align="center" width="20%">
+                  {quiz.description}
+                </TableCell>
+                {/* Start Date cell */}
+                <TableCell align="right">{quiz.startDate}</TableCell>
+                {/* End Date cell */}
+                <TableCell align="right">{quiz.endDate}</TableCell>
+                <TableCell align="right">
+                  <Tooltip title="Model Answer" placement="bottom">
+                    <Button size="small">
+                      <QuestionAnswerIcon
+                        onClick={() => {
+                          history.push(
+                            `/viewquiz/${match.params.courseId}/${quiz.id}`
+                          );
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Delete" placement="bottom">
+                    <Button size="small">
+                      <DeleteIcon
+                        onClick={() => {
+                          post("/DoctorMakeQuiz/DeleteQuiz", null, {
+                            params: { QuizID: quiz.id },
+                          })
+                            .then(() => window.location.reload())
+                            .catch((err) => console.error(err));
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Update" placement="bottom">
+                    <Button size="small">
+                      <EditIcon
+                        onClick={() => {
+                          setUpdateQuizIsOpen(true);
+                          setCurrentEditedQuiz(quiz);
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
@@ -277,9 +269,9 @@ const styles = () => ({
   },
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });

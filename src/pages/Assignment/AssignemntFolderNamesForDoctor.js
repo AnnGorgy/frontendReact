@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import { SideBar, AllStudentsAnswersInSpecificQuiz } from "../../components";
+import {
+  SideBar,
+  AssignmentTableMainInstructor,
+  AssignmentGradesHeaderMain,
+} from "../../components";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorTableStudentQuizAnswers = () => {
+const AssignemntFolderNamesForDoctor = () => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [reloadAssignemntt, setReloadAssignmentt] = useState(true);
+  const [crumbs, setCrumbs] = useState([]);
   //--------------------------------------------------------------------------------------------------------
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -29,11 +35,21 @@ const DoctorTableStudentQuizAnswers = () => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <AllStudentsAnswersInSpecificQuiz />
+            <AssignmentGradesHeaderMain
+              setReloadAssignments={setReloadAssignmentt}
+              crumbs={crumbs}
+            />
+          </Grid>
+          <Grid item>
+            <AssignmentTableMainInstructor
+              reloadAssigenmnt={reloadAssignemntt}
+              setReloadAssignment={setReloadAssignmentt}
+              setCrumbs={setCrumbs}
+            />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default withRouter(DoctorTableStudentQuizAnswers);
+export default withRouter(AssignemntFolderNamesForDoctor);

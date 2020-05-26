@@ -6,6 +6,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 //------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
+import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -21,6 +22,8 @@ import {
   Tooltip,
   withStyles,
   Snackbar,
+  Grid,
+  Typography,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -48,6 +51,19 @@ const AssignmentStudentAnswersTable = ({
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
   // --------------------------------------------------------------------------------------------------------
+
+  // ------------------- Switch case to choose the icon that will put before every type --------------------
+  const getIcon = (assignmentt) => {
+    switch (assignmentt.type) {
+      case "File":
+        return <FileIcon />;
+      case "Folder":
+        return <FolderIcon />;
+      default:
+        break;
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------
 
   // ---------------------- we use it To Show The Message after every operation --------------------------
   const handleClick = () => {
@@ -180,7 +196,9 @@ const AssignmentStudentAnswersTable = ({
         >
           <TableHead>
             <TableRow>
-              <TableCell className={classes.tableHeader}>File Name</TableCell>
+              <TableCell width="25%" className={classes.tableHeader}>
+                File Name
+              </TableCell>
               <TableCell className={classes.tableHeader} align="right">
                 {}
               </TableCell>
@@ -225,9 +243,16 @@ const AssignmentStudentAnswersTable = ({
                 }}
               >
                 {/* File Name Cell */}
-                <TableCell>{assignment.name}</TableCell>
+                <TableCell width="25%">
+                  <Grid container spacing={1}>
+                    <Grid item>{getIcon(assignment)}</Grid>
+                    <Grid item>
+                      <Typography>{assignment.name}</Typography>
+                    </Grid>
+                  </Grid>
+                </TableCell>
                 <TableCell align="right">
-                  {assignment.type === "file" && (
+                  {assignment.type === "File" && (
                     <Tooltip title="Delete" placement="bottom">
                       <Button size="small">
                         <DeleteIcon

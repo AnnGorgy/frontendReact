@@ -66,27 +66,6 @@ function Navigator({ classes, history, match }) {
   };
 
   //---------------------------------------------------------------------------------------------------------
-  const DoctorInformation = async (CourseID) => {
-    try {
-      const url = "/Login/getDoctor";
-      const { data } = await post(url, null, {
-        params: {
-          subjectId: CourseID,
-        },
-      });
-      localStorage.setItem("DrInformation", JSON.stringify(data));
-      const url2 = "/Login/getuserObject";
-      const { data: data2 } = await get(url2, {
-        params: {
-          email: data[0].doctorEmail,
-        },
-      });
-      localStorage.setItem("DocInformation", JSON.stringify(data2));
-      /* window.location.reload(); */
-    } catch (err) {
-      console.error(err);
-    }
-  };
   //----------------------------------------------------------------------------------------------------------
 
   const createRootFolder = async (courseId) => {
@@ -286,7 +265,6 @@ function Navigator({ classes, history, match }) {
                         key={ID}
                         button
                         onClick={() => {
-                          DoctorInformation(ID);
                           history.push(`/course/${ID}/${Subjectname}`);
                           listMaterials(ID);
                         }}

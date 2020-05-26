@@ -335,7 +335,6 @@ const MaterialTable = ({
                     ? { background: "	#FFFFFF	" }
                     : { background: "	#FFFFFF	" }
                 }
-                // FIXME: any url not starting with http:// or https:// won't navigate
                 key={index}
                 onDoubleClick={() => {
                   if (material.type === "Folder") {
@@ -613,9 +612,9 @@ const styles = (theme) => ({
   },
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });

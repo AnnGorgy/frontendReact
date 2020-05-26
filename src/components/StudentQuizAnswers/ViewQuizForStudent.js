@@ -15,6 +15,7 @@ import {
 //------------------------------ Another Components Used In This Component -------------------------------
 import AnswersMCQ from "./AnswersMCQ";
 import AnswersTrueFalse from "./AnswersTrueFalse";
+import AnswersMatch from "./AnswersMatch";
 import GradeDialog from "./GradeDialog";
 //--------------------------------------------------------------------------------------------------------
 
@@ -81,18 +82,21 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "30px",
     flexWrap: "nowrap",
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 }));
-const ViewQuizForStudent = ({ match , history }) => {
+
+//
+const ViewQuizForStudent = ({ match, history }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
     studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
     questionId,
     answers: [],
+    matchAnswers: [{ matchQuestionsid: 0, anwser: "" }],
     trueOrFalse: null,
     NumberofCorrectAnswers,
   });
@@ -126,7 +130,7 @@ const ViewQuizForStudent = ({ match , history }) => {
       params: {
         quizID: match.params.quizId,
         sub_Id: match.params.courseId,
-        StudID: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        StudID: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
       },
     });
     setQuizInfo({ ...data[0] });
@@ -137,7 +141,7 @@ const ViewQuizForStudent = ({ match , history }) => {
     const { data } = await post(Url, questionAnswers, {
       params: {
         quiizID: match.params.quizId,
-        studID: 1,
+        studID: 3,
       },
     });
     setStudentGrade(data);
@@ -149,8 +153,10 @@ const ViewQuizForStudent = ({ match , history }) => {
       if (quizInfo) {
         // const endTime = (Math.floor(quizInfo.OpenedAt)) + quizInfo.duration * 60000;
         const utc = new Date();
-        console.log((quizInfo.OpenedAt + quizInfo.duration*60000 - utc.getTime())/ 60000);
-        setTimer((quizInfo.OpenedAt + quizInfo.duration*60000 - utc.getTime())/ 60000);
+        setTimer(
+          (quizInfo.OpenedAt + quizInfo.duration * 60000 - utc.getTime()) /
+            60000
+        );
       }
     }, 500);
 
@@ -159,7 +165,9 @@ const ViewQuizForStudent = ({ match , history }) => {
 
   useEffect(() => {
     if (timer <= 0) {
-      history.push(`/quizstudent/${match.params.courseId}/${match.params.coursename}`);
+      history.push(
+        `/quizstudent/${match.params.courseId}/${match.params.coursename}`
+      );
     }
   }, [timer]);
 
@@ -172,9 +180,21 @@ const ViewQuizForStudent = ({ match , history }) => {
   }, [match.params.quizId, match.params.courseId]);
 
   useEffect(() => {
-    const questionAnswerss = quizData?.map((question) =>
-      getDefaultAnswerBody(question.questionId, question.NumberofCorrectAnswers)
-    );
+    console.log("QuizData" , quizData);
+    const questionAnswerss = quizData?.map((question) => ({
+      ...getDefaultAnswerBody(
+        question.questionId,
+        question.NumberofCorrectAnswers
+      ),
+      matchAnswers:
+        question?.Type === "match"
+          ? question?.matchQuestions?.map(({ MatchQuestionID }) => ({
+              matchQuestionsid: MatchQuestionID,
+              anwser: "",
+            }))
+          : null,
+    }));
+
     setAnswers(questionAnswerss);
   }, [quizData]);
 
@@ -186,6 +206,7 @@ const ViewQuizForStudent = ({ match , history }) => {
         onClose={() => setGradeDialogIsOpen(false)}
         grade={studentGrade}
       />
+      {console.log(questionAnswers)}
       <Grid item style={{ marginTop: "20px" }}>
         {quizInfo && (
           <Grid
@@ -395,14 +416,22 @@ const ViewQuizForStudent = ({ match , history }) => {
                 </Grid>
               </Grid>
               <Grid item style={{ marginTop: "-100px" }}>
-                {question.Type == "mcq" ? (
+                {question.Type == "mcq" && (
                   <AnswersMCQ
                     questionData={question}
                     setQuestions={setAnswers}
                     allQuestionAnswers={questionAnswers}
                   />
-                ) : (
+                )}
+                {question.Type == "tf" && (
                   <AnswersTrueFalse
+                    questionData={question}
+                    setQuestions={setAnswers}
+                    allQuestionAnswers={questionAnswers}
+                  />
+                )}
+                {question.Type == "match" && (
+                  <AnswersMatch
                     questionData={question}
                     setQuestions={setAnswers}
                     allQuestionAnswers={questionAnswers}

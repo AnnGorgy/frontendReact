@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import FolderIcon from "@material-ui/icons/Folder";
+import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -18,10 +20,12 @@ import {
   Button,
   Tooltip,
   withStyles,
+  Typography,
+  Grid,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentQuizGrades = ({ match, history, classes }) => {
+const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
   // -------------------------------------------- API Calls ------------------------------------------------
   const listGrades = async () => {
     const Url = `/Student_Answers/GetQuizzessGrades`;
@@ -49,6 +53,32 @@ const StudentQuizGrades = ({ match, history, classes }) => {
   useEffect(() => {
     listGrades();
   }, [match.params.courseId]);
+
+  useEffect(() => {
+    setCrumbs([
+      {
+        label: match.params.coursename,
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 1)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Grades",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+      {
+        label: "Assignment Grades",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
+    ]);
+  }, []);
 
   return (
     <TableContainer component={Paper} className={classes.tablePosition}>
@@ -88,7 +118,16 @@ const StudentQuizGrades = ({ match, history, classes }) => {
               }
             >
               {/* Quiz Name cell */}
-              <TableCell>{grades.QuizName}</TableCell>
+              <TableCell>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <FileIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography>{grades.QuizName}</Typography>
+                  </Grid>
+                </Grid>
+              </TableCell>
               {/* grade cell */}
               <TableCell align="right">{grades.QuizGrade}</TableCell>
               {/* Quiz Start Date cell */}
@@ -96,9 +135,8 @@ const StudentQuizGrades = ({ match, history, classes }) => {
               {/* Quiz End Date cell */}
               <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
-             
-              <Tooltip title="your Answers"  placement="bottom">
-                  <Button size="small" disabled={grades.Finish== false}>
+                <Tooltip title="your Answers" placement="bottom">
+                  <Button size="small" disabled={grades.Finish == false}>
                     <QuestionAnswerIcon
                       onClick={() => {
                         history.push(
@@ -119,9 +157,9 @@ const StudentQuizGrades = ({ match, history, classes }) => {
 const styles = () => ({
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
   tablePosition: {

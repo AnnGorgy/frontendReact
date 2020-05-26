@@ -1,15 +1,34 @@
 import React, { useState } from "react";
+import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
-import { Grid, withStyles } from "@material-ui/core";
+import {
+  Grid,
+  withStyles,
+  Button,
+  Typography,
+  Snackbar,
+} from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-//------------------------------ Another Components Used In This Component -------------------------------
+//------------------------------ Another Components Used In This Component ----------------------------------
 import { BreadCrumbs } from "..";
 //-----------------------------------------------------------------------------------------------------------
 
-const GradesHeaderMain = ({ classes, match, history, crumbs }) => {
+//------------------------------------------------- Icons ---------------------------------------------------
+import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//-----------------------------------------------------------------------------------------------------------
+
+const AllGradesInAspecificQuizHeader = ({
+  crumbs,
+  classes,
+  match,
+  history,
+}) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  //-----------------------------------------------------------------------------------------------------------
+
   return (
     <React.Fragment>
       <Grid
@@ -33,10 +52,15 @@ const GradesHeaderMain = ({ classes, match, history, crumbs }) => {
           history.push(
             `/grades/${match.params.courseId}/${match.params.coursename}`
           )}
+        {crumbs.length == 3 &&
+          history.push(
+            `/quizgrades/${match.params.courseId}/${match.params.coursename}`
+          )}
       </Grid>
     </React.Fragment>
   );
 };
+
 const styles = (theme) => ({
   root: {
     width: "100%",
@@ -49,7 +73,7 @@ const styles = (theme) => ({
   },
   addButton: {
     borderRadius: "16px",
-    width: "180px",
+    width: "240px",
     color: "white",
     backgroundColor: "#0c6170",
     "&:hover, &:focus": {
@@ -86,4 +110,6 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(withRouter(GradesHeaderMain));
+export default withStyles(styles)(
+  withRouter(AllGradesInAspecificQuizHeader)
+);

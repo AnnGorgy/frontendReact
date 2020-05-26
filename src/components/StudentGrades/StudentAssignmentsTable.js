@@ -6,6 +6,7 @@ import mime from "mime-types";
 //------------------------------------------------- Icons ------------------------------------------------
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import FolderIcon from "@material-ui/icons/Folder";
+import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -20,6 +21,8 @@ import {
   Button,
   Tooltip,
   withStyles,
+  Typography,
+  Grid,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -68,6 +71,13 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
         },
         Icon: FolderIcon,
       },
+      {
+        label: "Assignment Grades",
+        onClick: () => {
+          setCrumbs((prevState) => [...prevState.slice(0, 2)]);
+        },
+        Icon: FolderIcon,
+      },
     ]);
   }, []);
 
@@ -111,7 +121,16 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
               }
             >
               {/* Assignment Name cell */}
-              <TableCell>{grades.AssignmentName}</TableCell>
+              <TableCell>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <FileIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography>{grades.AssignmentName}</Typography>
+                  </Grid>
+                </Grid>
+              </TableCell>
               {/* grade assignmet cell */}
               <TableCell align="right">{grades.AssignmentGrade}</TableCell>
               {/* Assignment Start Date cell */}

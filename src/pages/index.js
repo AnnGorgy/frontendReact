@@ -15,6 +15,11 @@ export { default as MainPageForQuizStudent } from "../pages/Quiz/MainPageForQuiz
 export { default as StudentAnswerPage } from "../pages/Quiz/StudentAnswerPage";
 export { default as StudentAnswerForAssignmentPage } from "./StudentAnswerForAssignmentPage";
 export { default as AssignmentStudentAnswers } from "./AssignmentStudentAnswers";
-export { default as StudentGrades } from "./StudentGrades";
+export { default as AssignmentStudentGrades } from "./AssignmentStudentGrades";
 export {default as ViewStudentAnswers} from "./Quiz/ViewStudentAnswers";
-export {default as DoctorTableStudentQuizAnswers} from "./Quiz/DoctorTableStudentQuizAnswers";
+export {default as AssignemntFolderNamesForDoctor} from "./Assignment/AssignemntFolderNamesForDoctor";
+export {default as StudentGradesAssignment} from "./Assignment/StudentGradesAssignment";
+export {default as AssignmentQuizGradesForDoctor} from "./AssignmentQuizGradesForDoctor";
+export {default as QuizFolderNamesForDoctor} from "./QuizzesGradesForDoctor/QuizFolderNamesForDoctor";
+export {default as StudentGradeQuiz} from "./QuizzesGradesForDoctor/StudentGradeQuiz";
+export {default as QuizStudentGrades} from "./QuizStudentGrades";

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import {
@@ -25,16 +27,36 @@ import {
 
 const CourseHome = ({ history, match , classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
+
   const CourseName = JSON.parse(localStorage.getItem("subjects")).find(
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
-  const DoctorName = JSON.parse(localStorage.getItem("DrInformation"))[0]
-    ?.doctorName;
+  const [DoctorName , setDoctorName] = useState(""); 
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+
+
+  const DoctorInformation = async () => {
+    try {
+      const url = "/Login/getDoctor";
+      const { data } = await post(url, null, {
+        params: {
+          subjectId: match.params.courseId,
+        },
+      });
+      setDoctorName(data[0].doctorName);
+      localStorage.setItem("DoctorEmail", data[0].doctorEmail);
+      localStorage.setItem("DoctorAccountID" , data[0].AccountID );
+    } catch (err) {
+      console.error(err);
+    }
+  };
   //--------------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    DoctorInformation();
+  }, []);
   return (
     <React.Fragment>
       <InstructorProfile

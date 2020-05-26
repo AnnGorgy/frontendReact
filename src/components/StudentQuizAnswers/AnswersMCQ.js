@@ -27,7 +27,6 @@ const AnswersMCQ = ({
             : {
                 ...question,
                 answers: [value],
-                trueOrFalse: 0,
               }
         )
       );
@@ -39,7 +38,6 @@ const AnswersMCQ = ({
             ? question
             : {
                 ...question,
-                trueOrFalse: 0,
                 answers: checked
                   ? [...question.answers, value]
                   : question.answers.filter(
@@ -141,11 +139,14 @@ const AnswersMCQ = ({
                     />
                   </Grid>
                 </Grid>
-                <Grid item style={{
+                <Grid
+                  item
+                  style={{
                     marginTop: "-55px",
                     marginLeft: "670px",
                     paddingBottom: "15px",
-                  }}>
+                  }}
+                >
                   {questionData.options.multipleCorrectAnswers ? (
                     // multiple correct answers
                     <Checkbox
@@ -248,7 +249,7 @@ const styles = () => ({
   boldText: {
     fontWeight: "600",
   },
-  check:{
+  check: {
     "&$checked": {
       color: "#0e7c61",
     },

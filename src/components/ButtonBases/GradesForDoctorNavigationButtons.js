@@ -1,63 +1,46 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-
 //------------------------------------------------- Images ---------------------------------------------------
-import Quizs from "./Quizs.jpg";
-import Assignments from "./Assignments.jpg";
-import Excel from "./ExcelSheet.jpg";
-import AssignmentDoctor from "./AssignmentDoctor.png";
-import Grades from "./Grades.png";
-import materials from "./Materials.jpg";
+import AssignmentGrades from "./AssignmentGrades.jpg";
+import QuizGrades from "./QuizGrades.png";
 //----------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import { Typography, ButtonBase, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const CoursesNavigationButtons = ({ history, match, classes }) => {
+const GradesForDoctorNavigationButtons = ({ history, match, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
   //----------------------------------------------------------------------------------------------------
 
-
   const images = [
     {
-      url: materials,
-      title: "Open Materials",
+      url: AssignmentGrades,
+      title: "Assignemnt Grades",
       onClick: () =>
         accountType == 2
-          ? history.push(`/courses/${match.params.courseId}/${match.params.coursename}/materials`)
-          : history.push(`/courses/${match.params.courseId}/${match.params.coursename}/StudentMaterials`),
+          ? history.push(
+              `/assignment/${match.params.courseId}/${match.params.coursename}`
+            )
+          : history.push(
+              `/studentgradesassignment/${match.params.courseId}/${match.params.coursename}`
+            ),
     },
     {
-      url: Quizs,
-      title: accountType !== 2 ? "Online Quiz" : "Create Quiz",
+      url: QuizGrades,
+      title: "Quiz Grades",
       onClick: () =>
         accountType == 2
-          ? history.push(`/quiz/${match.params.courseId}/${match.params.coursename}`)
-          : history.push(`/quizstudent/${match.params.courseId}/${match.params.coursename}`),
-    },
-    {
-      url: accountType == 2 ? AssignmentDoctor : Assignments,
-      title:
-        accountType !== 2
-          ? "Upload assignment answers"
-          : "Student Assignment Answers",
-      onClick: () =>
-        accountType == 2
-          ? history.push(`/assignmentInstructor/${match.params.courseId}/${match.params.coursename}`)
-          : history.push(`/assignmentstudent/${match.params.courseId}/${match.params.coursename}`),
-    },
-    {
-      url: accountType == 2 ? Excel : Grades,
-      title: accountType == 2 ? "Student Grades" : "Grades",
-      onClick: () =>
-        
-          history.push(`/grades/${match.params.courseId}/${match.params.coursename}`)
-         
+          ? history.push(
+              `/quizgrades/${match.params.courseId}/${match.params.coursename}`
+            )
+          : history.push(
+              `/studentgradesquiz/${match.params.courseId}/${match.params.coursename}`
+            ),
     },
   ];
 
@@ -72,8 +55,10 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "25%",
-              height: "470px",
+              width: "45%",
+              height: "500px",
+              marginLeft: "20px",
+              marginTop: "150px",
             }}
           >
             <span
@@ -108,6 +93,7 @@ const styles = (theme) => ({
     flexWrap: "wrap",
     minWidth: 300,
     width: "100%",
+    marginLeft: "30px",
   },
   image: {
     position: "relative",
@@ -177,4 +163,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(withRouter(CoursesNavigationButtons));
+export default withStyles(styles)(withRouter(GradesForDoctorNavigationButtons));

@@ -9,6 +9,7 @@ import { Grid, withStyles, Typography } from "@material-ui/core";
 //------------------------------ Another Components Used In This Component -------------------------------
 import ViewMCQ from "./ViewMCQ";
 import ViewTrueFalse from "./ViewTrueFalse";
+import ViewMatch from "./ViewMatch";
 //---------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------ Images ---------------------------------------------------
@@ -221,10 +222,14 @@ const ViewQuizForInstructor = ({ match }) => {
                 </Grid>
               </Grid>
               <Grid item style={{ marginTop: "-100px" }}>
-                {quiz.Type == "mcq" ? (
+                {quiz.Type == "mcq" && (
                   <ViewMCQ questionData={quiz} />
-                ) : (
+                )} 
+                {quiz.Type == "tf" && (
                   <ViewTrueFalse questionData={quiz} />
+                )}
+                {quiz.Type == "match" && (
+                  <ViewMatch questionData={quiz} />
                 )}
               </Grid>
             </Grid>

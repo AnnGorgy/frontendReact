@@ -32,7 +32,6 @@ const RenameForm = ({
   const [RelodRename, setReloadRename] = useState(true);
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
-  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),

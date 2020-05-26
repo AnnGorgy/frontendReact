@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import {
   StudentAssignmentsTable,
   SideBar,
-  StudentQuizGrades,
   GradesHeaderMain
 } from "../components";
 //-----------------------------------------------------------------------------------------------------------
@@ -14,7 +13,7 @@ import {
 import { Grid } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const StudentGrades = () => {
+const AssignmentStudentGrades = () => {
    // ---------------------------- variables with it's states that we use it in this Page -------------------
    const [crumbs, setCrumbs] = useState([]);
    //--------------------------------------------------------------------------------------------------------
@@ -40,12 +39,9 @@ const StudentGrades = () => {
           <Grid item>
             <StudentAssignmentsTable setCrumbs={setCrumbs} />
           </Grid>
-          <Grid item>
-            <StudentQuizGrades />
-          </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default withRouter(StudentGrades);
+export default withRouter(AssignmentStudentGrades);
