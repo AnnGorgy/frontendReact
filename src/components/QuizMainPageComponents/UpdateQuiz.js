@@ -416,7 +416,7 @@ const UpdateQuiz = ({
                                 : classes.boldText
                             }
                           >
-                            Create
+                            Update
                           </Typography>
                         </Button>
                       </Grid>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
 import { post } from "axios";
+import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -8,45 +8,56 @@ import {
   Typography,
   Grid,
   withStyles,
+  Radio,
   Button,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-//--------------------------------------------- Images ------------------------------------------------------
-import Grades from "../ViewingTheQuiz/Grades.png";
-//-----------------------------------------------------------------------------------------------------------
-
-const GradeDialog = ({
+const EditNumberOfGroupForStudent = ({
   onClose,
   title,
   isOpened,
+  onSubmit,
   classes,
-  grade,
   match,
-  history,
+  CurrentGroup
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [StudentGradeee, setStudentGradeee] = useState();
-  const [CheckAppear, setCheckAppear] = useEffect(false);
+  const [ChosenNumberOfGroup, setChosenNumberOfGroup] = useState(0);
+  const [AvilableNumberOfGroups, setAvilableNumberOfGroups] = useState([]);
   //----------------------------------------------------------------------------------------------------------
 
-  const ShowGrade = async () => {
-    const Url = `/Student_Answers/AppearGrade`;
+  // ---------------------------------------------------- Api Calls -------------------------------------------
+  const GetNumberOfGroups = async () => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroups`;
     const { data } = await post(Url, null, {
-      params: { QuizID: match.params.quizId, SubjectID: match.params.courseId },
+      params: { SubjectID: match.params.courseId },
     });
 
-    setCheckAppear(data);
+    setAvilableNumberOfGroups(data);
+  };
+  //----------------------------------------------------------------------------------------------------------
+
+  const handleTotalGradeMethod = (value, RadioTitle) => {
+    {
+      setAvilableNumberOfGroups((prev) =>
+        prev.map((choicee) =>
+          choicee.number !== RadioTitle
+            ? { ...choicee, choose: 0 }
+            : { ...choicee, choose: value }
+        )
+      );
+    }
+      setChosenNumberOfGroup(RadioTitle);
   };
 
   useEffect(() => {
-    setStudentGradeee(grade);
-  }, [grade]);
-
-  useEffect(() => {
-    ShowGrade();
+    GetNumberOfGroups();
   }, []);
 
+  useEffect(() => {
+    handleTotalGradeMethod(true,CurrentGroup);
+  }, [CurrentGroup]);
 
   return (
     isOpened && (
@@ -85,48 +96,39 @@ const GradeDialog = ({
                   justify="center"
                   spacing={3}
                 >
-                  {CheckAppear === true && (
+                  <Grid item>
+                    <Typography style={{ fontSize: "30px" }}>
+                      Avilable Student Groups :
+                    </Typography>
+                  </Grid>
+                  {AvilableNumberOfGroups.map(({ number, choose }) => (
                     <Grid
                       item
-                      style={{
-                        padding: "10px 10px 10px 10px",
-                        borderRadius: "16px",
-                        border: "3px solid black",
-                        width: "180px",
-                        height: "75px",
-                        marginLeft: "190px",
-                        marginTop: "20px",
-                      }}
+                      style={{ marginLeft: "350px", marginTop: "-20px" }}
                     >
-                      <Grid item style={{ marginLeft: "10px" }}>
-                        <img
-                          src={Grades}
-                          alt="GradeImage"
-                          style={{ width: "50px", height: "50px" }}
-                        />
+                      <Grid item>
+                        <Typography style={{ fontSize: "25px" }}>
+                          {number}
+                        </Typography>
                       </Grid>
                       <Grid
                         item
-                        style={{ marginTop: "-50px", marginLeft: "60px" }}
+                        style={{ marginTop: "-38px", marginLeft: "70px" }}
                       >
-                        <Typography
-                          style={{
-                            marginLeft: "30px",
-                            fontFamily: "Monaco",
-                            fontSize: "25px",
+                        <Radio
+                          checked={choose}
+                          onChange={(e) => {
+                            handleTotalGradeMethod(e.target.checked, number);
                           }}
-                        >
-                          {StudentGradeee}
-                        </Typography>
+                          inputProps={{ "aria-label": "A" }}
+                          classes={{
+                            root: classes.radio,
+                            checked: classes.checked,
+                          }}
+                        />
                       </Grid>
                     </Grid>
-                  )}
-                  <Grid item style={{ marginLeft: "15px" }}>
-                    <Typography style={{ fontSize: "30px" }}>
-                      “ If you want to check the Correct answers wait untill the
-                      quiz is end then you can see the model answers ”
-                    </Typography>
-                  </Grid>
+                  ))}
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -135,9 +137,6 @@ const GradeDialog = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
-                            history.push(
-                              `/quizstudent/${match.params.courseId}/${match.params.coursename}`
-                            );
                           }}
                         >
                           <Typography
@@ -146,6 +145,29 @@ const GradeDialog = ({
                             color="error"
                           >
                             Close
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          className={classes.createButton}
+                          disabled={ ChosenNumberOfGroup == CurrentGroup }
+                          onClick={() => {
+                            onSubmit({
+                              ChosenNumberOfGroup,
+                            });
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            className={
+                               ChosenNumberOfGroup == CurrentGroup 
+                                ? classes.createText
+                                : classes.boldText
+                            }
+                          >
+                            Update
                           </Typography>
                         </Button>
                       </Grid>
@@ -182,7 +204,7 @@ const styles = () => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "40vh",
+    minHeight: "25vh",
     padding: "20px 0px",
   },
   createButton: {
@@ -205,4 +227,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withRouter(GradeDialog));
+export default withStyles(styles)(withRouter(EditNumberOfGroupForStudent));

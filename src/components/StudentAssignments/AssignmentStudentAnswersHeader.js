@@ -143,7 +143,7 @@ const AssignmentStudentAnswersHeader = ({
                 </Grid>
                 <Grid item>
                   <Typography className={classes.buttonText}>
-                    Add new answers
+                    Add answer
                   </Typography>
                 </Grid>
               </Grid>
@@ -166,19 +166,20 @@ const styles = (theme) => ({
   },
   addButton: {
     borderRadius: "16px",
-    width: "200px",
+    width: "160px",
     color: "black",
-    backgroundColor: "#7dbbb9",
+    backgroundColor: "#0A5764",
     "&:hover, &:focus": {
-      backgroundColor: "#CCE6E5",
-      color: "black",
+      backgroundColor: "#3C808C",
+      color: "white",
     },
   },
   addIcon: {
-    marginTop: "4px",
+    marginTop: "8px",
+    color:"white"
   },
   buttonText: {
-    color: "black",
+    color: "white",
   },
   addButtonBody: {
     marginLeft: "4px",

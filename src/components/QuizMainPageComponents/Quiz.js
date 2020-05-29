@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import { withRouter } from "react-router-dom";
 import {
-  KeyboardDateTimePicker ,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { post } from "axios";
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
@@ -16,6 +17,7 @@ import {
   Switch,
   FormGroup,
   FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -73,25 +75,29 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
   );
 });
 
-const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
+const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState("");
-  const [Description, setDescription] = useState();
+  const [Description, setDescription] = useState("");
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
+  const [GradeAppear, setGradeAppear] = useState(false);
   const [numberOfQues, setnumberOfQuestions] = useState(0);
   const [Duration, setDuration] = useState(0);
-  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
   });
+  const [num, setNum] = useState([]);
   //----------------------------------------------------------------------------------------------------------
 
   const handleChange = () => {
     setQuestionType((prev) => !prev);
+  };
+  const handleChangeAppear = () => {
+    setGradeAppear((prev) => !prev);
   };
   const resetStates = () => {
     setName("");
@@ -102,7 +108,34 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
     setGoodStartDate(false);
     setGoodEndDate(false);
     setQuestionType(false);
+    setGradeAppear(false);
   };
+  // -------------------------------------------------- api Calls ------------------------------------------
+  const GetNumberOfGroups = async () => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroups`;
+    const { data } = await post(Url, null, {
+      params: { SubjectID: match.params.courseId },
+    });
+
+    setNum(data);
+  };
+  //----------------------------------------------------------------------------------------------------------
+
+  const handleTotalGradeMethod = (value, CheckTitle) => {
+    {
+      setNum((prev) =>
+        prev.map((choicee) =>
+          choicee.number !== CheckTitle
+            ? choicee
+            : { ...choicee, choose: value }
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    GetNumberOfGroups();
+  }, []);
 
   useEffect(() => {
     if (reloadProfile) {
@@ -239,18 +272,34 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                       item
                       style={{ marginTop: "-60px", marginLeft: "300px" }}
                     >
+                      <Grid item>
+                        <FormGroup>
+                          <FormControlLabel
+                            labelPlacement="start"
+                            label="Shuffle Questions"
+                            control={
+                              <QuestionShuffleSwitch
+                                checked={questionType}
+                                onChange={handleChange}
+                              />
+                            }
+                          />
+                        </FormGroup>
+                      </Grid>
+                      <Grid item>
                       <FormGroup>
-                        <FormControlLabel
-                          labelPlacement="start"
-                          label="Shuffle Questions"
-                          control={
-                            <QuestionShuffleSwitch
-                              checked={questionType}
-                              onChange={handleChange}
-                            />
-                          }
-                        />
-                      </FormGroup>
+                          <FormControlLabel
+                            labelPlacement="start"
+                            label="Show Grade"
+                            control={
+                              <QuestionShuffleSwitch
+                                checked={GradeAppear}
+                                onChange={handleChangeAppear}
+                              />
+                            }
+                          />
+                        </FormGroup>
+                      </Grid>
                     </Grid>
                   </Grid>
                   <Grid item style={{ marginTop: "20px" }}>
@@ -284,7 +333,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                     <Grid container justify="space-between">
                       <Grid item xs={5}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDateTimePicker 
+                          <KeyboardDateTimePicker
                             required
                             clearable
                             autoOk
@@ -319,6 +368,52 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         </MuiPickersUtilsProvider>
                       </Grid>
                     </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item style={{ marginTop: "30px", marginLeft: "-200px" }}>
+                  <Grid item style={{ marginLeft: "210px" }}>
+                    <Typography style={{ fontSize: "25px" }}>
+                      Groups :
+                    </Typography>
+                  </Grid>
+                  <Grid item style={{ marginTop: "-40px" }}>
+                    {num.map((choosee, index) => (
+                      <Grid
+                        item
+                        style={
+                          index % 2
+                            ? { marginLeft: "500px", marginTop: "-38px" }
+                            : { marginLeft: "350px", marginTop: "5px" }
+                        }
+                      >
+                        <Grid item>
+                          <Typography style={{ fontSize: "25px" }}>
+                            {choosee.number}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          style={{ marginTop: "-41px", marginLeft: "40px" }}
+                        >
+                          <Checkbox
+                            inputProps={{
+                              "aria-label": "uncontrolled-checkbox",
+                            }}
+                            checked={choosee.choose}
+                            classes={{
+                              root: classes.check,
+                              checked: classes.checked,
+                            }}
+                            onChange={(e) => {
+                              handleTotalGradeMethod(
+                                e.target.checked,
+                                choosee.number
+                              );
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                    ))}
                   </Grid>
                 </Grid>
                 <Grid container justify="flex-end" spacing={1}>
@@ -356,9 +451,8 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                         !goodEndDate ||
                         numberOfQues === "" ||
                         Duration === "" ||
-                        date.start > date.end 
+                        date.start > date.end
                       }
-                      
                       onClick={() => {
                         resetStates();
                         localStorage.setItem("numberOfQuestions", numberOfQues);
@@ -369,11 +463,12 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                           date,
                           Duration,
                           questionType,
+                          GradeAppear,
                           numberOfQues,
+                          num,
                         });
                       }}
                     >
-                      
                       <Typography
                         variant="h6"
                         className={
@@ -382,7 +477,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes }) => {
                           !goodEndDate ||
                           numberOfQues === "" ||
                           Duration === "" ||
-                          date.start > date.end 
+                          date.start > date.end
                             ? classes.createText
                             : classes.boldText
                         }
@@ -425,7 +520,7 @@ const styles = (theme) => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "50vh",
+    minHeight: "auto",
     padding: "20px 0px",
   },
   createButton: {
@@ -448,6 +543,12 @@ const styles = (theme) => ({
   createText: {
     color: "silver",
   },
+  check: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
 export default withStyles(styles)(withRouter(Quiz));

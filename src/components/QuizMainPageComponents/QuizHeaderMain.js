@@ -67,12 +67,14 @@ const QuizHeaderMain = ({
     Duration,
     numberOfQues,
     questionType,
+    GradeAppear,
+    num,
     callback
   ) => {
     const url = "/DoctorMakeQuiz/AddQuiz";
     try {
       // post syntax (url, body, options)
-      const { data } = await post(url, null, {
+      const { data } = await post(url, num, {
         params: {
           name: Name,
           description: Description,
@@ -82,12 +84,15 @@ const QuizHeaderMain = ({
           shuffleQuestion: questionType,
           subID: match.params.courseId,
           numberOfQuestions: numberOfQues,
+          appearGrade :GradeAppear,
         },
       });
       setReloadQuizzes(true);
       handleClick();
       setMessageTitle(Name);
-      history.push(`/createquiz/${match.params.courseId}/${data}/${match.params.coursename}`);
+      history.push(
+        `/createquiz/${match.params.courseId}/${data}/${match.params.coursename}`
+      );
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -116,6 +121,8 @@ const QuizHeaderMain = ({
           Duration,
           numberOfQues,
           questionType,
+          GradeAppear,
+          num,
         }) =>
           ViewData(
             Name,
@@ -124,6 +131,8 @@ const QuizHeaderMain = ({
             Duration,
             numberOfQues,
             questionType,
+            GradeAppear,
+            num,
             () => setOpenQuiz(false)
           )
         }

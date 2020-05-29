@@ -232,7 +232,7 @@ const QuizStepper = ({ match, classes, history }) => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item style={{overflowY:"auto" , overflowX:"hidden"}}>
           <Grid item>
             {questions[questionIndex - 1].type === "mcq" && (
               <MCQ

@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
+
 
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import EditGradesStudentForm from "./EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
+//-------------------------------------------- Images -----------------------------------------------------
+import QuizIcon from "../QuizMainPageComponents/QuizIcon.png";
+import StudentAnswerIcon from "../StudentGrades/StudentAnswerIcon.png";
+//---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -27,7 +32,13 @@ import {
   Typography,
   Tooltip,
   withStyles,
+  Snackbar
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+//--------------------------------------  Message Function  -------------------------------------------------
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 //-----------------------------------------------------------------------------------------------------------
 
 const AllStudentsGradesInSpecificQuiz = ({
@@ -38,6 +49,20 @@ const AllStudentsGradesInSpecificQuiz = ({
   reloadQuizzes,
   setReloadQuizzes,
 }) => {
+   // ---------------------- we use it To Show The Message after every operation --------------------------
+   const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  // -------------------------------------------------------------------------------------------------------
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/DoctorMakeQuiz/GetAllGradesQuizzes`;
@@ -48,12 +73,17 @@ const AllStudentsGradesInSpecificQuiz = ({
   };
   //--------------------------------------------------------------------------------------------------------
 
-  const RenameQuiz = async (quiz, ChangedGrade, callback) => {
+  const EditQuizStudentGrade = async (quiz, ChangedGrade, callback) => {
     const url = "/Doctor_Manage_student/UpdateQuizGrade";
     await post(url, null, {
-      params: { studentID: quiz.studentID, QuizID: match.params.quizId , Newgrade : ChangedGrade },
+      params: {
+        studentID: quiz.studentID,
+        QuizID: match.params.quizId,
+        Newgrade: ChangedGrade,
+      },
     });
     setReloadQuizzes(true);
+    handleClick();
     if (callback) callback();
   };
   //--------------------------------------------------------------------------------------------------------
@@ -63,6 +93,7 @@ const AllStudentsGradesInSpecificQuiz = ({
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [EditIsOpenQuizGrade, setEditIsOpenQuizGrade] = useState(false);
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
+  const [open, setOpen] = React.useState(false);
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (allQuiz) {
@@ -116,16 +147,26 @@ const AllStudentsGradesInSpecificQuiz = ({
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        className={classes.message}
+      >
+        <Alert onClose={handleClose} severity="success">
+        {`${currentEditedQuiz?.studentName} quiz grade has been changed`}
+        </Alert>
+      </Snackbar>
       <EditGradesStudentForm
-      title="Another Student Quiz Grade"
-      CurrentGrade={currentEditedQuiz?.grade}
-      isOpened={EditIsOpenQuizGrade}
-      onClose={() => setEditIsOpenQuizGrade(false)}
-      onSubmit={({ ChangedGrade }) =>
-      RenameQuiz(currentEditedQuiz, ChangedGrade, () =>
-          setEditIsOpenQuizGrade(false)
-        )
-      }
+        title="Another Student Quiz Grade"
+        CurrentGrade={currentEditedQuiz?.grade}
+        isOpened={EditIsOpenQuizGrade}
+        onClose={() => setEditIsOpenQuizGrade(false)}
+        onSubmit={({ ChangedGrade }) =>
+          EditQuizStudentGrade(currentEditedQuiz, ChangedGrade, () =>
+            setEditIsOpenQuizGrade(false)
+          )
+        }
       />
       <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
@@ -167,31 +208,42 @@ const AllStudentsGradesInSpecificQuiz = ({
                 <TableCell>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <FileIcon />
+                      <img
+                        src={QuizIcon}
+                        alt="quizIcon"
+                        style={{ width: "35px", height: "35px" }}
+                      />
                     </Grid>
                     <Grid item>
-                      <Typography>{quiz.studentName}</Typography>
+                      <Typography
+                        style={{ marginTop: "5px", marginLeft: "5px" }}
+                      >
+                        {quiz.studentName}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </TableCell>
                 {/* SeatNo cell */}
                 <TableCell align="right">{quiz.studentSeatNo}</TableCell>
                 {/* grade cell */}
-                <TableCell align="right">{quiz.grade}</TableCell>
+                <TableCell align="right">{`${quiz.grade} / ${quiz.QuizTotalGrade}`}</TableCell>
                 <TableCell align="right">
                   <Tooltip title="Edit Student Grade" placement="bottom">
                     <Button size="small">
                       <EditIcon
                         onClick={() => {
-                           setEditIsOpenQuizGrade(true);
-                            setCurrentEditedQuiz(quiz); 
+                          setEditIsOpenQuizGrade(true);
+                          setCurrentEditedQuiz(quiz);
                         }}
                       />
                     </Button>
                   </Tooltip>
                   <Tooltip title="Student Answers" placement="bottom">
                     <Button size="small">
-                      <QuestionAnswerIcon
+                      <img
+                        src={StudentAnswerIcon}
+                        alt="Student Answer"
+                        style={{ width: "40px", height: "40px" }}
                         onClick={() => {
                           history.push(
                             `/answers/${match.params.courseId}/${match.params.quizId}`

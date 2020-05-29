@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { post } from "axios";
+import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -13,6 +15,7 @@ import {
   withStyles,
   TextField,
   Button,
+  Checkbox,
 } from "@material-ui/core";
 //------------------------------------------------------------------------------------------------------------
 
@@ -29,6 +32,7 @@ const CreateFileForm = ({
   hasDate,
   classes,
   videoExtension,
+  match
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
@@ -41,6 +45,7 @@ const CreateFileForm = ({
     start: new Date(),
     end: new Date(),
   });
+  const [num, setNum] = useState([]);
   // ---------------------------------------------------------------------------------------------------------
   const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
@@ -60,6 +65,32 @@ const CreateFileForm = ({
     setGoodEndDate(false);
   };
   //------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------- api Calls ------------------------------------------
+  const GetNumberOfGroups = async () => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroups`;
+    const { data } = await post(Url, null, {
+      params: { SubjectID: match.params.courseId },
+    });
+
+    setNum(data);
+  };
+  //----------------------------------------------------------------------------------------------------------
+
+  const handleTotalGradeMethod = (value, CheckTitle) => {
+    {
+      setNum((prev) =>
+        prev.map((choicee) =>
+          choicee.number !== CheckTitle
+            ? choicee
+            : { ...choicee, choose: value }
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    GetNumberOfGroups();
+  }, []);
   return (
     isOpened && (
       <Dialog
@@ -193,7 +224,7 @@ const CreateFileForm = ({
                               }
                               onError={(bad) => setGoodStartDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
-                              />
+                            />
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item xs={5}>
@@ -208,8 +239,60 @@ const CreateFileForm = ({
                               }
                               onError={(bad) => setGoodEndDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
-                              />
+                            />
                           </MuiPickersUtilsProvider>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        item
+                        style={{ marginTop: "30px", marginLeft: "-200px" }}
+                      >
+                        <Grid item style={{ marginLeft: "210px" }}>
+                          <Typography style={{ fontSize: "25px" }}>
+                            Groups :
+                          </Typography>
+                        </Grid>
+                        <Grid item style={{ marginTop: "-40px" }}>
+                          {num.map((choosee, index) => (
+                            <Grid
+                              item
+                              style={
+                                index % 2
+                                  ? { marginLeft: "500px", marginTop: "-38px" }
+                                  : { marginLeft: "350px", marginTop: "5px" }
+                              }
+                            >
+                              <Grid item>
+                                <Typography style={{ fontSize: "25px" }}>
+                                  {choosee.number}
+                                </Typography>
+                              </Grid>
+                              <Grid
+                                item
+                                style={{
+                                  marginTop: "-41px",
+                                  marginLeft: "40px",
+                                }}
+                              >
+                                <Checkbox
+                                  inputProps={{
+                                    "aria-label": "uncontrolled-checkbox",
+                                  }}
+                                  checked={choosee.choose}
+                                  classes={{
+                                    root: classes.check,
+                                    checked: classes.checked,
+                                  }}
+                                  onChange={(e) => {
+                                    handleTotalGradeMethod(
+                                      e.target.checked,
+                                      choosee.number
+                                    );
+                                  }}
+                                />
+                              </Grid>
+                            </Grid>
+                          ))}
                         </Grid>
                       </Grid>
                     </Grid>
@@ -258,6 +341,7 @@ const CreateFileForm = ({
                               name,
                               description,
                               date,
+                              num,
                             });
                           }}
                         >
@@ -339,6 +423,12 @@ const styles = () => ({
   createText: {
     color: "silver",
   },
+  check: {
+    "&$checked": {
+      color: "#0e7c61",
+    },
+  },
+  checked: {},
 });
 
-export default withStyles(styles)(CreateFileForm);
+export default withStyles(styles)(withRouter(CreateFileForm));

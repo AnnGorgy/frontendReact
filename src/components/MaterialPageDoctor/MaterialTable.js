@@ -51,9 +51,8 @@ const MaterialTable = ({
   setReloadMaterials,
   classes,
 }) => {
+  // ------------------------------------- API Calls ------------------------------------------
   const listMaterials = async () => {
-    // ------------------------------------- API Calls ------------------------------------------
-
     const materialsUrl = `/Doctor_Materials/GetFiles`;
     /*  
     post syntax (
@@ -266,7 +265,7 @@ const MaterialTable = ({
         </Alert>
       </Snackbar>
       <RenameForm
-        title="Another Name"
+        title={`Edit ${currentEditedMaterial?.type}`}
         CurrentName={currentEditedMaterial?.Name}
         isOpened={RenameIsOpenMaterial}
         onClose={() => setRenameIsOpenMaterial(false)}

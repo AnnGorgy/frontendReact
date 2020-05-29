@@ -33,8 +33,6 @@ const ViewMatchStudentAnswer = ({ classes, questionData }) => {
         <Grid
           item
           style={{
-            borderRadius: "32px",
-            border: "5px solid black",
             width:"700px",
             height:"auto" ,
             marginLeft:"50px"

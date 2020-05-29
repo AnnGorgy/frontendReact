@@ -61,7 +61,7 @@ const ViewQuizForInstructor = ({ match }) => {
   const QuizInforrmation = async () => {
     const QuizUrl = `/Student_Answers/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
-      params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
+      params: { quizID: match.params.quizId, sub_Id: match.params.courseId ,StudID: 3 },
     });
     setQuizInfo(data);
   };

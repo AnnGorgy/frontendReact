@@ -3,15 +3,17 @@ import { withRouter } from "react-router-dom";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import {
-  SideBar,GradesForDoctorNavigationButtons,
+  SideBar,
+  GradesForDoctorNavigationButtons,
+  GradesBreadCrumbsHeader,
 } from "../components";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AssignmentQuizGradesForDoctor = () => {
+const AssignmentQuizGradesForDoctor = ({ match, history }) => {
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
       {/* Navigation bar */}
@@ -27,9 +29,19 @@ const AssignmentQuizGradesForDoctor = () => {
           spacing={1}
           style={{ flexWrap: "nowrap" }}
         >
-          
+          <Grid item style={{marginTop:"50px"}}>
+            <GradesBreadCrumbsHeader />
+          </Grid>
+
           <Grid item>
-            <GradesForDoctorNavigationButtons />
+            <Grid
+              item
+              style={{
+                marginTop: "50px",
+              }}
+            >
+              <GradesForDoctorNavigationButtons />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

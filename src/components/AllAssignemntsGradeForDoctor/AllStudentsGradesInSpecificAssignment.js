@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
@@ -11,6 +12,7 @@ import EditIcon from "@material-ui/icons/Edit";
 //------------------------------ Another Components Used In This Component ----------------------------------
 import EditGradesStudentForm from "../AllQuizzesGradesForDoctor/EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
+
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -26,7 +28,13 @@ import {
   withStyles,
   Button,
   Tooltip,
+  Snackbar
 } from "@material-ui/core";
+//-----------------------------------------------------------------------------------------------------------
+//--------------------------------------  Message Function  -------------------------------------------------
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 //-----------------------------------------------------------------------------------------------------------
 
 const AllStudentsGradesInSpecificAssignment = ({
@@ -37,6 +45,20 @@ const AllStudentsGradesInSpecificAssignment = ({
   reloadAssignmnets,
   setReloadAssignmnets,
 }) => {
+    // ---------------------- we use it To Show The Message after every operation --------------------------
+    const handleClick = () => {
+      setOpen(true);
+    };
+    // -------------------------------------------------------------------------------------------------------
+  
+    // --------------- we use it To hide The Message that will appear after  every operation -----------------
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpen(false);
+    };
+    // -------------------------------------------------------------------------------------------------------
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/Doctor_Manage_student/getAssignmentsGrades`;
@@ -46,7 +68,7 @@ const AllStudentsGradesInSpecificAssignment = ({
     setAllAssignment(data);
   };
   //--------------------------------------------------------------------------------------------------------
-  const RenameAssignment = async (assignment, ChangedGrade, callback) => {
+  const EditStudentAssignmentGrade = async (assignment, ChangedGrade, callback) => {
     const url = "/Doctor_Manage_student/UpdateAssignmentGrade";
     await post(url, null, {
       params: {
@@ -56,6 +78,7 @@ const AllStudentsGradesInSpecificAssignment = ({
       },
     });
     setReloadAssignmnets(true);
+    handleClick();
     if (callback) callback();
   };
   //--------------------------------------------------------------------------------------------------------
@@ -67,6 +90,7 @@ const AllStudentsGradesInSpecificAssignment = ({
     false
   );
   const [currentEditedAssignment, setCurrentEditedAssignment] = useState();
+  const [open, setOpen] = React.useState(false);
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (allAssignment) {
@@ -120,13 +144,23 @@ const AllStudentsGradesInSpecificAssignment = ({
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        className={classes.message}
+      >
+        <Alert onClose={handleClose} severity="success">
+        {`${currentEditedAssignment?.studentName} assignment grade has been changed`}
+        </Alert>
+      </Snackbar>
       <EditGradesStudentForm
         title="Another Student Assignment Grade"
         CurrentGrade={currentEditedAssignment?.Grade}
         isOpened={EditIsOpenAssignmnetGrade}
         onClose={() => setEditIsOpenAssignmentGrade(false)}
         onSubmit={({ ChangedGrade }) =>
-          RenameAssignment(currentEditedAssignment, ChangedGrade, () =>
+          EditStudentAssignmentGrade(currentEditedAssignment, ChangedGrade, () =>
             setEditIsOpenAssignmentGrade(false)
           )
         }

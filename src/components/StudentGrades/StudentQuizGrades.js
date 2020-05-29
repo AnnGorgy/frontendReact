@@ -3,10 +3,13 @@ import { post } from "axios";
 import { withRouter } from "react-router-dom";
 
 //------------------------------------------------- Icons ------------------------------------------------
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------- Images -----------------------------------------------------
+import QuizIcon from "../QuizMainPageComponents/QuizIcon.png";
+import StudentAnswerIcon from "./StudentAnswerIcon.png";
+//---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -32,7 +35,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
     const { data } = await post(Url, null, {
       params: {
         subjectId: match.params.courseId,
-        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId: 309 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
       },
     });
     setAllGrades(data);
@@ -71,7 +74,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
         Icon: FolderIcon,
       },
       {
-        label: "Assignment Grades",
+        label: "Quiz Grades",
         onClick: () => {
           setCrumbs((prevState) => [...prevState.slice(0, 2)]);
         },
@@ -121,31 +124,42 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
               <TableCell>
                 <Grid container spacing={1}>
                   <Grid item>
-                    <FileIcon />
+                    <img
+                      src={QuizIcon}
+                      alt="quizIcon"
+                      style={{ width: "35px", height: "35px" }}
+                    />
                   </Grid>
                   <Grid item>
-                    <Typography>{grades.QuizName}</Typography>
+                    <Typography style={{ marginTop: "5px" }}>
+                      {grades.QuizName}
+                    </Typography>
                   </Grid>
                 </Grid>
               </TableCell>
               {/* grade cell */}
-              <TableCell align="right">{grades.QuizGrade}</TableCell>
+              <TableCell align="right">{`${grades.QuizGrade} / ${grades.TotalGrade }`}</TableCell>
               {/* Quiz Start Date cell */}
               <TableCell align="right">{grades.QuizstartDate}</TableCell>
               {/* Quiz End Date cell */}
               <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
-                <Tooltip title="your Answers" placement="bottom">
-                  <Button size="small" disabled={grades.Finish == false}>
-                    <QuestionAnswerIcon
-                      onClick={() => {
-                        history.push(
-                          `/answers/${match.params.courseId}/${grades.QuizID}`
-                        );
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
+                {grades.Finish == true && (
+                  <Tooltip title="your Answer" placement="bottom">
+                    <Button size="small">
+                      <img
+                        src={StudentAnswerIcon}
+                        alt="Student Answer"
+                        style={{ width: "40px", height: "40px" }}
+                        onClick={() => {
+                          history.push(
+                            `/answers/${match.params.courseId}/${grades.QuizID}`
+                          );
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                )}
               </TableCell>
             </TableRow>
           ))}

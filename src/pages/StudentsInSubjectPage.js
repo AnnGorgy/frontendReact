@@ -18,16 +18,18 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import { SideBar , AllStudentsInSubjectHeaderMain ,StudentsInSubject } from "../components";
+import {
+  SideBar,
+  AllStudentsInSubjectHeaderMain,
+  StudentsInSubject,
+} from "../components";
 //-----------------------------------------------------------------------------------------------------------
 
 const StudentsInSubjectPage = ({ reloadStudents, match, classes }) => {
-  
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [crumbs, setCrumbs] = useState([]);
+  const [reloadStudentss, setReloadStudentss] = useState(true);
   //----------------------------------------------------------------------------------------------------------
-
-
 
   return (
     <Grid container style={{ flexWrap: "nowrap" }}>
@@ -46,10 +48,17 @@ const StudentsInSubjectPage = ({ reloadStudents, match, classes }) => {
           style={{ flexWrap: "nowrap" }}
         >
           <Grid item>
-            <AllStudentsInSubjectHeaderMain crumbs={crumbs}/>
+            <AllStudentsInSubjectHeaderMain
+              crumbs={crumbs}
+              setReloadStudents={setReloadStudentss}
+            />
           </Grid>
           <Grid item>
-            <StudentsInSubject setCrumbs={setCrumbs} />
+            <StudentsInSubject
+              setCrumbs={setCrumbs}
+              reloadStudents={reloadStudentss}
+              setReloadStudents={setReloadStudentss}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -60,9 +69,9 @@ const StudentsInSubjectPage = ({ reloadStudents, match, classes }) => {
 const styles = () => ({
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
   tablePosition: {

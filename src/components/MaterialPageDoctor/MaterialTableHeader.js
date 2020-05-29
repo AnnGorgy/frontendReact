@@ -135,6 +135,7 @@ const MaterialTableHeader = ({
     name,
     description,
     date,
+    num,
     callback,
   }) => {
     const url = "/assignment/uploadFiles";
@@ -157,6 +158,7 @@ const MaterialTableHeader = ({
           File_Name: name,
           start: date.start,
           end: date.end,
+          numbers : num
         },
       });
       setReloadMaterials(true);
@@ -299,12 +301,13 @@ const MaterialTableHeader = ({
         hasDate
         isOpened={assignmentIsOpen}
         onClose={() => setAssignmentIsOpen(false)}
-        onSubmit={({ blobs, name, description, date }) =>
+        onSubmit={({ blobs, name, description, date, num }) =>
           uploadFileAssignment({
             file: blobs,
             name,
             description,
             date,
+            num,
             callback: () => setAssignmentIsOpen(false),
           })
         }

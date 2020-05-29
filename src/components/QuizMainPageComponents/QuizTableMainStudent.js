@@ -5,8 +5,11 @@ import { withRouter } from "react-router-dom";
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //-----------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------- Images -------------------------------------------------
+import QuizIcon from "./QuizIcon.png";
+//--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -37,7 +40,7 @@ const QuizTableMainStudent = ({
   const listQuizzes = async () => {
     const Url = `/Student_Answers/GetQuizforStudent`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: match.params.courseId, StudID: 3 },
+      params: { sub_Id: match.params.courseId, StudID: 309 },
     });
     setAllQuiz(data);
   };
@@ -144,10 +147,16 @@ const QuizTableMainStudent = ({
                 <TableCell width="10%">
                   <Grid container spacing={1}>
                     <Grid item>
-                      <FileIcon />
+                      <img
+                        src={QuizIcon}
+                        alt="quizIcon"
+                        style={{ width: "35px", height: "35px" }}
+                      />
                     </Grid>
                     <Grid item>
-                      <Typography>{quiz.Name}</Typography>
+                      <Typography style={{ marginTop: "5px" }}>
+                        {quiz.Name}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </TableCell>

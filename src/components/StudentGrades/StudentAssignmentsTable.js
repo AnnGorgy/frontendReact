@@ -6,7 +6,8 @@ import mime from "mime-types";
 //------------------------------------------------- Icons ------------------------------------------------
 import DownloadIcon from "@material-ui/icons/GetAppSharp";
 import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -124,7 +125,7 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
               <TableCell>
                 <Grid container spacing={1}>
                   <Grid item>
-                    <FileIcon />
+                    <AssignmentIcon />
                   </Grid>
                   <Grid item>
                     <Typography>{grades.AssignmentName}</Typography>

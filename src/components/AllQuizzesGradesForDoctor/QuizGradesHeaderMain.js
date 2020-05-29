@@ -68,6 +68,8 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
     );
     document.body.appendChild(fileLink);
     fileLink.click();
+    handleClick();
+    setMessageTitle("Excel Sheet Has been Exported ");
     if (callback) callback();
   };
 
@@ -82,7 +84,7 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-          {MessageTitle} has been uploaded
+          {MessageTitle} 
         </Alert>
       </Snackbar>
       <ExportExcelSheet

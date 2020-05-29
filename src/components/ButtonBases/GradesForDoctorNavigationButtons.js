@@ -55,10 +55,9 @@ const GradesForDoctorNavigationButtons = ({ history, match, classes }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "45%",
-              height: "500px",
-              marginLeft: "20px",
-              marginTop: "150px",
+              width: "46%",
+              height: "550px",
+              marginLeft:"50px"
             }}
           >
             <span
@@ -93,7 +92,6 @@ const styles = (theme) => ({
     flexWrap: "wrap",
     minWidth: 300,
     width: "100%",
-    marginLeft: "30px",
   },
   image: {
     position: "relative",

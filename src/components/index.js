@@ -42,7 +42,6 @@ export { default as ViewMCQStudentAnswers } from "./studentAnswersViewForGrades/
 export { default as ViewStudentQuizAnswers } from "./studentAnswersViewForGrades/ViewStudentQuizAnswers";
 export { default as ViewTrueFalseStudentAnswers } from "./studentAnswersViewForGrades/ViewTrueFalseStudentAnswers";
 export { default as ViewMatchStudentAnswer } from "./studentAnswersViewForGrades/ViewMatchStudentAnswer";
-export { default as AllStudentsAnswersInSpecificQuiz } from "./QuizMainPageComponents/AllStudentsAnswersInSpecificQuiz";
 export { default as GradesHeaderMain } from "./StudentGrades/GradesHeaderMain";
 export { default as StudentsInSubject } from "./AllStudentsInSubject/StudentsInSubject";
 export { default as AllStudentsInSubjectHeaderMain } from "./AllStudentsInSubject/AllStudentsInSubjectHeaderMain";
@@ -57,3 +56,7 @@ export {default as AllGradesInAspecificAssignmentHeader} from "./AllAssignemntsG
 export {default as AllGradesInAspecificQuizHeader} from "./AllQuizzesGradesForDoctor/AllGradesInAspecificQuizHeader";
 export {default as EditGradesStudentForm } from "./AllQuizzesGradesForDoctor/EditGradesStudentForm";
 export {default as ExportExcelSheet } from "./AllQuizzesGradesForDoctor/ExportExcelSheet";
+export {default as StudentGroupsNumberForm} from "./WebsiteLayout/StudentGroupsNumberForm";
+export {default as EditStudentGroupForm} from "./AllStudentsInSubject/EditStudentGroupForm";
+export {default as EditNumberOfGroupForStudent} from "./AllStudentsInSubject/EditNumberOfGroupForStudent";
+export {default as GradesBreadCrumbsHeader} from "./StudentGrades/GradesBreadCrumbsHeader";

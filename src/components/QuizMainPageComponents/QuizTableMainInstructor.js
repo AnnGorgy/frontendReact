@@ -7,12 +7,15 @@ import mime from "mime-types";
 import UpdateQuiz from "./UpdateQuiz";
 //--------------------------------------------------------------------------------------------------------
 
+//----------------------------------------- Images --------------------------------------------------------
+import QuizIcon from "./QuizIcon.png";
+//-------------------------------------------------------------------------------------------------------
+
 //------------------------------------------------- Icons ------------------------------------------------
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
-import FileIcon from "@material-ui/icons/DescriptionOutlined";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -200,10 +203,10 @@ const QuizTableMainInstructor = ({
                 <TableCell>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <FileIcon />
+                      <img src={QuizIcon} alt="quizIcon" style={{width:"35px" , height:"35px"}}/>
                     </Grid>
                     <Grid item>
-                      <Typography>{quiz.Name}</Typography>
+                      <Typography style={{marginTop:"5px"}}>{quiz.Name}</Typography>
                     </Grid>
                   </Grid>
                 </TableCell>

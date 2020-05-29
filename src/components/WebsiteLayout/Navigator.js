@@ -29,6 +29,10 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component ----------------------------------
+import StudentGroupsNumberForm from "./StudentGroupsNumberForm";
+//-----------------------------------------------------------------------------------------------------------
+
 //------------------------------------------------- Images ---------------------------------------------------
 import Theimage from "./UniLogo.png";
 import ContactUsImage from "../NavBarImages/ContactUsImage.png";
@@ -46,6 +50,8 @@ function Navigator({ classes, history, match }) {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [openCourses, setOpenCourse] = useState(false);
   const [subjects, setSubjects] = useState([]);
+  const [courseName, setCourseName] = useState("");
+  const [courseID, setCourseId] = useState("");
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
@@ -54,6 +60,7 @@ function Navigator({ classes, history, match }) {
   // Set The First Letter Of The Users' Name To capial //
   const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
+  const [NumberOfGroupsIsOpen, setNumberOfGroupsIsOpen] = useState(false);
   //-------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -105,11 +112,28 @@ function Navigator({ classes, history, match }) {
     });
     if (data.length === 0) {
       await createRootFolder(courseId);
-      window.location.reload();
     }
   };
 
   //----------------------------------------------------------------------------------------------
+  const CheckNumberOfGroups = async (courseId, coursename) => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroupsExist`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: courseId },
+    });
+    if (accountType == 2) {
+      if (data == true) {
+        history.push(`/course/${courseId}/${coursename}`);
+      } else {
+        setCourseId(courseId);
+        setCourseName(coursename);
+        setNumberOfGroupsIsOpen(true);
+      }
+    } else {
+      history.push(`/course/${courseId}/${coursename}`);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (isUserLoggedIn()) {
       setSubjects(JSON.parse(localStorage.getItem("subjects")));
@@ -148,7 +172,7 @@ function Navigator({ classes, history, match }) {
       title: "Home",
       Icon: (
         <img
-          style={{ width: "80px", hegith: "80px" , marginLeft:"-10px" }}
+          style={{ width: "80px", hegith: "80px", marginLeft: "-10px" }}
           src={HomeImage}
           alt="Home_LOGO"
         />
@@ -159,7 +183,7 @@ function Navigator({ classes, history, match }) {
       title: ViewingName,
       Icon: (
         <img
-          style={{ width: "70px", hegith: "70px" , marginLeft:"-2px" }}
+          style={{ width: "70px", hegith: "70px", marginLeft: "-2px" }}
           src={ProfileImage}
           alt="profile_LOGO"
         />
@@ -186,7 +210,7 @@ function Navigator({ classes, history, match }) {
       title: "Contact Us",
       Icon: (
         <img
-          style={{ width: "65px", hegith: "65px" , marginLeft:"-10px" }}
+          style={{ width: "65px", hegith: "65px", marginLeft: "-10px" }}
           src={ContactUsImage}
           alt="ContactUs_LOGO"
         />
@@ -197,7 +221,7 @@ function Navigator({ classes, history, match }) {
       title: "Sign Out",
       Icon: (
         <img
-          style={{ width: "100px", hegith: "100px" , marginLeft:"-20px" }}
+          style={{ width: "100px", hegith: "100px", marginLeft: "-20px" }}
           src={SignOutImage}
           alt="SignOut_LOGO"
         />
@@ -211,7 +235,13 @@ function Navigator({ classes, history, match }) {
 
   return (
     <React.Fragment>
-       <Drawer
+      <StudentGroupsNumberForm
+        title="Grouping Students"
+        isOpened={NumberOfGroupsIsOpen}
+        CourseIDD={courseID}
+        CourseNamee={courseName}
+      />
+      <Drawer
         className={classes.drawer}
         variant="permanent"
         anchor="left"
@@ -219,8 +249,7 @@ function Navigator({ classes, history, match }) {
         classes={{
           paper: classes.drawerPaper,
         }}
-      > 
-        
+      >
         <List disablePadding>
           <ListItem className={clsx(classes.firebase, classes.item)}>
             <img
@@ -228,7 +257,7 @@ function Navigator({ classes, history, match }) {
               alt="FCIS_LOGO"
               style={{
                 width: "auto",
-                height:"auto",
+                height: "auto",
                 marginLeft: theme.spacing(2),
                 marginBottom: theme.spacing(3),
                 marginTop: theme.spacing(0.2),
@@ -265,8 +294,8 @@ function Navigator({ classes, history, match }) {
                         key={ID}
                         button
                         onClick={() => {
-                          history.push(`/course/${ID}/${Subjectname}`);
                           listMaterials(ID);
+                          CheckNumberOfGroups(ID, Subjectname);
                         }}
                         className={clsx(
                           classes.nested,
@@ -303,7 +332,7 @@ function Navigator({ classes, history, match }) {
             )
           )}
         </List>
-      </Drawer> 
+      </Drawer>
     </React.Fragment>
   );
 }
@@ -321,8 +350,8 @@ const styles = (theme) => ({
     flexShrink: 0,
   },
   drawerPaper: {
-    overflowY:"auto",
-    overflowX:"hidden",
+    overflowY: "auto",
+    overflowX: "hidden",
     width: drawerWidth,
     backgroundColor: "#021316  ",
     color: "white",
@@ -339,7 +368,7 @@ const styles = (theme) => ({
   courseImage: {
     width: "30px",
     paddingLeft: "12px",
- },
+  },
   firebase: {
     fontSize: 20,
     height: "auto",
@@ -350,7 +379,7 @@ const styles = (theme) => ({
   },
   itemPrimary: {
     fontSize: 20,
-    fontWeight:600,
+    fontWeight: 600,
     color: "rgba(255, 255, 255, 1.0)",
   },
   itemIcon: {
@@ -358,7 +387,7 @@ const styles = (theme) => ({
     minWidth: "auto",
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(1.5),
-    paddingLeft:"10px"
+    paddingLeft: "10px",
   },
   nested: {
     paddingLeft: theme.spacing(1.5),

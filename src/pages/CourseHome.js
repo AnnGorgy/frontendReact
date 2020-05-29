@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
-
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import {
@@ -25,19 +24,21 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const CourseHome = ({ history, match , classes }) => {
+const CourseHome = ({ history, match, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
 
   const CourseName = JSON.parse(localStorage.getItem("subjects")).find(
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [openInstructorProfile, setopenInstructorProfile] = useState(false);
-  const [DoctorName , setDoctorName] = useState(""); 
+  const [DoctorName, setDoctorName] = useState("");
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
   );
+  const [StudentGroup, setStudentGroup] = useState("_");
+  //--------------------------------------------------------------------------------------------------------
 
-
+  // ------------------------------------------- Api calls -------------------------------------------------
   const DoctorInformation = async () => {
     try {
       const url = "/Login/getDoctor";
@@ -48,15 +49,28 @@ const CourseHome = ({ history, match , classes }) => {
       });
       setDoctorName(data[0].doctorName);
       localStorage.setItem("DoctorEmail", data[0].doctorEmail);
-      localStorage.setItem("DoctorAccountID" , data[0].AccountID );
+      localStorage.setItem("DoctorAccountID", data[0].AccountID);
     } catch (err) {
       console.error(err);
     }
   };
+  //--------------------------------------------------------------------------------------------
+
+  const StudentNumberGroup = async () => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroupNumber`;
+    const { data } = await post(Url, null, {
+      params: { subjectID: match.params.courseId, StudentID: 1 },
+    });
+
+    setStudentGroup(data);
+  };
   //--------------------------------------------------------------------------------------------------------
   useEffect(() => {
     DoctorInformation();
+    StudentNumberGroup();
   }, []);
+
+
   return (
     <React.Fragment>
       <InstructorProfile
@@ -119,10 +133,18 @@ const CourseHome = ({ history, match , classes }) => {
                   </label>
                 </Tooltip>
               </Grid>
-              {accountType == 2 && (
+              {accountType == 2 ? (
                 <Grid item className={classes.enrolledStudentsButtonPosition}>
                   <Button
-                    variant="outlined"
+                    variant="contained"
+                    style={{
+                      borderRadius: "32px",
+                      width: "auto",
+                      border: "3px solid black",
+                      webkitBoxShadow: "10px 10px 10px #9E9E9E",
+                      mozBoxShadow: "10px 10px 10px #9E9E9E",
+                      boxShadow: "10px 10px 10px #9E9E9E",
+                    }}
                     color="default"
                     onClick={() => {
                       history.push(
@@ -138,6 +160,30 @@ const CourseHome = ({ history, match , classes }) => {
                       Enrolled Students
                     </Typography>
                   </Button>
+                </Grid>
+              ) : (
+                <Grid
+                  item
+                  style={{
+                    borderRadius: "32px",
+                    border: "3px solid black",
+                    width:"270px",
+                    webkitBoxShadow: "10px 10px 10px #9E9E9E",
+                    mozBoxShadow: "10px 10px 10px #9E9E9E",
+                    boxShadow: "10px 10px 10px #9E9E9E",
+                    padding: "15px",
+                    marginTop: "-80px",
+                    marginLeft: "1100px",
+                  }}
+                >
+                  <Grid item>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/group-foreground-selected.png" />
+                  </Grid>
+                  <Grid item style={{marginTop:"-50px" , marginLeft:"70px"}}>
+                    <Typography
+                      style={{ color: "black" , fontSize:"30px" }}
+                    >{`Group : ${StudentGroup}`}</Typography>
+                  </Grid>
                 </Grid>
               )}
             </Grid>

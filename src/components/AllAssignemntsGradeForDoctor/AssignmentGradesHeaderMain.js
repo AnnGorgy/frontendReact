@@ -71,6 +71,8 @@ const AssignmentGradesHeaderMain = ({
         },
       });
       setReloadAssignments(true);
+      handleClick();
+      setMessageTitle("Excel Sheet Has been Imported");
       if (callback) callback();
     } catch (err) {
       console.error(err);
@@ -97,6 +99,10 @@ const AssignmentGradesHeaderMain = ({
     document.body.appendChild(fileLink);
 
     fileLink.click();
+
+    handleClick();
+    setMessageTitle("Excel Sheet Has been Exported ");
+
     if (callback) callback();
   };
   //----------------------------------------------------------------------------------------------------
@@ -110,7 +116,7 @@ const AssignmentGradesHeaderMain = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-          {MessageTitle} has been uploaded
+          {MessageTitle}
         </Alert>
       </Snackbar>
       <ExportExcelSheet
