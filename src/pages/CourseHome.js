@@ -48,8 +48,6 @@ const CourseHome = ({ history, match, classes }) => {
         },
       });
       setDoctorName(data[0].doctorNameEN);
-      localStorage.setItem("DoctorEmail", data[0].doctorEmail);
-      localStorage.setItem("DoctorAccountID", data[0].doctorID);
     } catch (err) {
       console.error(err);
     }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
+import { withRouter } from "react-router-dom";
+
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -12,7 +14,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
+const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
   // Set The First Letter Of The Users' Name To capial //
   const [EnName, setEnName] = useState("");
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
@@ -30,49 +32,36 @@ const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
   };
 
   // -------------------------------------------- API Calls ------------------------------------------------
-  const ViewData = async ({ callback }) => {
-    const url = "/Office_Hours/Get_Instructor_data";
-    try {
-      // post syntax (url, body, options)
-      const { data } = await post(url, null, {
-        params: {
-          Doc_id: localStorage.getItem("DoctorAccountID"),
-        },
-      });
-      if (callback) callback();
-      setEmail(data[0].email);
-      setOfficeHours(data[0].office);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  //-------------------------------------------------------------------------------------------------------
+
   const DoctorInformation = async () => {
     try {
-      const url = "/Login/getuserObject";
-      const { data } = await get(url, {
+      const url = "/Login/getDoctor";
+      const { data } = await post(url, null, {
         params: {
-          email: localStorage.getItem("DoctorEmail"),
+          subjectId: match.params.courseId,
         },
       });
-      setLoginEmail(data.Email);
-      setArName(data.NameAR);
-      setEnName(data.NameEN);
+      setLoginEmail(data[0].doctorEmail);
+      setArName(data[0].doctorNameAR);
+      setEnName(data[0].doctorNameEN);
+
+      const url2 = "/Office_Hours/Get_Instructor_data";
+      const { data2 } = await post(url2, null, {
+        params: {
+          Doc_id: data[0].doctorID,
+        },
+      });
+      setEmail(data2[0].email);
+      setOfficeHours(data2[0].office);
     } catch (err) {
       console.error(err);
     }
   };
   //-----------------------------------------------------------------------------------------------------
   useEffect(() => {
-    if (localStorage.getItem("DoctorAccountID")) {
-      ViewData({});
-    }
-  }, [localStorage.getItem("DoctorAccountID")]);
-  useEffect(() => {
-    if (localStorage.getItem("DoctorEmail")) {
-      DoctorInformation();
-    }
-  }, [localStorage.getItem("DoctorEmail")]);
+    DoctorInformation();
+  }, []);
+
 
   return (
     isOpened && (
@@ -321,4 +310,5 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(DoctorProfilePage);
+export default withStyles(styles)(withRouter(DoctorProfilePage));
+

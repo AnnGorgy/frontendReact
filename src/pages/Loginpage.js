@@ -98,6 +98,20 @@ const LoginPage = ({ history, classes }) => {
     }
   };
   //---------------------------------------------------------------------------------------------------------
+  const DoctorInformation = async () => {
+    try {
+      const url = "/Login/getDoctor";
+      const { data } = await get(url, {
+        params: {
+          email: Email,
+        },
+      });
+      localStorage.setItem("DocInformation", JSON.stringify(data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //---------------------------------------------------------------------------------------------------------
 
   return (
     <React.Fragment>
@@ -164,6 +178,7 @@ const LoginPage = ({ history, classes }) => {
                   login();
                   UserInformation();
                   StudentInformation();
+                  DoctorInformation();
                 }}
               >
                 Login

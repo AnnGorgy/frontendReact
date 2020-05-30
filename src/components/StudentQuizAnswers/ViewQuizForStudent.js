@@ -235,7 +235,7 @@ const ViewQuizForStudent = ({ match, history }) => {
                   </Grid>
                   <Grid item style={{ marginTop: "-50px" }}>
                     <Typography style={{ fontSize: "25px" }}>
-                      {JSON.parse(localStorage.getItem("Information")).NameAR}
+                      {JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR}
                     </Typography>
                   </Grid>
                 </Grid>

@@ -29,13 +29,13 @@ const StudentProfilePage = ({ classes }) => {
     EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1); */
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   /* const EnName = ViewingName; */
-  const EnName = JSON.parse(localStorage.getItem("Information")).NameAR;
-  const LoginEmail = JSON.parse(localStorage.getItem("Information")).Email;
+  const EnName = JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR;
+  const LoginEmail = JSON.parse(localStorage.getItem("StuInformation"))[0].Email;
   const seatNo = JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo;
   const level = JSON.parse(localStorage.getItem("StuInformation"))[0].LevelName;
   const department = JSON.parse(localStorage.getItem("StuInformation"))[0]
     .Department;
-  const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
+  const ArName = JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR;
   const AccountTypeName = "Student Account";
   const [reloadProfile, setReloadProfile] = useState(true);
   //----------------------------------------------------------------------------------------------------------

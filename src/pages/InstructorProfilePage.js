@@ -32,7 +32,8 @@ import Line from "./Images/line.png";
 
 const InstructorProfilePage = ({ classes }) => {
   // Set The First Letter Of The Users' Name To capial //
-  const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
+  const EnglishName = JSON.parse(localStorage.getItem("DocInformation"))[0]
+    .NameEn;
   const ViewingName =
     EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1);
 
@@ -41,27 +42,22 @@ const InstructorProfilePage = ({ classes }) => {
   const [ID, setID] = useState("");
   const [OfficeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
-  const [NewID, setNewID] = useState(
-    JSON.parse(localStorage.getItem("Information")).AccountID
-  );
-  const [LoginEmail, setLoginEmail] = useState(
-    JSON.parse(localStorage.getItem("Information")).Email
-  );
+  const [LoginEmail, setLoginEmail] = useState("");
   const AccountTypeName = "Instructor Account";
-  const ArName = JSON.parse(localStorage.getItem("Information")).NameAR;
-  const [reloadProfile, setReloadProfile] = useState(true);
+  const ArName = JSON.parse(localStorage.getItem("DocInformation"))[0].NameAR;
+  const [reloadProfile, setReloadProfile] = useState(false);
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadProfile) {
       ViewData({});
       setReloadProfile(false);
+      window.location.reload();
     }
   }, [reloadProfile]);
 
-  const resetStates = () => {
-    setEmail(Email);
-    setOfficeHours(OfficeHours);
-  };
+  useEffect(() => {
+    ViewData({});
+  }, []);
 
   //-------------------------------------- API Calls ---------------------------------------------------------
   const ViewData = async ({ callback }) => {
@@ -70,15 +66,18 @@ const InstructorProfilePage = ({ classes }) => {
       // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: {
-          Doc_id: JSON.parse(localStorage.getItem("Information")).AccountID,
+          Doc_id: JSON.parse(localStorage.getItem("DocInformation"))[0]
+            .doctorID,
         },
       });
       if (callback) callback();
       setEmail(data[0].email);
-      setID(data[0].id);
       setOfficeHours(data[0].office);
-      setName(JSON.parse(localStorage.getItem("Information")).NameEN);
-      setLoginEmail(JSON.parse(localStorage.getItem("Information")).Email);
+      setID(JSON.parse(localStorage.getItem("DocInformation"))[0].doctorID);
+      setName(JSON.parse(localStorage.getItem("DocInformation"))[0].NameEn);
+      setLoginEmail(
+        JSON.parse(localStorage.getItem("DocInformation"))[0].Email
+      );
     } catch (err) {
       console.error(err);
     }
@@ -204,11 +203,10 @@ const InstructorProfilePage = ({ classes }) => {
                     <AddCircleIcon
                       onClick={() => {
                         get("/Office_Hours/Add_email", {
-                          params: { id: NewID, email: Email },
+                          params: { id: ID, email: Email },
                         })
                           .then(() => setReloadProfile(true))
                           .catch((err) => console.error(err));
-                        resetStates();
                       }}
                     />
                   </Button>
@@ -224,7 +222,6 @@ const InstructorProfilePage = ({ classes }) => {
                         })
                           .then(() => setEmail(" "), setReloadProfile(true))
                           .catch((err) => console.error(err));
-                        resetStates();
                       }}
                     />
                   </Button>
@@ -261,11 +258,10 @@ const InstructorProfilePage = ({ classes }) => {
                     <AddCircleIcon
                       onClick={() => {
                         post("/Office_Hours/Add_OfficeHours", null, {
-                          params: { id: NewID, OfficeHours: OfficeHours },
+                          params: { id: ID, OfficeHours: OfficeHours },
                         })
                           .then(() => setReloadProfile(true))
                           .catch((err) => console.error(err));
-                        resetStates();
                       }}
                     />
                   </Button>
@@ -284,7 +280,6 @@ const InstructorProfilePage = ({ classes }) => {
                             setReloadProfile(true)
                           )
                           .catch((err) => console.error(err));
-                        resetStates();
                       }}
                     />
                   </Button>

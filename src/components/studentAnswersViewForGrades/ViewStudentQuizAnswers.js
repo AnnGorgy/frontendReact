@@ -98,8 +98,8 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
 
   useEffect(() => {
     if (accountType == 1) {
-      setStudentName(JSON.parse(localStorage.getItem("Information")).NameAR);
-      setStudentID(JSON.parse(localStorage.getItem("Information")).StudentID);
+      setStudentName(JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR);
+      setStudentID(JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID);
     } else {
       setStudentName(localStorage.getItem("StudentName"));
       setStudentID(localStorage.getItem("StudentID"));
@@ -170,7 +170,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                     </Grid>
                     <Grid item style={{ marginTop: "-50px" }}>
                       <Typography style={{ fontSize: "25px" }}>
-                        {JSON.parse(localStorage.getItem("Information")).NameAR}
+                      {studentName}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -187,10 +187,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                       style={{ marginTop: "-50px", marginLeft: "70px" }}
                     >
                       <Typography style={{ fontSize: "25px" }}>
-                        {
-                          JSON.parse(localStorage.getItem("StuInformation"))[0]
-                            .SeatNo
-                        }
+                      {`ID:  ${studentId}`}
                       </Typography>
                     </Grid>
                   </Grid>
