@@ -35,7 +35,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
     const { data } = await post(Url, null, {
       params: {
         subjectId: match.params.courseId,
-        studentId: 309 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
       },
     });
     setAllGrades(data);
@@ -144,7 +144,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
               {/* Quiz End Date cell */}
               <TableCell align="right">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
-                {grades.Finish == true && (
+                 {grades.Finish == true && ( 
                   <Tooltip title="your Answer" placement="bottom">
                     <Button size="small">
                       <img
@@ -159,7 +159,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
                       />
                     </Button>
                   </Tooltip>
-                )}
+                 )} 
               </TableCell>
             </TableRow>
           ))}

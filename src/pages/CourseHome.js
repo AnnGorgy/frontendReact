@@ -47,9 +47,9 @@ const CourseHome = ({ history, match, classes }) => {
           subjectId: match.params.courseId,
         },
       });
-      setDoctorName(data[0].doctorName);
+      setDoctorName(data[0].doctorNameEN);
       localStorage.setItem("DoctorEmail", data[0].doctorEmail);
-      localStorage.setItem("DoctorAccountID", data[0].AccountID);
+      localStorage.setItem("DoctorAccountID", data[0].doctorID);
     } catch (err) {
       console.error(err);
     }
@@ -59,7 +59,7 @@ const CourseHome = ({ history, match, classes }) => {
   const StudentNumberGroup = async () => {
     const Url = `/DoctorManagestudentsGroups/StudentGroupNumber`;
     const { data } = await post(Url, null, {
-      params: { subjectID: match.params.courseId, StudentID: 1 },
+      params: { subjectID: match.params.courseId, StudentID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID  },
     });
 
     setStudentGroup(data);
@@ -67,7 +67,10 @@ const CourseHome = ({ history, match, classes }) => {
   //--------------------------------------------------------------------------------------------------------
   useEffect(() => {
     DoctorInformation();
-    StudentNumberGroup();
+    if (accountType == 1)
+    {
+      StudentNumberGroup();
+    }
   }, []);
 
 

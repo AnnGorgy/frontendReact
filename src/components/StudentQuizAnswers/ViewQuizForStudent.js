@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 const ViewQuizForStudent = ({ match, history }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
-    studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+    studentId:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
     questionId,
     answers: [],
     matchAnswers: [{ matchQuestionsid: 0, anwser: "" }],
@@ -130,7 +130,7 @@ const ViewQuizForStudent = ({ match, history }) => {
       params: {
         quizID: match.params.quizId,
         sub_Id: match.params.courseId,
-        StudID: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        StudID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
       },
     });
     setQuizInfo({ ...data[0] });
@@ -141,7 +141,7 @@ const ViewQuizForStudent = ({ match, history }) => {
     const { data } = await post(Url, questionAnswers, {
       params: {
         quiizID: match.params.quizId,
-        studID: 3,
+        studID: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID,
       },
     });
     setStudentGrade(data);

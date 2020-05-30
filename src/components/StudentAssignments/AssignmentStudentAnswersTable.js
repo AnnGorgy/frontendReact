@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
+import mime from "mime-types";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import FileIcon from "@material-ui/icons/DescriptionOutlined";
+import DownloadIcon from "@material-ui/icons/GetAppSharp";
+
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -94,7 +97,8 @@ const AssignmentStudentAnswersTable = ({
     const { data } = await post(Url, null, {
       params: {
         subjectId: match.params.courseId,
-        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId: JSON.parse(localStorage.getItem("StuInformation"))[0]
+          .StudentID,
       },
     });
     setAllAssignmentsFiles(data);
@@ -252,6 +256,41 @@ const AssignmentStudentAnswersTable = ({
                   </Grid>
                 </TableCell>
                 <TableCell align="right">
+                  {assignment.type === "File" && (
+                    <Tooltip title="Download" placement="bottom">
+                      <Button size="small">
+                        <DownloadIcon
+                          onClick={async () => {
+                            const response = await get(
+                              "/Student_Answers/downloadAssignmentAnswer",
+                              {
+                                params: {
+                                  AnswerID: assignment.AssignmentID,
+                                  studentID: assignment.StudentID,
+                                },
+                                responseType: "blob",
+                              }
+                            );
+                            var fileURL = window.URL.createObjectURL(
+                              new Blob([response.data])
+                            );
+                            var fileLink = document.createElement("a");
+
+                            fileLink.href = fileURL;
+                            fileLink.setAttribute(
+                              "download",
+                              assignment.name +
+                                "." +
+                                mime.extension(response.data.type)
+                            );
+                            document.body.appendChild(fileLink);
+
+                            fileLink.click();
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  )}
                   {assignment.type === "File" && (
                     <Tooltip title="Delete" placement="bottom">
                       <Button size="small">

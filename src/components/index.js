@@ -60,3 +60,5 @@ export {default as StudentGroupsNumberForm} from "./WebsiteLayout/StudentGroupsN
 export {default as EditStudentGroupForm} from "./AllStudentsInSubject/EditStudentGroupForm";
 export {default as EditNumberOfGroupForStudent} from "./AllStudentsInSubject/EditNumberOfGroupForStudent";
 export {default as GradesBreadCrumbsHeader} from "./StudentGrades/GradesBreadCrumbsHeader";
+export {default as AssignmentGroupNumberForm} from "./MaterialPageDoctor/AssignmentGroupNumberForm";
+export {default as QuizGroupNumberForm} from "./QuizMainPageComponents/QuizGroupNumberForm";

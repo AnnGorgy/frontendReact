@@ -68,7 +68,7 @@ const AssignmentStudentAnswersHeader = ({
           Parent_ID: crumbs[crumbs.length - 1].id,
           Assignment_Id: AssignmentID + 1,
           Name: AssName,
-          Student_ID: 1,
+          Student_ID: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID,
         },
       });
       setReloadAssignments(true);

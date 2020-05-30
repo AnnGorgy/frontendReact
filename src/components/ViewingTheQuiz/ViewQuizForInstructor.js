@@ -59,9 +59,9 @@ const ViewQuizForInstructor = ({ match }) => {
   };
   //----------------------------------------------------------------------------------------------------------
   const QuizInforrmation = async () => {
-    const QuizUrl = `/Student_Answers/GetQuiz`;
+    const QuizUrl = `/DoctorMakeQuiz/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
-      params: { quizID: match.params.quizId, sub_Id: match.params.courseId ,StudID: 3 },
+      params: { quizID: match.params.quizId, sub_Id: match.params.courseId  },
     });
     setQuizInfo(data);
   };
@@ -132,7 +132,7 @@ const ViewQuizForInstructor = ({ match }) => {
                 </Grid>
                 <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
                   <Typography style={{ fontSize: "35px" }}>
-                    {info.startDate}
+                    {info.Start}
                   </Typography>
                 </Grid>
               </Grid>

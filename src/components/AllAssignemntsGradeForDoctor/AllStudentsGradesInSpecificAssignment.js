@@ -13,7 +13,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditGradesStudentForm from "../AllQuizzesGradesForDoctor/EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
 
-
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
@@ -28,7 +27,7 @@ import {
   withStyles,
   Button,
   Tooltip,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 //--------------------------------------  Message Function  -------------------------------------------------
@@ -45,20 +44,20 @@ const AllStudentsGradesInSpecificAssignment = ({
   reloadAssignmnets,
   setReloadAssignmnets,
 }) => {
-    // ---------------------- we use it To Show The Message after every operation --------------------------
-    const handleClick = () => {
-      setOpen(true);
-    };
-    // -------------------------------------------------------------------------------------------------------
-  
-    // --------------- we use it To hide The Message that will appear after  every operation -----------------
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
-      setOpen(false);
-    };
-    // -------------------------------------------------------------------------------------------------------
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  // -------------------------------------------------------------------------------------------------------
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/Doctor_Manage_student/getAssignmentsGrades`;
@@ -68,7 +67,11 @@ const AllStudentsGradesInSpecificAssignment = ({
     setAllAssignment(data);
   };
   //--------------------------------------------------------------------------------------------------------
-  const EditStudentAssignmentGrade = async (assignment, ChangedGrade, callback) => {
+  const EditStudentAssignmentGrade = async (
+    assignment,
+    ChangedGrade,
+    callback
+  ) => {
     const url = "/Doctor_Manage_student/UpdateAssignmentGrade";
     await post(url, null, {
       params: {
@@ -151,7 +154,7 @@ const AllStudentsGradesInSpecificAssignment = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-        {`${currentEditedAssignment?.studentName} assignment grade has been changed`}
+          {`${currentEditedAssignment?.studentName} assignment grade has been changed`}
         </Alert>
       </Snackbar>
       <EditGradesStudentForm
@@ -160,8 +163,10 @@ const AllStudentsGradesInSpecificAssignment = ({
         isOpened={EditIsOpenAssignmnetGrade}
         onClose={() => setEditIsOpenAssignmentGrade(false)}
         onSubmit={({ ChangedGrade }) =>
-          EditStudentAssignmentGrade(currentEditedAssignment, ChangedGrade, () =>
-            setEditIsOpenAssignmentGrade(false)
+          EditStudentAssignmentGrade(
+            currentEditedAssignment,
+            ChangedGrade,
+            () => setEditIsOpenAssignmentGrade(false)
           )
         }
       />
@@ -215,7 +220,7 @@ const AllStudentsGradesInSpecificAssignment = ({
                 {/* SeatNo cell */}
                 <TableCell align="right">{assignemnt.SeatNo}</TableCell>
                 {/* grade cell */}
-                <TableCell align="right">{assignemnt.Grade}</TableCell>
+                <TableCell align="right">{`${assignemnt.Grade} / ${assignemnt.AssignmentTotalGrade}`}</TableCell>
                 <TableCell align="right">
                   <Tooltip title="Edit Student Grade" placement="bottom">
                     <Button size="small">

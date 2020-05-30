@@ -154,7 +154,7 @@ const AllStudentsGradesInSpecificQuiz = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-        {`${currentEditedQuiz?.studentName} quiz grade has been changed`}
+        {`${currentEditedQuiz?.studentName} Quiz grade has been changed`}
         </Alert>
       </Snackbar>
       <EditGradesStudentForm
@@ -248,6 +248,7 @@ const AllStudentsGradesInSpecificQuiz = ({
                           history.push(
                             `/answers/${match.params.courseId}/${match.params.quizId}`
                           );
+                          // dh hna al mfrod ab3t al student name w al seat number fy al header bs astna a4of al tany
                           localStorage.setItem("StudentName", quiz.studentName);
                           localStorage.setItem("StudentID", quiz.studentSeatNo);
                         }}

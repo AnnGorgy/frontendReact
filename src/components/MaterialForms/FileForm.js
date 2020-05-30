@@ -46,6 +46,7 @@ const CreateFileForm = ({
     end: new Date(),
   });
   const [num, setNum] = useState([]);
+  const [TotalGradee , setTotalGrade] = useState(0);
   // ---------------------------------------------------------------------------------------------------------
   const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
@@ -63,6 +64,7 @@ const CreateFileForm = ({
     setDate({ start: new Date(), end: new Date() });
     setGoodStartDate(false);
     setGoodEndDate(false);
+    setTotalGrade(0);
   };
   //------------------------------------------------------------------------------------------------------------
   // -------------------------------------------------- api Calls ------------------------------------------
@@ -182,6 +184,31 @@ const CreateFileForm = ({
                       }}
                     />
                   </Grid>
+                  {hasDate && (
+                    <Grid item>
+                    <TextField
+                      label="Total Grade"
+                      value={TotalGradee}
+                      onChange={(e) => {
+                        setTotalGrade(Number(e.target.value));
+                      }}
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                    />
+                  </Grid>
+                  )}
 
                   {/* Upload Button */}
                   {videoExtension && (
@@ -342,6 +369,7 @@ const CreateFileForm = ({
                               description,
                               date,
                               num,
+                              TotalGradee
                             });
                           }}
                         >

@@ -6,6 +6,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import RenameForm from "./RenameForm";
+import AssignmentGroupNumberForm from "./AssignmentGroupNumberForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -92,7 +93,14 @@ const MaterialTable = ({
   };
   // --------------------------------------------------------------------------------------------------------
 
-  const RenameAssignment = async (material, ChangedName, date, callback) => {
+  const RenameAssignment = async (
+    material,
+    ChangedName,
+    date,
+    NumberOfGroups,
+    TotalGradee,
+    callback
+  ) => {
     /*  
     post syntax (
      url " url (TThe local host that We Use It to Rename Assignment Name) ",
@@ -102,12 +110,13 @@ const MaterialTable = ({
      ) 
     */
     const url = "/assignment/RenameAssignment_AndUpdateTime";
-    await post(url, null, {
+    await post(url, NumberOfGroups, {
       params: {
         fileId: material.id,
         name: ChangedName,
         start: date.start,
         end: date.end,
+        TotalGrade: TotalGradee,
       },
     });
     setMessageTitle("It has been Edited successfully");
@@ -170,6 +179,9 @@ const MaterialTable = ({
   const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  const [GroupsForAssignmetIsOpen, setGroupsForAssignmetIsOpen] = useState(
+    false
+  );
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -275,17 +287,30 @@ const MaterialTable = ({
           )
         }
       />
+      <AssignmentGroupNumberForm
+        title="Assignment Groups"
+        isOpened={GroupsForAssignmetIsOpen}
+        onClose={() => setGroupsForAssignmetIsOpen(false)}
+        assignmentId={currentEditedMaterial?.id}
+      />
       <RenameForm
         title="Edit Assignment"
         hasDate
         eDate={currentEditedMaterial?.enddate}
         sDate={currentEditedMaterial?.startdate}
         CurrentName={currentEditedMaterial?.Name}
+        assignmentId={currentEditedMaterial?.id}
+        currentTotalGrade={currentEditedMaterial?.TotalGrade}
         isOpened={RenameIsOpenAssignment}
         onClose={() => setRenameIsOpenAssignment(false)}
-        onSubmit={({ ChangedName, date }) =>
-          RenameAssignment(currentEditedMaterial, ChangedName, date, () =>
-            setRenameIsOpenAssignment(false)
+        onSubmit={({ ChangedName, date, NumberOfGroups, TotalGradee }) =>
+          RenameAssignment(
+            currentEditedMaterial,
+            ChangedName,
+            date,
+            NumberOfGroups,
+            TotalGradee,
+            () => setRenameIsOpenAssignment(false)
           )
         }
       />
@@ -517,55 +542,63 @@ const MaterialTable = ({
                       </Tooltip>
                     )}
 
-                    <Tooltip title="Delete" placement="bottom">
-                      <Button size="small">
-                        {material.type === "Assignment" ? (
-                          <DeleteIcon
-                            onClick={() => {
-                              get("/assignment/delete", {
-                                params: { fileId: material.id },
-                              })
-                                .then(
-                                  () => window.location.reload(),
-                                  setMessageTitle(
-                                    "It has been removed successfully"
-                                  ),
-                                  handleClick()
-                                )
-                                .catch((err) => console.error(err));
-                            }}
-                          />
-                        ) : (
-                          <DeleteIcon
-                            onClick={() => {
-                              get("/Doctor_Materials/delete", {
-                                params: { fileId: material.id },
-                              })
-                                .then(
-                                  () => window.location.reload(),
-                                  setMessageTitle(
-                                    "It has been removed successfully"
-                                  ),
-                                  handleClick()
-                                )
-                                .catch((err) => console.error(err));
-                            }}
-                          />
-                        )}
-                      </Button>
-                    </Tooltip>
-                    {material.type === "Assignment" && (
-                      <Tooltip title="Edit" placement="bottom">
-                        <Button size="small">
-                          <EditIcon
-                            onClick={() => {
-                              setRenameIsOpenAssignment(true);
-                              setCurrentEditedMaterial(material);
-                            }}
-                          />
-                        </Button>
-                      </Tooltip>
-                    )}
+                    {material.type === "Assignment" &&
+                      material.AvailableToUpdate == true && (
+                        <Tooltip title="Delete" placement="bottom">
+                          <Button size="small">
+                            <DeleteIcon
+                              onClick={() => {
+                                get("/assignment/delete", {
+                                  params: { fileId: material.id },
+                                })
+                                  .then(
+                                    () => window.location.reload(),
+                                    setMessageTitle(
+                                      "It has been removed successfully"
+                                    ),
+                                    handleClick()
+                                  )
+                                  .catch((err) => console.error(err));
+                              }}
+                            />
+                          </Button>
+                        </Tooltip>
+                      )}
+                    {material.type !== "Assignment" &&
+                      material.type !== "Folder" && (
+                        <Tooltip title="Delete" placement="bottom">
+                          <Button size="small">
+                            <DeleteIcon
+                              onClick={() => {
+                                get("/Doctor_Materials/delete", {
+                                  params: { fileId: material.id },
+                                })
+                                  .then(
+                                    () => window.location.reload(),
+                                    setMessageTitle(
+                                      "It has been removed successfully"
+                                    ),
+                                    handleClick()
+                                  )
+                                  .catch((err) => console.error(err));
+                              }}
+                            />
+                          </Button>
+                        </Tooltip>
+                      )}
+                    {material.type === "Assignment" &&
+                      material.AvailableToUpdate == true && (
+                        <Tooltip title="Edit" placement="bottom">
+                          <Button size="small">
+                            <EditIcon
+                              onClick={() => {
+                                setRenameIsOpenAssignment(true);
+                                setCurrentEditedMaterial(material);
+                              }}
+                            />
+                          </Button>
+                        </Tooltip>
+                      )}
                     {material.type !== "Assignment" &&
                       material.type !== "Folder" && (
                         <Tooltip title="Rename" placement="bottom">
@@ -579,6 +612,19 @@ const MaterialTable = ({
                           </Button>
                         </Tooltip>
                       )}
+                    {material.type === "Assignment" && (
+                      <Tooltip title="Assignment Groups" placement="bottom">
+                        <Button size="small">
+                          <img
+                            src="https://img.icons8.com/ios-filled/30/000000/group-foreground-selected.png"
+                            onClick={() => {
+                              setGroupsForAssignmetIsOpen(true);
+                              setCurrentEditedMaterial(material);
+                            }}
+                          />
+                        </Button>
+                      </Tooltip>
+                    )}
                   </TableCell>
                 )}
               </TableRow>

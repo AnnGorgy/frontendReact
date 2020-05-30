@@ -136,6 +136,7 @@ const MaterialTableHeader = ({
     description,
     date,
     num,
+    TotalGradee,
     callback,
   }) => {
     const url = "/assignment/uploadFiles";
@@ -150,7 +151,7 @@ const MaterialTableHeader = ({
     const formData = new FormData();
     formData.append("Document", file);
     try {
-      await post(url, formData, {
+      const { data } = await post(url, formData, {
         params: {
           Parent_ID: crumbs[crumbs.length - 1].id,
           sub_Id: match.params.courseId,
@@ -158,7 +159,13 @@ const MaterialTableHeader = ({
           File_Name: name,
           start: date.start,
           end: date.end,
-          numbers : num
+          TotalGrade:TotalGradee,
+        },
+      });
+      const url2 = "/assignment/AddAssignmentGroups";
+      await post(url2, num, {
+        params: {
+          AssignmentID: data,
         },
       });
       setReloadMaterials(true);
@@ -301,13 +308,14 @@ const MaterialTableHeader = ({
         hasDate
         isOpened={assignmentIsOpen}
         onClose={() => setAssignmentIsOpen(false)}
-        onSubmit={({ blobs, name, description, date, num }) =>
+        onSubmit={({ blobs, name, description, date, num ,TotalGradee }) =>
           uploadFileAssignment({
             file: blobs,
             name,
             description,
             date,
             num,
+            TotalGradee,
             callback: () => setAssignmentIsOpen(false),
           })
         }
@@ -404,7 +412,7 @@ const styles = (theme) => ({
     marginTop: "4px",
   },
   buttonText: {
-    "&:hover, &:focus": {color: "black"},
+    "&:hover, &:focus": { color: "black" },
     color: "white",
   },
   addButtonBody: {
@@ -416,9 +424,8 @@ const styles = (theme) => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
-    
   },
-  
+
   noWrap: {
     flexWrap: "nowrap",
   },

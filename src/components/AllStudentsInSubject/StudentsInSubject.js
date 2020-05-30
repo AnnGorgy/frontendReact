@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { post } from "axios";
 import MuiAlert from "@material-ui/lab/Alert";
+import IconButton from "@material-ui/core/IconButton";
+import InputBase from "@material-ui/core/InputBase";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -18,6 +20,11 @@ import {
   Typography,
   withStyles,
   Snackbar,
+  Select,
+  FormControl,
+  InputLabel,
+  TextField,
+  IconIn,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -28,6 +35,7 @@ import EditNumberOfGroupForStudent from "./EditNumberOfGroupForStudent";
 //------------------------------------------------------- Icons ---------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
 import EditIcon from "@material-ui/icons/Edit";
+import SearchIcon from "@material-ui/icons/Search";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------------  Message Function  -------------------------------------------------
@@ -77,6 +85,7 @@ const StudentsInSubject = ({
         subjectId: match.params.courseId,
       },
     });
+
     setAllStudents(data);
   };
   //--------------------------------------------------------------------------------------------------------
@@ -103,6 +112,8 @@ const StudentsInSubject = ({
     setEditIsOpenChangeStudentGroup,
   ] = useState(false);
   const [currentEditedStudentGroup, setCurrentEditedStudentGroup] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("studentNameAR");
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -121,6 +132,14 @@ const StudentsInSubject = ({
       setDisplayedStudents([...allStudents]);
     }
   }, [allStudents]);
+
+  useEffect(() => {
+    if (query) {
+      setDisplayedStudents([
+        ...allStudents?.filter((x) => x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())),
+      ]);
+    }
+  }, [query, coulmnToQuery]);
 
   useEffect(() => {
     setCrumbs([
@@ -150,7 +169,7 @@ const StudentsInSubject = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-        {`${currentEditedStudentGroup?.studentNameAR} group number has been changed`}
+          {`${currentEditedStudentGroup?.studentNameAR} group number has been changed`}
         </Alert>
       </Snackbar>
       <EditNumberOfGroupForStudent
@@ -164,8 +183,47 @@ const StudentsInSubject = ({
           )
         }
       />
+
       <Grid container className={classes.mainPage}>
         <TableContainer className={classes.tablePosition} component={Paper}>
+          <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
+            <Grid item>
+            <Paper component="form" className={classes.root}>
+              <InputBase
+                className={classes.input}
+                placeholder="Search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <IconButton className={classes.iconButton} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+            </Grid>
+            <Grid item style={{marginTop:"-50px" , marginLeft:"450px"}}>
+            <Tooltip title="Search Type" placement="bottom">
+              <FormControl className={classes.formControl}>
+                <Select
+                  native
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={coulmnToQuery}
+                  onChange={(event) => {
+                    setCoulmnToQuery(event.target.value);
+                  }}
+                  style={{ backgroundColor: "white" }}
+                >
+                  <option value="studentNameAR">Name</option>
+                  <option value="studentSeatNo">Seat Number</option>
+                  <option value="studentEmail">E-mail</option>
+                  
+                </Select>
+              </FormControl>
+            </Tooltip>
+            </Grid>
+          </Grid>
           <Table
             style={{
               minWidth: 650,
@@ -238,7 +296,7 @@ const StudentsInSubject = ({
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   tableHeader: {
     backgroundColor: "#0c6170",
     fontSize: "17px",
@@ -255,6 +313,35 @@ const styles = () => ({
   },
   mainPage: {
     flexWrap: "nowrap",
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 140,
+  },
+  textFieldRoot: {
+    backgroundColor: "white",
+    borderRadius: "7px",
+  },
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: `black !important`,
+  },
+  label: {
+    color: "black !important",
+    fontWeight: "600",
+  },
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
   },
 });
 

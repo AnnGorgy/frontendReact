@@ -83,7 +83,7 @@ const MaterialTableStudent = ({
 
   const listAssignments = async () => {
     setCurrentFolderId(undefined);
-    const assignmentsUrl = `/assignment/GetFiles`;
+    const assignmentsUrl = `/Student_Materials/GetFiles_Assignments`;
     /*  
         post syntax (
          url " assignmentsUrl (The local host that Get Assignments In a specific subject) ",
@@ -93,7 +93,7 @@ const MaterialTableStudent = ({
          ) 
         */
     const { data } = await post(assignmentsUrl, null, {
-      params: { sub_Id: match.params.courseId },
+      params: { sub_Id: match.params.courseId , StudentID : JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID },
     });
     setAllAssignments(
       data.map((assignment) => ({ ...assignment, type: "Assignment" }))
@@ -309,8 +309,8 @@ const MaterialTableStudent = ({
                     <Tooltip
                       title={
                         <div style={{ fontSize: "15px" }}>
-                          Start Date : {material.Start}
-                          <br /> <br /> End Date : {material.End}
+                          Start Date : {material.startdate}
+                          <br /> <br /> End Date : {material.enddate}
                         </div>
                       }
                       placement="bottom"

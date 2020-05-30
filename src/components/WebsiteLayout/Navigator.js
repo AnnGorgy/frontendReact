@@ -58,9 +58,9 @@ function Navigator({ classes, history, match }) {
   const [open, setOpen] = React.useState(true);
   const theme = useTheme();
   // Set The First Letter Of The Users' Name To capial //
-  const EnName = JSON.parse(localStorage.getItem("Information")).NameEN;
-  const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
-  const [NumberOfGroupsIsOpen, setNumberOfGroupsIsOpen] = useState(false);
+  const EnName = JSON.parse(localStorage.getItem("Information")).NameAR;
+/*   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
+ */  const [NumberOfGroupsIsOpen, setNumberOfGroupsIsOpen] = useState(false);
   //-------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -180,7 +180,7 @@ function Navigator({ classes, history, match }) {
       onClick: () => history.push("/home"),
     },
     {
-      title: ViewingName,
+      title: EnName,
       Icon: (
         <img
           style={{ width: "70px", hegith: "70px", marginLeft: "-2px" }}

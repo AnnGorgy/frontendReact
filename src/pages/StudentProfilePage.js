@@ -24,11 +24,12 @@ import Line from "./Images/line.png";
 
 const StudentProfilePage = ({ classes }) => {
   // Set The First Letter Of The Users' Name To capial //
-  const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
+  /* const EnglishName = JSON.parse(localStorage.getItem("Information")).NameEN;
   const ViewingName =
-    EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1);
+    EnglishName.charAt(0).toUpperCase() + EnglishName.substring(1); */
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const EnName = ViewingName;
+  /* const EnName = ViewingName; */
+  const EnName = JSON.parse(localStorage.getItem("Information")).NameAR;
   const LoginEmail = JSON.parse(localStorage.getItem("Information")).Email;
   const seatNo = JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo;
   const level = JSON.parse(localStorage.getItem("StuInformation"))[0].LevelName;
@@ -43,6 +44,7 @@ const StudentProfilePage = ({ classes }) => {
       setReloadProfile(false);
     }
   }, [reloadProfile]);
+
   return (
     <Grid container className={classes.mainPage}>
       {/* Navigation bar */}

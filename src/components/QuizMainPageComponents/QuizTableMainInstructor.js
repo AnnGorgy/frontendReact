@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
-import mime from "mime-types";
+import IconButton from "@material-ui/core/IconButton";
+import InputBase from "@material-ui/core/InputBase";
 
 //------------------------------ Another Components Used In This Component -------------------------------
 import UpdateQuiz from "./UpdateQuiz";
+import QuizGroupNumberForm from "./QuizGroupNumberForm";
 //--------------------------------------------------------------------------------------------------------
 
 //----------------------------------------- Images --------------------------------------------------------
@@ -16,6 +18,7 @@ import DeleteIcon from "@material-ui/icons/DeleteOutlineSharp";
 import EditIcon from "@material-ui/icons/Edit";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
+import SearchIcon from "@material-ui/icons/Search";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -60,10 +63,12 @@ const QuizTableMainInstructor = ({
     ChangedDuration,
     questionType,
     ChangednumberOfQues,
+    GradeAppear,
+    NumberOfGroups,
     callback
   ) => {
     const url = "/DoctorMakeQuiz/UpdateQuizInfo";
-    await post(url, null, {
+    await post(url, NumberOfGroups, {
       params: {
         QuizID: Quiz.id,
         name: ChangedName,
@@ -74,6 +79,7 @@ const QuizTableMainInstructor = ({
         shuffleQuestion: questionType,
         subID: match.params.courseId,
         numberOfQuestions: ChangednumberOfQues,
+        appearGrade: GradeAppear,
       },
     });
     setReloadQuiz(true);
@@ -86,6 +92,9 @@ const QuizTableMainInstructor = ({
   const [displayedQuiz, setDisplayedQuiz] = useState();
   const [currentEditedQuiz, setCurrentEditedQuiz] = useState();
   const [UpdateQuizIsOpen, setUpdateQuizIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("Name");
+  const [GroupsForQuizIsOpen, setGroupsForQuizIsOpen] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -94,6 +103,16 @@ const QuizTableMainInstructor = ({
       setReloadQuiz(false);
     }
   }, [reloadQuiz]);
+
+  useEffect(() => {
+    if (query) {
+      setDisplayedQuiz([
+        ...allQuiz?.filter((x) =>
+          x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())
+        ),
+      ]);
+    }
+  }, [query, coulmnToQuery]);
 
   useEffect(() => {
     if (allQuiz) {
@@ -135,6 +154,8 @@ const QuizTableMainInstructor = ({
         CurrentchangeQuestionsOrder={currentEditedQuiz?.shuffleQuestion}
         descr={currentEditedQuiz?.description}
         numQuestions={currentEditedQuiz?.numberOfQuestions}
+        quizId={currentEditedQuiz?.id}
+        appearGrade={currentEditedQuiz?.AppearGrade}
         isOpened={UpdateQuizIsOpen}
         onClose={() => setUpdateQuizIsOpen(false)}
         onSubmit={({
@@ -144,6 +165,8 @@ const QuizTableMainInstructor = ({
           ChangedDuration,
           questionType,
           ChangednumberOfQues,
+          GradeAppear,
+          NumberOfGroups,
         }) =>
           Updatequiz(
             currentEditedQuiz,
@@ -153,11 +176,36 @@ const QuizTableMainInstructor = ({
             ChangedDuration,
             questionType,
             ChangednumberOfQues,
+            GradeAppear,
+            NumberOfGroups,
             () => setUpdateQuizIsOpen(false)
           )
         }
       />
+      <QuizGroupNumberForm
+        title="Quiz Groups"
+        isOpened={GroupsForQuizIsOpen}
+        onClose={() => setGroupsForQuizIsOpen(false)}
+        quizId={currentEditedQuiz?.id}
+      />
       <TableContainer component={Paper} className={classes.tablePosition}>
+        <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
+          <Grid item>
+            <Paper component="form" className={classes.root}>
+              <InputBase
+                className={classes.input}
+                placeholder="Search With Quiz Name"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <IconButton className={classes.iconButton} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+          </Grid>
+        </Grid>
         <Table
           style={{
             minWidth: 650,
@@ -197,16 +245,21 @@ const QuizTableMainInstructor = ({
                     ? { background: "#FFFFFF" }
                     : { background: "#FFFFFF" }
                 }
-                style={{ cursor: "pointer" }}
               >
                 {/* Quiz Name cell */}
                 <TableCell>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <img src={QuizIcon} alt="quizIcon" style={{width:"35px" , height:"35px"}}/>
+                      <img
+                        src={QuizIcon}
+                        alt="quizIcon"
+                        style={{ width: "35px", height: "35px" }}
+                      />
                     </Grid>
                     <Grid item>
-                      <Typography style={{marginTop:"5px"}}>{quiz.Name}</Typography>
+                      <Typography style={{ marginTop: "5px" }}>
+                        {quiz.Name}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </TableCell>
@@ -215,9 +268,9 @@ const QuizTableMainInstructor = ({
                   {quiz.description}
                 </TableCell>
                 {/* Start Date cell */}
-                <TableCell align="right">{quiz.startDate}</TableCell>
+                <TableCell align="right">{quiz.Start}</TableCell>
                 {/* End Date cell */}
-                <TableCell align="right">{quiz.endDate}</TableCell>
+                <TableCell align="right">{quiz.End}</TableCell>
                 <TableCell align="right">
                   <Tooltip title="Model Answer" placement="bottom">
                     <Button size="small">
@@ -230,24 +283,39 @@ const QuizTableMainInstructor = ({
                       />
                     </Button>
                   </Tooltip>
-                  <Tooltip title="Delete" placement="bottom">
+                  {quiz.AvailableToUpdate == true && (
+                    <Tooltip title="Delete" placement="bottom">
+                      <Button size="small">
+                        <DeleteIcon
+                          onClick={() => {
+                            post("/DoctorMakeQuiz/DeleteQuiz", null, {
+                              params: { QuizID: quiz.id },
+                            })
+                              .then(() => window.location.reload())
+                              .catch((err) => console.error(err));
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  )}
+                  {quiz.AvailableToUpdate == true && (
+                    <Tooltip title="Update" placement="bottom">
+                      <Button size="small">
+                        <EditIcon
+                          onClick={() => {
+                            setUpdateQuizIsOpen(true);
+                            setCurrentEditedQuiz(quiz);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  )}
+                  <Tooltip title="Quiz Groups" placement="bottom">
                     <Button size="small">
-                      <DeleteIcon
+                      <img
+                        src="https://img.icons8.com/ios-filled/30/000000/group-foreground-selected.png"
                         onClick={() => {
-                          post("/DoctorMakeQuiz/DeleteQuiz", null, {
-                            params: { QuizID: quiz.id },
-                          })
-                            .then(() => window.location.reload())
-                            .catch((err) => console.error(err));
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Update" placement="bottom">
-                    <Button size="small">
-                      <EditIcon
-                        onClick={() => {
-                          setUpdateQuizIsOpen(true);
+                          setGroupsForQuizIsOpen(true);
                           setCurrentEditedQuiz(quiz);
                         }}
                       />
@@ -263,7 +331,7 @@ const QuizTableMainInstructor = ({
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   tablePosition: {
     maxHeight: "90vh",
     overflowY: "auto",
@@ -276,6 +344,19 @@ const styles = () => ({
     color: "white",
     fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
+  },
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
   },
 });
 

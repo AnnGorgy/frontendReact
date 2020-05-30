@@ -4,6 +4,8 @@ import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { post } from "axios";
+import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -13,6 +15,7 @@ import {
   withStyles,
   TextField,
   Button,
+  Checkbox,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -20,12 +23,15 @@ const RenameForm = ({
   onClose,
   title,
   CurrentName,
+  currentTotalGrade,
   sDate,
   eDate,
   isOpened,
   onSubmit,
+  assignmentId,
   hasDate,
   classes,
+  match,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [ChangedName, setChangedName] = useState("");
@@ -36,13 +42,49 @@ const RenameForm = ({
     start: new Date(),
     end: new Date(),
   });
+  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [TotalGradee, setTotalGrade] = useState(0);
+
   //----------------------------------------------------------------------------------------------------------
+
+  const GetNumberOfGroups = async () => {
+    const Url = `/assignment/GetAssignmentGroupsToupdate`;
+    const { data } = await post(Url, null, {
+      params: { subjectID: match.params.courseId, AssignmentID: assignmentId },
+    });
+
+    setNumberOfGroups(data);
+  };
+
+  const handleTotalGradeMethod = (value, CheckTitle) => {
+    {
+      setNumberOfGroups((prev) =>
+        prev.map((choicee) =>
+          choicee.number !== CheckTitle
+            ? choicee
+            : { ...choicee, choose: value }
+        )
+      );
+    }
+  };
 
   useEffect(() => {
     if (RelodRename) {
       setReloadRename(false);
     }
   }, [RelodRename]);
+
+  useEffect(() => {
+    if (assignmentId) {
+      GetNumberOfGroups();
+    }
+  }, [assignmentId, match.params.courseId]);
+
+  useEffect(() => {
+    if (currentTotalGrade) {
+      setTotalGrade(currentTotalGrade);
+    }
+  }, [currentTotalGrade]);
 
   useEffect(() => {
     setChangedName(CurrentName);
@@ -90,30 +132,60 @@ const RenameForm = ({
                   spacing={3}
                 >
                   <Grid item>
-                    <TextField
-                      label="Name"
-                      rows={2}
-                      defaultValue={ChangedName}
-                      onChange={(e) => {
-                        setChangedName(e.target.value);
-                      }}
-                      value={ChangedName}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                      style={{ width: "350px" }}
-                    />
+                    <Grid item>
+                      <TextField
+                        label="Name"
+                        rows={2}
+                        defaultValue={ChangedName}
+                        onChange={(e) => {
+                          setChangedName(e.target.value);
+                        }}
+                        value={ChangedName}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                        style={{ width: "330px" }}
+                      />
+                    </Grid>
+                    {hasDate && (
+                      <Grid
+                        item
+                        style={{ marginTop: "-58px", marginLeft: "350px" }}
+                      >
+                        <TextField
+                          label="Total Grade"
+                          value={TotalGradee}
+                          onChange={(e) => {
+                            setTotalGrade(Number(e.target.value));
+                          }}
+                          variant="outlined"
+                          classes={{
+                            root: classes.textFieldRoot,
+                          }}
+                          InputProps={{
+                            classes: {
+                              notchedOutline: classes.notchedOutline,
+                            },
+                          }}
+                          InputLabelProps={{
+                            classes: {
+                              root: classes.label,
+                            },
+                          }}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                   {/*Start Date && End Date That will appear only when we deal with Assignemnet only */}
                   {hasDate && (
@@ -132,7 +204,7 @@ const RenameForm = ({
                               }
                               onError={(bad) => setGoodStartDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
-                              />
+                            />
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item xs={5}>
@@ -147,8 +219,60 @@ const RenameForm = ({
                               }
                               onError={(bad) => setGoodEndDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
-                              />
+                            />
                           </MuiPickersUtilsProvider>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        item
+                        style={{ marginTop: "30px", marginLeft: "-200px" }}
+                      >
+                        <Grid item style={{ marginLeft: "210px" }}>
+                          <Typography style={{ fontSize: "25px" }}>
+                            Groups :
+                          </Typography>
+                        </Grid>
+                        <Grid item style={{ marginTop: "-40px" }}>
+                          {NumberOfGroups.map((choosee, index) => (
+                            <Grid
+                              item
+                              style={
+                                index % 2
+                                  ? { marginLeft: "500px", marginTop: "-38px" }
+                                  : { marginLeft: "350px", marginTop: "5px" }
+                              }
+                            >
+                              <Grid item>
+                                <Typography style={{ fontSize: "25px" }}>
+                                  {choosee.number}
+                                </Typography>
+                              </Grid>
+                              <Grid
+                                item
+                                style={{
+                                  marginTop: "-41px",
+                                  marginLeft: "40px",
+                                }}
+                              >
+                                <Checkbox
+                                  inputProps={{
+                                    "aria-label": "uncontrolled-checkbox",
+                                  }}
+                                  checked={choosee.choose}
+                                  classes={{
+                                    root: classes.check,
+                                    checked: classes.checked,
+                                  }}
+                                  onChange={(e) => {
+                                    handleTotalGradeMethod(
+                                      e.target.checked,
+                                      choosee.number
+                                    );
+                                  }}
+                                />
+                              </Grid>
+                            </Grid>
+                          ))}
                         </Grid>
                       </Grid>
                     </Grid>
@@ -190,6 +314,8 @@ const RenameForm = ({
                             onSubmit({
                               ChangedName,
                               date,
+                              NumberOfGroups,
+                              TotalGradee
                             });
                           }}
                         >
@@ -269,4 +395,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(RenameForm);
+export default withStyles(styles)(withRouter(RenameForm));

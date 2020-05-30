@@ -213,7 +213,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
                   <TableCell align="center">__</TableCell>
                 )}
 
-                {assignment.type === "file" ? (
+                {assignment.type === "File" ? (
                   <TableCell align="right" width="5%">
                     <Tooltip title="Download" placement="bottom">
                       <Button size="small">

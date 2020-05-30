@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
+import InputBase from "@material-ui/core/InputBase";
 
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
+import SearchIcon from "@material-ui/icons/Search";
 //-----------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------- Images -------------------------------------------------
@@ -40,7 +43,7 @@ const QuizTableMainStudent = ({
   const listQuizzes = async () => {
     const Url = `/Student_Answers/GetQuizforStudent`;
     const { data } = await post(Url, null, {
-      params: { sub_Id: match.params.courseId, StudID: 309 },
+      params: { sub_Id: match.params.courseId, StudID: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID },
     });
     setAllQuiz(data);
   };
@@ -49,6 +52,8 @@ const QuizTableMainStudent = ({
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("Name");
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadQuiz === true) {
@@ -62,6 +67,16 @@ const QuizTableMainStudent = ({
       setDisplayedQuiz([...allQuiz]);
     }
   }, [allQuiz]);
+
+  useEffect(() => {
+    if (query) {
+      setDisplayedQuiz([
+        ...allQuiz?.filter((x) =>
+          x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())
+        ),
+      ]);
+    }
+  }, [query, coulmnToQuery]);
 
   useEffect(() => {
     listQuizzes();
@@ -89,6 +104,23 @@ const QuizTableMainStudent = ({
   return (
     <React.Fragment>
       <TableContainer component={Paper} className={classes.tablePosition}>
+        <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
+          <Grid item>
+            <Paper component="form" className={classes.root}>
+              <InputBase
+                className={classes.input}
+                placeholder="Search With Quiz Name"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <IconButton className={classes.iconButton} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+          </Grid>
+        </Grid>
         <Table
           style={{
             minWidth: 650,
@@ -166,11 +198,11 @@ const QuizTableMainStudent = ({
                 </TableCell>
                 {/* Start Date cell */}
                 <TableCell align="right" width="20%">
-                  {quiz.startDate}
+                  {quiz.Start}
                 </TableCell>
                 {/* End Date cell */}
                 <TableCell align="right" width="20%">
-                  {quiz.endDate}
+                  {quiz.End}
                 </TableCell>
                 <TableCell align="right" width="20%">
                   {quiz.hasGrade == null && quiz.isAvailable == true && (
@@ -208,7 +240,7 @@ const QuizTableMainStudent = ({
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   tablePosition: {
     maxHeight: "90vh",
     overflowY: "auto",
@@ -222,6 +254,19 @@ const styles = () => ({
     color: "white",
     fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
+  },
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
   },
 });
 

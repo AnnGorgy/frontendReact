@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorProfilePage = ({ onClose, isOpened, classes,  }) => {
+const DoctorProfilePage = ({ onClose, isOpened, classes }) => {
   // Set The First Letter Of The Users' Name To capial //
   const [EnName, setEnName] = useState("");
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
@@ -36,7 +36,7 @@ const DoctorProfilePage = ({ onClose, isOpened, classes,  }) => {
       // post syntax (url, body, options)
       const { data } = await post(url, null, {
         params: {
-          Doc_id:  localStorage.getItem("DoctorAccountID") ,
+          Doc_id: localStorage.getItem("DoctorAccountID"),
         },
       });
       if (callback) callback();
@@ -64,10 +64,15 @@ const DoctorProfilePage = ({ onClose, isOpened, classes,  }) => {
   };
   //-----------------------------------------------------------------------------------------------------
   useEffect(() => {
+    if (localStorage.getItem("DoctorAccountID")) {
       ViewData({});
+    }
+  }, [localStorage.getItem("DoctorAccountID")]);
+  useEffect(() => {
+    if (localStorage.getItem("DoctorEmail")) {
       DoctorInformation();
-  }, []);
-
+    }
+  }, [localStorage.getItem("DoctorEmail")]);
 
   return (
     isOpened && (

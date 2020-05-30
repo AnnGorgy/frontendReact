@@ -85,8 +85,8 @@ const useStyles = makeStyles((theme) => ({
 const ViewStudentQuizAnswers = ({ match, history }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const classes = useStyles();
-  const studentName = localStorage.getItem("StudentName");
-  const studentId = localStorage.getItem("StudentID");
+  const [studentName, setStudentName] = useState("");
+  const [studentId, setStudentID] = useState("");
   const [allQuizzes, setAllQuizzes] = useState();
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
@@ -95,8 +95,15 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [quizInfo, setQuizInfo] = useState();
+
   useEffect(() => {
-    console.log({ studentName }, "ahmed", { studentId });
+    if (accountType == 1) {
+      setStudentName(JSON.parse(localStorage.getItem("Information")).NameAR);
+      setStudentID(JSON.parse(localStorage.getItem("Information")).StudentID);
+    } else {
+      setStudentName(localStorage.getItem("StudentName"));
+      setStudentID(localStorage.getItem("StudentID"));
+    }
   }, []);
   //--------------------------------------------------------------------------------------------------------
 
@@ -106,19 +113,18 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     const { data } = await post(QuizUrl, null, {
       params: {
         QuizID: match.params.quizId,
-        studentId: 3 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId: studentId,
       },
     });
     setAllQuizzes(data);
   };
   //-----------------------------------------------------------------------------------------------------------
   const QuizInforrmation = async () => {
-    const QuizUrl = `/Student_Answers/GetQuiz`;
+    const QuizUrl = `/DoctorMakeQuiz/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
       params: {
         quizID: match.params.quizId,
         sub_Id: match.params.courseId,
-        StudID: 3,
       },
     });
     setQuizInfo(data);
@@ -262,7 +268,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                 </Grid>
                 <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
                   <Typography style={{ fontSize: "35px" }}>
-                    {info.startDate}
+                    {info.Start}
                   </Typography>
                 </Grid>
               </Grid>

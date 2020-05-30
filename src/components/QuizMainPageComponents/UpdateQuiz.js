@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
+import { withRouter } from "react-router-dom";
 import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { post } from "axios";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
@@ -16,6 +18,7 @@ import {
   FormControlLabel,
   FormGroup,
   Switch,
+  Checkbox,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -83,14 +86,17 @@ const UpdateQuiz = ({
   isOpened,
   durat,
   descr,
+  quizId,
+  appearGrade,
   CurrentchangeQuestionsOrder,
   onSubmit,
   classes,
+  match,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [ReloadQuiz, setReloadQuiz] = useState(true);
-  const [ChangedName, setChangedName] = useState();
-  const [ChangedDescription, setChangedDescription] = useState();
+  const [ChangedName, setChangedName] = useState("");
+  const [ChangedDescription, setChangedDescription] = useState("");
   const [goodStartDate, setGoodStartDate] = useState(false);
   const [goodEndDate, setGoodEndDate] = useState(false);
   const [questionType, setQuestionType] = useState(false);
@@ -98,9 +104,32 @@ const UpdateQuiz = ({
     start: new Date(),
     end: new Date(),
   });
-  const [ChangedDuration, setChangedDuration] = useState();
-  const [ChangednumberOfQues, setChangednumberOfQuestions] = useState();
+  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [GradeAppear, setGradeAppear] = useState(false);
+  const [ChangedDuration, setChangedDuration] = useState(0);
+  const [ChangednumberOfQues, setChangednumberOfQuestions] = useState(0);
   //----------------------------------------------------------------------------------------------------------
+
+  const GetNumberOfGroups = async () => {
+    const Url = `/DoctorMakeQuiz/GetQuizGroupsToupdate`;
+    const { data } = await post(Url, null, {
+      params: { subjectID: match.params.courseId, QuizID: quizId },
+    });
+
+    setNumberOfGroups(data);
+  };
+
+  const handleTotalGradeMethod = (value, CheckTitle) => {
+    {
+      setNumberOfGroups((prev) =>
+        prev.map((choicee) =>
+          choicee.number !== CheckTitle
+            ? choicee
+            : { ...choicee, choose: value }
+        )
+      );
+    }
+  };
 
   useEffect(() => {
     if (ReloadQuiz) {
@@ -111,16 +140,36 @@ const UpdateQuiz = ({
   useEffect(() => {
     setQuestionType(CurrentchangeQuestionsOrder);
   }, [CurrentchangeQuestionsOrder]);
+
+  
+
+  useEffect(() => {
+    if (appearGrade)
+    {
+      setGradeAppear(appearGrade);
+    }
+  }, [appearGrade]);
+
+  useEffect(() => {
+    GetNumberOfGroups();
+  }, [quizId, match.params.courseId]);
+
   useEffect(() => {
     setChangedName(CurrentName);
   }, [CurrentName]);
 
   useEffect(() => {
-    setChangednumberOfQuestions(numQuestions);
+    if(numQuestions)
+    {
+      setChangednumberOfQuestions(numQuestions);
+    }
   }, [numQuestions]);
 
   useEffect(() => {
-    setChangedDescription(descr);
+    if (descr)
+    {
+      setChangedDescription(descr);
+    }
   }, [descr]);
 
   useEffect(() => {
@@ -133,6 +182,9 @@ const UpdateQuiz = ({
 
   const handleChange = () => {
     setQuestionType((prev) => !prev);
+  };
+  const handleChangeAppear = () => {
+    setGradeAppear((prev) => !prev);
   };
   return (
     isOpened && (
@@ -267,18 +319,34 @@ const UpdateQuiz = ({
                       item
                       style={{ marginTop: "-60px", marginLeft: "300px" }}
                     >
-                      <FormGroup>
-                        <FormControlLabel
-                          labelPlacement="start"
-                          label="Shuffle Questions"
-                          control={
-                            <QuestionShuffleSwitch
-                              checked={questionType}
-                              onChange={handleChange}
-                            />
-                          }
-                        />
-                      </FormGroup>
+                      <Grid item>
+                        <FormGroup>
+                          <FormControlLabel
+                            labelPlacement="start"
+                            label="Shuffle Questions"
+                            control={
+                              <QuestionShuffleSwitch
+                                checked={questionType}
+                                onChange={handleChange}
+                              />
+                            }
+                          />
+                        </FormGroup>
+                      </Grid>
+                      <Grid item>
+                        <FormGroup>
+                          <FormControlLabel
+                            labelPlacement="start"
+                            label="Show Grade"
+                            control={
+                              <QuestionShuffleSwitch
+                                checked={GradeAppear}
+                                onChange={handleChangeAppear}
+                              />
+                            }
+                          />
+                        </FormGroup>
+                      </Grid>
                     </Grid>
                   </Grid>
                   <Grid item style={{ marginTop: "20px" }}>
@@ -352,6 +420,55 @@ const UpdateQuiz = ({
                       </Grid>
                     </Grid>
                   </Grid>
+                  <Grid
+                    item
+                    style={{ marginTop: "30px", marginLeft: "-200px" }}
+                  >
+                    <Grid item style={{ marginLeft: "210px" }}>
+                      <Typography style={{ fontSize: "25px" }}>
+                        Groups :
+                      </Typography>
+                    </Grid>
+                    <Grid item style={{ marginTop: "-40px" }}>
+                      {NumberOfGroups?.map((choosee, index) => (
+                        <Grid
+                          item
+                          style={
+                            index % 2
+                              ? { marginLeft: "500px", marginTop: "-38px" }
+                              : { marginLeft: "350px", marginTop: "5px" }
+                          }
+                        >
+                          <Grid item>
+                            <Typography style={{ fontSize: "25px" }}>
+                              {choosee.number}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            style={{ marginTop: "-41px", marginLeft: "40px" }}
+                          >
+                            <Checkbox
+                              inputProps={{
+                                "aria-label": "uncontrolled-checkbox",
+                              }}
+                              checked={choosee.choose}
+                              classes={{
+                                root: classes.check,
+                                checked: classes.checked,
+                              }}
+                              onChange={(e) => {
+                                handleTotalGradeMethod(
+                                  e.target.checked,
+                                  choosee.number
+                                );
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -365,6 +482,7 @@ const UpdateQuiz = ({
                             setChangednumberOfQuestions(numQuestions);
                             setChangedDuration(durat);
                             setChangedDate({ start: sDate, end: eDate });
+                            setGradeAppear(appearGrade);
                           }}
                         >
                           <Typography
@@ -385,7 +503,8 @@ const UpdateQuiz = ({
                             ChangedName == CurrentName ||
                             !goodStartDate ||
                             !goodEndDate ||
-                            ChangedDate.start > ChangedDate.end /* ||
+                            ChangedDate.start >
+                              ChangedDate.end /* ||
                             (ChangedDate.start === ChangedDate.end &&
                               ChangedTimePicker.start.getTime() >=
                                 ChangedTimePicker.end.getTime()) */
@@ -398,6 +517,8 @@ const UpdateQuiz = ({
                               ChangedDuration,
                               questionType,
                               ChangednumberOfQues,
+                              GradeAppear,
+                              NumberOfGroups
                             });
                           }}
                         >
@@ -408,7 +529,8 @@ const UpdateQuiz = ({
                               ChangedName == CurrentName ||
                               !goodStartDate ||
                               !goodEndDate ||
-                              ChangedDate.start > ChangedDate.end /* ||
+                              ChangedDate.start >
+                                ChangedDate.end /* ||
                               (ChangedDate.start === ChangedDate.end &&
                                 ChangedTimePicker.start.getTime() >=
                                   ChangedTimePicker.end.getTime()) */
@@ -476,4 +598,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(UpdateQuiz);
+export default withStyles(styles)(withRouter(UpdateQuiz));

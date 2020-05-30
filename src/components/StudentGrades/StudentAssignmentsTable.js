@@ -34,7 +34,7 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
     const { data } = await post(Url, null, {
       params: {
         subjectId: match.params.courseId,
-        studentId: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+        studentId:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
       },
     });
     setAllAssignments(data);
@@ -133,7 +133,7 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
                 </Grid>
               </TableCell>
               {/* grade assignmet cell */}
-              <TableCell align="right">{grades.AssignmentGrade}</TableCell>
+              <TableCell align="right">{`${grades.AssignmentGrade} / ${grades.TotalGrade}`}</TableCell>
               {/* Assignment Start Date cell */}
               <TableCell align="right">{grades.AssignmentstartDate}</TableCell>
               {/* Assignmet End Date cell */}
@@ -148,7 +148,7 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
                           {
                             params: {
                               AnswerID: grades.AssignmentId,
-                              studentID: 1 /* JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID */,
+                              studentID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
                             },
                             responseType: "blob",
                           }
