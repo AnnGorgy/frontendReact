@@ -86,7 +86,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const classes = useStyles();
   const [studentName, setStudentName] = useState("");
-  const [studentId, setStudentID] = useState("");
+  const [studentIdd, setStudentID] = useState(0);
   const [allQuizzes, setAllQuizzes] = useState();
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
@@ -95,16 +95,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     (subject) => subject.ID == match.params.courseId
   ).Subjectname;
   const [quizInfo, setQuizInfo] = useState();
-
-  useEffect(() => {
-    if (accountType == 1) {
-      setStudentName(JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR);
-      setStudentID(JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID);
-    } else {
-      setStudentName(localStorage.getItem("StudentName"));
-      setStudentID(localStorage.getItem("StudentID"));
-    }
-  }, []);
+  const [StudentSeatNumber, setStudentSeatNumber] = useState(0);
   //--------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -113,7 +104,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
     const { data } = await post(QuizUrl, null, {
       params: {
         QuizID: match.params.quizId,
-        studentId: studentId,
+        studentId: studentIdd,
       },
     });
     setAllQuizzes(data);
@@ -133,15 +124,77 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
 
   useEffect(() => {
     listQuizzes();
-  }, [match.params.quizId]);
+  }, [match.params.quizId, studentIdd]);
 
   useEffect(() => {
     QuizInforrmation();
   }, [match.params.quizId, match.params.courseId]);
 
+  useEffect(() => {
+    if (accountType == 1) {
+      setStudentName(
+        JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR
+      );
+      setStudentID(
+        JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID
+      );
+      setStudentSeatNumber(
+        JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo
+      );
+    } else {
+      setStudentName(localStorage.getItem("StudentName"));
+      setStudentID(localStorage.getItem("StudentID"));
+      setStudentSeatNumber(localStorage.getItem("StudentSeatNumber"));
+    }
+  }, [accountType]);
+
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
+        <Grid
+          item
+          style={{
+            height: "auto",
+            borderRadius: "2px",
+            webkitBoxShadow: "5px 5px 5px #9E9E9E",
+            mozBoxShadow: "5px 5px 5px #9E9E9E",
+            boxShadow: "5px 5px 5px #9E9E9E",
+            padding: "40px 40px 40px 40px",
+            marginRight: "9px",
+            backgroundColor: "white",
+            width: "1240px",
+          }}
+        >
+          {accountType == 1 ? (
+            <Grid
+              item
+              style={{
+                borderRadius: "16px",
+                border: "5px solid black",
+                width: "330px",
+                padding: "10px",
+                marginLeft: "380px",
+              }}
+            >
+              <Typography style={{ fontSize: "50px" }}>Your Answer</Typography>
+            </Grid>
+          ) : (
+            <Grid
+              item
+              style={{
+                borderRadius: "16px",
+                border: "5px solid black",
+                width: "400px",
+                padding: "10px",
+                marginLeft: "350px",
+              }}
+            >
+              <Typography style={{ fontSize: "50px" }}>
+                Student Answer
+              </Typography>
+            </Grid>
+          )}
+        </Grid>
         {quizInfo?.map((info) => (
           <Grid
             item
@@ -155,6 +208,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
               marginRight: "9px",
               backgroundColor: "white",
               width: "1240px",
+              marginTop: "10px",
             }}
           >
             <Grid item>
@@ -170,7 +224,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                     </Grid>
                     <Grid item style={{ marginTop: "-50px" }}>
                       <Typography style={{ fontSize: "25px" }}>
-                      {studentName}
+                        {studentName}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -187,7 +241,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                       style={{ marginTop: "-50px", marginLeft: "70px" }}
                     >
                       <Typography style={{ fontSize: "25px" }}>
-                      {`ID:  ${studentId}`}
+                        {`ID:  ${StudentSeatNumber}`}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -221,7 +275,7 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                       style={{ marginTop: "-50px", marginLeft: "70px" }}
                     >
                       <Typography style={{ fontSize: "25px" }}>
-                        {`ID:  ${studentId}`}
+                        {`ID:  ${StudentSeatNumber}`}
                       </Typography>
                     </Grid>
                   </Grid>

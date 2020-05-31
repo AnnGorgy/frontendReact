@@ -190,7 +190,7 @@ const ViewQuizForStudent = ({ match, history }) => {
         question?.Type === "match"
           ? question?.matchQuestions?.map(({ MatchQuestionID }) => ({
               matchQuestionsid: MatchQuestionID,
-              anwser: "",
+              anwser: null,
             }))
           : null,
     }));
@@ -460,6 +460,7 @@ const ViewQuizForStudent = ({ match, history }) => {
               onClick={() => {
                 AddQuizAnswer();
                 setGradeDialogIsOpen(true);
+                console.log("final" ,questionAnswers);
               }}
               className={classes.addButton}
               size="small"

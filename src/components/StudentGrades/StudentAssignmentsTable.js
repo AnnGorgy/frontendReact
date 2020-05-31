@@ -34,7 +34,8 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
     const { data } = await post(Url, null, {
       params: {
         subjectId: match.params.courseId,
-        studentId:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
+        studentId: JSON.parse(localStorage.getItem("StuInformation"))[0]
+          .StudentID,
       },
     });
     setAllAssignments(data);
@@ -139,39 +140,43 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
               {/* Assignmet End Date cell */}
               <TableCell align="right">{grades.AssignmentendDate}</TableCell>
               <TableCell align="right">
-                <Tooltip title="Download" placement="bottom">
-                  <Button size="small">
-                    <DownloadIcon
-                      onClick={async () => {
-                        const response = await get(
-                          "/Student_Answers/downloadAssignmentAnswer",
-                          {
-                            params: {
-                              AnswerID: grades.AssignmentId,
-                              studentID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
-                            },
-                            responseType: "blob",
-                          }
-                        );
-                        var fileURL = window.URL.createObjectURL(
-                          new Blob([response.data])
-                        );
-                        var fileLink = document.createElement("a");
+                {grades.hasAnswer == true && (
+                  <Tooltip title="Download" placement="bottom">
+                    <Button size="small">
+                      <DownloadIcon
+                        onClick={async () => {
+                          const response = await get(
+                            "/Student_Answers/downloadAssignmentAnswer",
+                            {
+                              params: {
+                                AnswerID: grades.AssignmentId,
+                                studentID: JSON.parse(
+                                  localStorage.getItem("StuInformation")
+                                )[0].StudentID,
+                              },
+                              responseType: "blob",
+                            }
+                          );
+                          var fileURL = window.URL.createObjectURL(
+                            new Blob([response.data])
+                          );
+                          var fileLink = document.createElement("a");
 
-                        fileLink.href = fileURL;
-                        fileLink.setAttribute(
-                          "download",
-                          grades.AssignmentName +
-                            "." +
-                            mime.extension(response.data.type)
-                        );
-                        document.body.appendChild(fileLink);
+                          fileLink.href = fileURL;
+                          fileLink.setAttribute(
+                            "download",
+                            grades.AssignmentName +
+                              "." +
+                              mime.extension(response.data.type)
+                          );
+                          document.body.appendChild(fileLink);
 
-                        fileLink.click();
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
+                          fileLink.click();
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                )}
               </TableCell>
             </TableRow>
           ))}

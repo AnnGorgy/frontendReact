@@ -28,7 +28,7 @@ import {
 const StudentsInSubjectPage = ({ reloadStudents, match, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [crumbs, setCrumbs] = useState([]);
-  const [reloadStudentss, setReloadStudentss] = useState(true);
+  const [reloadStudentss, setReloadStudentss] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   return (

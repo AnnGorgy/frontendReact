@@ -61,7 +61,7 @@ const ViewQuizForInstructor = ({ match }) => {
   const QuizInforrmation = async () => {
     const QuizUrl = `/DoctorMakeQuiz/GetQuiz`;
     const { data } = await post(QuizUrl, null, {
-      params: { quizID: match.params.quizId, sub_Id: match.params.courseId  },
+      params: { quizID: match.params.quizId, sub_Id: match.params.courseId },
     });
     setQuizInfo(data);
   };
@@ -78,6 +78,33 @@ const ViewQuizForInstructor = ({ match }) => {
   return (
     <React.Fragment>
       <Grid item style={{ marginTop: "20px" }}>
+        <Grid
+          item
+          style={{
+            height: "auto",
+            borderRadius: "2px",
+            webkitBoxShadow: "5px 5px 5px #9E9E9E",
+            mozBoxShadow: "5px 5px 5px #9E9E9E",
+            boxShadow: "5px 5px 5px #9E9E9E",
+            padding: "40px 40px 40px 40px",
+            marginRight: "9px",
+            backgroundColor: "white",
+            width: "1240px",
+          }}
+        >
+          <Grid
+            item
+            style={{
+              borderRadius: "16px",
+              border: "5px solid black",
+              width: "360px",
+              padding: "10px",
+              marginLeft: "380px",
+            }}
+          >
+            <Typography style={{ fontSize: "50px" }}>Model Answer</Typography>
+          </Grid>
+        </Grid>
         {quizInfo?.map((info) => (
           <Grid
             item
@@ -91,10 +118,11 @@ const ViewQuizForInstructor = ({ match }) => {
               marginRight: "9px",
               backgroundColor: "white",
               width: "1240px",
+              marginTop: "10px",
             }}
           >
             <Grid item>
-              <Grid item style={{marginLeft:"450px" , marginTop:"10px"}}>
+              <Grid item style={{ marginLeft: "450px", marginTop: "10px" }}>
                 <Grid item>
                   <img
                     src={QuizImage}
@@ -108,7 +136,7 @@ const ViewQuizForInstructor = ({ match }) => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item style={{marginLeft:"430px" , marginTop:"10px"}}>
+              <Grid item style={{ marginLeft: "430px", marginTop: "10px" }}>
                 <Grid item>
                   <img
                     src={CourseImage}
@@ -122,7 +150,7 @@ const ViewQuizForInstructor = ({ match }) => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item style={{marginLeft:"295px" , marginTop:"10px"}}>
+              <Grid item style={{ marginLeft: "295px", marginTop: "10px" }}>
                 <Grid item>
                   <img
                     src={DateImage}
@@ -222,15 +250,9 @@ const ViewQuizForInstructor = ({ match }) => {
                 </Grid>
               </Grid>
               <Grid item style={{ marginTop: "-100px" }}>
-                {quiz.Type == "mcq" && (
-                  <ViewMCQ questionData={quiz} />
-                )} 
-                {quiz.Type == "tf" && (
-                  <ViewTrueFalse questionData={quiz} />
-                )}
-                {quiz.Type == "match" && (
-                  <ViewMatch questionData={quiz} />
-                )}
+                {quiz.Type == "mcq" && <ViewMCQ questionData={quiz} />}
+                {quiz.Type == "tf" && <ViewTrueFalse questionData={quiz} />}
+                {quiz.Type == "match" && <ViewMatch questionData={quiz} />}
               </Grid>
             </Grid>
           </Grid>

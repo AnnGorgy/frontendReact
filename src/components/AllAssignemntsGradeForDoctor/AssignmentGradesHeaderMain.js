@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -42,6 +42,7 @@ const AssignmentGradesHeaderMain = ({
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
   const [ExportExcelSheetIsOpen, setExportExcelSheetIsOpen] = useState(false);
+  const [CanExport, setCanExport] = useState(false);
   //-----------------------------------------------------------------------------------------------------------
 
   // ---------------------- we use it To Show The Message after every operation --------------------------
@@ -106,6 +107,18 @@ const AssignmentGradesHeaderMain = ({
     if (callback) callback();
   };
   //----------------------------------------------------------------------------------------------------
+
+  const CheckAssignment = async () => {
+    const Url = `/Doctor_Manage_student/AppearExport`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: match.params.courseId , type:"Assignment" },
+    });
+    setCanExport(data);
+  };
+
+  useEffect(() => {
+    CheckAssignment();
+  }, []);
 
   return (
     <React.Fragment>
@@ -187,31 +200,33 @@ const AssignmentGradesHeaderMain = ({
             </Grid>
           </Button>
         </Grid>
-        <Grid item>
-          <Button
-            onClick={() => {
-              setExportExcelSheetIsOpen(true);
-            }}
-            className={classes.addButton}
-            size="small"
-          >
-            <Grid
-              container
-              spacing={1}
-              alignItems="center"
-              className={classes.addButtonBody}
+        {CanExport === true && (
+          <Grid item>
+            <Button
+              onClick={() => {
+                setExportExcelSheetIsOpen(true);
+              }}
+              className={classes.addButton}
+              size="small"
             >
-              <Grid item>
-                <DownloadIcon className={classes.addIcon} />
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                className={classes.addButtonBody}
+              >
+                <Grid item>
+                  <DownloadIcon className={classes.addIcon} />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.buttonText}>
+                    Export Excel sheet
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.buttonText}>
-                  Export Excel sheet
-                </Typography>
-              </Grid>
-            </Grid>
-          </Button>
-        </Grid>
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );

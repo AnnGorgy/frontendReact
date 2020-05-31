@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { post, get } from "axios";
+import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import { SideBar } from "../components";
@@ -17,6 +18,7 @@ import {
   ListItemText,
   ListItem,
   List,
+  Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -30,6 +32,12 @@ import Profile from "./Images/Profile.png";
 import Line from "./Images/line.png";
 //------------------------------------------------------------------------------------------------------------
 
+//--------------------------------------  Message Function  -------------------------------------------------
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+//-----------------------------------------------------------------------------------------------------------
+
 const InstructorProfilePage = ({ classes }) => {
   // Set The First Letter Of The Users' Name To capial //
   const EnglishName = JSON.parse(localStorage.getItem("DocInformation"))[0]
@@ -40,18 +48,19 @@ const InstructorProfilePage = ({ classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState(ViewingName);
   const [ID, setID] = useState("");
-  const [OfficeHours, setOfficeHours] = useState("");
+  const [officeHours, setOfficeHours] = useState("");
   const [Email, setEmail] = useState("");
   const [LoginEmail, setLoginEmail] = useState("");
   const AccountTypeName = "Instructor Account";
-  const ArName = JSON.parse(localStorage.getItem("DocInformation"))[0].NameAR;
+  const [ArName, setArName] = useState("");
   const [reloadProfile, setReloadProfile] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [MessageTitle, setMessageTitle] = useState("");
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadProfile) {
       ViewData({});
       setReloadProfile(false);
-      window.location.reload();
     }
   }, [reloadProfile]);
 
@@ -71,225 +80,313 @@ const InstructorProfilePage = ({ classes }) => {
         },
       });
       if (callback) callback();
-      setEmail(data[0].email);
-      setOfficeHours(data[0].office);
-      setID(JSON.parse(localStorage.getItem("DocInformation"))[0].doctorID);
-      setName(JSON.parse(localStorage.getItem("DocInformation"))[0].NameEn);
-      setLoginEmail(
-        JSON.parse(localStorage.getItem("DocInformation"))[0].Email
-      );
+      if (data) {
+        setEmail(data[0].email);
+        setOfficeHours(data[0].office);
+      }
     } catch (err) {
       console.error(err);
     }
   };
   //----------------------------------------------------------------------------------------------------------
+
+  const AddEmail = async () => {
+    const url = "/Office_Hours/Add_email";
+    try {
+      await get(url, {
+        params: {
+          id: ID,
+          email: Email,
+        },
+      });
+      setMessageTitle("Add Email");
+      setReloadProfile(true);
+      handleClick();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------------
+
+  const DeleteEmail = async () => {
+    const url = "/Office_Hours/Delete_email";
+    try {
+      await get(url, {
+        params: {
+          id: ID,
+        },
+      });
+      setMessageTitle("Delete Email");
+      setEmail("");
+      setReloadProfile(true);
+      handleClick();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------------
+
+  const AddOfficeHours = async () => {
+    const url = "/Office_Hours/Add_OfficeHours";
+    try {
+      await get(url, {
+        params: {
+          id: ID,
+          OfficeHours: officeHours,
+        },
+      });
+      setMessageTitle("Add OfficeHour");
+      setReloadProfile(true);
+      handleClick();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //--------------------------------------------------------------------------------------------------------
+
+  const DelteOfficeHours = async () => {
+    const url = "/Office_Hours/Delete_OfficeHours";
+    try {
+      await get(url, {
+        params: {
+          id: ID,
+        },
+      });
+      setMessageTitle("Delete officeHours");
+      setOfficeHours("");
+      setReloadProfile(true);
+      handleClick();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------------
+
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
+    setOpen(true);
+  };
+  // -------------------------------------------------------------------------------------------------------
+
+  // --------------- we use it To hide The Message that will appear after  every operation -----------------
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  // -------------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    setID(JSON.parse(localStorage.getItem("DocInformation"))[0].doctorID);
+    setName(JSON.parse(localStorage.getItem("DocInformation"))[0].NameEn);
+    setLoginEmail(JSON.parse(localStorage.getItem("DocInformation"))[0].Email);
+    setArName(JSON.parse(localStorage.getItem("DocInformation"))[0].NameAR);
+  }, []);
   return (
-    <Grid container className={classes.mainPage}>
-      {/* Navigation bar */}
-      <Grid item xs={2}>
-        <SideBar />
-      </Grid>
+    <React.Fragment>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        className={classes.message}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {MessageTitle}
+        </Alert>
+      </Snackbar>
+      <Grid container className={classes.mainPage}>
+        {/* Navigation bar */}
+        <Grid item xs={2}>
+          <SideBar />
+        </Grid>
 
-      <Grid item xs={10}>
-        <Grid
-          container
-          direction="column"
-          alignItems="stretch"
-          justify="center"
-          spacing={1}
-          style={{ flexWrap: "nowrap" }}
-        >
-          <Grid item>
-            <Grid className={classes.FirstGrid}>
-              <img
-                alt="ProfileImage"
-                src={Profile}
-                className={classes.ProfileImage}
-              />
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid className={classes.SecondGrid}>
-              <Grid style={{ paddingTop: "30px", paddingLeft: "85px" }}>
-                {/* Dialog English Name */}
-                <Typography className={classes.engNameText}>{name}</Typography>
-              </Grid>
-              <Grid
-                container
-                alignItems="center"
-                justify="center"
-                className={classes.LeftDialog}
-              >
-                <List
-                  component="nav"
-                  aria-label="mailbox folders"
-                  className={classes.ListContainer}
-                >
-                  <ListItem divider>
-                    <ListItemText
-                      primary="Account Type"
-                      secondary={AccountTypeName}
-                      secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
-                      }}
-                      className={classes.HeaderInfoPosition}
-                    />
-                  </ListItem>
-                  <ListItem divider>
-                    <ListItemText
-                      primary="Name in Arabic"
-                      secondary={ArName}
-                      secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
-                      }}
-                      className={classes.HeaderInfoPosition}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      primary="E-mail"
-                      secondary={LoginEmail}
-                      secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
-                      }}
-                      className={classes.HeaderInfoPosition}
-                    />
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid>
+        <Grid item xs={10}>
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            justify="center"
+            spacing={1}
+            style={{ flexWrap: "nowrap" }}
+          >
+            <Grid item>
+              <Grid className={classes.FirstGrid}>
                 <img
-                  alt="LineImage"
-                  src={Line}
-                  className={classes.LineDivider}
+                  alt="ProfileImage"
+                  src={Profile}
+                  className={classes.ProfileImage}
                 />
               </Grid>
-              <Grid
-                container
-                alignItems="center"
-                justify="center"
-                className={classes.RightDialog}
-              >
-                {/* Dialog Additional E-mail */}
-                <TextField
-                  label="Additional E-mail"
-                  multiline
-                  rows={1}
-                  value={Email}
-                  placeholder="Instructor@gmail.com"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  variant="outlined"
-                  classes={{
-                    root: classes.textFieldRoot,
-                  }}
-                  InputProps={{
-                    classes: {
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.label,
-                    },
-                  }}
-                  className={classes.textFieldInfo}
-                />
+            </Grid>
+            <Grid item>
+              <Grid className={classes.SecondGrid}>
+                <Grid style={{ paddingTop: "30px", paddingLeft: "85px" }}>
+                  {/* Dialog English Name */}
+                  <Typography className={classes.engNameText}>
+                    {name}
+                  </Typography>
+                </Grid>
+                <Grid
+                  container
+                  alignItems="center"
+                  justify="center"
+                  className={classes.LeftDialog}
+                >
+                  <List
+                    component="nav"
+                    aria-label="mailbox folders"
+                    className={classes.ListContainer}
+                  >
+                    <ListItem divider>
+                      <ListItemText
+                        primary="Account Type"
+                        secondary={AccountTypeName}
+                        secondaryTypographyProps={{
+                          style: { color: "darkslategray", marginLeft: "20px" },
+                        }}
+                        className={classes.HeaderInfoPosition}
+                      />
+                    </ListItem>
+                    <ListItem divider>
+                      <ListItemText
+                        primary="Name in Arabic"
+                        secondary={ArName}
+                        secondaryTypographyProps={{
+                          style: { color: "darkslategray", marginLeft: "20px" },
+                        }}
+                        className={classes.HeaderInfoPosition}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary="E-mail"
+                        secondary={LoginEmail}
+                        secondaryTypographyProps={{
+                          style: { color: "darkslategray", marginLeft: "20px" },
+                        }}
+                        className={classes.HeaderInfoPosition}
+                      />
+                    </ListItem>
+                  </List>
+                </Grid>
+                <Grid>
+                  <img
+                    alt="LineImage"
+                    src={Line}
+                    className={classes.LineDivider}
+                  />
+                </Grid>
+                <Grid
+                  container
+                  alignItems="center"
+                  justify="center"
+                  className={classes.RightDialog}
+                >
+                  {/* Dialog Additional E-mail */}
+                  <TextField
+                    label="Additional E-mail"
+                    multiline
+                    rows={1}
+                    value={Email}
+                    placeholder="Instructor@gmail.com"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    variant="outlined"
+                    classes={{
+                      root: classes.textFieldRoot,
+                    }}
+                    InputProps={{
+                      classes: {
+                        notchedOutline: classes.notchedOutline,
+                      },
+                    }}
+                    InputLabelProps={{
+                      classes: {
+                        root: classes.label,
+                      },
+                      shrink: "true",
+                    }}
+                    className={classes.textFieldInfo}
+                  />
 
-                {/* Add E-mail  */}
-                <Tooltip title="ADD" placement="bottom">
-                  <Button>
-                    <AddCircleIcon
-                      onClick={() => {
-                        get("/Office_Hours/Add_email", {
-                          params: { id: ID, email: Email },
-                        })
-                          .then(() => setReloadProfile(true))
-                          .catch((err) => console.error(err));
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
+                  {/* Add E-mail  */}
+                  <Tooltip title="ADD" placement="bottom">
+                    <Button>
+                      <AddCircleIcon
+                        onClick={() => {
+                          AddEmail();
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
 
-                {/* Delete E-mail */}
-                <Tooltip title="Delete" placement="bottom">
-                  <Button disabled={!Email}>
-                    <DeleteIcon
-                      onClick={() => {
-                        get("/Office_Hours/Delete_email", {
-                          params: { id: ID },
-                        })
-                          .then(() => setEmail(" "), setReloadProfile(true))
-                          .catch((err) => console.error(err));
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
-                {/* Dialog Office Hours */}
-                <TextField
-                  label="Office Hours"
-                  multiline
-                  rows={2}
-                  placeholder=" Monday 11-1 pm  Class 7"
-                  value={OfficeHours}
-                  onChange={(e) => {
-                    setOfficeHours(e.target.value);
-                  }}
-                  variant="outlined"
-                  classes={{
-                    root: classes.textFieldRoot,
-                  }}
-                  InputProps={{
-                    classes: {
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.label,
-                    },
-                  }}
-                  className={classes.textFieldInfo}
-                />
-                {/* Add Office Hours */}
-                <Tooltip title="ADD" placement="bottom">
-                  <Button>
-                    <AddCircleIcon
-                      onClick={() => {
-                        post("/Office_Hours/Add_OfficeHours", null, {
-                          params: { id: ID, OfficeHours: OfficeHours },
-                        })
-                          .then(() => setReloadProfile(true))
-                          .catch((err) => console.error(err));
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
+                  {/* Delete E-mail */}
+                  <Tooltip title="Delete" placement="bottom">
+                    <Button disabled={!Email}>
+                      <DeleteIcon
+                        onClick={() => {
+                          DeleteEmail();
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  {/* Dialog Office Hours */}
+                  <TextField
+                    label="Office Hours"
+                    multiline
+                    rows={2}
+                    placeholder=" Monday 11-1 pm  Class 7"
+                    value={officeHours}
+                    onChange={(e) => {
+                      setOfficeHours(e.target.value);
+                    }}
+                    variant="outlined"
+                    classes={{
+                      root: classes.textFieldRoot,
+                    }}
+                    InputProps={{
+                      classes: {
+                        notchedOutline: classes.notchedOutline,
+                      },
+                    }}
+                    InputLabelProps={{
+                      classes: {
+                        root: classes.label,
+                      },
+                      shrink: "true",
+                    }}
+                    className={classes.textFieldInfo}
+                  />
+                  {/* Add Office Hours */}
+                  <Tooltip title="ADD" placement="bottom">
+                    <Button>
+                      <AddCircleIcon
+                        onClick={() => {
+                          AddOfficeHours();
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
 
-                {/* Delete Office Hours */}
-                <Tooltip title="Delete" placement="bottom">
-                  <Button disabled={!OfficeHours}>
-                    <DeleteIcon
-                      onClick={() => {
-                        get("/Office_Hours/Delete_OfficeHours", {
-                          params: { id: ID },
-                        })
-                          .then(
-                            () => setOfficeHours(""),
-                            setReloadProfile(true)
-                          )
-                          .catch((err) => console.error(err));
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
+                  {/* Delete Office Hours */}
+                  <Tooltip title="Delete" placement="bottom">
+                    <Button disabled={!officeHours}>
+                      <DeleteIcon
+                        onClick={() => {
+                          DelteOfficeHours();
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 // Dialog styles

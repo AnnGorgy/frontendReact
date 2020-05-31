@@ -87,7 +87,11 @@ const AssignmentStudentAnswersTable = ({
   const listAssignmentsFolders = async () => {
     const Url = `/Student_Answers/getAssignmentFolders`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId },
+      params: {
+        subjectId: match.params.courseId,
+        StudentID: JSON.parse(localStorage.getItem("StuInformation"))[0]
+          .StudentID,
+      },
     });
     setAllAssignmentsFolders(data);
   };

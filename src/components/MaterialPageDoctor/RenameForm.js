@@ -303,8 +303,7 @@ const RenameForm = ({
                           variant="outlined"
                           className={classes.createButton}
                           disabled={
-                            ChangedName === "" ||
-                            ChangedName == CurrentName ||
+                            ChangedName === ""  ||
                             (hasDate &&
                               (!goodStartDate ||
                                 !goodEndDate ||
@@ -323,7 +322,6 @@ const RenameForm = ({
                             variant="h6"
                             className={
                               ChangedName === "" ||
-                              ChangedName == CurrentName ||
                               (hasDate &&
                                 (!goodStartDate ||
                                   !goodEndDate ||

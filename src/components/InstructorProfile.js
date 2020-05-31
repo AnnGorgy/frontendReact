@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
 
-
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Dialog,
@@ -14,7 +13,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
+const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
   // Set The First Letter Of The Users' Name To capial //
   const [EnName, setEnName] = useState("");
   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
@@ -25,11 +24,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
   const [LoginEmail, setLoginEmail] = useState("");
   const [ArName, setArName] = useState("");
   //----------------------------------------------------------------------------------------------------------
-
-  const resetStates = () => {
-    setEmail(Email);
-    setOfficeHours(OfficeHours);
-  };
 
   // -------------------------------------------- API Calls ------------------------------------------------
 
@@ -46,13 +40,15 @@ const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
       setEnName(data[0].doctorNameEN);
 
       const url2 = "/Office_Hours/Get_Instructor_data";
-      const { data2 } = await post(url2, null, {
+      const  { data: data2 } = await post(url2, null, {
         params: {
           Doc_id: data[0].doctorID,
         },
       });
-      setEmail(data2[0].email);
-      setOfficeHours(data2[0].office);
+      if (data2) {
+        setEmail(data2[0].email);
+        setOfficeHours(data2[0].office);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -60,15 +56,13 @@ const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
   //-----------------------------------------------------------------------------------------------------
   useEffect(() => {
     DoctorInformation();
-  }, []);
-
+  }, [match.params.courseId]);
 
   return (
     isOpened && (
       <Dialog
         onClose={() => {
           onClose();
-          resetStates();
         }}
         open={isOpened}
         maxWidth="sm"
@@ -185,9 +179,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
                       rows={1}
                       value={Email}
                       disabled="true"
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -214,9 +205,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes , match }) => {
                       rows={2}
                       value={OfficeHours}
                       disabled="true"
-                      onChange={(e) => {
-                        setOfficeHours(e.target.value);
-                      }}
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -311,4 +299,3 @@ const styles = () => ({
 });
 
 export default withStyles(styles)(withRouter(DoctorProfilePage));
-

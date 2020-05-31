@@ -98,7 +98,7 @@ const EditNumberOfGroupForStudent = ({
                 >
                   <Grid item>
                     <Typography style={{ fontSize: "30px" }}>
-                      Avilable Student Groups :
+                      Available Student Groups :
                     </Typography>
                   </Grid>
                   {AvilableNumberOfGroups.map(({ number, choose }) => (

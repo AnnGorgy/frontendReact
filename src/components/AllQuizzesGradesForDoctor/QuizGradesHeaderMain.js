@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -35,6 +35,7 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
   const [ExportExcelSheetIsOpen, setExportExcelSheetIsOpen] = useState(false);
+  const [CanExport, setCanExport] = useState(false);
   //-----------------------------------------------------------------------------------------------------------
 
   // ---------------------- we use it To Show The Message after every operation --------------------------
@@ -74,6 +75,18 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
   };
 
   //----------------------------------------------------------------------------------------------------
+  const CheckQuiz = async () => {
+    const Url = `/Doctor_Manage_student/AppearExport`;
+    const { data } = await post(Url, null, {
+      params: { subjectId: match.params.courseId , type:"Quiz" },
+    });
+    setCanExport(data);
+  };
+  //-----------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    CheckQuiz();
+  }, []);
 
   return (
     <React.Fragment>
@@ -84,7 +97,7 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-          {MessageTitle} 
+          {MessageTitle}
         </Alert>
       </Snackbar>
       <ExportExcelSheet
@@ -118,29 +131,31 @@ const QuizGradesHeaderMain = ({ crumbs, classes, match, history }) => {
           history.push(
             `/grades/${match.params.courseId}/${match.params.coursename}`
           )}
-        <Grid item>
-          <Button
-            onClick={() => setExportExcelSheetIsOpen(true)}
-            className={classes.addButton}
-            size="small"
-          >
-            <Grid
-              container
-              spacing={1}
-              alignItems="center"
-              className={classes.addButtonBody}
+        {CanExport === true  && (
+          <Grid item>
+            <Button
+              onClick={() => setExportExcelSheetIsOpen(true)}
+              className={classes.addButton}
+              size="small"
             >
-              <Grid item>
-                <DownloadIcon className={classes.addIcon} />
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                className={classes.addButtonBody}
+              >
+                <Grid item>
+                  <DownloadIcon className={classes.addIcon} />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.buttonText}>
+                    Export Excel Sheet
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.buttonText}>
-                  Export Excel Sheet
-                </Typography>
-              </Grid>
-            </Grid>
-          </Button>
-        </Grid>
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );

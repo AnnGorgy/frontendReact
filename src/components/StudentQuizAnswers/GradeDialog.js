@@ -27,7 +27,7 @@ const GradeDialog = ({
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [StudentGradeee, setStudentGradeee] = useState();
-  const [CheckAppear, setCheckAppear] = useEffect(false);
+  const [CheckAppear, setCheckAppear] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   const ShowGrade = async () => {

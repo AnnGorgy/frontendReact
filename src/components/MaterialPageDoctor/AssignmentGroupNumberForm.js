@@ -31,7 +31,6 @@ const AssignmentGroupNumberForm = ({
     const { data } = await post(Url, null, {
       params: { subjectID: match.params.courseId, AssignmentID: assignmentId },
     });
-
     setNumberOfGroups(data);
   };
 

@@ -248,9 +248,9 @@ const AllStudentsGradesInSpecificQuiz = ({
                           history.push(
                             `/answers/${match.params.courseId}/${match.params.quizId}`
                           );
-                          // dh hna al mfrod ab3t al student name w al seat number fy al header bs astna a4of al tany
                           localStorage.setItem("StudentName", quiz.studentName);
-                          localStorage.setItem("StudentID", quiz.studentSeatNo);
+                          localStorage.setItem("StudentID", quiz.studentID);
+                          localStorage.setItem("StudentSeatNumber", quiz.studentSeatNo);
                         }}
                       />
                     </Button>

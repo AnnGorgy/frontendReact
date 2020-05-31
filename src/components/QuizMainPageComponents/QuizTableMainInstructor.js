@@ -219,9 +219,10 @@ const QuizTableMainInstructor = ({
             <TableRow>
               <TableCell className={classes.tableHeader}>Quiz Name</TableCell>
               <TableCell
-                width="20%"
+                /* style={{minWidth:30, maxWidth:30}} */
                 className={classes.tableHeader}
                 align="center"
+                width="5%"
               >
                 Description
               </TableCell>
@@ -264,7 +265,7 @@ const QuizTableMainInstructor = ({
                   </Grid>
                 </TableCell>
                 {/* Description cell */}
-                <TableCell align="center" width="20%">
+                <TableCell align="center" width="5%" /* style={{minWidth:30, maxWidth:30}} */>
                   {quiz.description}
                 </TableCell>
                 {/* Start Date cell */}

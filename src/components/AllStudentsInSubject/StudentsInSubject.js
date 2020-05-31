@@ -120,6 +120,7 @@ const StudentsInSubject = ({
     if (reloadStudents === true) {
       listStudents();
       setReloadStudents(false);
+      window.location.reload();
     }
   }, [reloadStudents]);
 

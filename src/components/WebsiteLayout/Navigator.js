@@ -45,6 +45,7 @@ import ProfileImage from "../NavBarImages/ProfileImage.png";
 
 // mostafa20191701201@cis.asu.edu.eg //
 // instructor@chpsis.cis.asu.edu.eg //
+// osama20161702013@cis.asu.edu.eg //
 
 function Navigator({ classes, history, match }) {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
@@ -59,8 +60,8 @@ function Navigator({ classes, history, match }) {
   const theme = useTheme();
   // Set The First Letter Of The Users' Name To capial //
   const EnName = JSON.parse(localStorage.getItem("Information")).NameAR;
-/*   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
- */  const [NumberOfGroupsIsOpen, setNumberOfGroupsIsOpen] = useState(false);
+  /*   const ViewingName = EnName.charAt(0).toUpperCase() + EnName.substring(1);
+   */ const [NumberOfGroupsIsOpen, setNumberOfGroupsIsOpen] = useState(false);
   //-------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
