@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { post } from "axios";
+import PropTypes from "prop-types";
 import MuiAlert from "@material-ui/lab/Alert";
-import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
-
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
@@ -22,9 +20,12 @@ import {
   Snackbar,
   Select,
   FormControl,
-  InputLabel,
-  TextField,
-  IconIn,
+  useTheme,
+  TablePagination,
+  TableFooter,
+  IconButton,
+  InputBase,
+  makeStyles,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -36,8 +37,97 @@ import EditNumberOfGroupForStudent from "./EditNumberOfGroupForStudent";
 import FolderIcon from "@material-ui/icons/Folder";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 //-----------------------------------------------------------------------------------------------------------
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
 
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onChangePage } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onChangePage(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onChangePage(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <Tooltip title="First Page" placement="bottom">
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Previous Page" placement="bottom">
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Next Page" placement="bottom">
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Last Page" placement="bottom">
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+//------------------------------------------------------------------------------------------------------------
 //--------------------------------------  Message Function  -------------------------------------------------
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -116,6 +206,22 @@ const StudentsInSubject = ({
   const [coulmnToQuery, setCoulmnToQuery] = useState("studentNameAR");
   //----------------------------------------------------------------------------------------------------------
 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, displayedStudents?.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadStudents === true) {
       listStudents();
@@ -137,7 +243,9 @@ const StudentsInSubject = ({
   useEffect(() => {
     if (query) {
       setDisplayedStudents([
-        ...allStudents?.filter((x) => x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())),
+        ...allStudents?.filter((x) =>
+          x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())
+        ),
       ]);
     }
   }, [query, coulmnToQuery]);
@@ -189,40 +297,39 @@ const StudentsInSubject = ({
         <TableContainer className={classes.tablePosition} component={Paper}>
           <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
             <Grid item>
-            <Paper component="form" className={classes.root}>
-              <InputBase
-                className={classes.input}
-                placeholder="Search"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                }}
-              />
-              <IconButton className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-            </Grid>
-            <Grid item style={{marginTop:"-50px" , marginLeft:"450px"}}>
-            <Tooltip title="Search Type" placement="bottom">
-              <FormControl className={classes.formControl}>
-                <Select
-                  native
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={coulmnToQuery}
-                  onChange={(event) => {
-                    setCoulmnToQuery(event.target.value);
+              <Paper component="form" className={classes.root}>
+                <InputBase
+                  className={classes.input}
+                  placeholder="Search"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
                   }}
-                  style={{ backgroundColor: "white" }}
-                >
-                  <option value="studentNameAR">Name</option>
-                  <option value="studentSeatNo">Seat Number</option>
-                  <option value="studentEmail">E-mail</option>
-                  
-                </Select>
-              </FormControl>
-            </Tooltip>
+                />
+                <IconButton className={classes.iconButton} aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item style={{ marginTop: "-50px", marginLeft: "450px" }}>
+              <Tooltip title="Search Type" placement="bottom">
+                <FormControl className={classes.formControl}>
+                  <Select
+                    native
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={coulmnToQuery}
+                    onChange={(event) => {
+                      setCoulmnToQuery(event.target.value);
+                    }}
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <option value="studentNameAR">Name</option>
+                    <option value="studentSeatNo">Seat Number</option>
+                    <option value="studentEmail">E-mail</option>
+                  </Select>
+                </FormControl>
+              </Tooltip>
             </Grid>
           </Grid>
           <Table
@@ -254,7 +361,13 @@ const StudentsInSubject = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedStudents?.map((Student, index) => (
+              {(rowsPerPage > 0
+                ? displayedStudents?.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : displayedStudents
+              )?.map((Student, index) => (
                 <TableRow
                   key={index}
                   style={
@@ -289,7 +402,36 @@ const StudentsInSubject = ({
                   </TableCell>
                 </TableRow>
               ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  colSpan={3}
+                  count={displayedStudents?.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: { "aria-label": "rows per page" },
+                    native: true,
+                  }}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                  backIconButtonProps={{
+                    "aria-label": "Previous Page",
+                  }}
+                  nextIconButtonProps={{
+                    "aria-label": "Next Page",
+                  }}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </TableContainer>
       </Grid>
