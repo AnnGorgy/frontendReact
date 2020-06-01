@@ -8,25 +8,93 @@ import {
   Grid,
   withStyles,
   Button,
-  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Switch,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AssignmentGroupNumberForm = ({
+const QuestionShuffleSwitch = withStyles((theme) => ({
+  root: {
+    width: 42,
+    height: 26,
+    padding: 0,
+    margin: theme.spacing(1),
+  },
+  switchBase: {
+    padding: 1,
+    "&$checked": {
+      transform: "translateX(16px)",
+      color: theme.palette.common.white,
+
+      "& + $track": {
+        backgroundColor: "#52d869",
+        opacity: 1,
+        border: "none",
+      },
+    },
+    "&$focusVisible $thumb": {
+      color: "#52d869",
+      border: "6px solid #fff",
+    },
+  },
+  thumb: {
+    width: 24,
+    height: 24,
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: theme.palette.grey[50],
+    opacity: 1,
+    transition: theme.transitions.create(["background-color", "border"]),
+  },
+  checked: {},
+  focusVisible: {},
+}))(({ classes, ...props }) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});
+
+const EditTotalGradeForm = ({
   onClose,
   title,
   isOpened,
+  appearGrade,
+  onSubmit,
   classes,
-  GroupsNumber
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [ReloadQuiz, setReloadQuiz] = useState(true);
+  const [GradeAppear, setGradeAppear] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    setNumberOfGroups(GroupsNumber);
-  }, [GroupsNumber]);
+    if (ReloadQuiz) {
+      setReloadQuiz(false);
+    }
+  }, [ReloadQuiz]);
 
+  useEffect(() => {
+    if (appearGrade) {
+      setGradeAppear(appearGrade);
+    }
+  }, [appearGrade]);
+  const handleChangeAppear = () => {
+    setGradeAppear((prev) => !prev);
+  };
   return (
     isOpened && (
       <Dialog
@@ -65,52 +133,19 @@ const AssignmentGroupNumberForm = ({
                   spacing={3}
                 >
                   <Grid item>
-                    <Grid
-                      item
-                       style={{ marginTop: "30px" }} 
-                    >
-                      <Grid item >
-                        <Typography style={{ fontSize: "25px" }}>
-                          Groups :
-                        </Typography>
-                      </Grid>
-                      <Grid item  style={{marginLeft:"100px"}}>
-                        {NumberOfGroups.map((choosee) => (
-                          <Grid item>
-                            {choosee.choose === true && (
-                              <Grid item>
-                                <Grid item>
-                                  <Typography style={{ fontSize: "25px" }}>
-                                    {choosee.number}
-                                  </Typography>
-                                </Grid>
-                                <Grid
-                                  item
-                                  style={{
-                                    marginTop: "-41px",
-                                    marginLeft: "40px",
-                                  }}
-                                >
-                                  <Checkbox
-                                    inputProps={{
-                                      "aria-label": "uncontrolled-checkbox",
-                                    }}
-                                    checked={choosee.choose}
-                                    disableRipple
-                                    classes={{
-                                      root: classes.check,
-                                      checked: classes.checked,
-                                    }}
-                                  />
-                                </Grid>
-                              </Grid>
-                            )}
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Grid>
+                    <FormGroup style={{marginRight:"200px"}}>
+                      <FormControlLabel
+                        labelPlacement="start"
+                        label="Show Grade"
+                        control={
+                          <QuestionShuffleSwitch
+                            checked={GradeAppear}
+                            onChange={handleChangeAppear}
+                          />
+                        }
+                      />
+                    </FormGroup>
                   </Grid>
-
                   <Grid item>
                     <Grid container justify="flex-end" spacing={1}>
                       <Grid item>
@@ -119,7 +154,7 @@ const AssignmentGroupNumberForm = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
-                            setNumberOfGroups([]);
+                            setGradeAppear(appearGrade);
                           }}
                         >
                           <Typography
@@ -128,6 +163,31 @@ const AssignmentGroupNumberForm = ({
                             color="error"
                           >
                             Close
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          className={classes.createButton}
+                          disabled={
+                            GradeAppear === "" || GradeAppear == appearGrade
+                          }
+                          onClick={() => {
+                            onSubmit({
+                              GradeAppear,
+                            });
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            className={
+                              GradeAppear === "" || GradeAppear == appearGrade
+                                ? classes.createText
+                                : classes.boldText
+                            }
+                          >
+                            Edit
                           </Typography>
                         </Button>
                       </Grid>
@@ -164,7 +224,7 @@ const styles = () => ({
     fontWeight: "600",
   },
   dialogPaper: {
-    minHeight: "25vh",
+    minHeight: "auto",
     padding: "20px 0px",
   },
   createButton: {
@@ -187,4 +247,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withRouter(AssignmentGroupNumberForm));
+export default withStyles(styles)(withRouter(EditTotalGradeForm));

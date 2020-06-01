@@ -48,6 +48,7 @@ const CourseHome = ({ history, match, classes }) => {
         },
       });
       setDoctorName(data[0].doctorNameEN);
+      localStorage.setItem("DoctorName", data[0].doctorNameEN );
     } catch (err) {
       console.error(err);
     }

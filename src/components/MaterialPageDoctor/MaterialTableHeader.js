@@ -52,6 +52,7 @@ const MaterialTableHeader = ({
   );
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  const [Num, setNum] = useState([]);
   //-----------------------------------------------------------------------------------------------------------
 
   // ---- Switch case to Open The Dialog (file/video/link/assignment/folder) Based On the Click Of user ----
@@ -165,6 +166,11 @@ const MaterialTableHeader = ({
       const url2 = "/assignment/AddAssignmentGroups";
       await post(url2, num, {
         params: {
+          SubjectName : match.params.coursename,
+          DrName : localStorage.getItem("DoctorName") ,
+          File_Name:name,
+          start: date.start,
+          end: date.end,
           AssignmentID: data,
         },
       });
@@ -177,6 +183,16 @@ const MaterialTableHeader = ({
       console.error(err);
     }
   };
+  //----------------------------------------------------------------------------------------------------
+  const GetNumberOfGroups = async () => {
+    const Url = `/DoctorManagestudentsGroups/StudentGroups`;
+    const { data } = await post(Url, null, {
+      params: { SubjectID: match.params.courseId },
+    });
+
+    setNum(data);
+  };
+  //-----------------------------------------------------------------------------------------------------
 
   const uploadVideo = async ({ file, name, description, callback }) => {
     const url = "/Doctor_Materials/uploadVideos";
@@ -306,6 +322,7 @@ const MaterialTableHeader = ({
       <CreateFileForm
         title="Create New Assignment"
         hasDate
+        AvilableGroups={Num}
         isOpened={assignmentIsOpen}
         onClose={() => setAssignmentIsOpen(false)}
         onSubmit={({ blobs, name, description, date, num ,TotalGradee }) =>
@@ -361,6 +378,7 @@ const MaterialTableHeader = ({
               ref={createButtonReference}
               onClick={(event) => {
                 setCreateButtonReference(event.currentTarget);
+                GetNumberOfGroups();
               }}
               className={classes.addButton}
               size="small"

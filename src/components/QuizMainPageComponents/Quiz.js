@@ -287,7 +287,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         </FormGroup>
                       </Grid>
                       <Grid item>
-                      <FormGroup>
+                        <FormGroup>
                           <FormControlLabel
                             labelPlacement="start"
                             label="Show Grade"
@@ -451,7 +451,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         !goodEndDate ||
                         numberOfQues === "" ||
                         Duration === "" ||
-                        date.start > date.end
+                        date.start > date.end ||
+                        num?.filter((x) => x.choose == false).length >=
+                          num.length
                       }
                       onClick={() => {
                         resetStates();
@@ -477,7 +479,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                           !goodEndDate ||
                           numberOfQues === "" ||
                           Duration === "" ||
-                          date.start > date.end
+                          date.start > date.end ||
+                          num?.filter((x) => x.choose == false).length >=
+                            num.length
                             ? classes.createText
                             : classes.boldText
                         }

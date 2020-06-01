@@ -7,6 +7,7 @@ import InputBase from "@material-ui/core/InputBase";
 //------------------------------ Another Components Used In This Component -------------------------------
 import UpdateQuiz from "./UpdateQuiz";
 import QuizGroupNumberForm from "./QuizGroupNumberForm";
+import EditTotalGradeForm from "./EditTotalGradeForm";
 //--------------------------------------------------------------------------------------------------------
 
 //----------------------------------------- Images --------------------------------------------------------
@@ -55,6 +56,25 @@ const QuizTableMainInstructor = ({
     setAllQuiz(data);
   };
 
+  // --------------------------------------------------------------------------------------------------------
+  
+  const EditTotalGradeQuiz = async (
+    Quiz,
+    GradeAppear,
+    callback
+  ) => {
+    const url = "/DoctorMakeQuiz/UpdateShowGrade";
+    await post(url, NumberOfGroups, {
+      params: {
+        QuizID: Quiz.id,
+        showGrade: GradeAppear,
+      },
+    });
+    setReloadQuiz(true);
+    if (callback) callback();
+  };
+  //---------------------------------------------------------------------------------------------------------
+
   const Updatequiz = async (
     Quiz,
     ChangedName,
@@ -87,6 +107,14 @@ const QuizTableMainInstructor = ({
   };
   //----------------------------------------------------------------------------------------------------------
 
+  const GetNumberOfGroups = async (quizId) => {
+    const Url = `/DoctorMakeQuiz/GetQuizGroupsToupdate`;
+    const { data } = await post(Url, null, {
+      params: { subjectID: match.params.courseId, QuizID: quizId },
+    });
+    setNumberOfGroups(data);
+  };
+
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allQuiz, setAllQuiz] = useState();
   const [displayedQuiz, setDisplayedQuiz] = useState();
@@ -95,6 +123,8 @@ const QuizTableMainInstructor = ({
   const [query, setQuery] = useState("");
   const [coulmnToQuery, setCoulmnToQuery] = useState("Name");
   const [GroupsForQuizIsOpen, setGroupsForQuizIsOpen] = useState(false);
+  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [EditTotalGradeIsOpen , setEditTotalGradeIsOpen] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -186,7 +216,18 @@ const QuizTableMainInstructor = ({
         title="Quiz Groups"
         isOpened={GroupsForQuizIsOpen}
         onClose={() => setGroupsForQuizIsOpen(false)}
-        quizId={currentEditedQuiz?.id}
+        GroupsNumber={NumberOfGroups}
+      />
+      <EditTotalGradeForm
+        title="Edit Total Grade"
+        appearGrade={currentEditedQuiz?.AppearGrade}
+        isOpened={EditTotalGradeIsOpen}
+        onClose={() => setEditTotalGradeIsOpen(false)}
+        onSubmit={({ GradeAppear }) =>
+          EditTotalGradeQuiz(currentEditedQuiz, GradeAppear, () =>
+            setEditTotalGradeIsOpen(false)
+          )
+        }
       />
       <TableContainer component={Paper} className={classes.tablePosition}>
         <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
@@ -265,7 +306,10 @@ const QuizTableMainInstructor = ({
                   </Grid>
                 </TableCell>
                 {/* Description cell */}
-                <TableCell align="center" width="5%" /* style={{minWidth:30, maxWidth:30}} */>
+                <TableCell
+                  align="center"
+                  width="5%" /* style={{minWidth:30, maxWidth:30}} */
+                >
                   {quiz.description}
                 </TableCell>
                 {/* Start Date cell */}
@@ -299,12 +343,23 @@ const QuizTableMainInstructor = ({
                       </Button>
                     </Tooltip>
                   )}
-                  {quiz.AvailableToUpdate == true && (
+                  {quiz.AvailableToUpdate == true ? (
                     <Tooltip title="Update" placement="bottom">
                       <Button size="small">
                         <EditIcon
                           onClick={() => {
                             setUpdateQuizIsOpen(true);
+                            setCurrentEditedQuiz(quiz);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  ):(
+                    <Tooltip title="Update" placement="bottom">
+                      <Button size="small">
+                        <EditIcon
+                          onClick={() => {
+                            setEditTotalGradeIsOpen(true);
                             setCurrentEditedQuiz(quiz);
                           }}
                         />
@@ -316,6 +371,7 @@ const QuizTableMainInstructor = ({
                       <img
                         src="https://img.icons8.com/ios-filled/30/000000/group-foreground-selected.png"
                         onClick={() => {
+                          GetNumberOfGroups(quiz.id);
                           setGroupsForQuizIsOpen(true);
                           setCurrentEditedQuiz(quiz);
                         }}

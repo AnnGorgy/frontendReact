@@ -7,6 +7,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 //------------------------------ Another Components Used In This Component ----------------------------------
 import RenameForm from "./RenameForm";
 import AssignmentGroupNumberForm from "./AssignmentGroupNumberForm";
+import EditTotalGradeAssignmentForm from "./EditTotalGradeAssignmentForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -126,6 +127,26 @@ const MaterialTable = ({
   };
 
   // -----------------------------------------------------------------------------------------------------
+  const EditTotalGradeAssignment = async (
+    material,
+    TotalGradee,
+    callback
+  ) => {
+    const url = "/assignment/updateTotalGrade";
+    await post(url, null, {
+      params: {
+        ffileId: material.id,
+        totalgrade: TotalGradee,
+      },
+    });
+    setMessageTitle("Total Grade has been Edited successfully");
+    handleClick();
+    setReloadMaterials(true);
+    if (callback) callback();
+  };
+  //-----------------------------------------------------------------------------------------------------
+
+
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
      So With IT To Add Root For This Subject So We Can Add On IT  */
   const createRootFolder = async () => {
@@ -169,6 +190,15 @@ const MaterialTable = ({
   };
   // --------------------------------------------------------------------------------------------------------
 
+  const GetNumberOfGroups = async (assignmentId) => {
+    const Url = `/assignment/GetAssignmentGroupsToupdate`;
+    const { data } = await post(Url, null, {
+      params: { subjectID: match.params.courseId, AssignmentID: assignmentId },
+    });
+    setNumberOfGroups(data);
+  };
+  //----------------------------------------------------------------------------------------------------
+
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allMaterials, setAllMaterials] = useState();
   const [allAssignments, setAllAssignments] = useState();
@@ -177,11 +207,16 @@ const MaterialTable = ({
   const [RenameIsOpenMaterial, setRenameIsOpenMaterial] = useState(false);
   const [currentEditedMaterial, setCurrentEditedMaterial] = useState();
   const [RenameIsOpenAssignment, setRenameIsOpenAssignment] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
   const [GroupsForAssignmetIsOpen, setGroupsForAssignmetIsOpen] = useState(
     false
   );
+  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [
+    EditTotalGradeIsOpenAssignment,
+    setEditTotalGradeIsOpenAssignment,
+  ] = useState(false);
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -291,7 +326,18 @@ const MaterialTable = ({
         title="Assignment Groups"
         isOpened={GroupsForAssignmetIsOpen}
         onClose={() => setGroupsForAssignmetIsOpen(false)}
-        assignmentId={currentEditedMaterial?.id}
+        GroupsNumber={NumberOfGroups}
+      />
+      <EditTotalGradeAssignmentForm
+        title="Edit Total Grade"
+        currentTotalGrade={currentEditedMaterial?.TotalGrade}
+        isOpened={EditTotalGradeIsOpenAssignment}
+        onClose={() => setEditTotalGradeIsOpenAssignment(false)}
+        onSubmit={({ TotalGradee }) =>
+          EditTotalGradeAssignment(currentEditedMaterial, TotalGradee, () =>
+            setEditTotalGradeIsOpenAssignment(false)
+          )
+        }
       />
       <RenameForm
         title="Edit Assignment"
@@ -599,6 +645,20 @@ const MaterialTable = ({
                           </Button>
                         </Tooltip>
                       )}
+                    {material.type === "Assignment" &&
+                      material.AvailableToUpdate == false && (
+                        <Tooltip title="Edit" placement="bottom">
+                          <Button size="small">
+                            <EditIcon
+                              onClick={() => {
+                                setEditTotalGradeIsOpenAssignment(true);
+                                setCurrentEditedMaterial(material);
+                              }}
+                            />
+                          </Button>
+                        </Tooltip>
+                      )}
+
                     {material.type !== "Assignment" &&
                       material.type !== "Folder" && (
                         <Tooltip title="Rename" placement="bottom">
@@ -618,6 +678,7 @@ const MaterialTable = ({
                           <img
                             src="https://img.icons8.com/ios-filled/30/000000/group-foreground-selected.png"
                             onClick={() => {
+                              GetNumberOfGroups(material.id);
                               setGroupsForAssignmetIsOpen(true);
                               setCurrentEditedMaterial(material);
                             }}

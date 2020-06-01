@@ -7,25 +7,36 @@ import {
   Typography,
   Grid,
   withStyles,
+  TextField,
   Button,
-  Checkbox,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AssignmentGroupNumberForm = ({
+const EditTotalGradeAssignmentForm = ({
   onClose,
   title,
+  currentTotalGrade,
   isOpened,
+  onSubmit,
   classes,
-  GroupsNumber
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
-  const [NumberOfGroups, setNumberOfGroups] = useState([]);
+  const [RelodRename, setReloadRename] = useState(true);
+  const [TotalGradee, setTotalGrade] = useState(0);
+
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    setNumberOfGroups(GroupsNumber);
-  }, [GroupsNumber]);
+    if (RelodRename) {
+      setReloadRename(false);
+    }
+  }, [RelodRename]);
+
+  useEffect(() => {
+    if (currentTotalGrade) {
+      setTotalGrade(currentTotalGrade);
+    }
+  }, [currentTotalGrade]);
 
   return (
     isOpened && (
@@ -65,50 +76,27 @@ const AssignmentGroupNumberForm = ({
                   spacing={3}
                 >
                   <Grid item>
-                    <Grid
-                      item
-                       style={{ marginTop: "30px" }} 
-                    >
-                      <Grid item >
-                        <Typography style={{ fontSize: "25px" }}>
-                          Groups :
-                        </Typography>
-                      </Grid>
-                      <Grid item  style={{marginLeft:"100px"}}>
-                        {NumberOfGroups.map((choosee) => (
-                          <Grid item>
-                            {choosee.choose === true && (
-                              <Grid item>
-                                <Grid item>
-                                  <Typography style={{ fontSize: "25px" }}>
-                                    {choosee.number}
-                                  </Typography>
-                                </Grid>
-                                <Grid
-                                  item
-                                  style={{
-                                    marginTop: "-41px",
-                                    marginLeft: "40px",
-                                  }}
-                                >
-                                  <Checkbox
-                                    inputProps={{
-                                      "aria-label": "uncontrolled-checkbox",
-                                    }}
-                                    checked={choosee.choose}
-                                    disableRipple
-                                    classes={{
-                                      root: classes.check,
-                                      checked: classes.checked,
-                                    }}
-                                  />
-                                </Grid>
-                              </Grid>
-                            )}
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Grid>
+                    <TextField
+                      label="Total Grade"
+                      value={TotalGradee}
+                      onChange={(e) => {
+                        setTotalGrade(Number(e.target.value));
+                      }}
+                      variant="outlined"
+                      classes={{
+                        root: classes.textFieldRoot,
+                      }}
+                      InputProps={{
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.label,
+                        },
+                      }}
+                    />
                   </Grid>
 
                   <Grid item>
@@ -119,7 +107,6 @@ const AssignmentGroupNumberForm = ({
                           className={classes.cancelButton}
                           onClick={() => {
                             onClose();
-                            setNumberOfGroups([]);
                           }}
                         >
                           <Typography
@@ -128,6 +115,33 @@ const AssignmentGroupNumberForm = ({
                             color="error"
                           >
                             Close
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          className={classes.createButton}
+                          disabled={
+                            TotalGradee === 0 ||
+                            TotalGradee == currentTotalGrade
+                          }
+                          onClick={() => {
+                            onSubmit({
+                              TotalGradee,
+                            });
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            className={
+                              TotalGradee === 0 ||
+                              TotalGradee == currentTotalGrade
+                                ? classes.createText
+                                : classes.boldText
+                            }
+                          >
+                            Edit
                           </Typography>
                         </Button>
                       </Grid>
@@ -187,4 +201,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withRouter(AssignmentGroupNumberForm));
+export default withStyles(styles)(withRouter(EditTotalGradeAssignmentForm));

@@ -32,7 +32,7 @@ const CreateFileForm = ({
   hasDate,
   classes,
   videoExtension,
-  match
+  AvilableGroups,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [name, setName] = useState("");
@@ -46,7 +46,8 @@ const CreateFileForm = ({
     end: new Date(),
   });
   const [num, setNum] = useState([]);
-  const [TotalGradee , setTotalGrade] = useState(0);
+  const [TotalGradee, setTotalGrade] = useState(0);
+  const choose = "choose";
   // ---------------------------------------------------------------------------------------------------------
   const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
@@ -65,18 +66,9 @@ const CreateFileForm = ({
     setGoodStartDate(false);
     setGoodEndDate(false);
     setTotalGrade(0);
+    setNum([]);
   };
   //------------------------------------------------------------------------------------------------------------
-  // -------------------------------------------------- api Calls ------------------------------------------
-  const GetNumberOfGroups = async () => {
-    const Url = `/DoctorManagestudentsGroups/StudentGroups`;
-    const { data } = await post(Url, null, {
-      params: { SubjectID: match.params.courseId },
-    });
-
-    setNum(data);
-  };
-  //----------------------------------------------------------------------------------------------------------
 
   const handleTotalGradeMethod = (value, CheckTitle) => {
     {
@@ -91,8 +83,8 @@ const CreateFileForm = ({
   };
 
   useEffect(() => {
-    GetNumberOfGroups();
-  }, []);
+    setNum(AvilableGroups);
+  }, [AvilableGroups]);
   return (
     isOpened && (
       <Dialog
@@ -186,28 +178,28 @@ const CreateFileForm = ({
                   </Grid>
                   {hasDate && (
                     <Grid item>
-                    <TextField
-                      label="Total Grade"
-                      value={TotalGradee}
-                      onChange={(e) => {
-                        setTotalGrade(Number(e.target.value));
-                      }}
-                      variant="outlined"
-                      classes={{
-                        root: classes.textFieldRoot,
-                      }}
-                      InputProps={{
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.label,
-                        },
-                      }}
-                    />
-                  </Grid>
+                      <TextField
+                        label="Total Grade"
+                        value={TotalGradee}
+                        onChange={(e) => {
+                          setTotalGrade(Number(e.target.value));
+                        }}
+                        variant="outlined"
+                        classes={{
+                          root: classes.textFieldRoot,
+                        }}
+                        InputProps={{
+                          classes: {
+                            notchedOutline: classes.notchedOutline,
+                          },
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.label,
+                          },
+                        }}
+                      />
+                    </Grid>
                   )}
 
                   {/* Upload Button */}
@@ -233,7 +225,6 @@ const CreateFileForm = ({
                       />
                     </Grid>
                   )}
-
                   {/*Start Date && End Date That will appear only when we deal with Assignemnets Dialog */}
                   {hasDate && (
                     <Grid item>
@@ -359,7 +350,9 @@ const CreateFileForm = ({
                                 !goodEndDate ||
                                 date.start < CurrentDate ||
                                 date.end < CurrentDate ||
-                                date.start > date.end))
+                                date.start > date.end ||
+                                num?.filter((x) => x.choose == false).length >=
+                                  num.length))
                           }
                           onClick={() => {
                             resetStates();
@@ -369,7 +362,7 @@ const CreateFileForm = ({
                               description,
                               date,
                               num,
-                              TotalGradee
+                              TotalGradee,
                             });
                           }}
                         >
@@ -383,7 +376,9 @@ const CreateFileForm = ({
                                   !goodEndDate ||
                                   date.start < CurrentDate ||
                                   date.end < CurrentDate ||
-                                  date.start > date.end))
+                                  date.start > date.end ||
+                                  num?.filter((x) => x.choose == false).length >=
+                                    num.length))
                                 ? classes.createText
                                 : classes.boldText
                             }

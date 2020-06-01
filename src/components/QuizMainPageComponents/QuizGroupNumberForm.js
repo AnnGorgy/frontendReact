@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { post } from "axios";
 import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -17,27 +16,17 @@ const QuizGroupNumberForm = ({
   onClose,
   title,
   isOpened,
-  quizId,
   classes,
-  match,
+  GroupsNumber,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [NumberOfGroups, setNumberOfGroups] = useState([]);
   //----------------------------------------------------------------------------------------------------------
 
-  const GetNumberOfGroups = async () => {
-    const Url = `/DoctorMakeQuiz/GetQuizGroupsToupdate`;
-    const { data } = await post(Url, null, {
-      params: { subjectID: match.params.courseId, QuizID: quizId },
-    });
-    setNumberOfGroups(data);
-  };
 
   useEffect(() => {
-    if (quizId) {
-      GetNumberOfGroups();
-    }
-  }, [quizId, match.params.courseId]);
+    setNumberOfGroups(GroupsNumber);
+  }, [GroupsNumber]);
 
   return (
     isOpened && (
@@ -77,16 +66,13 @@ const QuizGroupNumberForm = ({
                   spacing={3}
                 >
                   <Grid item>
-                    <Grid
-                      item
-                      style={{ marginTop: "30px" }}
-                    >
+                    <Grid item style={{ marginTop: "30px" }}>
                       <Grid item>
                         <Typography style={{ fontSize: "25px" }}>
                           Groups :
                         </Typography>
                       </Grid>
-                      <Grid item style={{marginLeft:"100px"}}>
+                      <Grid item style={{ marginLeft: "100px" }}>
                         {NumberOfGroups.map((choosee) => (
                           <Grid item>
                             {choosee.choose === true && (
