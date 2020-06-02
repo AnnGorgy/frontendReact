@@ -62,5 +62,5 @@ export {default as EditNumberOfGroupForStudent} from "./AllStudentsInSubject/Edi
 export {default as GradesBreadCrumbsHeader} from "./StudentGrades/GradesBreadCrumbsHeader";
 export {default as AssignmentGroupNumberForm} from "./MaterialPageDoctor/AssignmentGroupNumberForm";
 export {default as QuizGroupNumberForm} from "./QuizMainPageComponents/QuizGroupNumberForm";
-export {default as EditTotalGradeForm} from "./QuizMainPageComponents/EditTotalGradeForm";
+export {default as EditGradeAppearForm} from "./QuizMainPageComponents/EditGradeAppearForm";
 export {default as EditTotalGradeAssignmentForm} from "./MaterialPageDoctor/EditTotalGradeAssignmentForm";

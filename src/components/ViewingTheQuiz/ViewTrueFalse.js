@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const ViewTrueFalse = ({ questionData, classes }) => {
+const ViewTrueFalse = ({ questionData, classes, Index }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [TFData, setTFData] = useState([]);
   const [tfTrue, setTfTrue] = useState(false);
@@ -38,8 +38,31 @@ const ViewTrueFalse = ({ questionData, classes }) => {
             width: "1257px",
           }}
         >
-          <Grid item style={{ marginLeft: "110px" }}>
-            <Typography style={{ fontSize: "35px" }}>{TFData.title}</Typography>
+          <Grid
+            item
+            style={{
+              marginLeft: "20px",
+              minWidth: "300px",
+              maxWidth: "1130px",
+            }}
+          >
+            <Typography
+              style={{
+                fontSize: "35px",
+                fontWeight: "bold",
+              }}
+            >
+              {` Q ${Index + 1} )`}
+            </Typography>
+            <Typography
+              style={{
+                fontSize: "35px",
+                textDecorationLine: "underline",
+                marginLeft: "80px",
+              }}
+            >
+              {` ${TFData.title}`}
+            </Typography>
           </Grid>
 
           <Grid>
@@ -90,7 +113,7 @@ const ViewTrueFalse = ({ questionData, classes }) => {
                   checked={tfTrue}
                   disableRipple
                   inputProps={{ "aria-label": "A" }}
-                  classes={{root: classes.radio, checked: classes.checked}}
+                  classes={{ root: classes.radio, checked: classes.checked }}
                 />
               </Grid>
             </Grid>
@@ -113,7 +136,7 @@ const ViewTrueFalse = ({ questionData, classes }) => {
                   checked={tfFalse}
                   inputProps={{ "aria-label": "A" }}
                   disableRipple
-                  classes={{root: classes.radio, checked: classes.checked}}
+                  classes={{ root: classes.radio, checked: classes.checked }}
                 />
               </Grid>
             </Grid>
@@ -171,11 +194,11 @@ const styles = () => ({
     color: "silver",
   },
   radio: {
-    '&$checked': {
-      color: '#0e7c61'
-    }
+    "&$checked": {
+      color: "#0e7c61",
+    },
   },
-  checked: {}
+  checked: {},
 });
 
 export default withStyles(styles)(ViewTrueFalse);

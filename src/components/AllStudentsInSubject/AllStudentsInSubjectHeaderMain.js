@@ -73,8 +73,12 @@ const AllStudentsInSubjectHeaderMain = ({
       const { data } = await post(StudentsUrl, null, {
         params: {
           subjectId: match.params.courseId,
-          semesterId: 1,
-          currentYear: "2019-2020",
+          semesterId: JSON.parse(localStorage.getItem("subjects")).find(
+            (subject) => subject.ID == match.params.courseId
+          ).SemesterID,
+          currentYear: JSON.parse(localStorage.getItem("subjects")).find(
+            (subject) => subject.ID == match.params.courseId
+          ).currentYear,
         },
       });
       const url2 = "/DoctorManagestudentsGroups/UpdateStudentsGroup";
@@ -123,7 +127,7 @@ const AllStudentsInSubjectHeaderMain = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-        {`${match.params.coursename} group number has been changed`}
+          {`${match.params.coursename} group number has been changed`}
         </Alert>
       </Snackbar>
       <EditStudentGroupForm

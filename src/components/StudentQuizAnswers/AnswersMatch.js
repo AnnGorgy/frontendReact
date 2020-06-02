@@ -8,6 +8,7 @@ const AnswersMatch = ({
   classes,
   questionData,
   setQuestions,
+  Index
 }) => {
   // handle input change Question
   const handleMatchQuestionHeaderTextChange = (e, idQuestionMatch, QID) => {
@@ -40,11 +41,33 @@ const AnswersMatch = ({
           width: "1257px",
         }}
       >
-        <Grid item style={{ marginLeft: "110px" }}>
-          <Typography style={{ fontSize: "35px" }}>
-            {questionData.title}
+        <Grid
+          item
+          style={{
+            marginLeft: "20px",
+            minWidth: "300px",
+            maxWidth: "1130px",
+          }}
+        >
+          <Typography
+            style={{
+              fontSize: "35px",
+              fontWeight: "bold",
+            }}
+          >
+            {` Q ${Index + 1} )`}
+          </Typography>
+          <Typography
+            style={{
+              fontSize: "35px",
+              textDecorationLine: "underline",
+              marginLeft: "80px",
+            }}
+          >
+            {` ${questionData.title}`}
           </Typography>
         </Grid>
+
         <Grid
           item
           style={{

@@ -15,6 +15,7 @@ const AnswersTrueFalse = ({
   questionData,
   allQuestionAnswers,
   classes,
+  Index
 }) => {
   const setQuestionAnswer = (answer, idQuestion) => {
     setQuestions((prev) =>
@@ -46,8 +47,31 @@ const AnswersTrueFalse = ({
             width: "1257px",
           }}
         >
-          <Grid item style={{ marginLeft: "110px" }}>
-            <Typography style={{ fontSize: "35px" }}>{TFData.title}</Typography>
+         <Grid
+            item
+            style={{
+              marginLeft: "20px",
+              minWidth: "300px",
+              maxWidth: "1130px",
+            }}
+          >
+            <Typography
+              style={{
+                fontSize: "35px",
+                fontWeight: "bold",
+              }}
+            >
+              {` Q ${Index + 1} )`}
+            </Typography>
+            <Typography
+              style={{
+                fontSize: "35px",
+                textDecorationLine: "underline",
+                marginLeft: "80px",
+              }}
+            >
+              {` ${TFData.title}`}
+            </Typography>
           </Grid>
 
           <Grid>

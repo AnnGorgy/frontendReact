@@ -7,7 +7,7 @@ import InputBase from "@material-ui/core/InputBase";
 //------------------------------ Another Components Used In This Component -------------------------------
 import UpdateQuiz from "./UpdateQuiz";
 import QuizGroupNumberForm from "./QuizGroupNumberForm";
-import EditTotalGradeForm from "./EditTotalGradeForm";
+import EditGradeAppearForm from "./EditGradeAppearForm";
 //--------------------------------------------------------------------------------------------------------
 
 //----------------------------------------- Images --------------------------------------------------------
@@ -100,6 +100,8 @@ const QuizTableMainInstructor = ({
         subID: match.params.courseId,
         numberOfQuestions: ChangednumberOfQues,
         appearGrade: GradeAppear,
+        SubjectName: match.params.coursename,
+        DrName: localStorage.getItem("DoctorName"),
       },
     });
     setReloadQuiz(true);
@@ -218,8 +220,8 @@ const QuizTableMainInstructor = ({
         onClose={() => setGroupsForQuizIsOpen(false)}
         GroupsNumber={NumberOfGroups}
       />
-      <EditTotalGradeForm
-        title="Edit Total Grade"
+      <EditGradeAppearForm
+        title="Edit Show Grade"
         appearGrade={currentEditedQuiz?.AppearGrade}
         isOpened={EditTotalGradeIsOpen}
         onClose={() => setEditTotalGradeIsOpen(false)}

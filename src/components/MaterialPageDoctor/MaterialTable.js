@@ -118,6 +118,8 @@ const MaterialTable = ({
         start: date.start,
         end: date.end,
         TotalGrade: TotalGradee,
+        SubjectName: match.params.coursename,
+        DrName: localStorage.getItem("DoctorName"),
       },
     });
     setMessageTitle("It has been Edited successfully");
@@ -127,11 +129,7 @@ const MaterialTable = ({
   };
 
   // -----------------------------------------------------------------------------------------------------
-  const EditTotalGradeAssignment = async (
-    material,
-    TotalGradee,
-    callback
-  ) => {
+  const EditTotalGradeAssignment = async (material, TotalGradee, callback) => {
     const url = "/assignment/updateTotalGrade";
     await post(url, null, {
       params: {
@@ -145,7 +143,6 @@ const MaterialTable = ({
     if (callback) callback();
   };
   //-----------------------------------------------------------------------------------------------------
-
 
   /* createRootFolder : We Use IT If We Have Subject That We Don't Have Any Materail For It In Database 
      So With IT To Add Root For This Subject So We Can Add On IT  */

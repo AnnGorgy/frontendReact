@@ -385,62 +385,33 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
               width: "1240px",
             }}
           >
-            <Grid
-              item
-              style={{
-                padding: "10px 10px 10px 10px",
-                borderRadius: "16px",
-                border: "3px solid black",
-                width: "220px",
-                height: "75px",
-                marginLeft: "109px",
-                marginTop: "15px",
-              }}
-            >
-              <Grid item style={{ marginLeft: "10px" }}>
-                <img
-                  src={QuestionNumber}
-                  alt="QuestionNumberImage"
-                  style={{ width: "50px", height: "50px" }}
-                />
-              </Grid>
-              <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
-                <Typography
-                  style={{
-                    marginLeft: "30px",
-                    fontFamily: "Monaco",
-                    fontSize: "25px",
-                  }}
-                >
-                  {`Question ${index + 1}`}
-                </Typography>
-              </Grid>
-            </Grid>
 
             <Grid item>
-              <Grid item style={{ marginTop: "10px" }}>
+              <Grid item style={{ marginTop: "20px", marginLeft: "700px" }}>
                 <Grid
-                  item
+                  container
+                  justify="center"
                   style={{
                     padding: "10px 10px 10px 10px",
                     borderRadius: "16px",
                     border: "3px solid black",
-                    width: "180px",
-                    height: "75px",
-                    marginLeft: "880px",
+                    width: "auto",
+                    height: "auto",
+                    marginRight: "100px",
+                    alignItems: "center",
                   }}
                 >
-                  <Grid item style={{ marginLeft: "10px" }}>
+                  <Grid item>
                     <img
                       src={Grades}
                       alt="GradeImage"
                       style={{ width: "50px", height: "50px" }}
                     />
                   </Grid>
-                  <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
+                  <Grid item>
                     <Typography
                       style={{
-                        marginLeft: "30px",
+                        marginLeft: "10px",
                         fontFamily: "Monaco",
                         fontSize: "25px",
                       }}
@@ -450,15 +421,15 @@ const ViewStudentQuizAnswers = ({ match, history }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item style={{ marginTop: "-100px" }}>
+              <Grid item style={{ marginTop: "-70px" }}>
                 {quiz.Type == "mcq" && (
-                  <ViewMCQStudentAnswers questionData={quiz} />
+                  <ViewMCQStudentAnswers questionData={quiz} Index={index} />
                 )}
                 {quiz.Type == "tf" && (
-                  <ViewTrueFalseStudentAnswers questionData={quiz} />
+                  <ViewTrueFalseStudentAnswers questionData={quiz} Index={index} />
                 )}
                 {quiz.Type == "match" && (
-                  <ViewMatchStudentAnswer questionData={quiz} />
+                  <ViewMatchStudentAnswer questionData={quiz} Index={index} />
                 )}
               </Grid>
             </Grid>

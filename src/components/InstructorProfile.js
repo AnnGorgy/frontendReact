@@ -40,20 +40,27 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
       setEnName(data[0].doctorNameEN);
 
       const url2 = "/Office_Hours/Get_Instructor_data";
-      const  { data: data2 } = await post(url2, null, {
+      const { data: data2 } = await post(url2, null, {
         params: {
           Doc_id: data[0].doctorID,
         },
       });
-      if (data2) {
+      if (data2.length != 0) {
         setEmail(data2[0].email);
         setOfficeHours(data2[0].office);
+        console.log("ahmed");
+      }
+      else{
+        setEmail("");
+        setOfficeHours("");
       }
     } catch (err) {
       console.error(err);
     }
   };
   //-----------------------------------------------------------------------------------------------------
+
+
   useEffect(() => {
     DoctorInformation();
   }, [match.params.courseId]);
@@ -228,7 +235,9 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         <Button
                           variant="outlined"
                           className={classes.cancelButton}
-                          onClick={onClose}
+                          onClick={() => {
+                            onClose();
+                          }}
                         >
                           <Typography
                             variant="h6"

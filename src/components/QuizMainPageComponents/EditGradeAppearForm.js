@@ -68,7 +68,7 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
   );
 });
 
-const EditTotalGradeForm = ({
+const EditGradeAppearForm = ({
   onClose,
   title,
   isOpened,
@@ -247,4 +247,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withRouter(EditTotalGradeForm));
+export default withStyles(styles)(withRouter(EditGradeAppearForm));

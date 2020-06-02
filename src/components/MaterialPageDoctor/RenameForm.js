@@ -44,7 +44,7 @@ const RenameForm = ({
   });
   const [NumberOfGroups, setNumberOfGroups] = useState([]);
   const [TotalGradee, setTotalGrade] = useState(0);
-
+  const [CurrentDate, setCurrentDate] = useState(new Date());
   //----------------------------------------------------------------------------------------------------------
 
   const GetNumberOfGroups = async () => {
@@ -166,8 +166,9 @@ const RenameForm = ({
                         <TextField
                           label="Total Grade"
                           value={TotalGradee}
+                          type="number"
                           onChange={(e) => {
-                            setTotalGrade(Number(e.target.value));
+                            setTotalGrade(Number.parseInt(e.target.value));
                           }}
                           variant="outlined"
                           classes={{
@@ -176,6 +177,9 @@ const RenameForm = ({
                           InputProps={{
                             classes: {
                               notchedOutline: classes.notchedOutline,
+                            },
+                            inputProps: {
+                              min: 0,
                             },
                           }}
                           InputLabelProps={{
@@ -199,9 +203,10 @@ const RenameForm = ({
                               label="Start Date"
                               inputVariant="standard"
                               value={date.start}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, start: date }))
-                              }
+                              onChange={(date) => {
+                                setDate((prev) => ({ ...prev, start: date }));
+                                setCurrentDate(new Date());
+                              }}
                               onError={(bad) => setGoodStartDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
                             />
@@ -214,9 +219,10 @@ const RenameForm = ({
                               autoOk
                               label="End Date"
                               value={date.end}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, end: date }))
-                              }
+                              onChange={(date) => {
+                                setDate((prev) => ({ ...prev, end: date }));
+                                setCurrentDate(new Date());
+                              }}
                               onError={(bad) => setGoodEndDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
                             />
@@ -303,9 +309,14 @@ const RenameForm = ({
                           variant="outlined"
                           className={classes.createButton}
                           disabled={
-                            ChangedName === ""  ||
+                            ChangedName === "" ||
                             (hasDate &&
                               (!goodStartDate ||
+                                TotalGradee === 0 ||
+                                NumberOfGroups?.filter((x) => x.choose == false)
+                                  .length >= NumberOfGroups.length ||
+                                date.start < CurrentDate ||
+                                date.end < CurrentDate ||
                                 !goodEndDate ||
                                 date.start > date.end))
                           }
@@ -314,7 +325,7 @@ const RenameForm = ({
                               ChangedName,
                               date,
                               NumberOfGroups,
-                              TotalGradee
+                              TotalGradee,
                             });
                           }}
                         >
@@ -325,7 +336,13 @@ const RenameForm = ({
                               (hasDate &&
                                 (!goodStartDate ||
                                   !goodEndDate ||
-                                  date.start > date.end))
+                                  date.start > date.end ||
+                                  TotalGradee === 0 ||
+                                  date.start < CurrentDate ||
+                                  date.end < CurrentDate ||
+                                  NumberOfGroups?.filter(
+                                    (x) => x.choose == false
+                                  ).length >= NumberOfGroups.length))
                                 ? classes.createText
                                 : classes.boldText
                             }

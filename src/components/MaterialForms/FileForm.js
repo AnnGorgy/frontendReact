@@ -85,6 +85,7 @@ const CreateFileForm = ({
   useEffect(() => {
     setNum(AvilableGroups);
   }, [AvilableGroups]);
+
   return (
     isOpened && (
       <Dialog
@@ -181,8 +182,9 @@ const CreateFileForm = ({
                       <TextField
                         label="Total Grade"
                         value={TotalGradee}
+                        type="number"
                         onChange={(e) => {
-                          setTotalGrade(Number(e.target.value));
+                          setTotalGrade(Number.parseInt(e.target.value));
                         }}
                         variant="outlined"
                         classes={{
@@ -191,6 +193,9 @@ const CreateFileForm = ({
                         InputProps={{
                           classes: {
                             notchedOutline: classes.notchedOutline,
+                          },
+                          inputProps: {
+                            min: 0,
                           },
                         }}
                         InputLabelProps={{
@@ -237,9 +242,10 @@ const CreateFileForm = ({
                               label="Start Date"
                               inputVariant="standard"
                               value={date.start}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, start: date }))
-                              }
+                              onChange={(date) => {
+                                setDate((prev) => ({ ...prev, start: date }));
+                                setCurrentDate(new Date());
+                              }}
                               onError={(bad) => setGoodStartDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
                             />
@@ -252,9 +258,10 @@ const CreateFileForm = ({
                               autoOk
                               label="End Date"
                               value={date.end}
-                              onChange={(date) =>
-                                setDate((prev) => ({ ...prev, end: date }))
-                              }
+                              onChange={(date) => {
+                                setDate((prev) => ({ ...prev, end: date }));
+                                setCurrentDate(new Date());
+                              }}
                               onError={(bad) => setGoodEndDate(!bad)}
                               format="yyyy/MM/dd hh:mm a"
                             />
@@ -351,6 +358,7 @@ const CreateFileForm = ({
                                 date.start < CurrentDate ||
                                 date.end < CurrentDate ||
                                 date.start > date.end ||
+                                TotalGradee === 0 ||
                                 num?.filter((x) => x.choose == false).length >=
                                   num.length))
                           }
@@ -377,8 +385,9 @@ const CreateFileForm = ({
                                   date.start < CurrentDate ||
                                   date.end < CurrentDate ||
                                   date.start > date.end ||
-                                  num?.filter((x) => x.choose == false).length >=
-                                    num.length))
+                                  TotalGradee === 0 ||
+                                  num?.filter((x) => x.choose == false)
+                                    .length >= num.length))
                                 ? classes.createText
                                 : classes.boldText
                             }

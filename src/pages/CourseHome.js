@@ -48,7 +48,7 @@ const CourseHome = ({ history, match, classes }) => {
         },
       });
       setDoctorName(data[0].doctorNameEN);
-      localStorage.setItem("DoctorName", data[0].doctorNameEN );
+      localStorage.setItem("DoctorName", data[0].doctorNameEN);
     } catch (err) {
       console.error(err);
     }
@@ -58,20 +58,29 @@ const CourseHome = ({ history, match, classes }) => {
   const StudentNumberGroup = async () => {
     const Url = `/DoctorManagestudentsGroups/StudentGroupNumber`;
     const { data } = await post(Url, null, {
-      params: { subjectID: match.params.courseId, StudentID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID  },
+      params: {
+        subjectID: match.params.courseId,
+        StudentID: JSON.parse(localStorage.getItem("StuInformation"))[0]
+          .StudentID,
+      },
     });
 
-    setStudentGroup(data);
+    if (data == 0) {
+      setStudentGroup("_");
+    } else {
+      setStudentGroup(data);
+    }
   };
   //--------------------------------------------------------------------------------------------------------
   useEffect(() => {
-    DoctorInformation();
-    if (accountType == 1)
-    {
+    if (accountType == 1) {
       StudentNumberGroup();
     }
-  }, []);
+  }, [match.params.courseId]);
 
+  useEffect(() => {
+    DoctorInformation();
+  }, [match.params.courseId]);
 
   return (
     <React.Fragment>
@@ -169,7 +178,7 @@ const CourseHome = ({ history, match, classes }) => {
                   style={{
                     borderRadius: "32px",
                     border: "3px solid black",
-                    width:"270px",
+                    width: "270px",
                     webkitBoxShadow: "10px 10px 10px #9E9E9E",
                     mozBoxShadow: "10px 10px 10px #9E9E9E",
                     boxShadow: "10px 10px 10px #9E9E9E",
@@ -181,9 +190,9 @@ const CourseHome = ({ history, match, classes }) => {
                   <Grid item>
                     <img src="https://img.icons8.com/ios-filled/50/000000/group-foreground-selected.png" />
                   </Grid>
-                  <Grid item style={{marginTop:"-50px" , marginLeft:"70px"}}>
+                  <Grid item style={{ marginTop: "-50px", marginLeft: "70px" }}>
                     <Typography
-                      style={{ color: "black" , fontSize:"30px" }}
+                      style={{ color: "black", fontSize: "30px" }}
                     >{`Group : ${StudentGroup}`}</Typography>
                   </Grid>
                 </Grid>

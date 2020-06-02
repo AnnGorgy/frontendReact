@@ -47,7 +47,7 @@ import ProfileImage from "../NavBarImages/ProfileImage.png";
 // instructor@chpsis.cis.asu.edu.eg //
 // osama20161702013@cis.asu.edu.eg //
 
-function Navigator({ classes, history, match }) {
+function Navigator({ classes, history }) {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [openCourses, setOpenCourse] = useState(false);
   const [subjects, setSubjects] = useState([]);

@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const ViewMCQ = ({ classes, questionData }) => {
+const ViewMCQ = ({ classes, questionData, Index }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [MCQData, setMCQData] = useState([]);
   //--------------------------------------------------------------------------------------------------------
@@ -31,9 +31,33 @@ const ViewMCQ = ({ classes, questionData }) => {
           width: "1257px",
         }}
       >
-        <Grid item style={{ marginLeft: "110px" }}>
-          <Typography style={{ fontSize: "35px" }}>{MCQData.title}</Typography>
+        <Grid
+          item
+          style={{
+            marginLeft: "20px",
+            minWidth: "300px",
+            maxWidth: "1130px",
+          }}
+        >
+          <Typography
+            style={{
+              fontSize: "35px",
+              fontWeight: "bold",
+            }}
+          >
+            {` Q ${Index + 1} )`}
+          </Typography>
+          <Typography
+            style={{
+              fontSize: "35px",
+              textDecorationLine: "underline",
+              marginLeft: "80px",
+            }}
+          >
+            {` ${MCQData.title}`}
+          </Typography>
         </Grid>
+
         <Grid item>
           <TextField
             defaultValue={MCQData.QuestionAsString}
@@ -190,7 +214,7 @@ const styles = () => ({
   boldText: {
     fontWeight: "600",
   },
-  check:{
+  check: {
     "&$checked": {
       color: "#0e7c61",
     },

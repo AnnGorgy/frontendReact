@@ -24,36 +24,24 @@ const GradeDialog = ({
   grade,
   match,
   history,
+  viewGrade,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [StudentGradeee, setStudentGradeee] = useState();
   const [CheckAppear, setCheckAppear] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
-  const ShowGrade = async () => {
-    const Url = `/Student_Answers/AppearGrade`;
-    const { data } = await post(Url, null, {
-      params: { QuizID: match.params.quizId, SubjectID: match.params.courseId },
-    });
-
-    setCheckAppear(data);
-  };
-
   useEffect(() => {
     setStudentGradeee(grade);
   }, [grade]);
 
   useEffect(() => {
-    ShowGrade();
-  }, []);
-
+    setCheckAppear(viewGrade);
+  }, [viewGrade]);
 
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth
@@ -87,36 +75,33 @@ const GradeDialog = ({
                 >
                   {CheckAppear === true && (
                     <Grid
-                      item
+                      container
+                      justify="center"
                       style={{
                         padding: "10px 10px 10px 10px",
                         borderRadius: "16px",
                         border: "3px solid black",
-                        width: "180px",
-                        height: "75px",
-                        marginLeft: "190px",
+                        width: "auto",
+                        height: "auto",
                         marginTop: "20px",
                       }}
                     >
-                      <Grid item style={{ marginLeft: "10px" }}>
+                      <Grid item>
                         <img
                           src={Grades}
                           alt="GradeImage"
                           style={{ width: "50px", height: "50px" }}
                         />
                       </Grid>
-                      <Grid
-                        item
-                        style={{ marginTop: "-50px", marginLeft: "60px" }}
-                      >
+                      <Grid item>
                         <Typography
                           style={{
                             marginLeft: "30px",
                             fontFamily: "Monaco",
-                            fontSize: "25px",
+                            fontSize: "30px",
                           }}
                         >
-                          {StudentGradeee}
+                          {`Your Grade : ${StudentGradeee}`}
                         </Typography>
                       </Grid>
                     </Grid>

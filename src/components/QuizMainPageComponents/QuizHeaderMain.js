@@ -76,6 +76,8 @@ const QuizHeaderMain = ({
       // post syntax (url, body, options)
       const { data } = await post(url, num, {
         params: {
+          SubjectName: match.params.coursename,
+          DrName: localStorage.getItem("DoctorName"),
           name: Name,
           description: Description,
           startDate: date.start,
@@ -84,7 +86,7 @@ const QuizHeaderMain = ({
           shuffleQuestion: questionType,
           subID: match.params.courseId,
           numberOfQuestions: numberOfQues,
-          appearGrade :GradeAppear,
+          appearGrade: GradeAppear,
         },
       });
       setReloadQuizzes(true);

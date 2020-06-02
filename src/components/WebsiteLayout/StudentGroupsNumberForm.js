@@ -20,6 +20,7 @@ const StudentGroupsNumberForm = ({
   classes,
   CourseIDD,
   CourseNamee,
+  match
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [NumberOfGroupsforStudents, setNumberOfGroupsforStudents] = useState(0);
@@ -40,8 +41,12 @@ const StudentGroupsNumberForm = ({
       const { data } = await post(StudentsUrl, null, {
         params: {
           subjectId: CourseIDD,
-          semesterId: 1,
-          currentYear: "2019-2020",
+          semesterId: JSON.parse(localStorage.getItem("subjects")).find(
+            (subject) => subject.ID == match.params.courseId
+          ).SemesterID,
+          currentYear: JSON.parse(localStorage.getItem("subjects")).find(
+            (subject) => subject.ID == match.params.courseId
+          ).currentYear,
         },
       });
       const url2 = "/DoctorManagestudentsGroups/SetGroupForStudents";

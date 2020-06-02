@@ -79,8 +79,9 @@ const EditTotalGradeAssignmentForm = ({
                     <TextField
                       label="Total Grade"
                       value={TotalGradee}
+                      type="number"
                       onChange={(e) => {
-                        setTotalGrade(Number(e.target.value));
+                        setTotalGrade(Number.parseInt(e.target.value));
                       }}
                       variant="outlined"
                       classes={{
@@ -89,6 +90,9 @@ const EditTotalGradeAssignmentForm = ({
                       InputProps={{
                         classes: {
                           notchedOutline: classes.notchedOutline,
+                        },
+                        inputProps: {
+                          min: 0,
                         },
                       }}
                       InputLabelProps={{

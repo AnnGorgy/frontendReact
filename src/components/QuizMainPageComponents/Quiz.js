@@ -86,6 +86,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
   const [GradeAppear, setGradeAppear] = useState(false);
   const [numberOfQues, setnumberOfQuestions] = useState(0);
   const [Duration, setDuration] = useState(0);
+  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [date, setDate] = useState({
     start: new Date(),
     end: new Date(),
@@ -215,9 +216,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         label="Number Of Questions"
                         value={numberOfQues}
                         type="number"
+                        required
                         variant="outlined"
                         onChange={(e) => {
-                          setnumberOfQuestions(Number(e.target.value));
+                          setnumberOfQuestions(Number.parseInt(e.target.value));
                         }}
                         classes={{
                           root: classes.textFieldRoot,
@@ -225,6 +227,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         InputProps={{
                           classes: {
                             notchedOutline: classes.notchedOutline,
+                          },
+                          inputProps: {
+                            min: 0,
                           },
                         }}
                         InputLabelProps={{
@@ -250,7 +255,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         type="number"
                         variant="outlined"
                         onChange={(e) => {
-                          setDuration(Number(e.target.value));
+                          setDuration(Number.parseInt(e.target.value));
                         }}
                         classes={{
                           root: classes.textFieldRoot,
@@ -258,6 +263,9 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         InputProps={{
                           classes: {
                             notchedOutline: classes.notchedOutline,
+                          },
+                          inputProps: {
+                            min: 0,
                           },
                         }}
                         InputLabelProps={{
@@ -343,9 +351,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                             onChange={(e) => {
                               setDate(e.target.value);
                             }}
-                            onChange={(date) =>
-                              setDate((prev) => ({ ...prev, start: date }))
-                            }
+                            onChange={(date) => {
+                              setDate((prev) => ({ ...prev, start: date }));
+                              setCurrentDate(new Date());
+                            }}
                             onError={(bad) => setGoodStartDate(!bad)}
                             format="yyyy/MM/dd hh:mm a"
                           />
@@ -359,9 +368,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                             autoOk
                             label="End Date"
                             value={date.end}
-                            onChange={(date) =>
-                              setDate((prev) => ({ ...prev, end: date }))
-                            }
+                            onChange={(date) => {
+                              setDate((prev) => ({ ...prev, end: date }));
+                              setCurrentDate(new Date());
+                            }}
                             onError={(bad) => setGoodEndDate(!bad)}
                             format="yyyy/MM/dd hh:mm a"
                           />
@@ -449,8 +459,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                         Name === "" ||
                         !goodStartDate ||
                         !goodEndDate ||
-                        numberOfQues === "" ||
-                        Duration === "" ||
+                        date.start < CurrentDate ||
+                        date.end < CurrentDate ||
+                        numberOfQues === 0 ||
+                        Duration === 0 ||
                         date.start > date.end ||
                         num?.filter((x) => x.choose == false).length >=
                           num.length
@@ -477,8 +489,10 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                           Name === "" ||
                           !goodStartDate ||
                           !goodEndDate ||
-                          numberOfQues === "" ||
-                          Duration === "" ||
+                          date.start < CurrentDate ||
+                          date.end < CurrentDate ||
+                          numberOfQues === 0 ||
+                          Duration === 0 ||
                           date.start > date.end ||
                           num?.filter((x) => x.choose == false).length >=
                             num.length

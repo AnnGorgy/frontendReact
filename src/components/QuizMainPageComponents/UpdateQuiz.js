@@ -107,6 +107,7 @@ const UpdateQuiz = ({
   const [NumberOfGroups, setNumberOfGroups] = useState([]);
   const [GradeAppear, setGradeAppear] = useState(false);
   const [ChangedDuration, setChangedDuration] = useState(0);
+  const [CurrentDate, setCurrentDate] = useState(new Date());
   const [ChangednumberOfQues, setChangednumberOfQuestions] = useState(0);
   //----------------------------------------------------------------------------------------------------------
 
@@ -141,11 +142,8 @@ const UpdateQuiz = ({
     setQuestionType(CurrentchangeQuestionsOrder);
   }, [CurrentchangeQuestionsOrder]);
 
-  
-
   useEffect(() => {
-    if (appearGrade)
-    {
+    if (appearGrade) {
       setGradeAppear(appearGrade);
     }
   }, [appearGrade]);
@@ -159,15 +157,13 @@ const UpdateQuiz = ({
   }, [CurrentName]);
 
   useEffect(() => {
-    if(numQuestions)
-    {
+    if (numQuestions) {
       setChangednumberOfQuestions(numQuestions);
     }
   }, [numQuestions]);
 
   useEffect(() => {
-    if (descr)
-    {
+    if (descr) {
       setChangedDescription(descr);
     }
   }, [descr]);
@@ -259,7 +255,9 @@ const UpdateQuiz = ({
                         required
                         value={ChangednumberOfQues}
                         onChange={(e) => {
-                          setChangednumberOfQuestions(Number(e.target.value));
+                          setChangednumberOfQuestions(
+                            Number.parseInt(e.target.value)
+                          );
                         }}
                         type="number"
                         placeholder="Min"
@@ -270,6 +268,9 @@ const UpdateQuiz = ({
                         InputProps={{
                           classes: {
                             notchedOutline: classes.notchedOutline,
+                          },
+                          inputProps: {
+                            min: 0,
                           },
                         }}
                         InputLabelProps={{
@@ -294,7 +295,7 @@ const UpdateQuiz = ({
                         required
                         value={ChangedDuration}
                         onChange={(e) => {
-                          setChangedDuration(Number(e.target.value));
+                          setChangedDuration(Number.parseInt(e.target.value));
                         }}
                         type="number"
                         placeholder="Min"
@@ -305,6 +306,9 @@ const UpdateQuiz = ({
                         InputProps={{
                           classes: {
                             notchedOutline: classes.notchedOutline,
+                          },
+                          inputProps: {
+                            min: 0,
                           },
                         }}
                         InputLabelProps={{
@@ -388,12 +392,13 @@ const UpdateQuiz = ({
                             label="Start Date"
                             inputVariant="standard"
                             value={ChangedDate.start}
-                            onChange={(ChangedDate) =>
+                            onChange={(ChangedDate) => {
                               setChangedDate((prev) => ({
                                 ...prev,
                                 start: ChangedDate,
-                              }))
-                            }
+                              }));
+                              setCurrentDate(new Date());
+                            }}
                             onError={(bad) => setGoodStartDate(!bad)}
                             format="yyyy/MM/dd hh:mm a"
                           />
@@ -407,12 +412,13 @@ const UpdateQuiz = ({
                             autoOk
                             label="End Date"
                             value={ChangedDate.end}
-                            onChange={(ChangedDate) =>
+                            onChange={(ChangedDate) => {
                               setChangedDate((prev) => ({
                                 ...prev,
                                 end: ChangedDate,
-                              }))
-                            }
+                              }));
+                              setCurrentDate(new Date());
+                            }}
                             onError={(bad) => setGoodEndDate(!bad)}
                             format="yyyy/MM/dd hh:mm a"
                           />
@@ -500,14 +506,15 @@ const UpdateQuiz = ({
                           className={classes.createButton}
                           disabled={
                             ChangedName === "" ||
-                            ChangedName == CurrentName ||
+                            ChangednumberOfQues === 0 ||
+                            ChangedDuration === 0 ||
                             !goodStartDate ||
                             !goodEndDate ||
-                            ChangedDate.start >
-                              ChangedDate.end /* ||
-                            (ChangedDate.start === ChangedDate.end &&
-                              ChangedTimePicker.start.getTime() >=
-                                ChangedTimePicker.end.getTime()) */
+                            ChangedDate.start < CurrentDate ||
+                            ChangedDate.end < CurrentDate ||
+                            ChangedDate.start > ChangedDate.end ||
+                            NumberOfGroups?.filter((x) => x.choose == false)
+                              .length >= NumberOfGroups.length
                           }
                           onClick={() => {
                             onSubmit({
@@ -518,7 +525,7 @@ const UpdateQuiz = ({
                               questionType,
                               ChangednumberOfQues,
                               GradeAppear,
-                              NumberOfGroups
+                              NumberOfGroups,
                             });
                           }}
                         >
@@ -526,14 +533,15 @@ const UpdateQuiz = ({
                             variant="h6"
                             className={
                               ChangedName === "" ||
-                              ChangedName == CurrentName ||
+                              ChangednumberOfQues === 0 ||
+                              ChangedDuration === 0 ||
                               !goodStartDate ||
                               !goodEndDate ||
-                              ChangedDate.start >
-                                ChangedDate.end /* ||
-                              (ChangedDate.start === ChangedDate.end &&
-                                ChangedTimePicker.start.getTime() >=
-                                  ChangedTimePicker.end.getTime()) */
+                              ChangedDate.start < CurrentDate ||
+                              ChangedDate.end < CurrentDate ||
+                              ChangedDate.start > ChangedDate.end ||
+                              NumberOfGroups?.filter((x) => x.choose == false)
+                                .length >= NumberOfGroups.length
                                 ? classes.createText
                                 : classes.boldText
                             }

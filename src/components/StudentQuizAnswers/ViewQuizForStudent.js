@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 const ViewQuizForStudent = ({ match, history }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
-    studentId:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
+    studentId: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID,
     questionId,
     answers: [],
     matchAnswers: [{ matchQuestionsid: 0, anwser: "" }],
@@ -112,6 +112,7 @@ const ViewQuizForStudent = ({ match, history }) => {
   const [timer, setTimer] = useState(100000);
   const [gradeDialogIsOpen, setGradeDialogIsOpen] = useState(false);
   const [studentGrade, setStudentGrade] = useState();
+  const [CheckAppear, setCheckAppear] = useState(false);
   //--------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
@@ -130,7 +131,7 @@ const ViewQuizForStudent = ({ match, history }) => {
       params: {
         quizID: match.params.quizId,
         sub_Id: match.params.courseId,
-        StudID:  JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID ,
+        StudID: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID,
       },
     });
     setQuizInfo({ ...data[0] });
@@ -147,6 +148,15 @@ const ViewQuizForStudent = ({ match, history }) => {
     setStudentGrade(data);
   };
   //---------------------------------------------------------------------------------------------------------
+  const ShowGrade = async () => {
+    const Url = `/Student_Answers/AppearGrade`;
+    const { data } = await post(Url, null, {
+      params: { QuizID: match.params.quizId, SubjectID: match.params.courseId },
+    });
+
+    setCheckAppear(data);
+  };
+  //--------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -176,11 +186,15 @@ const ViewQuizForStudent = ({ match, history }) => {
   }, [localStorage.getItem("QuizID")]);
 
   useEffect(() => {
+    ShowGrade();
+  }, []);
+
+  useEffect(() => {
     QuizInforrmation();
   }, [match.params.quizId, match.params.courseId]);
 
   useEffect(() => {
-    console.log("QuizData" , quizData);
+    console.log("QuizData", quizData);
     const questionAnswerss = quizData?.map((question) => ({
       ...getDefaultAnswerBody(
         question.questionId,
@@ -205,8 +219,8 @@ const ViewQuizForStudent = ({ match, history }) => {
         isOpened={gradeDialogIsOpen}
         onClose={() => setGradeDialogIsOpen(false)}
         grade={studentGrade}
+        viewGrade={CheckAppear}
       />
-      {console.log(questionAnswers)}
       <Grid item style={{ marginTop: "20px" }}>
         {quizInfo && (
           <Grid
@@ -235,7 +249,10 @@ const ViewQuizForStudent = ({ match, history }) => {
                   </Grid>
                   <Grid item style={{ marginTop: "-50px" }}>
                     <Typography style={{ fontSize: "25px" }}>
-                      {JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR}
+                      {
+                        JSON.parse(localStorage.getItem("StuInformation"))[0]
+                          .NameAR
+                      }
                     </Typography>
                   </Grid>
                 </Grid>
@@ -350,77 +367,50 @@ const ViewQuizForStudent = ({ match, history }) => {
               width: "1240px",
             }}
           >
-            <Grid
-              item
-              style={{
-                padding: "10px 10px 10px 10px",
-                borderRadius: "16px",
-                border: "3px solid black",
-                width: "220px",
-                height: "75px",
-                marginLeft: "109px",
-                marginTop: "15px",
-              }}
-            >
-              <Grid item style={{ marginLeft: "10px" }}>
-                <img
-                  src={QuestionNumber}
-                  alt="QuestionNumberImage"
-                  style={{ width: "50px", height: "50px" }}
-                />
-              </Grid>
-              <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
-                <Typography
-                  style={{
-                    marginLeft: "30px",
-                    fontFamily: "Monaco",
-                    fontSize: "25px",
-                  }}
-                >
-                  {`Question ${index + 1}`}
-                </Typography>
-              </Grid>
-            </Grid>
-
             <Grid item>
-              <Grid item style={{ marginTop: "10px" }}>
-                <Grid
-                  item
-                  style={{
-                    padding: "10px 10px 10px 10px",
-                    borderRadius: "16px",
-                    border: "3px solid black",
-                    width: "180px",
-                    height: "75px",
-                    marginLeft: "880px",
-                  }}
-                >
-                  <Grid item style={{ marginLeft: "10px" }}>
-                    <img
-                      src={Grades}
-                      alt="GradeImage"
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </Grid>
-                  <Grid item style={{ marginTop: "-50px", marginLeft: "40px" }}>
-                    <Typography
-                      style={{
-                        marginLeft: "30px",
-                        fontFamily: "Monaco",
-                        fontSize: "25px",
-                      }}
-                    >
-                      {`Mark: ${question.grade}`}
-                    </Typography>
+              {CheckAppear === true && (
+                <Grid item style={{ marginTop: "20px", marginLeft: "700px" }}>
+                  <Grid
+                    container
+                    justify="center"
+                    style={{
+                      padding: "10px 10px 10px 10px",
+                      borderRadius: "16px",
+                      border: "3px solid black",
+                      width: "auto",
+                      height: "auto",
+                      marginRight: "100px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid item>
+                      <img
+                        src={Grades}
+                        alt="GradeImage"
+                        style={{ width: "50px", height: "50px" }}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        style={{
+                          marginLeft: "10px",
+                          fontFamily: "Monaco",
+                          fontSize: "25px",
+                        }}
+                      >
+                        {`Mark: ${question.grade}`}
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item style={{ marginTop: "-100px" }}>
+              )}
+              <Grid item style={{ marginTop: "-20px" }}>
                 {question.Type == "mcq" && (
                   <AnswersMCQ
                     questionData={question}
                     setQuestions={setAnswers}
                     allQuestionAnswers={questionAnswers}
+                    Index={index}
                   />
                 )}
                 {question.Type == "tf" && (
@@ -428,6 +418,7 @@ const ViewQuizForStudent = ({ match, history }) => {
                     questionData={question}
                     setQuestions={setAnswers}
                     allQuestionAnswers={questionAnswers}
+                    Index={index}
                   />
                 )}
                 {question.Type == "match" && (
@@ -435,6 +426,7 @@ const ViewQuizForStudent = ({ match, history }) => {
                     questionData={question}
                     setQuestions={setAnswers}
                     allQuestionAnswers={questionAnswers}
+                    Index={index}
                   />
                 )}
               </Grid>
@@ -460,7 +452,7 @@ const ViewQuizForStudent = ({ match, history }) => {
               onClick={() => {
                 AddQuizAnswer();
                 setGradeDialogIsOpen(true);
-                console.log("final" ,questionAnswers);
+                console.log("final", questionAnswers);
               }}
               className={classes.addButton}
               size="small"

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, withStyles, Grid, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const ViewMatchStudentAnswer = ({ classes, questionData }) => {
+const ViewMatchStudentAnswer = ({ classes, questionData, Index }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [MatchData, setMatchData] = useState([]);
   //--------------------------------------------------------------------------------------------------------
@@ -24,18 +24,39 @@ const ViewMatchStudentAnswer = ({ classes, questionData }) => {
           width: "1257px",
         }}
       >
-        <Grid item style={{ marginLeft: "110px" }}>
-          <Typography style={{ fontSize: "35px" }}>
-            {MatchData.title}
+        <Grid
+          item
+          style={{
+            marginLeft: "20px",
+            minWidth: "300px",
+            maxWidth: "1130px",
+          }}
+        >
+          <Typography
+            style={{
+              fontSize: "35px",
+              fontWeight: "bold",
+            }}
+          >
+            {` Q ${Index + 1} )`}
+          </Typography>
+          <Typography
+            style={{
+              fontSize: "35px",
+              textDecorationLine: "underline",
+              marginLeft: "80px",
+            }}
+          >
+            {` ${MatchData.title}`}
           </Typography>
         </Grid>
 
         <Grid
           item
           style={{
-            width:"700px",
-            height:"auto" ,
-            marginLeft:"50px"
+            width: "700px",
+            height: "auto",
+            marginLeft: "50px",
           }}
         >
           {questionData.words.map((question, index) => {
@@ -44,7 +65,7 @@ const ViewMatchStudentAnswer = ({ classes, questionData }) => {
                 item
                 style={
                   index % 2
-                    ? { marginLeft: "450px", marginTop: "-45px", }
+                    ? { marginLeft: "450px", marginTop: "-45px" }
                     : { marginTop: "5px", marginLeft: "150px" }
                 }
               >
