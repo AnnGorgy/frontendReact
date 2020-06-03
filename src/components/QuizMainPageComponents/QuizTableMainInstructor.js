@@ -57,12 +57,8 @@ const QuizTableMainInstructor = ({
   };
 
   // --------------------------------------------------------------------------------------------------------
-  
-  const EditTotalGradeQuiz = async (
-    Quiz,
-    GradeAppear,
-    callback
-  ) => {
+
+  const EditTotalGradeQuiz = async (Quiz, GradeAppear, callback) => {
     const url = "/DoctorMakeQuiz/UpdateShowGrade";
     await post(url, NumberOfGroups, {
       params: {
@@ -82,7 +78,6 @@ const QuizTableMainInstructor = ({
     ChangedDescription,
     ChangedDuration,
     questionType,
-    ChangednumberOfQues,
     GradeAppear,
     NumberOfGroups,
     callback
@@ -98,10 +93,10 @@ const QuizTableMainInstructor = ({
         duration: ChangedDuration,
         shuffleQuestion: questionType,
         subID: match.params.courseId,
-        numberOfQuestions: ChangednumberOfQues,
         appearGrade: GradeAppear,
         SubjectName: match.params.coursename,
         DrName: localStorage.getItem("DoctorName"),
+        subID: match.params.courseId,
       },
     });
     setReloadQuiz(true);
@@ -126,7 +121,7 @@ const QuizTableMainInstructor = ({
   const [coulmnToQuery, setCoulmnToQuery] = useState("Name");
   const [GroupsForQuizIsOpen, setGroupsForQuizIsOpen] = useState(false);
   const [NumberOfGroups, setNumberOfGroups] = useState([]);
-  const [EditTotalGradeIsOpen , setEditTotalGradeIsOpen] = useState(false);
+  const [EditTotalGradeIsOpen, setEditTotalGradeIsOpen] = useState(false);
   //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -185,7 +180,6 @@ const QuizTableMainInstructor = ({
         durat={currentEditedQuiz?.duration}
         CurrentchangeQuestionsOrder={currentEditedQuiz?.shuffleQuestion}
         descr={currentEditedQuiz?.description}
-        numQuestions={currentEditedQuiz?.numberOfQuestions}
         quizId={currentEditedQuiz?.id}
         appearGrade={currentEditedQuiz?.AppearGrade}
         isOpened={UpdateQuizIsOpen}
@@ -196,7 +190,6 @@ const QuizTableMainInstructor = ({
           ChangedDescription,
           ChangedDuration,
           questionType,
-          ChangednumberOfQues,
           GradeAppear,
           NumberOfGroups,
         }) =>
@@ -207,7 +200,6 @@ const QuizTableMainInstructor = ({
             ChangedDescription,
             ChangedDuration,
             questionType,
-            ChangednumberOfQues,
             GradeAppear,
             NumberOfGroups,
             () => setUpdateQuizIsOpen(false)
@@ -260,22 +252,35 @@ const QuizTableMainInstructor = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell className={classes.tableHeader}>Quiz Name</TableCell>
+              <TableCell className={classes.tableHeader} width="15%">
+                Quiz Name
+              </TableCell>
               <TableCell
-                /* style={{minWidth:30, maxWidth:30}} */
                 className={classes.tableHeader}
                 align="center"
-                width="5%"
+                width="30%"
               >
                 Description
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="center"
+                width="15%"
+              >
                 Start Date
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="center"
+                width="15%"
+              >
                 End Date
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="right"
+                width="25%"
+              >
                 {}
               </TableCell>
             </TableRow>
@@ -291,7 +296,7 @@ const QuizTableMainInstructor = ({
                 }
               >
                 {/* Quiz Name cell */}
-                <TableCell>
+                <TableCell width="15%">
                   <Grid container spacing={1}>
                     <Grid item>
                       <img
@@ -308,17 +313,18 @@ const QuizTableMainInstructor = ({
                   </Grid>
                 </TableCell>
                 {/* Description cell */}
-                <TableCell
-                  align="center"
-                  width="5%" /* style={{minWidth:30, maxWidth:30}} */
-                >
+                <TableCell align="center" width="30%">
                   {quiz.description}
                 </TableCell>
                 {/* Start Date cell */}
-                <TableCell align="right">{quiz.Start}</TableCell>
+                <TableCell align="center" width="15%">
+                  {quiz.Start}
+                </TableCell>
                 {/* End Date cell */}
-                <TableCell align="right">{quiz.End}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center" width="15%">
+                  {quiz.End}
+                </TableCell>
+                <TableCell align="right" width="25%">
                   <Tooltip title="Model Answer" placement="bottom">
                     <Button size="small">
                       <QuestionAnswerIcon
@@ -356,7 +362,7 @@ const QuizTableMainInstructor = ({
                         />
                       </Button>
                     </Tooltip>
-                  ):(
+                  ) : (
                     <Tooltip title="Update" placement="bottom">
                       <Button size="small">
                         <EditIcon

@@ -120,6 +120,7 @@ const MaterialTable = ({
         TotalGrade: TotalGradee,
         SubjectName: match.params.coursename,
         DrName: localStorage.getItem("DoctorName"),
+        subjectID: match.params.courseId,
       },
     });
     setMessageTitle("It has been Edited successfully");
@@ -369,24 +370,32 @@ const MaterialTable = ({
           <TableHead>
             <TableRow>
               {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
-              <TableCell width="20%" className={classes.tableHeader}>
+              <TableCell className={classes.tableHeader} width="15%">
                 File Name
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="right"
+                width="10%"
+              >
                 Size
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="center"
+                width="10%"
+              >
                 Type
               </TableCell>
               <TableCell
-                width="30%"
                 className={classes.tableHeader}
                 align="center"
+                width="35%"
               >
                 Description
               </TableCell>
               <TableCell
-                width="22%"
+                width="30%"
                 className={classes.tableHeader}
                 align="right"
               >
@@ -435,7 +444,7 @@ const MaterialTable = ({
               [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
               */}
                 <TableCell
-                  width="20%"
+                  width="15%"
                   component="a"
                   scope="row"
                   href={material.type === "URL" ? material.url : null}
@@ -453,7 +462,7 @@ const MaterialTable = ({
               [1] set the parent_Id folder to all the materials and assignmnets = the material ID
               [2] Size cell (by KB) 
               */}
-                <TableCell align="right">
+                <TableCell align="right" width="10%">
                   {material.type === "Folder"
                     ? `${
                         allMaterials.filter(
@@ -467,10 +476,12 @@ const MaterialTable = ({
                 </TableCell>
 
                 {/* Material Type Cell */}
-                <TableCell align="right">{material.type}</TableCell>
+                <TableCell align="center" width="10%">
+                  {material.type}
+                </TableCell>
 
                 {/* Material Description Cell */}
-                <TableCell width="30%" align="center">
+                <TableCell align="center" width="35%">
                   {material.description}
                 </TableCell>
 
@@ -499,7 +510,7 @@ const MaterialTable = ({
                   </TableCell>
                 ) : (
                   /* Start & End Date Icon */
-                  <TableCell align="right" width="22%">
+                  <TableCell align="right" width="30%">
                     {material.type === "Assignment" && (
                       <Tooltip
                         title={

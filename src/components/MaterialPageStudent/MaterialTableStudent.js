@@ -93,7 +93,11 @@ const MaterialTableStudent = ({
          ) 
         */
     const { data } = await post(assignmentsUrl, null, {
-      params: { sub_Id: match.params.courseId , StudentID : JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID },
+      params: {
+        sub_Id: match.params.courseId,
+        StudentID: JSON.parse(localStorage.getItem("StuInformation"))[0]
+          .StudentID,
+      },
     });
     setAllAssignments(
       data.map((assignment) => ({ ...assignment, type: "Assignment" }))
@@ -186,24 +190,32 @@ const MaterialTableStudent = ({
         <TableHead>
           <TableRow>
             {/* The Header Of the Table That contains [1] Name ... [2] Size ... [3] Type ... [4] Description ... [5] {} ... */}
-            <TableCell width="20%" className={classes.tableHeader}>
+            <TableCell width="15%" className={classes.tableHeader}>
               File Name
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell
+              className={classes.tableHeader}
+              align="center"
+              width="10%"
+            >
               Size
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell
+              className={classes.tableHeader}
+              align="center"
+              width="10%"
+            >
               Type
             </TableCell>
             <TableCell
               className={classes.tableHeader}
-              width="30%"
-              align="right"
+              width="40%"
+              align="center"
             >
               Description
             </TableCell>
             <TableCell
-              width="22%"
+              width="20%"
               className={classes.tableHeader}
               align="right"
             >
@@ -251,7 +263,7 @@ const MaterialTableStudent = ({
               [3] href to any page with a fixed start http:// or https:// that will open any page as a URL (for URL type only)
               */}
               <TableCell
-                width="20%"
+                width="15%"
                 component="a"
                 scope="row"
                 href={material.type === "URL" ? material.url : null}
@@ -269,7 +281,7 @@ const MaterialTableStudent = ({
               [1] set the parent_Id folder to all the materials and assignmnets = the material ID
               [2] Size cell (by KB) 
               */}
-              <TableCell align="right">
+              <TableCell align="center" width="10%">
                 {material.type === "Folder"
                   ? `${
                       allMaterials.filter(
@@ -283,10 +295,12 @@ const MaterialTableStudent = ({
               </TableCell>
 
               {/* Material Type Cell */}
-              <TableCell align="right">{material.type}</TableCell>
+              <TableCell align="center" width="10%">
+                {material.type}
+              </TableCell>
 
               {/* Material Description Cell */}
-              <TableCell align="right" width="30%">
+              <TableCell align="center" width="40%">
                 {material.description}
               </TableCell>
 
@@ -301,10 +315,12 @@ const MaterialTableStudent = ({
 
               {material.type === "Folder" ? (
                 /* We Don't Add Any Action To Folder Type */
-                <TableCell align="right">{}</TableCell>
+                <TableCell align="right" width="20%">
+                  {}
+                </TableCell>
               ) : (
                 /* Start & End Date Icon */
-                <TableCell align="right" width="22%">
+                <TableCell align="right" width="20%">
                   {material.type === "Assignment" && (
                     <Tooltip
                       title={
@@ -400,9 +416,9 @@ const styles = () => ({
   },
   tableHeader: {
     backgroundColor: "#0c6170",
-    fontSize:"17px",
+    fontSize: "17px",
     color: "white",
-    fontweight:"bold",
+    fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
   },
 });

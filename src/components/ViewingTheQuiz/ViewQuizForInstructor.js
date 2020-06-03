@@ -14,12 +14,22 @@ import ViewMatch from "./ViewMatch";
 
 //------------------------------------------------ Images ---------------------------------------------------
 import Grades from "./Grades.png";
-import QuestionNumber from "../QuizCreationComponents/QuestionNumber.png";
 import CourseImage from "../QuizImages/CourseImage.png";
 import DateImage from "../QuizImages/DateImage.png";
 import QuizImage from "../QuizCreationComponents/QuizImage.png";
 
 //-----------------------------------------------------------------------------------------------------------
+
+function shuffle(arr) {
+  var i, j, temp;
+  for (i = arr?.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,6 +84,14 @@ const ViewQuizForInstructor = ({ match }) => {
   useEffect(() => {
     QuizInforrmation();
   }, [match.params.quizId, match.params.courseId]);
+
+  useEffect(() => {
+    QuizInforrmation();
+  }, [match.params.quizId, match.params.courseId]);
+
+  useEffect(() => {
+    setAllQuizzes(shuffle(allQuizzes));
+  }, [allQuizzes]);
 
   return (
     <React.Fragment>

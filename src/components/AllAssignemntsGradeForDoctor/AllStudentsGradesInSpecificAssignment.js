@@ -182,13 +182,13 @@ const AllStudentsGradesInSpecificAssignment = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell className={classes.tableHeader}>
+              <TableCell className={classes.tableHeader} width="30%">
                 Student Name
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell className={classes.tableHeader} align="center" width="20%">
                 SeatNo
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell className={classes.tableHeader} align="center" width="10%">
                 Grade
               </TableCell>
               <TableCell className={classes.tableHeader} align="right">
@@ -207,7 +207,7 @@ const AllStudentsGradesInSpecificAssignment = ({
                 }
               >
                 {/* Student Name cell */}
-                <TableCell>
+                <TableCell width="30%">
                   <Grid container spacing={1}>
                     <Grid item>
                       <AssignmentIcon />
@@ -218,9 +218,9 @@ const AllStudentsGradesInSpecificAssignment = ({
                   </Grid>
                 </TableCell>
                 {/* SeatNo cell */}
-                <TableCell align="right">{assignemnt.SeatNo}</TableCell>
+                <TableCell align="center" width="20%">{assignemnt.SeatNo}</TableCell>
                 {/* grade cell */}
-                <TableCell align="right">{`${assignemnt.Grade} / ${assignemnt.AssignmentTotalGrade}`}</TableCell>
+                <TableCell align="center" width="10%">{`${assignemnt.Grade} / ${assignemnt.AssignmentTotalGrade}`}</TableCell>
                 <TableCell align="right">
                   <Tooltip title="Edit Student Grade" placement="bottom">
                     <Button size="small">

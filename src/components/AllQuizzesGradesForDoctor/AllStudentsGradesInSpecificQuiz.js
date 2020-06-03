@@ -3,7 +3,6 @@ import { post } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
 
-
 //------------------------------------------------- Icons ------------------------------------------------
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -32,7 +31,7 @@ import {
   Typography,
   Tooltip,
   withStyles,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 //--------------------------------------  Message Function  -------------------------------------------------
@@ -49,8 +48,8 @@ const AllStudentsGradesInSpecificQuiz = ({
   reloadQuizzes,
   setReloadQuizzes,
 }) => {
-   // ---------------------- we use it To Show The Message after every operation --------------------------
-   const handleClick = () => {
+  // ---------------------- we use it To Show The Message after every operation --------------------------
+  const handleClick = () => {
     setOpen(true);
   };
   // -------------------------------------------------------------------------------------------------------
@@ -154,7 +153,7 @@ const AllStudentsGradesInSpecificQuiz = ({
         className={classes.message}
       >
         <Alert onClose={handleClose} severity="success">
-        {`${currentEditedQuiz?.studentName} Quiz grade has been changed`}
+          {`${currentEditedQuiz?.studentName} Quiz grade has been changed`}
         </Alert>
       </Snackbar>
       <EditGradesStudentForm
@@ -180,13 +179,21 @@ const AllStudentsGradesInSpecificQuiz = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell className={classes.tableHeader}>
+              <TableCell className={classes.tableHeader} width="30%">
                 Student Name
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="center"
+                width="20%"
+              >
                 SeatNo
               </TableCell>
-              <TableCell className={classes.tableHeader} align="right">
+              <TableCell
+                className={classes.tableHeader}
+                align="center"
+                width="10%"
+              >
                 Grade
               </TableCell>
               <TableCell className={classes.tableHeader} align="right">
@@ -205,7 +212,7 @@ const AllStudentsGradesInSpecificQuiz = ({
                 }
               >
                 {/* Student Name cell */}
-                <TableCell>
+                <TableCell width="30%">
                   <Grid container spacing={1}>
                     <Grid item>
                       <img
@@ -224,9 +231,14 @@ const AllStudentsGradesInSpecificQuiz = ({
                   </Grid>
                 </TableCell>
                 {/* SeatNo cell */}
-                <TableCell align="right">{quiz.studentSeatNo}</TableCell>
+                <TableCell align="center" width="20%">
+                  {quiz.studentSeatNo}
+                </TableCell>
                 {/* grade cell */}
-                <TableCell align="right">{`${quiz.grade} / ${quiz.QuizTotalGrade}`}</TableCell>
+                <TableCell
+                  align="center"
+                  width="10%"
+                >{`${quiz.grade} / ${quiz.QuizTotalGrade}`}</TableCell>
                 <TableCell align="right">
                   <Tooltip title="Edit Student Grade" placement="bottom">
                     <Button size="small">
@@ -250,7 +262,10 @@ const AllStudentsGradesInSpecificQuiz = ({
                           );
                           localStorage.setItem("StudentName", quiz.studentName);
                           localStorage.setItem("StudentID", quiz.studentID);
-                          localStorage.setItem("StudentSeatNumber", quiz.studentSeatNo);
+                          localStorage.setItem(
+                            "StudentSeatNumber",
+                            quiz.studentSeatNo
+                          );
                         }}
                       />
                     </Button>

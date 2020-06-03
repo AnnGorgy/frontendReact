@@ -98,13 +98,13 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
             <TableCell className={classes.tableHeader}>
               Assignment Name
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               Grade
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               Start Date
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               End Date
             </TableCell>
             <TableCell className={classes.tableHeader} align="right">
@@ -134,11 +134,11 @@ const StudentAssignmentsTable = ({ classes, match, history, setCrumbs }) => {
                 </Grid>
               </TableCell>
               {/* grade assignmet cell */}
-              <TableCell align="right">{`${grades.AssignmentGrade} / ${grades.TotalGrade}`}</TableCell>
+              <TableCell align="center">{`${grades.AssignmentGrade} / ${grades.TotalGrade}`}</TableCell>
               {/* Assignment Start Date cell */}
-              <TableCell align="right">{grades.AssignmentstartDate}</TableCell>
+              <TableCell align="center">{grades.AssignmentstartDate}</TableCell>
               {/* Assignmet End Date cell */}
-              <TableCell align="right">{grades.AssignmentendDate}</TableCell>
+              <TableCell align="center">{grades.AssignmentendDate}</TableCell>
               <TableCell align="right">
                 {grades.hasAnswer == true && (
                   <Tooltip title="Download" placement="bottom">

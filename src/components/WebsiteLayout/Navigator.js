@@ -8,23 +8,17 @@ import { post, get } from "axios";
 //------------------------------------------------- Icons ------------------------------------------------
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
-  Toolbar,
   Collapse,
-  IconButton,
   ListItemIcon,
   ListItemText,
   ListItem,
   List,
   Drawer,
   withStyles,
-  Divider,
   useTheme,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------

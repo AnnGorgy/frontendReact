@@ -124,24 +124,24 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
         >
           <TableHead>
             <TableRow>
-              <TableCell width="25%" className={classes.tableHeader}>
+              <TableCell width="20%" className={classes.tableHeader}>
                 File Name
               </TableCell>
               <TableCell
-                width="25%"
+                width="30%"
                 align="center"
                 className={classes.tableHeader}
               >
                 Student Name
               </TableCell>
-              <TableCell align="center" className={classes.tableHeader}>
+              <TableCell
+                align="center"
+                className={classes.tableHeader}
+                width="25%"
+              >
                 SeatNo
               </TableCell>
-              <TableCell
-                width="5%"
-                className={classes.tableHeader}
-                align="right"
-              >
+              <TableCell className={classes.tableHeader} align="right">
                 {}
               </TableCell>
             </TableRow>
@@ -184,7 +184,7 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
                 }}
               >
                 {/* File Name Cell  */}
-                <TableCell width="25%">
+                <TableCell width="20%">
                   <Grid container spacing={1}>
                     <Grid item>{getIcon(assignment)}</Grid>
                     <Grid item>
@@ -194,27 +194,31 @@ const DoctorgetAssignmentsStudentsTable = ({ match, setCrumbs, classes }) => {
                 </TableCell>
                 {/* Student Name Cell "File" */}
                 {assignment.type === "File" && (
-                  <TableCell align="center" width="25%">
+                  <TableCell align="center" width="30%">
                     {assignment.studentName}
                   </TableCell>
                 )}
                 {/* SeatNo Cell "File" */}
                 {assignment.type === "File" && (
-                  <TableCell align="center">{assignment.SeatNo}</TableCell>
+                  <TableCell align="center" width="25%">
+                    {assignment.SeatNo}
+                  </TableCell>
                 )}
                 {/* Student Name Cell "Folder" */}
                 {assignment.type === "Folder" && (
-                  <TableCell align="center" width="25%">
+                  <TableCell align="center" width="30%">
                     __
                   </TableCell>
                 )}
                 {/* SeatNo Cell "Folder" */}
                 {assignment.type === "Folder" && (
-                  <TableCell align="center">__</TableCell>
+                  <TableCell align="center" width="25%">
+                    __
+                  </TableCell>
                 )}
 
                 {assignment.type === "File" ? (
-                  <TableCell align="right" width="5%">
+                  <TableCell align="right">
                     <Tooltip title="Download" placement="bottom">
                       <Button size="small">
                         <DownloadIcon

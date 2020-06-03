@@ -96,13 +96,13 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableHeader}>Quiz Name</TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               Grade
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               Start Date
             </TableCell>
-            <TableCell className={classes.tableHeader} align="right">
+            <TableCell className={classes.tableHeader} align="center">
               EndDate
             </TableCell>
             <TableCell className={classes.tableHeader} align="right">
@@ -138,11 +138,11 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
                 </Grid>
               </TableCell>
               {/* grade cell */}
-              <TableCell align="right">{`${grades.QuizGrade} / ${grades.TotalGrade }`}</TableCell>
+              <TableCell align="center">{`${grades.QuizGrade} / ${grades.TotalGrade }`}</TableCell>
               {/* Quiz Start Date cell */}
-              <TableCell align="right">{grades.QuizstartDate}</TableCell>
+              <TableCell align="center">{grades.QuizstartDate}</TableCell>
               {/* Quiz End Date cell */}
-              <TableCell align="right">{grades.QuizendDate}</TableCell>
+              <TableCell align="center">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
                  {grades.Finish == true && ( 
                   <Tooltip title="your Answer" placement="bottom">

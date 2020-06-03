@@ -132,32 +132,32 @@ const QuizTableMainStudent = ({
           <TableHead>
             {/* The Header Of the Table That contains [1] Name ... [2] ID ... [3] E-Mail  */}
             <TableRow>
-              <TableCell width="10%" className={classes.tableHeader}>
+              <TableCell width="15%" className={classes.tableHeader}>
                 Quiz Name
               </TableCell>
               <TableCell
-                width="25%"
+                width="30%"
                 className={classes.tableHeader}
                 align="center"
               >
                 Description
               </TableCell>
               <TableCell
-                width="20%"
+                width="15%"
                 className={classes.tableHeader}
-                align="right"
+                align="center"
               >
                 Start Date
               </TableCell>
               <TableCell
-                width="20%"
+                width="15%"
                 className={classes.tableHeader}
-                align="right"
+                align="center"
               >
                 End Date
               </TableCell>
               <TableCell
-                width="20%"
+                width="25%"
                 className={classes.tableHeader}
                 align="right"
               >
@@ -176,7 +176,7 @@ const QuizTableMainStudent = ({
                 }
               >
                 {/* Quiz Name cell */}
-                <TableCell width="10%">
+                <TableCell width="15%">
                   <Grid container spacing={1}>
                     <Grid item>
                       <img
@@ -193,18 +193,18 @@ const QuizTableMainStudent = ({
                   </Grid>
                 </TableCell>
                 {/* Description cell */}
-                <TableCell align="center" width="25%">
+                <TableCell align="center" width="30%">
                   {quiz.description}
                 </TableCell>
                 {/* Start Date cell */}
-                <TableCell align="right" width="20%">
+                <TableCell align="center" width="15%">
                   {quiz.Start}
                 </TableCell>
                 {/* End Date cell */}
-                <TableCell align="right" width="20%">
+                <TableCell align="center" width="15%">
                   {quiz.End}
                 </TableCell>
-                <TableCell align="right" width="20%">
+                <TableCell align="right" width="25%">
                   {quiz.hasGrade == null && quiz.isAvailable == true && (
                     <Tooltip title="Enter The Quiz" placement="bottom">
                       <Button size="small">

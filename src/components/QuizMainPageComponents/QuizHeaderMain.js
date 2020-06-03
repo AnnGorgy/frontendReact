@@ -87,6 +87,7 @@ const QuizHeaderMain = ({
           subID: match.params.courseId,
           numberOfQuestions: numberOfQues,
           appearGrade: GradeAppear,
+          subID: match.params.courseId,
         },
       });
       setReloadQuizzes(true);

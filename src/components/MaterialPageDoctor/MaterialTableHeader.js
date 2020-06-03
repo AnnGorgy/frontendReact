@@ -160,18 +160,19 @@ const MaterialTableHeader = ({
           File_Name: name,
           start: date.start,
           end: date.end,
-          TotalGrade:TotalGradee,
+          TotalGrade: TotalGradee,
         },
       });
       const url2 = "/assignment/AddAssignmentGroups";
       await post(url2, num, {
         params: {
-          SubjectName : match.params.coursename,
-          DrName : localStorage.getItem("DoctorName") ,
-          File_Name:name,
+          SubjectName: match.params.coursename,
+          DrName: localStorage.getItem("DoctorName"),
+          File_Name: name,
           start: date.start,
           end: date.end,
           AssignmentID: data,
+          subjectID: match.params.courseId,
         },
       });
       setReloadMaterials(true);
@@ -325,7 +326,7 @@ const MaterialTableHeader = ({
         AvilableGroups={Num}
         isOpened={assignmentIsOpen}
         onClose={() => setAssignmentIsOpen(false)}
-        onSubmit={({ blobs, name, description, date, num ,TotalGradee }) =>
+        onSubmit={({ blobs, name, description, date, num, TotalGradee }) =>
           uploadFileAssignment({
             file: blobs,
             name,

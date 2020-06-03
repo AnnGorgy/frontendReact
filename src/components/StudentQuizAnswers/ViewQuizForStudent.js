@@ -194,7 +194,6 @@ const ViewQuizForStudent = ({ match, history }) => {
   }, [match.params.quizId, match.params.courseId]);
 
   useEffect(() => {
-    console.log("QuizData", quizData);
     const questionAnswerss = quizData?.map((question) => ({
       ...getDefaultAnswerBody(
         question.questionId,

@@ -82,7 +82,6 @@ const UpdateQuiz = ({
   CurrentName,
   sDate,
   eDate,
-  numQuestions,
   isOpened,
   durat,
   descr,
@@ -108,7 +107,6 @@ const UpdateQuiz = ({
   const [GradeAppear, setGradeAppear] = useState(false);
   const [ChangedDuration, setChangedDuration] = useState(0);
   const [CurrentDate, setCurrentDate] = useState(new Date());
-  const [ChangednumberOfQues, setChangednumberOfQuestions] = useState(0);
   //----------------------------------------------------------------------------------------------------------
 
   const GetNumberOfGroups = async () => {
@@ -155,12 +153,6 @@ const UpdateQuiz = ({
   useEffect(() => {
     setChangedName(CurrentName);
   }, [CurrentName]);
-
-  useEffect(() => {
-    if (numQuestions) {
-      setChangednumberOfQuestions(numQuestions);
-    }
-  }, [numQuestions]);
 
   useEffect(() => {
     if (descr) {
@@ -225,6 +217,7 @@ const UpdateQuiz = ({
                       <TextField
                         label="Quiz Name"
                         rows={1}
+                        fullWidth
                         value={ChangedName}
                         onChange={(e) => {
                           setChangedName(e.target.value);
@@ -244,45 +237,7 @@ const UpdateQuiz = ({
                             root: classes.label,
                           },
                         }}
-                        style={{ width: "280px" }}
-                      />
-                    </Grid>
-                    <Grid item>
-                      {/* Dialog Number Of Questions */}
-                      <TextField
-                        label="Number Of Questions"
-                        rows={1}
-                        required
-                        value={ChangednumberOfQues}
-                        onChange={(e) => {
-                          setChangednumberOfQuestions(
-                            Number.parseInt(e.target.value)
-                          );
-                        }}
-                        type="number"
-                        placeholder="Min"
-                        variant="outlined"
-                        classes={{
-                          root: classes.textFieldRoot,
-                        }}
-                        InputProps={{
-                          classes: {
-                            notchedOutline: classes.notchedOutline,
-                          },
-                          inputProps: {
-                            min: 0,
-                          },
-                        }}
-                        InputLabelProps={{
-                          classes: {
-                            root: classes.label,
-                          },
-                        }}
-                        style={{
-                          width: "230px",
-                          marginTop: "-59px",
-                          marginLeft: "320px",
-                        }}
+                        
                       />
                     </Grid>
                   </Grid>
@@ -290,7 +245,7 @@ const UpdateQuiz = ({
                     <Grid item>
                       {/* Dialog Duration */}
                       <TextField
-                        label="Duration"
+                        label="Duration (Min)"
                         rows={1}
                         required
                         value={ChangedDuration}
@@ -485,7 +440,6 @@ const UpdateQuiz = ({
                             onClose();
                             setQuestionType(CurrentchangeQuestionsOrder);
                             setChangedName(CurrentName);
-                            setChangednumberOfQuestions(numQuestions);
                             setChangedDuration(durat);
                             setChangedDate({ start: sDate, end: eDate });
                             setGradeAppear(appearGrade);
@@ -506,7 +460,6 @@ const UpdateQuiz = ({
                           className={classes.createButton}
                           disabled={
                             ChangedName === "" ||
-                            ChangednumberOfQues === 0 ||
                             ChangedDuration === 0 ||
                             !goodStartDate ||
                             !goodEndDate ||
@@ -523,7 +476,6 @@ const UpdateQuiz = ({
                               ChangedDescription,
                               ChangedDuration,
                               questionType,
-                              ChangednumberOfQues,
                               GradeAppear,
                               NumberOfGroups,
                             });
@@ -533,7 +485,6 @@ const UpdateQuiz = ({
                             variant="h6"
                             className={
                               ChangedName === "" ||
-                              ChangednumberOfQues === 0 ||
                               ChangedDuration === 0 ||
                               !goodStartDate ||
                               !goodEndDate ||

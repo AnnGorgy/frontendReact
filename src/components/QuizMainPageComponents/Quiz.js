@@ -249,7 +249,7 @@ const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
                     <Grid item>
                       {/* Dialog Duration */}
                       <TextField
-                        label="Duration"
+                        label="Duration (Min)"
                         required
                         value={Duration}
                         type="number"
