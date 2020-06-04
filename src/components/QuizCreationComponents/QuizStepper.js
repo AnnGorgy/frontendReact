@@ -184,6 +184,7 @@ const QuizStepper = ({ match, classes, history }) => {
               id="standard-basic"
               label="Enter Question Grade"
               type="number"
+              required
               value={questions[questionIndex - 1].grade}
               onChange={(e) => {
                 const newGrade = Number(e.target.value);
@@ -201,7 +202,12 @@ const QuizStepper = ({ match, classes, history }) => {
                 marginBottom: "20px",
                 width: "230px",
               }}
-              inputProps={{ style: { color: "black" } }}
+              InputProps={{
+                style: { color: "black" },
+                inputProps: {
+                  min: 0,
+                },
+              }}
               InputLabelProps={{ style: { color: "black", fontSize: "22px" } }}
             />
           </Grid>
@@ -232,7 +238,7 @@ const QuizStepper = ({ match, classes, history }) => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item style={{overflowY:"auto" , overflowX:"hidden"}}>
+        <Grid item style={{ overflowY: "auto", overflowX: "hidden" }}>
           <Grid item>
             {questions[questionIndex - 1].type === "mcq" && (
               <MCQ

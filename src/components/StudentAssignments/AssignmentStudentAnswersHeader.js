@@ -10,6 +10,7 @@ import {
   Button,
   Typography,
   Snackbar,
+  SnackbarContent
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -33,7 +34,8 @@ const AssignmentStudentAnswersHeader = ({
   AssignmentID,
   classes,
   setReloadAssignments,
-   match , history
+  match,
+  history,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [OpenAssignment, setOpenAssignment] = useState(false);
@@ -57,7 +59,7 @@ const AssignmentStudentAnswersHeader = ({
   // -------------------------------------------------------------------------------------------------------
 
   // -------------------------------------------- API Calls ------------------------------------------------
-  const UploadAssignment = async ({ AssName, file, callback  }) => {
+  const UploadAssignment = async ({ AssName, file, callback }) => {
     const url = "/Student_Answers/upload_Assignment_Answer";
     const formData = new FormData();
     formData.append("Document", file);
@@ -68,7 +70,8 @@ const AssignmentStudentAnswersHeader = ({
           Parent_ID: crumbs[crumbs.length - 1].id,
           Assignment_Id: AssignmentID + 1,
           Name: AssName,
-          Student_ID: JSON.parse(localStorage.getItem("StuInformation"))[0].StudentID,
+          Student_ID: JSON.parse(localStorage.getItem("StuInformation"))[0]
+            .StudentID,
         },
       });
       setReloadAssignments(true);
@@ -89,14 +92,13 @@ const AssignmentStudentAnswersHeader = ({
         autoHideDuration={2000}
         className={classes.message}
       >
-        <Alert
-          icon={false}
-          onClose={handleClose}
-          color="primary"
-          variant="outlined"
-        >
-          {MessageTitle}
-        </Alert>
+        <SnackbarContent
+          style={{
+            backgroundColor: "black",
+            fontWeight:"bold"
+          }}
+          message={MessageTitle}
+        />
       </Snackbar>
       <UploadAssignmentAnswers
         isOpened={OpenAssignment}
@@ -122,9 +124,10 @@ const AssignmentStudentAnswersHeader = ({
             <React.Fragment />
           )}
         </Grid>
-        {crumbs.length==1&&(
-          history.push(`/course/${match.params.courseId}/${match.params.coursename}`)
-        )}
+        {crumbs.length == 1 &&
+          history.push(
+            `/course/${match.params.courseId}/${match.params.coursename}`
+          )}
         {crumbs.length != 2 && (
           <Grid item>
             <Button
@@ -176,7 +179,7 @@ const styles = (theme) => ({
   },
   addIcon: {
     marginTop: "8px",
-    color:"white"
+    color: "white",
   },
   buttonText: {
     color: "white",
@@ -190,7 +193,6 @@ const styles = (theme) => ({
     paddingLeft: "20px",
     marginTop: "8px",
     flexWrap: "nowrap",
-    
   },
   noWrap: {
     flexWrap: "nowrap",

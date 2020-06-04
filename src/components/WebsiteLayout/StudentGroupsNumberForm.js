@@ -20,7 +20,7 @@ const StudentGroupsNumberForm = ({
   classes,
   CourseIDD,
   CourseNamee,
-  match
+  match,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [NumberOfGroupsforStudents, setNumberOfGroupsforStudents] = useState(0);
@@ -42,10 +42,10 @@ const StudentGroupsNumberForm = ({
         params: {
           subjectId: CourseIDD,
           semesterId: JSON.parse(localStorage.getItem("subjects")).find(
-            (subject) => subject.ID == match.params.courseId
+            (subject) => subject.ID == CourseIDD
           ).SemesterID,
           currentYear: JSON.parse(localStorage.getItem("subjects")).find(
-            (subject) => subject.ID == match.params.courseId
+            (subject) => subject.ID == CourseIDD
           ).currentYear,
         },
       });
@@ -56,11 +56,13 @@ const StudentGroupsNumberForm = ({
           NumberOfGroups: NumberOfGroupsforStudents,
         },
       });
+      console.log(CourseIDD, NumberOfGroupsforStudents);
     } catch (err) {
       console.error(err);
     }
   };
   // -------------------------------------------------------------------------------------------------------
+
   return (
     isOpened && (
       <Dialog
@@ -105,6 +107,7 @@ const StudentGroupsNumberForm = ({
                       label="Number Of Groups"
                       value={NumberOfGroupsforStudents}
                       type="number"
+                      required
                       variant="outlined"
                       onChange={(e) => {
                         setNumberOfGroupsforStudents(Number(e.target.value));
@@ -115,6 +118,9 @@ const StudentGroupsNumberForm = ({
                       InputProps={{
                         classes: {
                           notchedOutline: classes.notchedOutline,
+                        },
+                        inputProps: {
+                          min: 0,
                         },
                       }}
                       InputLabelProps={{

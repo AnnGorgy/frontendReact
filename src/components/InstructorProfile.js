@@ -68,9 +68,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth
@@ -108,8 +105,8 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                       label="Name"
                       multiline
                       rows={1}
+                      fullWidth
                       value={ViewingName}
-                      disabled="true"
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -118,13 +115,14 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         classes: {
                           notchedOutline: classes.notchedOutline,
                         },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
                       }}
                       InputLabelProps={{
                         classes: {
                           root: classes.label,
                         },
                       }}
-                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -132,9 +130,9 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                     <TextField
                       label="Name in Arabic"
                       multiline
+                      fullWidth
                       rows={1}
                       value={ArName}
-                      disabled="true"
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -143,13 +141,14 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         classes: {
                           notchedOutline: classes.notchedOutline,
                         },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
                       }}
                       InputLabelProps={{
                         classes: {
                           root: classes.label,
                         },
                       }}
-                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -158,8 +157,8 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                       label="E-mail"
                       multiline
                       rows={1}
+                      fullWidth
                       value={LoginEmail}
-                      disabled="true"
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -168,13 +167,14 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         classes: {
                           notchedOutline: classes.notchedOutline,
                         },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
                       }}
                       InputLabelProps={{
                         classes: {
                           root: classes.label,
                         },
                       }}
-                      className={classes.TextFieldInfo}
                     />
                   </Grid>
 
@@ -183,9 +183,9 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                     <TextField
                       label="Additional E-mail"
                       multiline
+                      fullWidth
                       rows={1}
                       value={Email}
-                      disabled="true"
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -194,13 +194,14 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         classes: {
                           notchedOutline: classes.notchedOutline,
                         },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
                       }}
                       InputLabelProps={{
                         classes: {
                           root: classes.label,
                         },
                       }}
-                      className={classes.TextFieldInfo}
                     />
                   </Grid>
 
@@ -209,9 +210,9 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                     <TextField
                       label="Office Hours"
                       multiline
+                      fullWidth
                       rows={2}
                       value={OfficeHours}
-                      disabled="true"
                       variant="outlined"
                       classes={{
                         root: classes.textFieldRoot,
@@ -220,13 +221,14 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
                         classes: {
                           notchedOutline: classes.notchedOutline,
                         },
+                        readOnly: true,
+                        style: { fontSize: "23px" },
                       }}
                       InputLabelProps={{
                         classes: {
                           root: classes.label,
                         },
                       }}
-                      className={classes.TextFieldInfo}
                     />
                   </Grid>
                   <Grid item>
@@ -301,9 +303,6 @@ const styles = () => ({
   },
   createText: {
     color: "silver",
-  },
-  TextFieldInfo: {
-    width: "350px",
   },
 });
 

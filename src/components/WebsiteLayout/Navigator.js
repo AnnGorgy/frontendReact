@@ -123,6 +123,7 @@ function Navigator({ classes, history }) {
         setCourseId(courseId);
         setCourseName(coursename);
         setNumberOfGroupsIsOpen(true);
+        console.log(courseId,coursename);
       }
     } else {
       history.push(`/course/${courseId}/${coursename}`);

@@ -56,6 +56,8 @@ const InstructorProfilePage = ({ classes }) => {
   const [reloadProfile, setReloadProfile] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  const [CurrentEmail, setCurrentEmail] = useState("");
+  const [CurrentOfficeHours, setCurrentOfficeHours] = useState("");
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadProfile) {
@@ -83,6 +85,8 @@ const InstructorProfilePage = ({ classes }) => {
       if (data) {
         setEmail(data[0].email);
         setOfficeHours(data[0].office);
+        setCurrentEmail(data[0].email);
+        setCurrentOfficeHours(data[0].office);
       }
     } catch (err) {
       console.error(err);
@@ -242,8 +246,11 @@ const InstructorProfilePage = ({ classes }) => {
                       <ListItemText
                         primary="Account Type"
                         secondary={AccountTypeName}
+                        primaryTypographyProps={{
+                          style: {fontWeight:"bold" }
+                        }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px" },
+                          style: { color: "darkslategray", marginLeft: "20px" ,fontWeight:"bold" },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -252,8 +259,11 @@ const InstructorProfilePage = ({ classes }) => {
                       <ListItemText
                         primary="Name in Arabic"
                         secondary={ArName}
+                        primaryTypographyProps={{
+                          style: {fontWeight:"bold" }
+                        }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px" },
+                          style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -262,8 +272,11 @@ const InstructorProfilePage = ({ classes }) => {
                       <ListItemText
                         primary="E-mail"
                         secondary={LoginEmail}
+                        primaryTypographyProps={{
+                          style: {fontWeight:"bold" }
+                        }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px" },
+                          style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -313,7 +326,7 @@ const InstructorProfilePage = ({ classes }) => {
 
                   {/* Add E-mail  */}
                   <Tooltip title="ADD" placement="bottom">
-                    <Button>
+                    <Button disabled={Email === "" || Email == CurrentEmail}>
                       <AddCircleIcon
                         onClick={() => {
                           AddEmail();
@@ -324,7 +337,7 @@ const InstructorProfilePage = ({ classes }) => {
 
                   {/* Delete E-mail */}
                   <Tooltip title="Delete" placement="bottom">
-                    <Button disabled={!Email}>
+                    <Button disabled={Email === "" || CurrentEmail === null }>
                       <DeleteIcon
                         onClick={() => {
                           DeleteEmail();
@@ -361,7 +374,11 @@ const InstructorProfilePage = ({ classes }) => {
                   />
                   {/* Add Office Hours */}
                   <Tooltip title="ADD" placement="bottom">
-                    <Button>
+                    <Button
+                      disabled={
+                        officeHours === "" || officeHours == CurrentOfficeHours
+                      }
+                    >
                       <AddCircleIcon
                         onClick={() => {
                           AddOfficeHours();
@@ -372,7 +389,7 @@ const InstructorProfilePage = ({ classes }) => {
 
                   {/* Delete Office Hours */}
                   <Tooltip title="Delete" placement="bottom">
-                    <Button disabled={!officeHours}>
+                    <Button disabled={officeHours === "" || CurrentOfficeHours === null}>
                       <DeleteIcon
                         onClick={() => {
                           DelteOfficeHours();

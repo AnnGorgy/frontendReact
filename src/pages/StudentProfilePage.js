@@ -93,8 +93,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Name In Arabic"
                       secondary={ArName}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px" , fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -104,8 +107,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Department"
                       secondary={department}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -114,8 +120,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Account Type"
                       secondary={AccountTypeName}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -144,8 +153,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Email"
                       secondary={LoginEmail}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -155,8 +167,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Seat Number"
                       secondary={seatNo}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -165,8 +180,11 @@ const StudentProfilePage = ({ classes }) => {
                     <ListItemText
                       primary="Level"
                       secondary={level}
+                      primaryTypographyProps={{
+                        style: {fontWeight:"bold" }
+                      }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" },
+                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
                       }}
                       className={classes.HeaderInfoPosition}
                     />

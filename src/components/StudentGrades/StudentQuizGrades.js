@@ -145,7 +145,7 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
               <TableCell align="center">{grades.QuizendDate}</TableCell>
               <TableCell align="right">
                  {grades.Finish == true && ( 
-                  <Tooltip title="your Answer" placement="bottom">
+                  <Tooltip title="My Answer" placement="bottom">
                     <Button size="small">
                       <img
                         src={StudentAnswerIcon}

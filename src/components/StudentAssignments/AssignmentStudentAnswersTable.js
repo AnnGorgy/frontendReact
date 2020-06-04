@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, onConfirm, onCancel } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -300,7 +300,9 @@ const AssignmentStudentAnswersTable = ({
                       <Button size="small">
                         <DeleteIcon
                           onClick={() => {
-                            DeleteAssignemnt(assignment.id);
+                            window.confirm(
+                              "Are you sure you want to delete this item?"
+                            ) && DeleteAssignemnt(assignment.id);
                           }}
                         />
                       </Button>
