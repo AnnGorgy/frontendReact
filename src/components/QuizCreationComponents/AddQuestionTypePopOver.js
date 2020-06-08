@@ -11,9 +11,9 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Images ---------------------------------------------------
-import MatchIcon from "./MatchIcon.png";
-import MultipeChoiceIcon from "./MultipeChoiceIcon.png";
-import TrueOrFalseIcon from "./TrueOrFalseIcon.png";
+import MatchIcon from "../QuizImages/MatchIcon.png";
+import MultipeChoiceIcon from "../QuizImages/MultipeChoiceIcon.png";
+import TrueOrFalseIcon from "../QuizImages/TrueOrFalseIcon.png";
 //-----------------------------------------------------------------------------------------------------------
 
 const AddQuestionTypePopOver = ({

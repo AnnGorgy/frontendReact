@@ -3,12 +3,12 @@ import { withRouter } from "react-router-dom";
 
 
 //------------------------------------------------- Images ---------------------------------------------------
-import Quizs from "./Quizs.jpg";
-import Assignments from "./Assignments.jpg";
-import Excel from "./ExcelSheet.jpg";
-import AssignmentDoctor from "./AssignmentDoctor.png";
-import Grades from "./Grades.png";
-import materials from "./Materials.jpg";
+import Quizs from "../ButtonBasesImages/Quizs.jpg";
+import Assignments from "../ButtonBasesImages/Assignments.jpg";
+import Excel from "../ButtonBasesImages/ExcelSheet.jpg";
+import AssignmentDoctor from "../ButtonBasesImages/AssignmentDoctor.png";
+import Grades from "../QuizImages/Grades.png";
+import materials from "../ButtonBasesImages/Materials.jpg";
 //----------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------

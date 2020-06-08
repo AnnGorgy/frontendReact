@@ -19,7 +19,7 @@ import EditIcon from "@material-ui/icons/Edit";
 
 //------------------------------ Another Components Used In This Component -------------------------------
 import { BreadCrumbs } from "..";
-import EditStudentGroupForm from "./EditStudentGroupForm";
+import EditStudentGroupForm from "../AllstudentsInSubjectForms/EditStudentGroupForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------------  Message Function  -------------------------------------------------

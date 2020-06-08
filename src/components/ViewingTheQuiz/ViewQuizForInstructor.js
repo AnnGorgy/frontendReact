@@ -13,10 +13,10 @@ import ViewMatch from "./ViewMatch";
 //---------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------ Images ---------------------------------------------------
-import Grades from "./Grades.png";
+import Grades from "../QuizImages/Grades.png";
 import CourseImage from "../QuizImages/CourseImage.png";
 import DateImage from "../QuizImages/DateImage.png";
-import QuizImage from "../QuizCreationComponents/QuizImage.png";
+import QuizImage from "../QuizImages/QuizImage.png";
 
 //-----------------------------------------------------------------------------------------------------------
 

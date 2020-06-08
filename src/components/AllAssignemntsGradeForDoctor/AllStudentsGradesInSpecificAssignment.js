@@ -16,7 +16,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import EditGradesStudentForm from "../AllQuizzesGradesForDoctor/EditGradesStudentForm";
+import EditGradesStudentForm from "../AllassignmentsandquizzesForms/EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------

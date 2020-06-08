@@ -30,7 +30,7 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import EditNumberOfGroupForStudent from "./EditNumberOfGroupForStudent";
+import EditNumberOfGroupForStudent from "../AllstudentsInSubjectForms/EditNumberOfGroupForStudent";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------- Icons ---------------------------------------------

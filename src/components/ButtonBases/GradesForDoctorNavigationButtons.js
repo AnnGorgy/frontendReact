@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 //------------------------------------------------- Images ---------------------------------------------------
-import AssignmentGrades from "./AssignmentGrades.jpg";
-import QuizGrades from "./QuizGrades.png";
+import AssignmentGrades from "../ButtonBasesImages/AssignmentGrades.jpg";
+import QuizGrades from "../ButtonBasesImages/QuizGrades.png";
 //----------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------

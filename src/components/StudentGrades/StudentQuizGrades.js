@@ -13,8 +13,8 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 //--------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------- Images -----------------------------------------------------
-import QuizIcon from "../QuizMainPageComponents/QuizIcon.png";
-import StudentAnswerIcon from "./StudentAnswerIcon.png";
+import QuizIcon from "../QuizImages/QuizIcon.png";
+import StudentAnswerIcon from "../StudentGradesImages/StudentAnswerIcon.png";
 //---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------

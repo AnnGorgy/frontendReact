@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import { TableHeader, MaterialTable, SideBar } from "../components";
+import { TableHeader, MaterialTableInstructor, SideBar } from "../components";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -39,7 +39,7 @@ const MaterialsPage = () => {
             />
           </Grid>
           <Grid item>
-            <MaterialTable
+            <MaterialTableInstructor
               setCrumbs={setCrumbs}
               reloadMaterials={reloadMaterials}
               setReloadMaterials={setReloadMaterials}

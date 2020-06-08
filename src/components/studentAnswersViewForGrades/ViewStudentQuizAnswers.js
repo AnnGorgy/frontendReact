@@ -20,11 +20,11 @@ import ViewMatchStudentAnswer from "./ViewMatchStudentAnswer";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------ Images ---------------------------------------------------
-import Grades from "../ViewingTheQuiz/Grades.png";
-import QuestionNumber from "../QuizCreationComponents/QuestionNumber.png";
+import Grades from "../QuizImages/Grades.png";
+import QuestionNumber from "../QuizImages/QuestionNumber.png";
 import CourseImage from "../QuizImages/CourseImage.png";
 import DateImage from "../QuizImages/DateImage.png";
-import QuizImage from "../QuizCreationComponents/QuizImage.png";
+import QuizImage from "../QuizImages/QuizImage.png";
 import NAME from "../QuizImages/StudentName.png";
 import ID from "../QuizImages/StudentId.png";
 //-----------------------------------------------------------------------------------------------------------

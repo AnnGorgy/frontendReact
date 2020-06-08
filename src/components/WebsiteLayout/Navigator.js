@@ -24,11 +24,11 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import StudentGroupsNumberForm from "./StudentGroupsNumberForm";
+import StudentGroupsNumberForm from "../WebsiteLayoutForm/StudentGroupsNumberForm";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Images ---------------------------------------------------
-import Theimage from "./UniLogo.png";
+import Theimage from "../NavBarImages/UniLogo.png";
 import ContactUsImage from "../NavBarImages/ContactUsImage.png";
 import CoursesImage from "../NavBarImages/CoursesImage.png";
 import HomeImage from "../NavBarImages/HomeImage.png";

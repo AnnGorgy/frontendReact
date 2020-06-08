@@ -4,14 +4,14 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //------------------------------ Another Components Used In This Component -------------------------------
-import UpdateQuiz from "./UpdateQuiz";
-import QuizGroupNumberForm from "./QuizGroupNumberForm";
-import EditGradeAppearForm from "./EditGradeAppearForm";
+import UpdateQuiz from "../QuizMainPageComponentsForms/UpdateQuiz";
+import QuizGroupNumberForm from "../QuizMainPageComponentsForms/QuizGroupNumberForm";
+import EditGradeAppearForm from "../QuizMainPageComponentsForms/EditGradeAppearForm";
 import DeleteConfirmDialog from "../DeleteConfirmDialog";
 //--------------------------------------------------------------------------------------------------------
 
 //----------------------------------------- Images --------------------------------------------------------
-import QuizIcon from "./QuizIcon.png";
+import QuizIcon from "../QuizImages/QuizIcon.png";
 //-------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ------------------------------------------------

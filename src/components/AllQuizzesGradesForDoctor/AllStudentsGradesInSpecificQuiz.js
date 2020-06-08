@@ -15,11 +15,11 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import EditGradesStudentForm from "./EditGradesStudentForm";
+import EditGradesStudentForm from "../AllassignmentsandquizzesForms/EditGradesStudentForm";
 //-----------------------------------------------------------------------------------------------------------
 //-------------------------------------------- Images -----------------------------------------------------
-import QuizIcon from "../QuizMainPageComponents/QuizIcon.png";
-import StudentAnswerIcon from "../StudentGrades/StudentAnswerIcon.png";
+import QuizIcon from "../QuizImages/QuizIcon.png";
+import StudentAnswerIcon from "../StudentGradesImages/StudentAnswerIcon.png";
 //---------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------

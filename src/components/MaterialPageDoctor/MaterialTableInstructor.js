@@ -5,9 +5,9 @@ import mime from "mime-types";
 import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
-import RenameForm from "./RenameForm";
-import AssignmentGroupNumberForm from "./AssignmentGroupNumberForm";
-import EditTotalGradeAssignmentForm from "./EditTotalGradeAssignmentForm";
+import RenameForm from "../MaterialForms/RenameForm";
+import AssignmentGroupNumberForm from "../MaterialForms/AssignmentGroupNumberForm";
+import EditTotalGradeAssignmentForm from "../MaterialForms/EditTotalGradeAssignmentForm";
 import DeleteConfirmDialog from "../DeleteConfirmDialog";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ function Alert(props) {
 }
 //-----------------------------------------------------------------------------------------------------------
 
-const MaterialTable = ({
+const MaterialTableInstructor = ({
   setCrumbs,
   match,
   reloadMaterials,
@@ -746,4 +746,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(withRouter(MaterialTable));
+export default withStyles(styles)(withRouter(MaterialTableInstructor));

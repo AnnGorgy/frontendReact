@@ -16,7 +16,7 @@ import {
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import { BreadCrumbs } from "..";
-import ExportExcelSheet from "./ExportExcelSheet";
+import ExportExcelSheet from "../AllassignmentsandquizzesForms/ExportExcelSheet";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Icons ---------------------------------------------------
