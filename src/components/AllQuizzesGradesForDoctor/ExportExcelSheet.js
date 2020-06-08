@@ -14,10 +14,8 @@ import {
 const ExportExcelSheet = ({ onClose, title, isOpened, onSubmit, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [methodInExcelSheet, setMethodInExcelSheet] = useState("");
-  //----------------------------------------------------------------------------------------------------------
-
   const [TotalGradeMethods, setTotalGradeMethods] = useState([]);
-
+  //----------------------------------------------------------------------------------------------------------
   const handleTotalGradeMethod = (value, RadioTitle) => {
     {
       setTotalGradeMethods((prev) =>
@@ -30,6 +28,7 @@ const ExportExcelSheet = ({ onClose, title, isOpened, onSubmit, classes }) => {
     }
     setMethodInExcelSheet(RadioTitle);
   };
+  //----------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     setTotalGradeMethods([
@@ -55,9 +54,6 @@ const ExportExcelSheet = ({ onClose, title, isOpened, onSubmit, classes }) => {
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

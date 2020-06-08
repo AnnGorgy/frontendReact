@@ -37,10 +37,6 @@ const CreateFolderForm = ({
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          resetStates();
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

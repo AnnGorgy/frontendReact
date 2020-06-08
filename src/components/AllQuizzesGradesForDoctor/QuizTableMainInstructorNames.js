@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
-
-//------------------------------ Another Components Used In This Component -------------------------------
-
-//--------------------------------------------------------------------------------------------------------
-
+import PropTypes from "prop-types";
 //------------------------------------------------- Icons ------------------------------------------------
 import FolderIcon from "@material-ui/icons/Folder";
+import SearchIcon from "@material-ui/icons/Search";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 //--------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -23,8 +24,101 @@ import {
   Typography,
   Tooltip,
   withStyles,
+  IconButton,
+  InputBase,
+  TableFooter,
+  TablePagination,
+  makeStyles,
+  useTheme,
 } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
+
+// -------------------------------------- table pagination with it's style ----------------------------------
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
+
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onChangePage } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onChangePage(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onChangePage(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <Tooltip title="First Page" placement="bottom">
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Previous Page" placement="bottom">
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Next Page" placement="bottom">
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Last Page" placement="bottom">
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+//----------------------------------------------------------------------------------------------------------
 
 const QuizTableMainInstructorNames = ({
   classes,
@@ -32,6 +126,28 @@ const QuizTableMainInstructorNames = ({
   history,
   setCrumbs,
 }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [allQuizzes, setAllQuizzes] = useState();
+  const [displayedQuiz, setDisplayedQuiz] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("Name");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, displayedQuiz?.length - page * rowsPerPage);
+  //----------------------------------------------------------------------------------------------------------
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+  //----------------------------------------------------------------------------------------------------------
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  //----------------------------------------------------------------------------------------------------------
+
   // -------------------------------------------- API Calls ------------------------------------------------
   const listQuizzes = async () => {
     const Url = `/Doctor_Manage_student/GetQuizzesNames`;
@@ -43,11 +159,6 @@ const QuizTableMainInstructorNames = ({
 
   //----------------------------------------------------------------------------------------------------------
 
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allQuizzes, setAllQuizzes] = useState();
-  const [displayedQuiz, setDisplayedQuiz] = useState();
-  //----------------------------------------------------------------------------------------------------------
-
   useEffect(() => {
     if (allQuizzes) {
       setDisplayedQuiz([...allQuizzes]);
@@ -57,6 +168,16 @@ const QuizTableMainInstructorNames = ({
   useEffect(() => {
     listQuizzes();
   }, [match.params.courseId]);
+
+  useEffect(() => {
+    if (query) {
+      setDisplayedQuiz([
+        ...allQuizzes?.filter((x) =>
+          x[coulmnToQuery].toLowerCase()?.includes(query.toLowerCase())
+        ),
+      ]);
+    }
+  }, [query, coulmnToQuery]);
 
   useEffect(() => {
     setCrumbs([
@@ -87,6 +208,23 @@ const QuizTableMainInstructorNames = ({
   return (
     <React.Fragment>
       <TableContainer component={Paper} className={classes.tablePosition}>
+        <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
+          <Grid item>
+            <Paper component="form" className={classes.root}>
+              <InputBase
+                className={classes.input}
+                placeholder="Search With assignment folder Name"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <IconButton className={classes.iconButton} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+          </Grid>
+        </Grid>
         <Table
           style={{
             minWidth: 650,
@@ -96,13 +234,18 @@ const QuizTableMainInstructorNames = ({
           aria-label="sticky table"
         >
           <TableHead>
-            {/* The Header Of the Table That contains [1] Name ...  */}
             <TableRow>
               <TableCell className={classes.tableHeader}>Quiz Name</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {displayedQuiz?.map((quiz, index) => (
+            {(rowsPerPage > 0
+              ? displayedQuiz?.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : displayedQuiz
+            )?.map((quiz, index) => (
               <Tooltip
                 title={
                   <div style={{ fontSize: "14px" }}>
@@ -138,14 +281,43 @@ const QuizTableMainInstructorNames = ({
                 </TableRow>
               </Tooltip>
             ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, { label: "All", value: -1 }]}
+                colSpan={3}
+                count={displayedQuiz?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: { "aria-label": "rows per page" },
+                  native: true,
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+                backIconButtonProps={{
+                  "aria-label": "Previous Page",
+                }}
+                nextIconButtonProps={{
+                  "aria-label": "Next Page",
+                }}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </React.Fragment>
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   tablePosition: {
     maxHeight: "90vh",
     overflowY: "auto",
@@ -158,6 +330,19 @@ const styles = () => ({
     color: "white",
     fontweight: "bold",
     fontFamily: '"Lucida Sans Unicode","Helvetica","Arial"',
+  },
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
   },
 });
 

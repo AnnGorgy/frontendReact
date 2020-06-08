@@ -89,10 +89,6 @@ const CreateFileForm = ({
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          resetStates();
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

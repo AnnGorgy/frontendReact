@@ -8,6 +8,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import RenameForm from "./RenameForm";
 import AssignmentGroupNumberForm from "./AssignmentGroupNumberForm";
 import EditTotalGradeAssignmentForm from "./EditTotalGradeAssignmentForm";
+import DeleteConfirmDialog from "../DeleteConfirmDialog";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -196,6 +197,27 @@ const MaterialTable = ({
     setNumberOfGroups(data);
   };
   //----------------------------------------------------------------------------------------------------
+  const DeleteMaterial = async (materiall, callback) => {
+    try {
+      await get(
+        materiall.type === "Assignment"
+          ? "/assignment/delete"
+          : "/Doctor_Materials/delete",
+        {
+          params: {
+            fileId: materiall.id,
+          },
+        }
+      );
+      setMessageTitle("It has been removed successfully");
+      handleClick();
+      setReloadMaterials(true);
+      if (callback) callback();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //-----------------------------------------------------------------------------------------------------
 
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [allMaterials, setAllMaterials] = useState();
@@ -215,6 +237,8 @@ const MaterialTable = ({
     EditTotalGradeIsOpenAssignment,
     setEditTotalGradeIsOpenAssignment,
   ] = useState(false);
+  const [OpenConfermationDialog, setOpenConfermationDialog] = useState(false);
+  const [currentMaterial, setCurrentMaterial] = useState("");
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -309,8 +333,15 @@ const MaterialTable = ({
           {MessageTitle}
         </Alert>
       </Snackbar>
+      <DeleteConfirmDialog
+        isOpened={OpenConfermationDialog}
+        onClose={() => setOpenConfermationDialog(false)}
+        onConfirm={() =>
+          DeleteMaterial(currentMaterial, setOpenConfermationDialog(false))
+        }
+      />
       <RenameForm
-        title={`Edit ${currentEditedMaterial?.type}`}
+        title={`Rename ${currentEditedMaterial?.type}`}
         CurrentName={currentEditedMaterial?.Name}
         isOpened={RenameIsOpenMaterial}
         onClose={() => setRenameIsOpenMaterial(false)}
@@ -602,17 +633,8 @@ const MaterialTable = ({
                           <Button size="small">
                             <DeleteIcon
                               onClick={() => {
-                                get("/assignment/delete", {
-                                  params: { fileId: material.id },
-                                })
-                                  .then(
-                                    () => window.location.reload(),
-                                    setMessageTitle(
-                                      "It has been removed successfully"
-                                    ),
-                                    handleClick()
-                                  )
-                                  .catch((err) => console.error(err));
+                                setOpenConfermationDialog(true);
+                                setCurrentMaterial(material);
                               }}
                             />
                           </Button>
@@ -624,17 +646,8 @@ const MaterialTable = ({
                           <Button size="small">
                             <DeleteIcon
                               onClick={() => {
-                                get("/Doctor_Materials/delete", {
-                                  params: { fileId: material.id },
-                                })
-                                  .then(
-                                    () => window.location.reload(),
-                                    setMessageTitle(
-                                      "It has been removed successfully"
-                                    ),
-                                    handleClick()
-                                  )
-                                  .catch((err) => console.error(err));
+                                setOpenConfermationDialog(true);
+                                setCurrentMaterial(material);
                               }}
                             />
                           </Button>

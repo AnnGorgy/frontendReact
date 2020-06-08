@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { post, get } from "axios";
+import { post } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
 import mime from "mime-types";

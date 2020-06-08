@@ -5,6 +5,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import { SideBar } from "../components";
+import DeleteConfirmDialog from "../components/DeleteConfirmDialog";
 //-----------------------------------------------------------------------------------------------------------
 
 //--------------------------------- What was used from material ui core -------------------------------------
@@ -58,6 +59,8 @@ const InstructorProfilePage = ({ classes }) => {
   const [MessageTitle, setMessageTitle] = useState("");
   const [CurrentEmail, setCurrentEmail] = useState("");
   const [CurrentOfficeHours, setCurrentOfficeHours] = useState("");
+  const [OpenConfermationDialog, setOpenConfermationDialog] = useState(false);
+  const [AdditionalType, setAdditionalType] = useState("");
   //----------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (reloadProfile) {
@@ -111,25 +114,6 @@ const InstructorProfilePage = ({ classes }) => {
     }
   };
   //--------------------------------------------------------------------------------------------------------
-
-  const DeleteEmail = async () => {
-    const url = "/Office_Hours/Delete_email";
-    try {
-      await get(url, {
-        params: {
-          id: ID,
-        },
-      });
-      setMessageTitle("Delete Email");
-      setEmail("");
-      setReloadProfile(true);
-      handleClick();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  //--------------------------------------------------------------------------------------------------------
-
   const AddOfficeHours = async () => {
     const url = "/Office_Hours/Add_OfficeHours";
     try {
@@ -146,26 +130,33 @@ const InstructorProfilePage = ({ classes }) => {
       console.error(err);
     }
   };
-
   //--------------------------------------------------------------------------------------------------------
-
-  const DelteOfficeHours = async () => {
-    const url = "/Office_Hours/Delete_OfficeHours";
+  const DeleteProfileAdditionalInfo = async (AdditionalTypee, callback) => {
     try {
-      await get(url, {
-        params: {
-          id: ID,
-        },
-      });
-      setMessageTitle("Delete officeHours");
-      setOfficeHours("");
-      setReloadProfile(true);
+      await get(
+        AdditionalTypee === "Email"
+          ? "/Office_Hours/Delete_email"
+          : "/Office_Hours/Delete_OfficeHours",
+        {
+          params: {
+            id: ID,
+          },
+        }
+      );
+      if (AdditionalTypee === "Email") {
+        setEmail("");
+      } else {
+        setOfficeHours("");
+      }
+      setMessageTitle("It has been removed successfully");
       handleClick();
+      setReloadProfile(true);
+      if (callback) callback();
     } catch (err) {
       console.error(err);
     }
   };
-  //--------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------
 
   // ---------------------- we use it To Show The Message after every operation --------------------------
   const handleClick = () => {
@@ -199,6 +190,16 @@ const InstructorProfilePage = ({ classes }) => {
           {MessageTitle}
         </Alert>
       </Snackbar>
+      <DeleteConfirmDialog
+        isOpened={OpenConfermationDialog}
+        onClose={() => setOpenConfermationDialog(false)}
+        onConfirm={() =>
+          DeleteProfileAdditionalInfo(
+            AdditionalType,
+            setOpenConfermationDialog(false)
+          )
+        }
+      />
       <Grid container className={classes.mainPage}>
         {/* Navigation bar */}
         <Grid item xs={2}>
@@ -247,10 +248,14 @@ const InstructorProfilePage = ({ classes }) => {
                         primary="Account Type"
                         secondary={AccountTypeName}
                         primaryTypographyProps={{
-                          style: {fontWeight:"bold" }
+                          style: { fontWeight: "bold" },
                         }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px" ,fontWeight:"bold" },
+                          style: {
+                            color: "darkslategray",
+                            marginLeft: "20px",
+                            fontWeight: "bold",
+                          },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -260,10 +265,14 @@ const InstructorProfilePage = ({ classes }) => {
                         primary="Name in Arabic"
                         secondary={ArName}
                         primaryTypographyProps={{
-                          style: {fontWeight:"bold" }
+                          style: { fontWeight: "bold" },
                         }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                          style: {
+                            color: "darkslategray",
+                            marginLeft: "20px",
+                            fontWeight: "bold",
+                          },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -273,10 +282,14 @@ const InstructorProfilePage = ({ classes }) => {
                         primary="E-mail"
                         secondary={LoginEmail}
                         primaryTypographyProps={{
-                          style: {fontWeight:"bold" }
+                          style: { fontWeight: "bold" },
                         }}
                         secondaryTypographyProps={{
-                          style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                          style: {
+                            color: "darkslategray",
+                            marginLeft: "20px",
+                            fontWeight: "bold",
+                          },
                         }}
                         className={classes.HeaderInfoPosition}
                       />
@@ -337,10 +350,11 @@ const InstructorProfilePage = ({ classes }) => {
 
                   {/* Delete E-mail */}
                   <Tooltip title="Delete" placement="bottom">
-                    <Button disabled={Email === "" || CurrentEmail === null }>
+                    <Button disabled={Email === "" || CurrentEmail === null}>
                       <DeleteIcon
                         onClick={() => {
-                          DeleteEmail();
+                          setOpenConfermationDialog(true);
+                          setAdditionalType("Email");
                         }}
                       />
                     </Button>
@@ -389,10 +403,15 @@ const InstructorProfilePage = ({ classes }) => {
 
                   {/* Delete Office Hours */}
                   <Tooltip title="Delete" placement="bottom">
-                    <Button disabled={officeHours === "" || CurrentOfficeHours === null}>
+                    <Button
+                      disabled={
+                        officeHours === "" || CurrentOfficeHours === null
+                      }
+                    >
                       <DeleteIcon
                         onClick={() => {
-                          DelteOfficeHours();
+                          setOpenConfermationDialog(true);
+                          setAdditionalType("OfficeHours");
                         }}
                       />
                     </Button>

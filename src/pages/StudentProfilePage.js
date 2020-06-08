@@ -30,7 +30,8 @@ const StudentProfilePage = ({ classes }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   /* const EnName = ViewingName; */
   const EnName = JSON.parse(localStorage.getItem("StuInformation"))[0].NameAR;
-  const LoginEmail = JSON.parse(localStorage.getItem("StuInformation"))[0].Email;
+  const LoginEmail = JSON.parse(localStorage.getItem("StuInformation"))[0]
+    .Email;
   const seatNo = JSON.parse(localStorage.getItem("StuInformation"))[0].SeatNo;
   const level = JSON.parse(localStorage.getItem("StuInformation"))[0].LevelName;
   const department = JSON.parse(localStorage.getItem("StuInformation"))[0]
@@ -72,12 +73,6 @@ const StudentProfilePage = ({ classes }) => {
           </Grid>
           <Grid item>
             <Grid className={classes.SecondGrid}>
-              <Grid style={{ paddingTop: "30px", paddingLeft: "98px" }}>
-                {/* Dialog English Name */}
-                <Typography className={classes.engNameText}>
-                  {EnName}
-                </Typography>
-              </Grid>
               <Grid
                 container
                 alignItems="center"
@@ -94,10 +89,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Name In Arabic"
                       secondary={ArName}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px" , fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -108,10 +107,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Department"
                       secondary={department}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -121,10 +124,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Account Type"
                       secondary={AccountTypeName}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -154,10 +161,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Email"
                       secondary={LoginEmail}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -168,10 +179,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Seat Number"
                       secondary={seatNo}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -181,10 +196,14 @@ const StudentProfilePage = ({ classes }) => {
                       primary="Level"
                       secondary={level}
                       primaryTypographyProps={{
-                        style: {fontWeight:"bold" }
+                        style: { fontWeight: "bold" },
                       }}
                       secondaryTypographyProps={{
-                        style: { color: "darkslategray", marginLeft: "20px",fontWeight:"bold" },
+                        style: {
+                          color: "darkslategray",
+                          marginLeft: "20px",
+                          fontWeight: "bold",
+                        },
                       }}
                       className={classes.HeaderInfoPosition}
                     />
@@ -255,7 +274,7 @@ const styles = () => ({
   },
   SecondGrid: {
     align: "left",
-    height: "590px",
+    height: "500px",
     marginTop: "4px",
     borderRadius: "2px",
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
@@ -263,6 +282,7 @@ const styles = () => ({
     boxShadow: "5px 5px 5px #9E9E9E",
     marginRight: "0.6%",
     backgroundColor: "white",
+    paddingTop: "50px"
   },
   ListContainer: {
     borderRadius: "32px",

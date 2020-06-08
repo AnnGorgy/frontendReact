@@ -22,23 +22,20 @@ const UploadExcelSheet = ({ onClose, isOpened, title, onSubmit, classes }) => {
   const onDropBlobs = (blobs) => {
     setBlobs([...blobs]);
   };
-
+  //----------------------------------------------------------------------------------------------------------
   const onDeleteBlob = () => {
     setBlobs([]);
   };
-
+  //---------------------------------------------------------------------------------------------------------
   /* this function reset Dialogs when it opened "Clear all textboxs" + when we press a create button */
   const resetStates = () => {
     setBlobs([]);
   };
+  //---------------------------------------------------------------------------------------------------------
 
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          resetStates();
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

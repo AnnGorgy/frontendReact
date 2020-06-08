@@ -22,6 +22,7 @@ const UploadAssignmentAnswers = ({ onClose, isOpened, onSubmit, classes }) => {
 
   const resetStates = () => {
     setName("");
+    setBlobs([]);
   };
 
   const onDropBlobs = (blobs) => {

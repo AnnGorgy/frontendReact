@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -111,10 +111,11 @@ const AssignmentGradesHeaderMain = ({
   const CheckAssignment = async () => {
     const Url = `/Doctor_Manage_student/AppearExport`;
     const { data } = await post(Url, null, {
-      params: { subjectId: match.params.courseId , type:"Assignment" },
+      params: { subjectId: match.params.courseId, type: "Assignment" },
     });
     setCanExport(data);
   };
+  //------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     CheckAssignment();

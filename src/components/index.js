@@ -64,3 +64,4 @@ export {default as AssignmentGroupNumberForm} from "./MaterialPageDoctor/Assignm
 export {default as QuizGroupNumberForm} from "./QuizMainPageComponents/QuizGroupNumberForm";
 export {default as EditGradeAppearForm} from "./QuizMainPageComponents/EditGradeAppearForm";
 export {default as EditTotalGradeAssignmentForm} from "./MaterialPageDoctor/EditTotalGradeAssignmentForm";
+export {default as DeleteConfirmDialog} from "./DeleteConfirmDialog";

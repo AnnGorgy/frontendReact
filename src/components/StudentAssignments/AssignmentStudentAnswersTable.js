@@ -12,6 +12,10 @@ import DownloadIcon from "@material-ui/icons/GetAppSharp";
 
 //--------------------------------------------------------------------------------------------------------
 
+//------------------------------ Another Components Used In This Component -------------------------------
+import DeleteConfirmDialog from "../DeleteConfirmDialog";
+//-----------------------------------------------------------------------------------------------------------
+
 //--------------------------------- What was used from material ui core -------------------------------------
 import {
   Table,
@@ -53,6 +57,8 @@ const AssignmentStudentAnswersTable = ({
   const [assignmets, setAssignments] = useState();
   const [open, setOpen] = React.useState(false);
   const [MessageTitle, setMessageTitle] = useState("");
+  const [OpenConfermationDialog, setOpenConfermationDialog] = useState(false);
+  const [currentAssignment, setCurrentAssignment] = useState("");
   // --------------------------------------------------------------------------------------------------------
 
   // ------------------- Switch case to choose the icon that will put before every type --------------------
@@ -95,6 +101,7 @@ const AssignmentStudentAnswersTable = ({
     });
     setAllAssignmentsFolders(data);
   };
+  //-------------------------------------------------------------------------------------------------------
 
   const listAssignmentsFiles = async () => {
     const Url = `/Student_Answers/GetAssignmentAnswerFiles`;
@@ -107,13 +114,14 @@ const AssignmentStudentAnswersTable = ({
     });
     setAllAssignmentsFiles(data);
   };
+  //------------------------------------------------------------------------------------------------------
 
-  const DeleteAssignemnt = async (id) => {
+  const DeleteAssignemnt = async (assignmenttt, callback) => {
     const url = "/Student_Answers/deleteAssignmentAnswer";
     try {
       const { data } = await post(url, null, {
         params: {
-          fileId: id,
+          fileId: assignmenttt.id,
         },
       });
       if (data == "Asignment has been deleted") {
@@ -122,6 +130,7 @@ const AssignmentStudentAnswersTable = ({
         setMessageTitle(data);
         handleClick();
       }
+      if (callback) callback();
     } catch (err) {
       console.error(err);
     }
@@ -193,6 +202,13 @@ const AssignmentStudentAnswersTable = ({
           {MessageTitle}
         </Alert>
       </Snackbar>
+      <DeleteConfirmDialog
+        isOpened={OpenConfermationDialog}
+        onClose={() => setOpenConfermationDialog(false)}
+        onConfirm={() =>
+          DeleteAssignemnt(currentAssignment, setOpenConfermationDialog(false))
+        }
+      />
       <TableContainer component={Paper} className={classes.tablePosition}>
         <Table
           style={{
@@ -300,9 +316,8 @@ const AssignmentStudentAnswersTable = ({
                       <Button size="small">
                         <DeleteIcon
                           onClick={() => {
-                            window.confirm(
-                              "Are you sure you want to delete this item?"
-                            ) && DeleteAssignemnt(assignment.id);
+                            setOpenConfermationDialog(true);
+                            setCurrentAssignment(assignment);
                           }}
                         />
                       </Button>

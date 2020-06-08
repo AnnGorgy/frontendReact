@@ -1,23 +1,12 @@
-import React, { useState } from "react";
-import { post, get } from "axios";
+import React from "react";
 import { withRouter } from "react-router-dom";
 
 //--------------------------------- What was used from material ui core -------------------------------------
-import {
-  Grid,
-  withStyles,
-  Button,
-  Typography,
-  Snackbar,
-} from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component ----------------------------------
 import { BreadCrumbs } from "..";
-//-----------------------------------------------------------------------------------------------------------
-
-//------------------------------------------------- Icons ---------------------------------------------------
-import AddMaterialIcon from "@material-ui/icons/AddCircleOutlineRounded";
 //-----------------------------------------------------------------------------------------------------------
 
 const AllGradesInAspecificQuizHeader = ({
@@ -26,9 +15,6 @@ const AllGradesInAspecificQuizHeader = ({
   match,
   history,
 }) => {
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  //-----------------------------------------------------------------------------------------------------------
-
   return (
     <React.Fragment>
       <Grid
@@ -110,6 +96,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(
-  withRouter(AllGradesInAspecificQuizHeader)
-);
+export default withStyles(styles)(withRouter(AllGradesInAspecificQuizHeader));

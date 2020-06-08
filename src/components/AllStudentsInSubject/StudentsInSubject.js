@@ -41,7 +41,7 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
-//-----------------------------------------------------------------------------------------------------------
+// -------------------------------------- table pagination with it's style ----------------------------------
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
@@ -143,6 +143,21 @@ const StudentsInSubject = ({
 }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [open, setOpen] = React.useState(false);
+  const [allStudents, setAllStudents] = useState();
+  const [displayedStudents, setDisplayedStudents] = useState();
+  const [
+    EditIsOpenChangeStudentGroup,
+    setEditIsOpenChangeStudentGroup,
+  ] = useState(false);
+  const [currentEditedStudentGroup, setCurrentEditedStudentGroup] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("studentNameAR");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, displayedStudents?.length - page * rowsPerPage);
   //--------------------------------------------------------------------------------------------------------
   // ---------------------- we use it To Show The Message after every operation --------------------------
   const handleClick = () => {
@@ -193,27 +208,7 @@ const StudentsInSubject = ({
     if (callback) callback();
   };
   //--------------------------------------------------------------------------------------------------------
-
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allStudents, setAllStudents] = useState();
-  const [displayedStudents, setDisplayedStudents] = useState();
-  const [
-    EditIsOpenChangeStudentGroup,
-    setEditIsOpenChangeStudentGroup,
-  ] = useState(false);
-  const [currentEditedStudentGroup, setCurrentEditedStudentGroup] = useState();
-  const [query, setQuery] = useState("");
-  const [coulmnToQuery, setCoulmnToQuery] = useState("studentNameAR");
-  //----------------------------------------------------------------------------------------------------------
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, displayedStudents?.length - page * rowsPerPage);
-
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
