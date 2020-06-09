@@ -7,7 +7,7 @@ import Quizs from "../ButtonBasesImages/Quizs.jpg";
 import Assignments from "../ButtonBasesImages/Assignments.jpg";
 import Excel from "../ButtonBasesImages/ExcelSheet.jpg";
 import AssignmentDoctor from "../ButtonBasesImages/AssignmentDoctor.png";
-import Grades from "../QuizImages/Grades.png";
+import Grades from "../ButtonBasesImages/Grades.png";
 import materials from "../ButtonBasesImages/Materials.jpg";
 //----------------------------------------------------------------------------------------------------
 
