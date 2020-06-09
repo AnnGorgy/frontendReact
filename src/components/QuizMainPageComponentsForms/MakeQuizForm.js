@@ -75,7 +75,7 @@ const QuestionShuffleSwitch = withStyles((theme) => ({
   );
 });
 
-const Quiz = ({ onClose, isOpened, onSubmit, classes, match }) => {
+const MakeQuizForm = ({ onClose, isOpened, onSubmit, classes, match }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [reloadProfile, setReloadProfile] = useState(true);
   const [Name, setName] = useState("");
@@ -569,4 +569,4 @@ const styles = (theme) => ({
   checked: {},
 });
 
-export default withStyles(styles)(withRouter(Quiz));
+export default withStyles(styles)(withRouter(MakeQuizForm));

@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 //------------------------------ Another Components Used In This Component ----------------------------------
 import {
   SideBar,
-  GradesForDoctorNavigationButtons,
+  GradesNavigationButtons,
   GradesBreadCrumbsHeader,
 } from "../components";
 //-----------------------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ const AssignmentQuizGradesForDoctor = ({ match, history }) => {
                 marginTop: "50px",
               }}
             >
-              <GradesForDoctorNavigationButtons />
+              <GradesNavigationButtons />
             </Grid>
           </Grid>
         </Grid>

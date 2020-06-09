@@ -6,7 +6,7 @@ import { Grid, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component -------------------------------
-import { BreadCrumbs } from "../";
+import { BreadCrumbs } from "..";
 //-----------------------------------------------------------------------------------------------------------
 
 const DoctorAssignmentsStudensHeader = ({ crumbs, classes, match ,history }) => {

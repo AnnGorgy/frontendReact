@@ -10,7 +10,7 @@ import QuizGrades from "../ButtonBasesImages/QuizGrades.png";
 import { Typography, ButtonBase, withStyles } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const GradesForDoctorNavigationButtons = ({ history, match, classes }) => {
+const GradesNavigationButtons = ({ history, match, classes }) => {
   // ---------------------------- variables with it's states that we use it in this Page -------------------
   const [accountType, setaccountType] = useState(
     JSON.parse(localStorage.getItem("Information")).AccountType
@@ -161,4 +161,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(withRouter(GradesForDoctorNavigationButtons));
+export default withStyles(styles)(withRouter(GradesNavigationButtons));

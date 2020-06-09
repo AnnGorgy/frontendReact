@@ -14,7 +14,7 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component -------------------------------
-import Quiz from "../QuizMainPageComponentsForms/Quiz";
+import MakeQuizForm from "../QuizMainPageComponentsForms/MakeQuizForm";
 import { BreadCrumbs } from "..";
 //-----------------------------------------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ const QuizHeaderMain = ({
           {MessageTitle} has been uploaded
         </Alert>
       </Snackbar>
-      <Quiz
+      <MakeQuizForm
         isOpened={OpenQuiz}
         onClose={() => setOpenQuiz(false)}
         onSubmit={({
