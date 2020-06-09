@@ -33,7 +33,7 @@ export { default as GradeDialog } from "./StudentQuizAnswersForm/GradeDialog";
 export { default as AssignmentStudentAnswersTable } from "./StudentAssignments/AssignmentStudentAnswersTable";
 export { default as UploadExcelSheet } from "./AllassignmentsandquizzesForms/UploadExcelSheet";
 export { default as AssignmentStudentAnswersHeader } from "./StudentAssignments/AssignmentStudentAnswersHeader";
-export { default as UploadAssignmentAnswers } from "./StudentAssignments/UploadAssignmentAnswers";
+export { default as UploadAssignmentAnswers } from "./StudentAssignmentsForm/UploadAssignmentAnswers";
 export { default as StudentAssignmentsTable } from "./StudentGrades/StudentAssignmentsTable";
 export { default as StudentQuizGrades } from "./StudentGrades/StudentQuizGrades";
 export { default as DoctorgetAssignmentsStudentsTable } from "./StudentAssignmentAsnwersForDoctor/DoctorgetAssignmentsStudentsTable";

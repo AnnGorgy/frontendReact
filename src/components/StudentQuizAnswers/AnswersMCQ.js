@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {

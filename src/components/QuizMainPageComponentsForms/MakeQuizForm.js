@@ -147,10 +147,6 @@ const MakeQuizForm = ({ onClose, isOpened, onSubmit, classes, match }) => {
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-          resetStates();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

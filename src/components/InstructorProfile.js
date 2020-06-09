@@ -48,7 +48,6 @@ const DoctorProfilePage = ({ onClose, isOpened, classes, match }) => {
       if (data2.length != 0) {
         setEmail(data2[0].email);
         setOfficeHours(data2[0].office);
-        console.log("ahmed");
       }
       else{
         setEmail("");

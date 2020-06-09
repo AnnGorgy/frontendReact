@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
     flexGrow: 1,
-    //marginTop:"100px",
   },
   header: {
     display: "flex",
@@ -46,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
     mozBoxShadow: "5px 5px 5px #9E9E9E",
     boxShadow: "5px 5px 5px #9E9E9E",
-    //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
   },

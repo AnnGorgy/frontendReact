@@ -125,6 +125,18 @@ TablePaginationActions.propTypes = {
 //----------------------------------------------------------------------------------------------------------
 
 const StudentAssignmentsTable = ({ classes, match, setCrumbs }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [allAssignments, setAllAssignments] = useState();
+  const [displayedGrades, setDisplayedGrades] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("AssignmentName");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, displayedGrades?.length - page * rowsPerPage);
+  //----------------------------------------------------------------------------------------------------------
   // -------------------------------------------- API Calls ------------------------------------------------
   const listAssignments = async () => {
     const Url = `/Student_Answers/GetAssingmentsGrades`;
@@ -138,19 +150,6 @@ const StudentAssignmentsTable = ({ classes, match, setCrumbs }) => {
     setAllAssignments(data);
   };
   //--------------------------------------------------------------------------------------------------------
-
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allAssignments, setAllAssignments] = useState();
-  const [displayedGrades, setDisplayedGrades] = useState();
-  const [query, setQuery] = useState("");
-  const [coulmnToQuery, setCoulmnToQuery] = useState("AssignmentName");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, displayedGrades?.length - page * rowsPerPage);
-  //----------------------------------------------------------------------------------------------------------
   const handleChangePage = (newPage) => {
     setPage(newPage);
   };
@@ -208,23 +207,23 @@ const StudentAssignmentsTable = ({ classes, match, setCrumbs }) => {
 
   return (
     <TableContainer component={Paper} className={classes.tablePosition}>
-        <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
-          <Grid item>
-            <Paper component="form" className={classes.root}>
-              <InputBase
-                className={classes.input}
-                placeholder="Search With assignment folder Name"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                }}
-              />
-              <IconButton className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
+      <Grid item style={{ backgroundColor: "#0c6170", padding: "20px" }}>
+        <Grid item>
+          <Paper component="form" className={classes.root}>
+            <InputBase
+              className={classes.input}
+              placeholder="Search With assignment folder Name"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+            />
+            <IconButton className={classes.iconButton} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
         </Grid>
+      </Grid>
       <Table
         style={{
           minWidth: "650px",
@@ -254,12 +253,12 @@ const StudentAssignmentsTable = ({ classes, match, setCrumbs }) => {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-              ? displayedGrades?.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : displayedGrades
-            )?.map((grades, index) => (
+            ? displayedGrades?.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : displayedGrades
+          )?.map((grades, index) => (
             <TableRow
               key={index}
               style={
@@ -326,36 +325,36 @@ const StudentAssignmentsTable = ({ classes, match, setCrumbs }) => {
               </TableCell>
             </TableRow>
           ))}
-           {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
         </TableBody>
         <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, { label: "All", value: -1 }]}
-                colSpan={3}
-                count={displayedGrades?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { "aria-label": "rows per page" },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-                backIconButtonProps={{
-                  "aria-label": "Previous Page",
-                }}
-                nextIconButtonProps={{
-                  "aria-label": "Next Page",
-                }}
-              />
-            </TableRow>
-          </TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, { label: "All", value: -1 }]}
+              colSpan={3}
+              count={displayedGrades?.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: { "aria-label": "rows per page" },
+                native: true,
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+              backIconButtonProps={{
+                "aria-label": "Previous Page",
+              }}
+              nextIconButtonProps={{
+                "aria-label": "Next Page",
+              }}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

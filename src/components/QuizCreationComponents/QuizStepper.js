@@ -141,7 +141,6 @@ const QuizStepper = ({ match, classes, history }) => {
         setCreateButtonReference={setCreateButtonReference}
         onClick={handlePopOverClick}
       />
-      {console.log(questions)}
       <Grid item>
         <Grid
           item

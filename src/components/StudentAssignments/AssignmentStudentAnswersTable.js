@@ -1,4 +1,4 @@
-import React, { useState, useEffect, onConfirm, onCancel } from "react";
+import React, { useState, useEffect } from "react";
 import { post, get } from "axios";
 import { withRouter } from "react-router-dom";
 import MuiAlert from "@material-ui/lab/Alert";

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { post } from "axios";
 import { withRouter } from "react-router-dom";
 //--------------------------------- What was used from material ui core -------------------------------------
-import { Grid, withStyles, Typography, Divider } from "@material-ui/core";
+import { Grid, withStyles, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component -------------------------------
@@ -20,22 +20,10 @@ import QuizImage from "../QuizImages/QuizImage.png";
 
 //-----------------------------------------------------------------------------------------------------------
 
-function shuffle(arr) {
-  var i, j, temp;
-  for (i = arr?.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  return arr;
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
     flexGrow: 1,
-    //marginTop:"100px",
   },
   header: {
     display: "flex",
@@ -44,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
     mozBoxShadow: "5px 5px 5px #9E9E9E",
     boxShadow: "5px 5px 5px #9E9E9E",
-    //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
   },
@@ -88,10 +75,6 @@ const ViewQuizForInstructor = ({ match }) => {
   useEffect(() => {
     QuizInforrmation();
   }, [match.params.quizId, match.params.courseId]);
-
-  useEffect(() => {
-    setAllQuizzes(shuffle(allQuizzes));
-  }, [allQuizzes]);
 
   return (
     <React.Fragment>

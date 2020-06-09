@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { post } from "axios";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {

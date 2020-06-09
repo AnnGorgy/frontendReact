@@ -127,6 +127,18 @@ TablePaginationActions.propTypes = {
 //----------------------------------------------------------------------------------------------------------
 
 const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
+  // ---------------------------- variables with it's states that we use it in this Page -------------------
+  const [allGrades, setAllGrades] = useState();
+  const [displayedGrades, setDisplayedGrades] = useState();
+  const [query, setQuery] = useState("");
+  const [coulmnToQuery, setCoulmnToQuery] = useState("QuizName");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, displayedGrades?.length - page * rowsPerPage);
+  //----------------------------------------------------------------------------------------------------------
   // -------------------------------------------- API Calls ------------------------------------------------
   const listGrades = async () => {
     const Url = `/Student_Answers/GetQuizzessGrades`;
@@ -140,19 +152,6 @@ const StudentQuizGrades = ({ match, history, classes, setCrumbs }) => {
     setAllGrades(data);
   };
   //---------------------------------------------------------------------------------------------------------
-
-  // ---------------------------- variables with it's states that we use it in this Page -------------------
-  const [allGrades, setAllGrades] = useState();
-  const [displayedGrades, setDisplayedGrades] = useState();
-  const [query, setQuery] = useState("");
-  const [coulmnToQuery, setCoulmnToQuery] = useState("QuizName");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, displayedGrades?.length - page * rowsPerPage);
-  //----------------------------------------------------------------------------------------------------------
   const handleChangePage = (newPage) => {
     setPage(newPage);
   };

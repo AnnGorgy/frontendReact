@@ -56,7 +56,6 @@ const StudentGroupsNumberForm = ({
           NumberOfGroups: NumberOfGroupsforStudents,
         },
       });
-      console.log(CourseIDD, NumberOfGroupsforStudents);
     } catch (err) {
       console.error(err);
     }

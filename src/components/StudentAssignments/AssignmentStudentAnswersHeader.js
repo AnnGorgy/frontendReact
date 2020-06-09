@@ -15,7 +15,7 @@ import {
 //-----------------------------------------------------------------------------------------------------------
 
 //------------------------------ Another Components Used In This Component -------------------------------
-import UploadAssignmentAnswers from "./UploadAssignmentAnswers";
+import UploadAssignmentAnswers from "../StudentAssignmentsForm/UploadAssignmentAnswers";
 import { BreadCrumbs } from "../";
 //-----------------------------------------------------------------------------------------------------------
 

@@ -31,14 +31,12 @@ import NAME from "../QuizImages/StudentName.png";
 import ID from "../QuizImages/StudentId.png";
 import QuizTimer from "../QuizImages/QuizTimer.gif";
 import Grades from "../QuizImages/Grades.png";
-import QuestionNumber from "../QuizImages/QuestionNumber.png";
 //-----------------------------------------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1257,
     flexGrow: 1,
-    //marginTop:"100px",
   },
   header: {
     display: "flex",
@@ -47,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
     mozBoxShadow: "5px 5px 5px #9E9E9E",
     boxShadow: "5px 5px 5px #9E9E9E",
-    //paddingLeft: theme.spacing(120),
     backgroundColor: theme.palette.background.default,
     font: 50,
   },
@@ -89,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//
 const ViewQuizForStudent = ({ match, history }) => {
   const getDefaultAnswerBody = (questionId, NumberofCorrectAnswers) => ({
     quizId: match.params.quizId,
@@ -451,7 +447,6 @@ const ViewQuizForStudent = ({ match, history }) => {
               onClick={() => {
                 AddQuizAnswer();
                 setGradeDialogIsOpen(true);
-                console.log("final", questionAnswers);
               }}
               className={classes.addButton}
               size="small"

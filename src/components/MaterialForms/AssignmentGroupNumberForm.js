@@ -17,7 +17,7 @@ const AssignmentGroupNumberForm = ({
   title,
   isOpened,
   classes,
-  GroupsNumber
+  GroupsNumber,
 }) => {
   // ---------------------------- variables with it's states that we use it in this Dialog -------------------
   const [NumberOfGroups, setNumberOfGroups] = useState([]);
@@ -30,9 +30,6 @@ const AssignmentGroupNumberForm = ({
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth
@@ -65,16 +62,13 @@ const AssignmentGroupNumberForm = ({
                   spacing={3}
                 >
                   <Grid item>
-                    <Grid
-                      item
-                       style={{ marginTop: "30px" }} 
-                    >
-                      <Grid item >
+                    <Grid item style={{ marginTop: "30px" }}>
+                      <Grid item>
                         <Typography style={{ fontSize: "25px" }}>
                           Groups :
                         </Typography>
                       </Grid>
-                      <Grid item  style={{marginLeft:"100px"}}>
+                      <Grid item style={{ marginLeft: "100px" }}>
                         {NumberOfGroups.map((choosee) => (
                           <Grid item>
                             {choosee.choose === true && (

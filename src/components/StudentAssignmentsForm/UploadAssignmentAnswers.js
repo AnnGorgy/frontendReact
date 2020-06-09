@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DragImport } from "../";
+import { DragImport } from "..";
 
 //--------------------------------- What was used from material ui core -------------------------------------
 import {

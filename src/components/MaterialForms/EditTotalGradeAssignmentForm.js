@@ -41,9 +41,6 @@ const EditTotalGradeAssignmentForm = ({
   return (
     isOpened && (
       <Dialog
-        onClose={() => {
-          onClose();
-        }}
         open={isOpened}
         maxWidth="sm"
         fullWidth

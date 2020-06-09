@@ -4,12 +4,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, withStyles, Grid, Typography } from "@material-ui/core";
 //-----------------------------------------------------------------------------------------------------------
 
-const AnswersMatch = ({
-  classes,
-  questionData,
-  setQuestions,
-  Index
-}) => {
+const AnswersMatch = ({ classes, questionData, setQuestions, Index }) => {
   // handle input change Question
   const handleMatchQuestionHeaderTextChange = (e, idQuestionMatch, QID) => {
     const newInput = e;
@@ -141,11 +136,6 @@ const AnswersMatch = ({
                       multiline
                       onChange={(e) => {
                         const newInput = e.target.value;
-                        console.log(
-                          newInput,
-                          question.MatchQuestionID,
-                          questionData.questionId
-                        );
 
                         handleMatchQuestionHeaderTextChange(
                           newInput,

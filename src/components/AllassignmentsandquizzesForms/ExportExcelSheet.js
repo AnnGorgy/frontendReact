@@ -116,7 +116,6 @@ const ExportExcelSheet = ({ onClose, title, isOpened, onSubmit, classes }) => {
                           }}
                         />
                       </Grid>
-                      {console.log("aly a5taro al dr.", methodInExcelSheet)}
                     </Grid>
                   ))}
                   <Grid item>
