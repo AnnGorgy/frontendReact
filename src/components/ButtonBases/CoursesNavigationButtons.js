@@ -134,14 +134,15 @@ const styles = (theme) => ({
   focusVisible: {},
   imageButton: {
     position: "absolute",
-    left: 0,
+    /* left: 0,
     right: 0,
-    top: 0,
-    bottom: 0,
+    top: 0, */
+    bottom: 20,
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    /* alignItems: "center",
+    justifyContent: "center", */
     color: theme.palette.common.white,
+    fontWeight:"bold"
   },
   imageSrc: {
     position: "absolute",
