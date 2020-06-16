@@ -308,7 +308,7 @@ const ViewQuizForStudent = ({ match, history }) => {
                 </Grid>
                 <Grid item style={{ marginTop: "-55px", marginLeft: "80px" }}>
                   <Typography style={{ fontSize: "35px" }}>
-                    {quizInfo.startDate}
+                    {quizInfo.Start}
                   </Typography>
                 </Grid>
               </Grid>
