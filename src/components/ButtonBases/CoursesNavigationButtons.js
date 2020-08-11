@@ -73,8 +73,9 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
             onClick={onClick}
             style={{
               width: "24%",
-              height: "380px",
-              marginLeft:"11px"
+              height: "190px",
+              marginLeft:"10px",
+             
             }}
           >
             <span
@@ -83,7 +84,7 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
                 backgroundImage: `url(${url})`,
               }}
             />
-            <span className={classes.imageBackdrop} />
+            {/* <span className={classes.imageBackdrop} />
             <span className={classes.imageButton}>
               <Typography
                 component="span"
@@ -95,10 +96,46 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
                 {title}
                 <span className={classes.imageMarked} />
               </Typography>
-            </span>
+            </span> */}
+            
+           
           </ButtonBase>
         ))}
+
+        
       </div>
+      <div className={classes.root}>
+        {images.map(({ title, url, onClick }) => (
+          <ButtonBase
+            focusRipple
+            key={title}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
+            onClick={onClick}
+            style={{
+              width: "24%",
+              height: "120px",
+              marginLeft:"10px",
+              
+
+             
+            }}
+          >
+          
+          
+            <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+                style={{ fontSize: "25px", fontWeight: "bold" }}
+              >
+                {title}
+                <span className={classes.imageMarked} />
+              </Typography>
+          </ButtonBase>
+        ))}
+        </div>
     </React.Fragment>
   );
 };

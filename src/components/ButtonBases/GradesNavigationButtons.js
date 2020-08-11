@@ -55,9 +55,9 @@ const GradesNavigationButtons = ({ history, match, classes }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "40%",
-              height: "420px",
-              marginLeft:"80px"
+              width: "30%",
+              height: "310px",
+              marginLeft:"100px"
             }}
           >
             <span
@@ -68,20 +68,43 @@ const GradesNavigationButtons = ({ history, match, classes }) => {
             />
             <span className={classes.imageBackdrop} />
             <span className={classes.imageButton}>
-              <Typography
-                component="span"
-                variant="subtitle1"
-                color="inherit"
-                className={classes.imageTitle}
-                style={{ fontSize: "30px", fontWeight: "bold" }}
-              >
-                {title}
-                <span className={classes.imageMarked} />
-              </Typography>
+            
             </span>
           </ButtonBase>
         ))}
       </div>
+      <div className={classes.root}>
+        {images.map(({ title, url, onClick }) => (
+          <ButtonBase
+            focusRipple
+            key={title}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
+            onClick={onClick}
+            style={{
+              width: "30%",
+              height: "120px",
+              marginLeft:"100px",
+              
+
+             
+            }}
+          >
+          
+          
+            <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+                style={{ fontSize: "25px", fontWeight: "bold" }}
+              >
+                {title}
+                <span className={classes.imageMarked} />
+              </Typography>
+          </ButtonBase>
+        ))}
+        </div>
     </React.Fragment>
   );
 };
