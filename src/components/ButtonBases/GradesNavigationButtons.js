@@ -55,9 +55,9 @@ const GradesNavigationButtons = ({ history, match, classes }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "46%",
-              height: "550px",
-              marginLeft:"50px"
+              width: "40%",
+              height: "420px",
+              marginLeft:"80px"
             }}
           >
             <span

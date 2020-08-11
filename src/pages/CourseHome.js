@@ -101,14 +101,14 @@ const CourseHome = ({ history, match, classes }) => {
             alignItems="stretch"
             justify="center"
             spacing={1}
-            style={{ flexWrap: "nowrap" }}
+            style={{ flexWrap: "nowrap" , marginTop:"50px" }}
           >
             <Grid item>
               <Typography className={classes.FirstGrid}>
                 {CourseName}
               </Typography>
             </Grid>
-            <Grid item style={{ marginTop: "2px" }}>
+            <Grid item style={{ marginTop: "10px" }}>
               <Grid item className={classes.secondGrid}>
                 <Tooltip title="Doctor Profile" placement="top">
                   <img
@@ -212,14 +212,14 @@ const CourseHome = ({ history, match, classes }) => {
 
 const styles = () => ({
   navigationButtonsContainer: {
-    height: "470px",
+    height: "380px",
     borderRadius: "2px",
     webkitBoxShadow: "5px 5px 5px #9E9E9E",
     mozBoxShadow: "5px 5px 5px #9E9E9E",
     boxShadow: "5px 5px 5px #9E9E9E",
-    backgroundColor: "white",
+    backgroundColor: "transperant",
     marginRight: "9px",
-    marginTop: "26px",
+    marginTop: "35px",
   },
   ProfileImg: {
     width: "138px",

@@ -72,8 +72,9 @@ const CoursesNavigationButtons = ({ history, match, classes }) => {
             focusVisibleClassName={classes.focusVisible}
             onClick={onClick}
             style={{
-              width: "25%",
-              height: "470px",
+              width: "24%",
+              height: "380px",
+              marginLeft:"11px"
             }}
           >
             <span
@@ -134,13 +135,8 @@ const styles = (theme) => ({
   focusVisible: {},
   imageButton: {
     position: "absolute",
-    /* left: 0,
-    right: 0,
-    top: 0, */
     bottom: 20,
     display: "flex",
-    /* alignItems: "center",
-    justifyContent: "center", */
     color: theme.palette.common.white,
     fontWeight:"bold"
   },

@@ -37,7 +37,8 @@ const AssignmentQuizGradesForDoctor = ({ match, history }) => {
             <Grid
               item
               style={{
-                marginTop: "50px",
+                marginTop: "100px",
+                marginLeft:"80px"
               }}
             >
               <GradesNavigationButtons />
